@@ -54,7 +54,7 @@
   "item.hedges_bestiary.seasoned_treat": "Seasoned Treat",
   "item.hedges_bestiary.hearty_treat": "Hearty Treat",
   "item.hedges_bestiary.endgelic_judgement": "Endgelic Judgement",
-  "item.hedges_bestiary.murks_melody": "Murk's Melody",
+  "item.hedges_bestiary.murklevolence": "Murklevolence",
 
   "item.hedges_bestiary.chub_bucket": "Bucket of Chub",
   "item.hedges_bestiary.gild_glider_bucket": "Bucket of Gild Glider",
@@ -79,16 +79,22 @@
   "hedgesbestiary.sound.subtitle.gurk_ambient": "Gurk gurks",
   "hedgesbestiary.sound.subtitle.gurk_hurt": "Gurk hurts",
   "hedgesbestiary.sound.subtitle.gurk_die": "Gurk dies",
+
   "hedgesbestiary.sound.subtitle.burodon_roar": "Burodon roars",
+
   "hedgesbestiary.sound.subtitle.murk_clicks": "Murk clicks",
   "hedgesbestiary.sound.subtitle.murk_yawn": "Murk yawns",
   "hedgesbestiary.sound.subtitle.murk_hurt": "Murk hurts",
   "hedgesbestiary.sound.subtitle.murk_stomp": "Murk stomps",
   "hedgesbestiary.sound.subtitle.murk_roar": "Murk roars",
+  "hedgesbestiary.sound.subtitle.murk_die": "Murk dies",
+
   "hedgesbestiary.sound.subtitle.ferocetus_ambient": "Ferocetus clicks",
   "hedgesbestiary.sound.subtitle.ferocetus_hurt": "Ferocetus hurts",
   "hedgesbestiary.sound.subtitle.ferocetus_die": "Ferocetus dies",
+
   "hedgesbestiary.sound.subtitle.zap": "Electricity zaps",
+
   "hedgesbestiary.sound.subtitle.endgel_ambient": "Endgel whispers",
   "hedgesbestiary.sound.subtitle.endgel_shoot": "Endgel shoots",
   "hedgesbestiary.sound.subtitle.endgel_explosion": "Endgel bullet explodes"

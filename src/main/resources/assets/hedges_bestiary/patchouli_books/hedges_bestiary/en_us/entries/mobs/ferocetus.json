@@ -7,16 +7,19 @@
     {
       "type": "hedges_bestiary:tamable_mob_template",
       "behavior": "Neutral, hunts squid and larger ocean creatures",
-      "taming": "When charged, feed a bucket of skib, then a hearty treat; repeat this process several times",
+      "taming": "Whilst a Ferocetus is grabbing a mob, feed it a $(treat2) when it chews. Repeat this process several times",
       "habitat": "Cold & regular oceans",
-      "breeding": "Skib (lays eggs)",
-      "misc": "Can be ridden when tamed-- $(k:hedges_bestiary.mountSpecialKey) to grab"
+      "breeding": "Raw Urkmeat",
+      "extra": "Can be ridden when tamed-- $(ability) to grab"
     },
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/ferocetus.png"
+        "hedges_bestiary:textures/gui/book/ferocetus.png",
+        "hedges_bestiary:textures/gui/book/ferocetus_1.png",
+        "hedges_bestiary:textures/gui/book/ferocetus_2.png"
       ],
+      "border": true,
       "text": "Ferocetus can be seen in pods of up to four"
 
     }

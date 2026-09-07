@@ -7,16 +7,17 @@
     {
       "type": "hedges_bestiary:tamable_mob_template",
       "behavior": "Aggressive, hunts players & livestock",
-      "taming": "When grabbed by a dawn dove, feed it a hearty treat; repeat this process 4*",
+      "taming": "When grabbed by a dawn dove, feed it a $(treat2); repeat this process several times",
       "habitat": "Savanna",
       "breeding": "Cooked beef (lays eggs)",
-      "misc": "Can be ridden when tamed-- $(k:hedges_bestiary.mountSpecialKey) to shoot fireballs, $(k:use) to grab"
+      "extra": "Can be ridden when tamed-- $(ability) to shoot fireballs, RMB to grab"
     },
     {
       "type": "patchouli:image",
       "images": [
         "hedges_bestiary:textures/gui/book/dawn_dove.png"
       ],
+      "border": true,
       "text": "Dawn doves are ferocious predators, but are luckily only active during morning hours."
 
     }

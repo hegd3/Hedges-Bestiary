@@ -396,6 +396,9 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
                     this.playSound(SoundEvents.GENERIC_EAT);
                 }
             }
+            if (this.tickCount % 200 == 0 && this.getTarget() == null) {
+                this.heal(10);
+            }
             if (this.getAnimState() > 0) {
                 this.animTicks++;
                 switch(this.getAnimState()) {
@@ -474,7 +477,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
 
     private void tickTrailYaw() {
         this.prevTrail = this.trail;
-        this.trail += (-(this.yBodyRot - this.yBodyRotO) - this.trail) * 0.15F;
+        this.trail = Mth.rotLerp(0.2F, this.trail, yBodyRotO - yBodyRot) * 0.8F;
     }
 
     public float getTrailYaw(float partialTick) {

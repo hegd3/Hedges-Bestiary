@@ -1,0 +1,49 @@
+{
+  "name": "Misc Aquatic Life",
+  "icon": "hedges_bestiary:chub_bucket",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/burodon.png"
+      ],
+      "title": "Chub",
+      "border": true,
+      "text": "Chubs are passive, schooling fish found in regular and deep oceans."
+
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/burodon.png"
+      ],
+      "title": "Gild Glider",
+      "border": true,
+      "text": "Gild gliders are passive, schooling fish found in warm and lukewarm oceans. They can occasionally be seen jumping out of the water."
+
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/burodon.png"
+      ],
+      "title": "Skib",
+      "border": true,
+      "text": "Skibs are benthic crustaceans found in regular/deep oceans that transmute decaying matter into an explosive red energy."
+
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/burodon.png"
+      ],
+      "title": "Spotted Striker",
+      "border": true,
+      "text": "Spotted Strikers are predatory sharks that patrol warm and lukewarm oceans. Their skin allows them to blend seamlessly into their environment, turning them invisible."
+
+    }
+
+  ]
+}

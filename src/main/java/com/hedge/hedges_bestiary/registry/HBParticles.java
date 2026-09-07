@@ -3,6 +3,7 @@ package com.hedge.hedges_bestiary.registry;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.client.particle.EndgelScreamParticleOptions;
 import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
+import com.hedge.hedges_bestiary.client.particle.VolatileExplosionParticleOptions;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -20,7 +21,6 @@ public class HBParticles {
     public static final RegistryObject<SimpleParticleType> MURK_CHARGE = DEF_REG.register("murk_charge", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MURK_CHARGE_SHOOT = DEF_REG.register("murk_charge_shoot", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MURK_EXPLODE = DEF_REG.register("murk_explode", ()-> new SimpleParticleType(false));
-    public static final RegistryObject<SimpleParticleType> VOLATILE_EXPLODE = DEF_REG.register("volatile_explode", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MURK_IMPACT = DEF_REG.register("murk_impact", ()-> new SimpleParticleType(false));
 
     public static final RegistryObject<SimpleParticleType> ELECTRIC_SPARKS = DEF_REG.register("electric_sparks", ()-> new SimpleParticleType(false));
@@ -35,6 +35,14 @@ public class HBParticles {
     public static final RegistryObject<SimpleParticleType> ENDGEL_EXPLODE = DEF_REG.register("endgel_explode", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> ENDGEL_BULLET = DEF_REG.register("endgel_bullet", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> ENDGEL_BLAST_EXPLODE = DEF_REG.register("endgel_blast_explode", ()-> new SimpleParticleType(false));
+
+    public static final RegistryObject<ParticleType<VolatileExplosionParticleOptions>> VOLATILE_EXPLODE = DEF_REG.register("volatile_explode", ()-> new ParticleType<>(true, VolatileExplosionParticleOptions.DESERIALIZER) {
+        @Override
+        public Codec<VolatileExplosionParticleOptions> codec() {
+            return VolatileExplosionParticleOptions.CODEC;
+        }
+
+    });
 
     public static final RegistryObject<ParticleType<SmokeParticleOptions>> SMOKE = DEF_REG.register("smoke", ()-> new ParticleType<>(true, SmokeParticleOptions.DESERIALIZER) {
         @Override

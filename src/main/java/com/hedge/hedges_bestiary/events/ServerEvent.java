@@ -64,7 +64,7 @@ public class ServerEvent {
         event.registerSpriteSet(HBParticles.MURK_CHARGE.get(), AuraParticle.Provider::new);
         event.registerSpriteSet(HBParticles.MURK_CHARGE_SHOOT.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
         event.registerSpriteSet(HBParticles.MURK_EXPLODE.get(), DynamicExplosionParticle.MurkExplosionProvider::new);
-        event.registerSpriteSet(HBParticles.VOLATILE_EXPLODE.get(), DynamicExplosionParticle.EndgelExplodeProvider::new);
+        event.registerSpriteSet(HBParticles.VOLATILE_EXPLODE.get(), DynamicExplosionParticle.VolatileExplosionProvider::new);
 
         event.registerSpriteSet(HBParticles.MURK_IMPACT.get(), DynamicExplosionParticle.MurkImpactProvider::new);
 

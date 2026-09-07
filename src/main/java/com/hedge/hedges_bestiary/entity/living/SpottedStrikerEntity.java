@@ -19,6 +19,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -245,7 +246,7 @@ public class SpottedStrikerEntity extends HBAquaticMob implements AttackStateMob
 
     private void tickTrailYaw() {
         this.prevTrail = this.trail;
-        this.trail += (-(this.yBodyRot - this.yBodyRotO) - this.trail) * 0.15F;
+        this.trail = Mth.rotLerp(0.2F, this.trail, yBodyRotO - yBodyRot) * 0.8F;
     }
 
     public float getTrailYaw(float partialTick) {

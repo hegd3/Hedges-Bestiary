@@ -5,5 +5,11 @@
   "creative_tab": "hedges_bestiary:hedges_bestiary_tab",
   "use_resource_pack": true,
   "book_texture": "patchouli:textures/gui/book_green.png",
-  "model": "hedges_bestiary:hedges_bestiary"
+  "model": "hedges_bestiary:hedges_bestiary",
+  "macros": {
+    "$(treat0)": "$(l:hedges_bestiary:items/treats)plain treat$(/l)",
+    "$(treat1)": "$(l:hedges_bestiary:items/treats#treat1)seasoned treat$(/l)",
+    "$(treat2)": "$(l:hedges_bestiary:items/treats#treat1)hearty treat$(/l)",
+    "$(ability)": "$(k:hedges_bestiary.mountSpecialKey)"
+  }
 }

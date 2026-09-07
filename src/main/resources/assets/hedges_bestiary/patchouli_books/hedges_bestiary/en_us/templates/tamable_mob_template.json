@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "patchouli:text",
-      "text": "$(l)Behavior: $()#behavior#$(br2)$(l)Taming: $()#taming#$(br2)$(l)Habitat: $()#habitat#$(br2)$(l)Breed With: $()#breeding#$(br2)$(l)Additional comments: $()#misc#",
+      "text": "$(l)Behavior: $()#behavior#$(br2)$(l)Taming: $()#taming#$(br2)$(l)Habitat: $()#habitat#$(br2)$(l)Breed With: $()#breeding#$(br2)$(l)Extra: $()#extra#",
       "x": 0,
       "y": 0
     }

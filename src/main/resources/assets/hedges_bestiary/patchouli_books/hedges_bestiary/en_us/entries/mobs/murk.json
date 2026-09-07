@@ -7,18 +7,23 @@
     {
       "type": "hedges_bestiary:tamable_mob_template",
       "behavior": "Neutral, hunts skibs",
-      "taming": "When charged, feed a bucket of skib, then a hearty treat; repeat this process several times",
+      "taming": "When charged, feed a bucket of skib, then a $(treat2); repeat this process several times",
       "habitat": "Regular & deep oceans",
       "breeding": "Skib (lays eggs)",
-      "misc": "Can be ridden when tamed-- $(k:hedges_bestiary.mountSpecialKey) to charge; shoots projectiles instead when charge on cooldown"
+      "extra": "See next page"
     },
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/murk.png"
+        "hedges_bestiary:textures/gui/book/murk.png",
+        "hedges_bestiary:textures/gui/book/murk_1.png"
       ],
+      "border": true,
       "text": "Murks consume skibs to harness their volatile red energy"
-
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Murks enter a charged state after roaring when aggravated. In this state, a murk's attacks deal extra damage and inflict the $(c)Volatile$() effect, which deals explosive damage to the afflicted at the end of the effect.$(br2)Murks can be ridden when tamed. While riding, Press $(ability) to enter the charged state when the HUD meter is full. Doing so with an incomplete bar or whilst it is charged will make the Murk shoot its projectile breath instead."
     }
 
   ]

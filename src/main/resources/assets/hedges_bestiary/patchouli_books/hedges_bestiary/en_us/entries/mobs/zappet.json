@@ -7,16 +7,21 @@
     {
       "type": "hedges_bestiary:tamable_mob_template",
       "behavior": "Passive, flees upon attack",
-      "taming": "Strike with lightning or channeling trident, then feed 1* seasoned treat",
+      "taming": "Strike with lightning or channeling trident, then feed 1* $(treat1)",
       "habitat": "Badlands",
       "breeding": "Raw copper (lays eggs)",
-      "misc": "Detects and destroys enemy projectiles within its vicinity using it's lightning breath"
+      "extra": "See next page"
     },
     {
-      "type": "patchouli:entity",
-      "entity": "hedges_bestiary:zappet",
-      "text": "Zappets fly in flocks of up to 20 individuals!"
-
+      "type": "patchouli:image",
+      "images":[
+        "hedges_bestiary:textures/gui/book/zappet.png"
+      ],
+      "text": "Zappets fly in flocks of up to 20 individuals, and commune on large rock formations"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Zappets are capable of unleashing a blast of lightning upon incoming enemy projectiles, destroying them in the process (projectiles can be specified to be immune via datapack; tridents are immune by default).$(br2)The owner of a tamed zappet can right-click their zappet to place it on their head. Zappets riding on their owner will not only protect them from projectiles but will also grant them slow-falling.  Crouching or becoming submerged removes the Zappet."
     }
 
   ]

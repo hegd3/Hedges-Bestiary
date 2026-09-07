@@ -63,6 +63,20 @@ public class DynamicExplosionParticle extends TextureSheetParticle {
     }
 
     @OnlyIn(Dist.CLIENT)
+    public static class VolatileExplosionProvider implements ParticleProvider<VolatileExplosionParticleOptions> {
+        private final SpriteSet sprites;
+
+        public VolatileExplosionProvider(SpriteSet pSprites) {
+            this.sprites = pSprites;
+        }
+        public Particle createParticle(VolatileExplosionParticleOptions options, ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
+            DynamicExplosionParticle particle = new DynamicExplosionParticle(pLevel, pX, pY, pZ, this.sprites, 9, options.getSize());
+            particle.pickSprite(this.sprites);
+            return particle;
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
     public static class LightningExplodeProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 

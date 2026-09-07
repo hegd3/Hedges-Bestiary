@@ -12,9 +12,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.util.AirAndWaterRandomPos;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -68,31 +71,38 @@ public class EntityHelpers {
         return Vec3.directionFromRotation(xRot, entity.yBodyRot);
     }
 
+    @Nullable
     public static Vec3 getRandomSwimPos(PathfinderMob mob, int radius, int verticalDistance, boolean preferSurface) {
         Level level = mob.level();
         RandomSource random = mob.getRandom();
-        Vec3 candidate = mob.position().add(radius * random.nextFloat() - radius * random.nextFloat(), 0, radius * random.nextFloat());
+        Vec3 candidate = mob.position().add(radius * random.nextFloat() - radius * random.nextFloat(), 0, radius * random.nextFloat() - radius * random.nextFloat());
         BlockPos pos = WorldHelpers.fromVec3(candidate);
         if (preferSurface) {
             for (int i = 0; i < verticalDistance; i++) {
                 if (level.getFluidState(pos.above()).is(FluidTags.WATER)) {
                     pos = pos.above();
+                } else {
+                    pos = pos.below();
+                    break;
                 }
             }
         } else {
             for (int i = 0; i < verticalDistance; i++) {
                 if (level.getFluidState(pos.below()).is(FluidTags.WATER)) {
                     pos = pos.below();
+                } else {
+                    pos = pos.above();
+                    break;
                 }
             }
         }
+        if (!level.getFluidState(pos).is(FluidTags.WATER)) {
+            return null;
+        }
+
         return new Vec3(pos.getX(), pos.getY(), pos.getZ());
     }
 
-
-    public static boolean isAir(Level world, BlockPos pos) {
-        return world.getBlockState(pos).isAir();
-    }
 
     public static boolean isWaterBlock(Level world, BlockPos pos) {
         return world.getFluidState(pos).is(FluidTags.WATER);
@@ -102,40 +112,6 @@ public class EntityHelpers {
         return isNearWaterBoundary(entity, maxDist, Direction.UP);
     }
 
-    public static boolean closeToBottom(LivingEntity entity, int maxDist) {
-        return isNearWaterBoundary(entity, maxDist, Direction.DOWN);
-    }
-
-    public static int blocksFromGround(LivingEntity entity, int maxDistance) {
-        BlockPos basePos = entity.blockPosition();
-        Level level = entity.level();
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-        int i = 1;
-        while (i <= maxDistance) {
-            mutablePos.set(basePos).move(Direction.DOWN, i);
-            if (!isAir(level, mutablePos)) {
-                return i;
-            }
-            i++;
-        }
-
-        return i;
-    }
-
-    public static int blocksFromGround(Level level, BlockPos basePos, int maxDistance) {
-
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-        int i = 1;
-        while (i <= maxDistance) {
-            mutablePos.set(basePos).move(Direction.DOWN, i);
-            if (!isAir(level, mutablePos)) {
-                return i;
-            }
-            i++;
-        }
-
-        return i;
-    }
 
     public static int blocksFromWaterBoundary(Level level, BlockPos basePos, int maxDistance, Direction direction) {
 

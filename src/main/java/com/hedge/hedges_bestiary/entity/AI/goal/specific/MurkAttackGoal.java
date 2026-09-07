@@ -5,6 +5,7 @@ import com.hedge.hedges_bestiary.entity.AI.control.AdvancedTurner;
 import com.hedge.hedges_bestiary.entity.AI.goal.GenericMeleeGoal;
 import com.hedge.hedges_bestiary.entity.living.MurkEntity;
 import com.hedge.hedges_bestiary.entity.living.ambientfish.SkibEntity;
+import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.level.pathfinder.Path;
@@ -45,14 +46,13 @@ public class MurkAttackGoal extends GenericMeleeGoal<MurkEntity> {
             if (!(livingentity instanceof SkibEntity) && this.mob.isInFluidType() && (this.canStartPathAway() || this.shouldPathAway)) {
                 this.pathTicks++;
                 if (!this.shouldPathAway) {
-                    Vec3 vec3 = DefaultRandomPos.getPosAway(this.mob, 6, 6, livingentity.position());
+                    Vec3 vec3 = EntityHelpers.getRandomSwimPos(this.mob, 10, 5, true);
                     if (vec3 != null) {
                         Path path = this.mob.getNavigation().createPath(vec3.x, vec3.y, vec3.z, 0);
                         if (path != null) {
                             this.shouldPathAway = true;
                             this.mob.getNavigation().moveTo(path, this.getSpeedModifier());
                         }
-
                     }
                 }
 

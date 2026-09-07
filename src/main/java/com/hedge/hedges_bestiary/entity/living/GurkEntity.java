@@ -166,6 +166,9 @@ public class GurkEntity extends HBTamableAnimal implements VariantMob, EggLayer 
                 this.tickDig();
             }
         } else {
+            if (this.tickCount % 200 == 0) {
+                this.heal(5);
+            }
             if (this.getAnimState() == 1) {
                 this.animTicks++;
                 if (this.animTicks == 65 || this.getNavigation().isInProgress() || this.isNapping()) {

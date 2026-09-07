@@ -1,6 +1,6 @@
 {
   "parent": "hedges_bestiary:item/handheld_large",
   "textures": {
-    "layer0": "hedges_bestiary:item/murks_melody"
+    "layer0": "hedges_bestiary:item/murklevolence"
   }
 }

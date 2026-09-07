@@ -36,7 +36,7 @@ public class HBCreativeTab {
                         output.accept(HBItems.SEASONED_TREAT.get());
                         output.accept(HBItems.HEARTY_TREAT.get());
                         output.accept(HBItems.ENDGELIC_JUDGEMENT.get());
-                        output.accept(HBItems.MURKS_MELODY.get());
+                        output.accept(HBItems.MURKLEVOLENCE.get());
 
                         // foods
                         output.accept(HBItems.RAW_URKMEAT.get());

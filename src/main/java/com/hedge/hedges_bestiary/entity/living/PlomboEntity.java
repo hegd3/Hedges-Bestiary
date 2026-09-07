@@ -17,6 +17,7 @@ import com.hedge.hedges_bestiary.entity.types.HUDMount;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.entity.util.MathHelpers;
+import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.message.EntityKeyMessage;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
@@ -67,7 +68,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 
-public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, AdvancedTurner, HUDMount  {
+public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, AdvancedTurner {
 
     private static final ResourceLocation FORAGE_LOOT_TABLE = ResourceLocation.fromNamespaceAndPath("hedges_bestiary", "gameplay/plombo_foraging");
     private static final EntityDataAccessor<Boolean> LEFT = SynchedEntityData.defineId(PlomboEntity.class, EntityDataSerializers.BOOLEAN);
@@ -85,6 +86,7 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
 
     private int attackCD = 0;
     private int multiAttackCD = 0;
+    private int tameAttempts = 2;
     private TurnType turnType = TurnType.NORMAL;
 
     public PlomboEntity(EntityType<? extends PlomboEntity> pEntityType, Level pLevel) {
@@ -130,7 +132,7 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     }
 
     @Override
-    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+    public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
         if (this.isTame() && player == this.getOwner()) {
             if (!this.hasBarrel()) {
                 if (player.getItemInHand(hand).is(Items.BARREL)) {
@@ -154,13 +156,27 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
                 return InteractionResult.SUCCESS;
             }
         }
-        InteractionResult result = super.mobInteract(player, hand);
-        if (result == InteractionResult.PASS && this.isSleeping() && !this.isTame() && this.isTamable()) {
+        InteractionResult result = super.interactTameCommands(player, hand);
+        if (result == InteractionResult.PASS && this.isNapping() && !this.isTame() && player.getItemInHand(hand).is(HBItems.HEARTY_TREAT.get())) {
+            if (!this.level().isClientSide()) {
+                if (!player.getAbilities().instabuild) {
+                    player.getItemInHand(hand).shrink(1);
+                }
+                if (this.tameAttempts > 0) {
+                    this.tameAttempts--;
+                    this.level().broadcastEntityEvent(this, (byte) 6);
+                } else {
+                    this.level().broadcastEntityEvent(this, (byte) 7);
+                    this.tame(player);
+                    this.heal(this.getMaxHealth());
+                }
+                this.playSound(SoundEvents.PARROT_EAT);
 
+            }
+            return InteractionResult.SUCCESS;
         }
         return result;
     }
-
 
     @Override
     protected void defineSynchedData() {
@@ -288,9 +304,8 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
 
     @Override
     public boolean isPushable() {
-        return false;
+        return this.getAnimState() != 2;
     }
-
 
 
     @Override
@@ -474,11 +489,6 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     @Override
     public boolean isFood(ItemStack pStack) {
         return pStack.is(ItemTags.LEAVES) && super.isFood(pStack);
-    }
-
-    @Override
-    public void renderHUD(GuiGraphics guiGraphics) {
-
     }
 
     @Override

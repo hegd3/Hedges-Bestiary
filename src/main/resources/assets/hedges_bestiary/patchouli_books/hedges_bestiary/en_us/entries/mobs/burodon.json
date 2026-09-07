@@ -7,16 +7,18 @@
     {
       "type": "hedges_bestiary:tamable_mob_template",
       "behavior": "Aggressive, hunts players & livestock",
-      "taming": "Feed 1* seasoned treat whilst it is roaring",
+      "taming": "Feed 1* $(treat1) whilst it is roaring",
       "habitat": "Snowy plains, snowy taigas, groves",
       "breeding": "Raw mutton",
-      "misc": "A burodon's roar freezes its opponents whilst simultaneously healing its allies"
+      "extra": "The roar of a Burodon is enchanted with the winter itself, freezing enemies whilst healing allies."
     },
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/burodon.png"
+        "hedges_bestiary:textures/gui/book/burodon.png",
+        "hedges_bestiary:textures/gui/book/burodon_1.png"
       ],
+      "border": true,
       "text": "Burodons typically hunt in packs of up to four individuals"
 
     }

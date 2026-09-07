@@ -89,6 +89,15 @@
     ],
     "subtitle": "hedgesbestiary.sound.subtitle.murk_roar"
   },
+  "murk_die": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:murk_die"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.murk_die"
+  },
   "ferocetus_ambient": {
     "category": "neutral",
     "sounds": [

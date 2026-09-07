@@ -272,6 +272,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
             this.setSpeed(speed);
             if (this.isInWater()) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0, 0.005, 0));
                 if (Minecraft.getInstance().options.keyJump.isDown()) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
                 } else if (Minecraft.getInstance().options.keySprint.isDown()) {
@@ -608,7 +609,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
     private void tickTrailYaw() {
         this.prevTrail = this.trail;
-        this.trail += (-(this.yBodyRot - this.yBodyRotO) - this.trail) * 0.15F;
+        this.trail = Mth.rotLerp(0.2F, this.trail, yBodyRotO - yBodyRot) * 0.8F;
     }
 
     public float getTrailYaw(float partialTick) {
@@ -899,6 +900,11 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     @Override
     protected @Nullable SoundEvent getHurtSound(DamageSource pDamageSource) {
         return HBSounds.MURK_HURT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return HBSounds.MURK_DIE.get();
     }
 
     @Override

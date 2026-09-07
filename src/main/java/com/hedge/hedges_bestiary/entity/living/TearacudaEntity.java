@@ -116,7 +116,7 @@ public class TearacudaEntity extends HBSchoolingMob implements AttackStateMob {
 
     private void tickTrailYaw() {
         this.prevTrail = this.trail;
-        this.trail += (-(this.yBodyRot - this.yBodyRotO) - this.trail) * 0.15F;
+        this.trail = Mth.rotLerp(0.2F, this.trail, yBodyRotO - yBodyRot) * 0.8F;
     }
 
     public float getTrailYaw(float partialTick) {

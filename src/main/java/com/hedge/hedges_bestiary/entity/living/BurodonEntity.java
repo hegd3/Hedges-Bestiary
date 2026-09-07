@@ -42,6 +42,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -99,11 +100,11 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
                 .add(Attributes.MOVEMENT_SPEED, 0.25F);
     }
 
+
     @Override
-    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+    public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        InteractionResult type = super.mobInteract(player, hand);
-        if (!this.isTame() && this.isTamable() && itemStack.getItem() instanceof TreatItem treat && treat.getTier() > 0) {
+        if (!this.isTame() && itemStack.getItem() instanceof TreatItem treat && treat.getTier() > 0) {
             if (this.getAnimState() == ROAR_ANIM) {
                 if (!this.level().isClientSide) {
                     if (!player.getAbilities().instabuild) {
@@ -118,7 +119,7 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         }
-        return type;
+        return super.interactTameCommands(player, hand);
     }
 
     @Override

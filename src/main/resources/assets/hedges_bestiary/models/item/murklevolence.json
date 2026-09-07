@@ -1,0 +1,21 @@
+{
+  "parent": "item/handheld",
+  "loader": "forge:separate_transforms",
+  "textures": {
+    "layer0": "hedges_bestiary:item/murklevolence_gui"
+  },
+  "base": {
+    "parent": "hedges_bestiary:item/murklevolence_handheld"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "hedges_bestiary:item/murklevolence_gui"
+    },
+    "fixed": {
+      "parent": "hedges_bestiary:item/murklevolence_gui"
+    },
+    "ground": {
+      "parent": "hedges_bestiary:item/murklevolence_gui"
+    }
+  }
+}

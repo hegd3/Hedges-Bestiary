@@ -1,0 +1,17 @@
+{
+  "name": "Weapons",
+  "icon": "hedges_bestiary:murklevolence",
+  "category": "hedges_bestiary:items",
+  "pages": [
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:murklevolence",
+      "text": "$(l:hedges_bestiary:mobs/murk)Murks$(/l) shed their spikes upon growing up, allowing you to craft $(4)Murklevolence$(), a hulking weapon that inflicts the $(4)Volatile$() effect on any unfortunate to be hit."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:endgelic_judgement",
+      "text": "After slaying three Endgels, their hearts can be gathered to create the $(a)Endgelic Judgement$(), a ranged weapon that consumes eyes of ender to fire the same devastating blasts that Endgels rain upon their victims."
+    }
+  ]
+}

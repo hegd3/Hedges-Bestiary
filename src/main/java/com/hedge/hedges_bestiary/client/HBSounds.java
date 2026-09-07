@@ -30,6 +30,8 @@ public class HBSounds {
 
     public static final RegistryObject<SoundEvent> MURK_ROAR = createSoundEvent("murk_roar");
 
+    public static final RegistryObject<SoundEvent> MURK_DIE = createSoundEvent("murk_die");
+
     public static final RegistryObject<SoundEvent> FEROCETUS_AMBIENT = createSoundEvent("ferocetus_ambient");
 
     public static final RegistryObject<SoundEvent> FEROCETUS_HURT = createSoundEvent("ferocetus_hurt");

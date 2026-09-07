@@ -1,6 +1,0 @@
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "hedges_bestiary:item/murks_melody_gui"
-  }
-}

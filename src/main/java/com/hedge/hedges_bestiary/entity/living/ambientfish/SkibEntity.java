@@ -216,7 +216,7 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
     @Override
     public void travel(Vec3 pTravelVector) {
         if (this.getAnimState() > 0) {
-            super.travel(Vec3.ZERO);
+            super.travel(this.getDeltaMovement().multiply(0, 1, 0));
         } else if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(this.getSpeed(), pTravelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());

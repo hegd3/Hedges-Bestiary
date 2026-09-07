@@ -24,6 +24,7 @@ public class FerocetusModel extends HBModel<FerocetusEntity> {
 	private final ModelPart tail2;
 
 	public FerocetusModel(ModelPart root) {
+		super(0.5f, 24);
 		this.root = root.getChild("root");
 		this.swimcontrol = this.root.getChild("swimcontrol");
 		this.jaw = this.swimcontrol.getChild("jaw");

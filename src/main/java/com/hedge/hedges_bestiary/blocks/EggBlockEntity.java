@@ -25,7 +25,7 @@ import java.util.UUID;
 public class EggBlockEntity<E extends EntityType<?>> extends BlockEntity {
 
     protected final RegistryObject<E> toHatch;
-    private int ticksTillHatch = 250;
+    private int ticksTillHatch = 2000;
     private String ownerUUID = "";
 
     public EggBlockEntity(BlockPos pos, BlockState blockState) {

@@ -215,6 +215,9 @@ public class ZappetEntity extends TamableFlyer implements HBGroupMob<ZappetEntit
                 this.tickDig();
             }
         } else {
+            if (this.tickCount % 200 == 0) {
+                this.heal(5);
+            }
             if (this.isCharged()) {
                 if (--this.chargeTicks <= 0) {
                     this.setCharged(false);

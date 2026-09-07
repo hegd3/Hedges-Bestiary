@@ -6,18 +6,20 @@
     {
       "type": "hedges_bestiary:tamable_mob_template",
       "behavior": "Passive, flees upon attack",
-      "taming": "Feed 1* plain treat",
+      "taming": "Feed 1* $(treat0)",
       "habitat": "Swamps, mangroves, rivers, beaches",
       "breeding": "Seagrass (lays eggs)",
-      "misc": "Comes in different biome-dependent variants. There's even a rumored $(#E8C82A)shiny breed!"
+      "extra": "Occassionally comes in a rare shiny variant!"
     },
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/gurks.png"
+        "hedges_bestiary:textures/gui/book/gurk.png",
+        "hedges_bestiary:textures/gui/book/gurk_1.png",
+        "hedges_bestiary:textures/gui/book/gurk_2.png"
       ],
       "border": true,
-      "text": "From top to bottom: $(#5890D1)Marine Gurk, $(#A68F76)River Gurk, $(#368F2E)Swamp Gurk"
+      "text": "From first to last image: $(#368F2E)Swamp Gurk, $(#A68F76)River Gurk, $(#5890D1)Marine Gurk"
     }
 
   ]

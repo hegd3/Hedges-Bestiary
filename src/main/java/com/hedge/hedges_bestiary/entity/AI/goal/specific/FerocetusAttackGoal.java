@@ -24,6 +24,11 @@ public class FerocetusAttackGoal extends GenericMeleeGoal<FerocetusEntity> {
     }
 
     @Override
+    public boolean canUse() {
+        return !this.mob.isBaby() && super.canUse();
+    }
+
+    @Override
     public void tick() {
         LivingEntity livingentity = this.mob.getTarget();
         if (livingentity != null && this.mob.isInWater()) {

@@ -1,0 +1,27 @@
+{
+  "name": "Treats",
+  "icon": "hedges_bestiary:plain_treat",
+  "category": "hedges_bestiary:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Treats are the first step to Hedge's Bestiary. They are the primary means of taming the many wild creatures found in your world!$(br2)Entries in the $(l:hedges_bestiary:mobs_category)mobs category$(/l) are labeled with the type of treat the mob can be tamed with."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:plain_treat",
+      "text": "The first tier of treat you can craft is the plain treat. The other treats will be consecutively harder to craft."
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "treat1",
+      "recipe": "hedges_bestiary:seasoned_treat",
+      "text": "The second tier of treat you can craft is the seasoned treat. Eggs that can be used in the crafting recipe come from mobs tamable with the plain treat. Alternatively, a sniffer egg can be used instead."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:hearty_treat",
+      "text": "The third tier of treat you can craft is the hearty treat. Eggs that can be used in the crafting recipe come from mobs tamable with the seasoned treat."
+    }
+  ]
+}

@@ -14,6 +14,7 @@ import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.entity.util.MathHelpers;
+import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.message.EntityKeyMessage;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
@@ -36,11 +37,14 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
@@ -48,10 +52,12 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
@@ -87,6 +93,8 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     private int grabTicks = 0;
     private int attackCD = 0;
     private boolean leftWater = false;
+
+    private int tameAttempts  = 2;
 
     public final SmoothAnimationState biteAnimationState = new SmoothAnimationState();
     public final SmoothAnimationState ramAnimationState = new SmoothAnimationState();
@@ -156,6 +164,34 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
             return hurt;
         }
         return super.hurt(source, pAmount);
+    }
+
+    @Override
+    public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
+        InteractionResult result = super.interactTameCommands(player, hand);
+        if (result == InteractionResult.PASS && !this.isTame() && this.isGrabbing() && this.getAnimState() == 4) {
+            ItemStack stack = player.getItemInHand(hand);
+            if (stack.is(HBItems.HEARTY_TREAT.get())) {
+                if (!this.level().isClientSide) {
+                    if (!player.getAbilities().instabuild) {
+                        stack.shrink(1);
+                    }
+                    if (this.tameAttempts-- > 0) {
+                        this.level().broadcastEntityEvent(this, (byte) 6);
+
+                    } else {
+                        this.level().broadcastEntityEvent(this, (byte) 7);
+                        this.tame(player);
+                        this.heal(this.getMaxHealth());
+                    }
+                    this.resetAnimState();
+                    this.releaseGrab();
+                    this.playSound(SoundEvents.PARROT_EAT);
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return result;
     }
 
     @Override
@@ -258,6 +294,8 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
         this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.6, 7.0f, 4.0f));
         this.goalSelector.addGoal(i++, new FerocetusAttackGoal(this));
+        this.goalSelector.addGoal(i++, new BreedGoal(this, 1.0f));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(HBItems.RAW_URKMEAT.get()), false));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new FindAndPickItemGoal(this, CommonPredicates.EATS_FISH));
         this.goalSelector.addGoal(i++, new GroupFollowLeaderGoal<>(this,10F, 7F));
@@ -445,7 +483,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
 
     private void tickTrailYaw() {
         this.prevTrail = this.trail;
-        this.trail += (-(this.yBodyRot - this.yBodyRotO) - this.trail) * 0.15F;
+        this.trail = Mth.rotLerp(0.2F, this.trail, yBodyRotO - yBodyRot) * 0.8F;
     }
 
     public float getTrailYaw(float partialTick) {
@@ -672,7 +710,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
 
     @Override
     public @org.jetbrains.annotations.Nullable AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
-        return null;
+        return HBEntities.FEROCETUS.get().create(pLevel);
     }
 
     public boolean swingingLeft() {
@@ -727,7 +765,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
 
     @Override
     public boolean isFood(ItemStack pStack) {
-        return super.isFood(pStack) && pStack.is(ItemTags.FISHES);
+        return super.isFood(pStack) && pStack.is(HBItems.RAW_URKMEAT.get());
     }
 
     @Override
@@ -790,6 +828,8 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
         guiGraphics.blit(SPRITE, x, screenHeight - 31 - imageHeight, 0, 91 - imageHeight, 13, imageHeight, 256, 128);
 
     }
+
+
 
     @Override
     public void baseTick() {
