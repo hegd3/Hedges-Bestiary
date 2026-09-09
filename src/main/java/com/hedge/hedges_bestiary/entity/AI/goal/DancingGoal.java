@@ -9,10 +9,15 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class DancingGoal extends Goal {
     private final HBTamableAnimal mob;
+    private final boolean stopsDancingInWater;
     public DancingGoal(HBTamableAnimal mob) {
-        this.mob = mob;
+        this(mob, true);
     }
 
+    public DancingGoal(HBTamableAnimal mob, boolean stopsDancingInWater) {
+        this.mob = mob;
+        this.stopsDancingInWater = stopsDancingInWater;
+    }
 
 
     @Override
@@ -22,8 +27,17 @@ public class DancingGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        if (!this.mob.isSitting() || this.mob.getTarget() != null || this.mob.isInFluidType()) {
+        if (!this.mob.isSitting() || this.mob.getTarget() != null || this.mob.hasControllingPassenger()) {
             return false;
+        }
+        if (this.stopsDancingInWater) {
+            if (this.mob.isInFluidType()) {
+                return false;
+            }
+        } else {
+            if (!this.mob.isInWater()) {
+                return false;
+            }
         }
         if (this.mob.tickCount % 10 == 0) {
             BlockPos jukebox = this.mob.getJukebox();

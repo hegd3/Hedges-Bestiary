@@ -101,6 +101,10 @@
 
   "hedgesbestiary.sound.subtitle.zap": "Electricity zaps",
 
+  "hedgesbestiary.sound.subtitle.fireball_shoot": "Fireball shoots",
+  "hedgesbestiary.sound.subtitle.dawn_dove_ambient": "Dawn dove coos",
+  "hedgesbestiary.sound.subtitle.dawn_dove_hurt": "Dawn dove hurts",
+
   "hedgesbestiary.sound.subtitle.endgel_ambient": "Endgel whispers",
   "hedgesbestiary.sound.subtitle.endgel_shoot": "Endgel shoots",
   "hedgesbestiary.sound.subtitle.endgel_explosion": "Endgel bullet explodes"

@@ -88,6 +88,7 @@ public class FerocetusModel extends HBModel<FerocetusEntity> {
 		this.animateSmooth(entity.grabbingAnimationState, FerocetusAnimation.GRABBING, ageInTicks, 1f);
 
 		this.animate(entity.spinAnimationState, entity.swingingLeft() ? FerocetusAnimation.SPIN_LEFT : FerocetusAnimation.SPIN_RIGHT, ageInTicks, 1f);
+		this.animate(entity.danceAnimationState, FerocetusAnimation.DANCE, ageInTicks, 1f);
 		this.animateSmooth(entity.callAnimationState, FerocetusAnimation.CALL, ageInTicks, 1f);
 		this.animateSmooth(entity.idleAnimationState, FerocetusAnimation.IDLE, ageInTicks, 0.5f);
 		this.animateSmooth(entity.beachedAnimationState, FerocetusAnimation.BEACHED, ageInTicks, 0.5f);

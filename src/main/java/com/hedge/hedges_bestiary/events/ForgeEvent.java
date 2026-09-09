@@ -29,7 +29,7 @@ public class ForgeEvent {
             boolean flag = state.getValue(JukeboxBlock.HAS_RECORD);
             if (event.getUseItem() == Event.Result.ALLOW) {
                 Vec3 origin = new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ());
-                AABB zone = new AABB(origin.subtract(10, 10, 10), origin.add(10, 10, 10));
+                AABB zone = new AABB(origin.subtract(15, 0, 15), origin.add(15, 3, 15));
 
                 for (HBTamableAnimal dancer : event.getLevel().getEntitiesOfClass(HBTamableAnimal.class, zone)) {
                     dancer.setRecordPlayingNearby(blockpos, flag);

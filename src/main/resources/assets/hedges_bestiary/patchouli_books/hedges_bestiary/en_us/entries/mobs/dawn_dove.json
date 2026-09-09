@@ -15,7 +15,10 @@
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/dawn_dove.png"
+        "hedges_bestiary:textures/gui/book/dawn_dove.png",
+        "hedges_bestiary:textures/gui/book/dawn_dove_1.png",
+        "hedges_bestiary:textures/gui/book/dawn_dove_2.png"
+
       ],
       "border": true,
       "text": "Dawn doves are ferocious predators, but are luckily only active during morning hours."

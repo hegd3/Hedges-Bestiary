@@ -303,6 +303,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
         this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0f, 25, 10, 2, true));
         this.goalSelector.addGoal(i++, new JumpFromWaterGoal(this, 10, 0.7));
         this.goalSelector.addGoal(i++, new IdleAnimationGoal<>(this));
+        this.goalSelector.addGoal(i++, new DancingGoal(this, false));
         this.goalSelector.addGoal(i, new LeaveGroupGoal<>(this));
 
         this.targetSelector.addGoal(0, new OwnerHurtTargetGoal(this));
@@ -612,6 +613,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     @Override
     public void setUpAnimStates() {
         this.idleAnimationState.animateWhen(this.isInWater(), this.tickCount);
+        this.danceAnimationState.animateWhen(this.isDancing(), this.tickCount);
         this.beachedAnimationState.animateWhen(!this.isInWater() && this.onGround(), this.tickCount);
         this.airAnimationState.animateWhen(this.groundTimer == 0 && !this.isInFluidType(), this.tickCount);
 
