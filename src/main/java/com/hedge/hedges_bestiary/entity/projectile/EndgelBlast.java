@@ -85,7 +85,7 @@ public class EndgelBlast extends HomingProjectile {
     }
 
     @Override
-    public void trailParticles() {
+    public void createTrail() {
         if (this.tickCount % 2 == 0) {
             Vec3 v = this.getDeltaMovement();
             this.level().addParticle(HBParticles.ENDGEL_BLAST_EXPLODE.get(), true, this.getX(),

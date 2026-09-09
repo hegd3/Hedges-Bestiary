@@ -56,7 +56,7 @@ public class DragonFireBall extends GenericProjectile {
                 entity.setRemainingFireTicks(60);
                 entity.hurt(this.damageSources().explosion(this.getOwner(), this), this.getDamage() - (float)entity.distanceToSqr(this.position()));
             }
-            this.playSound(SoundEvents.GENERIC_EXPLODE);
+            this.playSound(SoundEvents.GENERIC_EXPLODE, 2.5F, 1.0F);
             this.level().broadcastEntityEvent(this, (byte)39);
         }
     }
@@ -81,7 +81,7 @@ public class DragonFireBall extends GenericProjectile {
     }
 
     @Override
-    public void trailParticles() {
+    public void createTrail() {
         Vec3 v = getDeltaMovement();
         double length = v.length();
         int c = (int)Math.min(10, Math.round(length) * 3) + 1;

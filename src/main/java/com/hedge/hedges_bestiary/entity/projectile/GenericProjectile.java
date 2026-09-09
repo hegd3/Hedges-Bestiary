@@ -20,7 +20,6 @@ import java.util.Objects;
 public abstract class GenericProjectile extends Projectile {
 
     Vec3 deltaMovementOld = Vec3.ZERO;
-    private float damage;
 
     protected GenericProjectile(EntityType<? extends Projectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -78,7 +77,7 @@ public abstract class GenericProjectile extends Projectile {
             deltaMovementOld = getDeltaMovement();
         }
         if (this.level().isClientSide) {
-            trailParticles();
+            createTrail();
         } else {
             if (tickCount > this.getLifespan()) {
                 this.onMaxAge();
@@ -88,34 +87,8 @@ public abstract class GenericProjectile extends Projectile {
         }
         travel();
         deltaMovementOld = getDeltaMovement();
-        rotateWithMotion();
     }
 
-    protected void rotateWithMotion() {
-        var motion = getDeltaMovement();
-        double speed = motion.horizontalDistance();
-        this.setYRot((float) Mth.atan2(motion.x, motion.z) * Mth.DEG_TO_RAD);
-        this.setXRot((float) Mth.atan2(motion.y, speed) * Mth.DEG_TO_RAD);
-        if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
-            this.yRotO = this.getYRot();
-            this.xRotO = this.getXRot();
-        } else {
-            this.xRotO = enforceRotationContinuity(this.xRotO, this.getXRot());
-            this.yRotO = enforceRotationContinuity(this.yRotO, this.getYRot());
-        }
-    }
-
-    protected static float enforceRotationContinuity(float currentRot, float targetRot) {
-        while (targetRot - currentRot < -180.0F) {
-            currentRot -= 360.0F;
-        }
-
-        while (targetRot - currentRot >= -180.0F) {
-            currentRot += 360.0F;
-        }
-
-        return currentRot;
-    }
 
     public void handleHitDetection() {
         HitResult result = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
@@ -130,11 +103,6 @@ public abstract class GenericProjectile extends Projectile {
 
     public void travel() {
         setPos(position().add(getDeltaMovement()));
-        Vec3 motion = this.getDeltaMovement();
-        float xRot = -((float) (Mth.atan2(motion.horizontalDistance(), motion.y) * (double) (180F / (float) Math.PI)) - 90.0F);
-        float yRot = -((float) (Mth.atan2(motion.z, motion.x) * (double) (180F / (float) Math.PI)) + 90.0F);
-        this.setXRot(Mth.wrapDegrees(xRot));
-        this.setYRot(Mth.wrapDegrees(yRot));
         if (!this.isNoGravity()) {
             Vec3 vec34 = this.getDeltaMovement();
             this.setDeltaMovement(vec34.x, vec34.y - getDefaultGravity(), vec34.z);
@@ -149,29 +117,21 @@ public abstract class GenericProjectile extends Projectile {
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putFloat("damage", this.getDamage());
-        tag.putInt("age", tickCount);
+        tag.putInt("Age", tickCount);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.damage = tag.getFloat("damage");
-        this.tickCount = tag.getInt("age");
+        this.tickCount = tag.getInt("Age");
     }
 
     protected void onMaxAge() {
         this.discard();
     }
 
-
-
-    public void setDamage(float damage) {
-        this.damage = damage;
-    }
-
     public float getDamage() {
-        return damage;
+        return 0;
     }
 
     @Override
@@ -195,6 +155,6 @@ public abstract class GenericProjectile extends Projectile {
 
     public abstract float getSpeed();
 
-    public abstract void trailParticles();
+    public abstract void createTrail();
 
 }

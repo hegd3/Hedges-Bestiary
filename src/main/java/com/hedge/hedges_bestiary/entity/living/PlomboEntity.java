@@ -1,6 +1,7 @@
 package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
+import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.AI.control.ATMLookControl;
 import com.hedge.hedges_bestiary.entity.AI.control.ATMMoveControl;
@@ -32,6 +33,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -458,7 +460,11 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
 
     @Override
     public void playIdle() {
-        this.setAnimState(this.getRandom().nextInt(3) + 3);
+        int state = this.getRandom().nextInt(3) + 3;
+        if (state == 5) {
+            this.playSound(HBSounds.PLOMBO_YAWN.get());
+        }
+        this.setAnimState(state);
     }
 
     @Override
@@ -503,6 +509,16 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
         } else {
             super.onKeyPacket(keyPresser, type);
         }
+    }
+
+    @Override
+    protected @Nullable SoundEvent getHurtSound(DamageSource pDamageSource) {
+        return HBSounds.PLOMBO_HURT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return HBSounds.PLOMBO_DIE.get();
     }
 
     private void addForageItems() {

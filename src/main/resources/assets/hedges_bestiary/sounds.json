@@ -44,6 +44,24 @@
     ],
     "subtitle": "hedgesbestiary.sound.subtitle.burodon_roar"
   },
+  "burodon_hurt": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:burodon_hurt"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.burodon_hurt"
+  },
+  "burodon_die": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:burodon_die"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.burodon_die"
+  },
   "murk_clicks": {
     "category": "neutral",
     "sounds": [
@@ -128,6 +146,33 @@
     ],
     "subtitle": "hedgesbestiary.sound.subtitle.ferocetus_die"
   },
+  "plombo_yawn": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:plombo_yawn"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.plombo_yawn"
+  },
+  "plombo_hurt": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:plombo_hurt"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.plombo_hurt"
+  },
+  "plombo_die": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:plombo_die"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.plombo_die"
+  },
   "zap": {
     "category": "neutral",
     "sounds": [
@@ -142,6 +187,15 @@
       }
     ],
     "subtitle": "hedgesbestiary.sound.subtitle.zap"
+  },
+  "fireball_shoot": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:fireball_shoot"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.fireball_shoot"
   },
   "endgel_ambient": {
     "category": "hostile",

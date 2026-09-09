@@ -497,11 +497,12 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
         this.roll = prevRoll + (targetRoll - prevRoll) * 0.05F;
     }
 
+
+
     public void travel(Vec3 pTravelVector) {
 
         if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
             if (this.isInWater()) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0, 0.005, 0));
                 if (this.leftWater) {
                     this.leftWater = false;
                 }
@@ -525,10 +526,10 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
                 this.setSpeed(speed);
                 this.moveRelative(this.getSpeed(), pTravelVector);
                 this.move(MoverType.SELF, this.getDeltaMovement());
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));
             } else if (!this.leftWater && this.groundTimer < 20 && this.pitch < -5F) {
                 this.leftWater = true;
-                Vec3 horizontal = EntityHelpers.bodyAngle(this, this.pitch * 1.2F).scale(this.getDeltaMovement().length() * 7);
+                Vec3 horizontal = EntityHelpers.bodyAngle(this, this.pitch * 1.2F).scale(this.getDeltaMovement().length() * 6);
                 this.setDeltaMovement(this.getDeltaMovement().add(horizontal.x, horizontal.y * 2, horizontal.z));
             }
         }
@@ -539,7 +540,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
             if (this.horizontalCollision && this.level().getFluidState(blockPosition().above()).is(FluidTags.WATER)) {
                 final float f1 = this.getYRot() * Mth.DEG_TO_RAD;
 
-                this.setDeltaMovement(this.getDeltaMovement().add(-Mth.sin(f1) * 0.1f, 0.025F, Mth.cos(f1) * 0.1f));
+                this.setDeltaMovement(this.getDeltaMovement().add(-Mth.sin(f1) * 0.05f, 0.02F, Mth.cos(f1) * 0.05f));
             }
         } else {
             super.travel(pTravelVector);

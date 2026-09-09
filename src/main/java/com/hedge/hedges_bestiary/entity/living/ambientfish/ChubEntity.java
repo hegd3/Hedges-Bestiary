@@ -52,7 +52,7 @@ public class ChubEntity extends HBBucketableSchoolingMob {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new GroupFollowLeaderGoal<>(this));
-        this.goalSelector.addGoal(1, new CustomSwimGoal(this, 1.0f, 10, 6, 10, true));
+        this.goalSelector.addGoal(1, new CustomSwimGoal(this, 1.0f, 10, 10, 10, true));
         this.goalSelector.addGoal(2, new LeaveGroupGoal<>(this));
 
     }

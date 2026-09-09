@@ -1,10 +1,12 @@
 package com.hedge.hedges_bestiary.entity.living.ambientfish;
 
+import com.hedge.hedges_bestiary.client.particle.VolatileExplosionParticleOptions;
 import com.hedge.hedges_bestiary.entity.AI.goal.IdleInPlaceGoal;
 import com.hedge.hedges_bestiary.entity.types.HBAquaticMob;
 import com.hedge.hedges_bestiary.entity.types.IdleAnimMob;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.items.HBItems;
+import com.hedge.hedges_bestiary.registry.HBEffects;
 import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.BlockPos;
@@ -24,10 +26,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
@@ -205,9 +205,12 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
                         this.level().addParticle(HBParticles.MURK_CHARGE.get(), this.getX() + rand.x,
                                 this.getY() + rand.y / 2 + 0.7, this.getZ() + rand.z, rand.x, rand.y + 0.2, rand.z);
                     }
+                    this.level().addParticle(VolatileExplosionParticleOptions.create(this), true, this.getX(), this.getY(0.5F), this.getZ(), 0, 0, 0);
                     this.glowProgress = 0.5F;
                 }
-                pSource.getEntity().hurt(this.damageSources().thorns(this), 1.5F);
+                if (pSource.getEntity().hurt(this.damageSources().generic(), 1.5F) && pSource.getEntity() instanceof LivingEntity entity) {
+                    entity.addEffect(new MobEffectInstance(HBEffects.VOLATILITY.get(), 40));
+                }
             }
         }
         return super.hurt(pSource, pAmount);
@@ -232,8 +235,12 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
         }
     }
 
-    public float getGlowProgress(float partialTicks) {
-        return (prevGlowProgress + (glowProgress - prevGlowProgress) * partialTicks);
+    @Override
+    public boolean canBeAffected(MobEffectInstance pEffectInstance) {
+        if (pEffectInstance.getEffect() == HBEffects.VOLATILITY.get()) {
+            return false;
+        }
+        return super.canBeAffected(pEffectInstance);
     }
 
     @Override

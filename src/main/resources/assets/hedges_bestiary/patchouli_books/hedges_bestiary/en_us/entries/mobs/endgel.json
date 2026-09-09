@@ -1,0 +1,23 @@
+{
+  "name": "Endgel",
+  "icon": "hedges_bestiary:endgelic_heart",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Endgels are massive, eight-winged monsters that soar across the void of the outer end. With columns of eyes facing every direction, none are safe from its gaze. Once it spots a target, the Endgel relentlessly blasts them with explosive homing projectiles, in addition to charging up an even mightier attack.$(br2)If once is powerful enough to slay an Endgel, it will drop its heart, which can craft a $(l:hedges_bestiary:items/weapons)special weapon."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/endgel.png",
+        "hedges_bestiary:textures/gui/book/endgel_1.png",
+        "hedges_bestiary:textures/gui/book/endgel_2.png"
+      ],
+      "border": true,
+      "text": "Be not afraid.."
+
+    }
+  ]
+}

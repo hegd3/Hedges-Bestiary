@@ -19,12 +19,19 @@
         "hedges_bestiary:textures/gui/book/murk_1.png"
       ],
       "border": true,
-      "text": "Murks consume skibs to harness their volatile red energy"
+      "text": "Murks are much larger, oceanic cousins of the humble gurk"
     },
     {
       "type": "patchouli:text",
-      "text": "Murks enter a charged state after roaring when aggravated. In this state, a murk's attacks deal extra damage and inflict the $(c)Volatile$() effect, which deals explosive damage to the afflicted at the end of the effect.$(br2)Murks can be ridden when tamed. While riding, Press $(ability) to enter the charged state when the HUD meter is full. Doing so with an incomplete bar or whilst it is charged will make the Murk shoot its projectile breath instead."
+      "text": "Murks enter a charged state after roaring when aggravated. In this state, a Murk's attacks deal extra damage and inflict the $(c)Volatile$() effect, which deals explosive damage to the afflicted at the end of the effect.$(br2)Murks can be ridden when tamed. While riding, Press $(ability) to enter the charged state when the HUD meter is full. Doing so with an incomplete bar or whilst it is charged will make the Murk shoot its projectile breath instead."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/murk_2.png"
+      ],
+      "border": true,
+      "text": "Murks consume $(l:hedges_bestiary:mobs/aquatic_life#skib)skibs$(/l) to harness their explosive energy"
     }
-
   ]
 }

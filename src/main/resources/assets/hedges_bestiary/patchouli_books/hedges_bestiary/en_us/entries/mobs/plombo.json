@@ -15,14 +15,25 @@
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/burodon.png"
+        "hedges_bestiary:textures/gui/book/plombo.png",
+        "hedges_bestiary:textures/gui/book/plombo_1.png"
+
       ],
-      "text": "Plombos can often be seen sifting through leaves, which are their primary food source"
+      "border": true,
+      "text": "Plombos can often be seen either sleeping or harvesting leaves for food"
 
     },
     {
       "type": "patchouli:text",
       "text": "Plombos can be ridden when tamed. They can also be equipped with a barrel, and equipped plombos will retrieve items from foraging leaves. These items are stored in the plombo's inventory which is accessible in the interaction menu. While plombos are far more likely to find mundane items such as sticks, they may occassionally find treats!$(br2)The barrel can be removed with shears."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/plombo_2.png"
+      ],
+      "border": true,
+      "text": "Barreled plombos are hard workers.. when they aren't sleeping"
     }
 
   ]

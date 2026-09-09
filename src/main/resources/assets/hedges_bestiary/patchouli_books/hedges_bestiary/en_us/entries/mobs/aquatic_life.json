@@ -5,44 +5,55 @@
   "sortnum": 3,
   "pages": [
     {
+      "type": "text",
+      "text": "This page catalogs various aquatic creatures in the overworld that can be summarized in a few sentences. Note that all mobs covered in this entry are untamable, with some even being outright hostile to players."
+    },
+    {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/burodon.png"
+        "hedges_bestiary:textures/gui/book/chub.png"
       ],
       "title": "Chub",
       "border": true,
-      "text": "Chubs are passive, schooling fish found in regular and deep oceans."
-
+      "text": "Passive, schooling fish found in regular and deep oceans."
     },
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/burodon.png"
+        "hedges_bestiary:textures/gui/book/gild_glider.png"
       ],
       "title": "Gild Glider",
       "border": true,
-      "text": "Gild gliders are passive, schooling fish found in warm and lukewarm oceans. They can occasionally be seen jumping out of the water."
-
+      "text": "Passive, schooling fish found in warm and lukewarm oceans."
     },
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/burodon.png"
+        "hedges_bestiary:textures/gui/book/skib.png"
       ],
+      "anchor": "skib",
       "title": "Skib",
       "border": true,
-      "text": "Skibs are benthic crustaceans found in regular/deep oceans that transmute decaying matter into an explosive red energy."
+      "text": "Benthic crustaceans found in regular and deep oceans that emit an explosive red energy."
 
     },
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/burodon.png"
+        "hedges_bestiary:textures/gui/book/spotted_striker.png"
       ],
       "title": "Spotted Striker",
       "border": true,
-      "text": "Spotted Strikers are predatory sharks that patrol warm and lukewarm oceans. Their skin allows them to blend seamlessly into their environment, turning them invisible."
-
+      "text": "Predatory sharks that patrol warm and lukewarm oceans. Their skin can turn invisible."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/tearacuda.png"
+      ],
+      "title": "Tearacuda",
+      "border": true,
+      "text": "Pack-hunting piscine that hunt schools of fish in regular and deep oceans. Flees from larger aquatic mobs"
     }
 
   ]

@@ -1,5 +1,6 @@
 package com.hedge.hedges_bestiary.entity.living;
 
+import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
@@ -51,6 +52,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -117,7 +119,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
         this.goalSelector.addGoal(i++, new LayEggsGoal<>(this, 100, 1.0f));
         this.goalSelector.addGoal(i++, new FlyerFollowOwnerGoal(this, 1.2D, 1.6D, 8.0f, 8.0f));
         this.goalSelector.addGoal(i++, new DawnDoveAttackGoal(this));
-        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(HBTags.DAWN_DOVE_FOOD), false));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(Items.COOKED_BEEF), false));
         this.goalSelector.addGoal(i++, new FindAndPickItemGoal(this, FOOD_ENTITIES));
         this.goalSelector.addGoal(i++, new FlyerMoveToHomePosGoal(this, 1.0D, 32, 2d));
         this.goalSelector.addGoal(i++, new NapGoal(this, false));
@@ -418,6 +420,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
                             fireball.moveTo(this.getEyePosition().add(this.getLookAngle().scale(1.2)));
                             fireball.shootFromRotation(this, this.getXRot(), this.getYHeadRot(), 0.0f, 3, 0);
                             this.level().addFreshEntity(fireball);
+                            this.playSound(HBSounds.FIREBALL_SHOOT.get(), 1.2F, 1.0F - this.getRandom().nextFloat() / 2);
                         } else if (animTicks > 23) {
                             this.resetAnimState();
                             this.shootCD = 40;
@@ -594,7 +597,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
 
     @Override
     public boolean isFood(ItemStack pStack) {
-        return this.isTame() && pStack.is(HBTags.DAWN_DOVE_FOOD);
+        return this.isTame() && pStack.is(Items.COOKED_BEEF);
     }
 
     @Override

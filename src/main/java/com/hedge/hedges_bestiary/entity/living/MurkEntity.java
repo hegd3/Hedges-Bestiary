@@ -192,7 +192,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
         this.goalSelector.addGoal(i++, new FindAndPickItemGoal(this, FOOD));
         this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1, Ingredient.of(HBItems.SKIB.get()), false));
         this.goalSelector.addGoal(i++, new NapGoal(this, false));
-        this.goalSelector.addGoal(i, new CustomSwimGoal(this, 1.0, 10, 4, 7, true));
+        this.goalSelector.addGoal(i, new CustomSwimGoal(this, 1.0, 10, 10, 7, true));
         this.goalSelector.addGoal(i++, new RandomStrollGoal(this, 1.0) {
             @Override
             public boolean canUse() {
@@ -272,7 +272,6 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
             this.setSpeed(speed);
             if (this.isInWater()) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0, 0.005, 0));
                 if (Minecraft.getInstance().options.keyJump.isDown()) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
                 } else if (Minecraft.getInstance().options.keySprint.isDown()) {
@@ -280,7 +279,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
                 }
                 this.moveRelative(this.getSpeed(), pTravelVector);
                 this.move(MoverType.SELF, this.getDeltaMovement());
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));
 
             }
         }

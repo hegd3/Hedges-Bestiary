@@ -81,6 +81,8 @@
   "hedgesbestiary.sound.subtitle.gurk_die": "Gurk dies",
 
   "hedgesbestiary.sound.subtitle.burodon_roar": "Burodon roars",
+  "hedgesbestiary.sound.subtitle.burodon_hurt": "Burodon hurts",
+  "hedgesbestiary.sound.subtitle.burodon_die": "Burodon dies",
 
   "hedgesbestiary.sound.subtitle.murk_clicks": "Murk clicks",
   "hedgesbestiary.sound.subtitle.murk_yawn": "Murk yawns",
@@ -92,6 +94,10 @@
   "hedgesbestiary.sound.subtitle.ferocetus_ambient": "Ferocetus clicks",
   "hedgesbestiary.sound.subtitle.ferocetus_hurt": "Ferocetus hurts",
   "hedgesbestiary.sound.subtitle.ferocetus_die": "Ferocetus dies",
+
+  "hedgesbestiary.sound.subtitle.plombo_yawn": "Plombo yawns",
+  "hedgesbestiary.sound.subtitle.plombo_hurt": "Plombo hurts",
+  "hedgesbestiary.sound.subtitle.plombo_die": "Plombo dies",
 
   "hedgesbestiary.sound.subtitle.zap": "Electricity zaps",
 

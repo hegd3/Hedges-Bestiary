@@ -4,7 +4,7 @@
   "version": 1,
   "creative_tab": "hedges_bestiary:hedges_bestiary_tab",
   "use_resource_pack": true,
-  "book_texture": "patchouli:textures/gui/book_green.png",
+  "book_texture": "hedges_bestiary:textures/gui/book/book.png",
   "model": "hedges_bestiary:hedges_bestiary",
   "macros": {
     "$(treat0)": "$(l:hedges_bestiary:items/treats)plain treat$(/l)",

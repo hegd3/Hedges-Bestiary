@@ -57,7 +57,7 @@ public class MurkSmoke extends GenericProjectile {
     }
 
     @Override
-    public void trailParticles() {
+    public void createTrail() {
         Vec3 v = getDeltaMovement();
         double length = v.length();
         int c = (int)Math.min(8, Math.round(length) * 3) + 1;

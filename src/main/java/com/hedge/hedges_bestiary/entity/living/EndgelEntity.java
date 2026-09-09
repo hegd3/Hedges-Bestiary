@@ -19,23 +19,22 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 
 
 public class EndgelEntity extends HBMonster {
@@ -88,7 +87,7 @@ public class EndgelEntity extends HBMonster {
         this.goalSelector.addGoal(1, new FlyingWanderGoal(this, 1.0f, 35, 25, 60));
 
         this.targetSelector.addGoal(0, new HBHurtByTargetGoal(this));
-        this.targetSelector.addGoal(1, new TargetBelowGoal<>(this, LivingEntity.class, null));
+        this.targetSelector.addGoal(1, new TargetBelowGoal<>(this, Player.class, null));
 
     }
 
@@ -270,6 +269,16 @@ public class EndgelEntity extends HBMonster {
     @Override
     public void playAmbientSound() {
         this.playSound(HBSounds.ENDGEL_AMBIENT.get(), 2.5F, 1.0F - this.getRandom().nextFloat() * 0.5F);
+    }
+
+    @Override
+    protected void playHurtSound(DamageSource pSource) {
+        this.playSound(HBSounds.ENDGEL_AMBIENT.get(), 2.5F, 0.5F - this.getRandom().nextFloat() * 0.5F);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return HBSounds.ENDGEL_AMBIENT.get();
     }
 
     @Override

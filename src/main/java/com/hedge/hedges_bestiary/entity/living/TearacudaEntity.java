@@ -91,7 +91,7 @@ public class TearacudaEntity extends HBSchoolingMob implements AttackStateMob {
         this.goalSelector.addGoal(i++, new FindAndPickItemGoal(this, CommonPredicates.EATS_FISH));
         this.goalSelector.addGoal(i++, new TearacudaAttackGoal(this));
         this.goalSelector.addGoal(i++, new GroupFollowLeaderGoal<>(this));
-        this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0f, 10, 6, 5, true));
+        this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0f, 10, 15, 5, true));
         this.goalSelector.addGoal(i, new LeaveGroupGoal<>(this));
 
         this.targetSelector.addGoal(0, new HBHurtByTargetGoal(this));

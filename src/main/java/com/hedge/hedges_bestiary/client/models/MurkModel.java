@@ -111,9 +111,9 @@ public class MurkModel extends HBModel<MurkEntity> {
 				.texOffs(179, 103).addBox(-10.5F, -1.5F, -4.0F, 21.0F, 5.0F, 4.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 61).addBox(-12.5F, -1.5F, -26.0F, 25.0F, 3.0F, 22.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 4.0F, -14.0F));
 
-		PartDefinition ridge_r1 = head.addOrReplaceChild("ridge_r1", CubeListBuilder.create().texOffs(213, 7).mirror().addBox(0.0F, -4.0F, -4.0F, 0.0F, 4.0F, 7.0F, new CubeDeformation(0.01F)).mirror(false), PartPose.offsetAndRotation(-8.5F, -4.5F, -7.0F, 0.0F, 0.0F, -0.5672F));
+		PartDefinition ridge_r1 = head.addOrReplaceChild("ridge_r1", CubeListBuilder.create().texOffs(213, 5).mirror().addBox(0.0F, -4.0F, -4.0F, 0.0F, 4.0F, 7.0F, new CubeDeformation(0.01F)).mirror(false), PartPose.offsetAndRotation(-8.5F, -4.5F, -7.0F, 0.0F, 0.0F, -0.5672F));
 
-		PartDefinition ridge_r2 = head.addOrReplaceChild("ridge_r2", CubeListBuilder.create().texOffs(213, 7).addBox(0.0F, -4.0F, -4.0F, 0.0F, 4.0F, 7.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(8.5F, -4.5F, -7.0F, 0.0F, 0.0F, 0.5672F));
+		PartDefinition ridge_r2 = head.addOrReplaceChild("ridge_r2", CubeListBuilder.create().texOffs(213, 5).addBox(0.0F, -4.0F, -4.0F, 0.0F, 4.0F, 7.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(8.5F, -4.5F, -7.0F, 0.0F, 0.0F, 0.5672F));
 
 		PartDefinition ridge_r3 = head.addOrReplaceChild("ridge_r3", CubeListBuilder.create().texOffs(214, 12).addBox(0.0F, -4.0F, -4.0F, 0.0F, 4.0F, 6.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(6.5F, -4.5F, -21.0F, 0.0F, 0.0F, 0.48F));
 

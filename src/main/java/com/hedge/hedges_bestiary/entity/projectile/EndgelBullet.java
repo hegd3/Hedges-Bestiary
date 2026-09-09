@@ -75,7 +75,7 @@ public class EndgelBullet extends HomingProjectile {
     }
 
     @Override
-    public void trailParticles() {
+    public void createTrail() {
         this.level().addParticle(HBParticles.ENDGEL_BULLET.get(), true, this.getX(),
                 this.getY(), this.getZ(), 0, 0, 0);
 

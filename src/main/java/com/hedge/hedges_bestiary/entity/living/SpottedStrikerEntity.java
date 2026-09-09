@@ -98,7 +98,7 @@ public class SpottedStrikerEntity extends HBAquaticMob implements AttackStateMob
         this.goalSelector.addGoal(1, new FindAndPickItemGoal(this, CommonPredicates.EATS_FISH));
 
         this.goalSelector.addGoal(2, new SpottedStrikerAttackGoal(this));
-        this.goalSelector.addGoal(4, new CustomSwimGoal(this, 1.0f, 30, 4, 5, false));
+        this.goalSelector.addGoal(4, new CustomSwimGoal(this, 1.0f, 30, 10, 5, false));
 
         this.targetSelector.addGoal(0, new HBHurtByTargetGoal(this, false, null));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, true, SPOTTED_STRIKER_TARGETS));
