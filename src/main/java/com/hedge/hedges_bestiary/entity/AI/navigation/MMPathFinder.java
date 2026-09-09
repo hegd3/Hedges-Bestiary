@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Set;
 
 public class MMPathFinder extends PathFinder {
+
+    // Source: https://github.com/BobMowzie/MowziesMobs-Public/blob/main/src/main/java/com/bobmowzie/mowziesmobs/server/ai/MMPathFinder.java
+
     public MMPathFinder(NodeEvaluator pNodeEvaluator, int pMaxVisitedNodes) {
         super(pNodeEvaluator, pMaxVisitedNodes);
     }

@@ -33,6 +33,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -608,6 +609,21 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
     @Override
     public void setAttacking() {
         this.setAnimState(1);
+    }
+
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        return HBSounds.DAWN_DOVE_AMBIENT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getHurtSound(DamageSource pDamageSource) {
+        return HBSounds.DAWN_DOVE_HURT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return HBSounds.DAWN_DOVE_HURT.get();
     }
 
     @Override

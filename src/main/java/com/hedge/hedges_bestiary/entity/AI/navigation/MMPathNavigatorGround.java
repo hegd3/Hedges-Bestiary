@@ -13,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class MMPathNavigatorGround extends GroundPathNavigation {
+
+    // Source: https://github.com/BobMowzie/MowziesMobs-Public/blob/main/src/main/java/com/bobmowzie/mowziesmobs/server/ai/MMPathNavigateGround.java
+
     public MMPathNavigatorGround(Mob pMob, Level pLevel) {
         super(pMob, pLevel);
     }

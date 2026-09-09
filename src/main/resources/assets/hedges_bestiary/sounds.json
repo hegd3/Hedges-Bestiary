@@ -197,6 +197,24 @@
     ],
     "subtitle": "hedgesbestiary.sound.subtitle.fireball_shoot"
   },
+  "dawn_dove_ambient": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:dawn_dove_ambient"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.dawn_dove_ambient"
+  },
+  "dawn_dove_hurt": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:dawn_dove_hurt"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.dawn_dove_hurt"
+  },
   "endgel_ambient": {
     "category": "hostile",
     "sounds": [

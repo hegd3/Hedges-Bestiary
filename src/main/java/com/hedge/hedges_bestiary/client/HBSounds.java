@@ -52,6 +52,10 @@ public class HBSounds {
 
     public static final RegistryObject<SoundEvent> FIREBALL_SHOOT = createSoundEvent("fireball_shoot");
 
+    public static final RegistryObject<SoundEvent> DAWN_DOVE_AMBIENT = createSoundEvent("dawn_dove_ambient");
+
+    public static final RegistryObject<SoundEvent> DAWN_DOVE_HURT = createSoundEvent("dawn_dove_hurt");
+
     public static final RegistryObject<SoundEvent> ENDGEL_AMBIENT = createSoundEvent("endgel_ambient");
 
     public static final RegistryObject<SoundEvent> ENDGEL_SHOOT = createSoundEvent("endgel_shoot");
