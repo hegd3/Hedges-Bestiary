@@ -2,6 +2,7 @@ package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.client.HBSounds;
+import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.AI.control.SwimmingMoveControl;
 import com.hedge.hedges_bestiary.entity.AI.goal.*;
 import com.hedge.hedges_bestiary.entity.AI.targeting.HBHurtByTargetGoal;
@@ -880,6 +881,11 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
         } else {
             super.onKeyPacket(keyPresser, type);
         }
+    }
+
+    @Override
+    public boolean isTamable() {
+        return super.isTamable() && HBConfig.FEROCETUS_IS_TAMABLE;
     }
 
     @Override

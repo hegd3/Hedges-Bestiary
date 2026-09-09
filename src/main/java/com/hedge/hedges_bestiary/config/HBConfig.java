@@ -19,9 +19,7 @@ public class HBConfig
     public static final ForgeConfigSpec.BooleanValue VALUE_PLOMBO_TAMABLE;
     public static final ForgeConfigSpec.BooleanValue VALUE_MURK_TAMABLE;
     public static final ForgeConfigSpec.BooleanValue VALUE_DAWN_DOVE_TAMABLE;
-    public static final ForgeConfigSpec.IntValue VALUE_DAWN_DOVE_NEST_WEIGHT;
-    public static final ForgeConfigSpec.IntValue VALUE_ZAPPET_ROOST_WEIGHT;
-    public static final ForgeConfigSpec.IntValue VALUE_PLOMBO_TERRITORY_WEIGHT;
+    public static final ForgeConfigSpec.BooleanValue VALUE_FEROCETUS_TAMABLE;
 
 
     public static boolean TAMING_DISABLED = false;
@@ -32,9 +30,7 @@ public class HBConfig
     public static boolean PLOMBO_IS_TAMABLE = true;
     public static boolean MURK_IS_TAMABLE = true;
     public static boolean DAWN_DOVE_IS_TAMABLE = true;
-    public static int dawnDoveNestWeight = 10;
-    public static int zappetRoostWeight = 20;
-    public static int plomboTerritoryWeight = 10;
+    public static boolean FEROCETUS_IS_TAMABLE = true;
 
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -47,9 +43,7 @@ public class HBConfig
         VALUE_PLOMBO_TAMABLE = buildBoolean(builder, "Plombo taming enabled", true, "Whether plombos can be tamed or not. DEFAULT: true");
         VALUE_DAWN_DOVE_TAMABLE = buildBoolean(builder, "Dawn Dove taming enabled", true, "Whether dawn doves can be tamed or not. DEFAULT: true");
         VALUE_MURK_TAMABLE = buildBoolean(builder, "Murk taming enabled", true, "Whether murks can be tamed or not. DEFAULT: true");
-        VALUE_DAWN_DOVE_NEST_WEIGHT = buildInt(builder, "Dawn Dove Nest Weight", dawnDoveNestWeight, 0, 1000, "Defines the weight of dawn dove nests in savannas. Higher number = higher chance of generating. 0 = structure disabled. DEFAULT: 10");
-        VALUE_ZAPPET_ROOST_WEIGHT = buildInt(builder, "Zappet Roost Weight", zappetRoostWeight, 0, 1000, "Defines the weight of zappet roosts in badlands. Higher number = higher chance of generating. 0 = structure disabled. DEFAULT: 15");
-        VALUE_PLOMBO_TERRITORY_WEIGHT = buildInt(builder, "Plombo Territory Weight", plomboTerritoryWeight, 0, 1000, "Defines the weight of plombo territories in birch forests. Higher number = higher chance of generating. 0 = structure disabled. DEFAULT: 10");
+        VALUE_FEROCETUS_TAMABLE = buildBoolean(builder, "Ferocetus taming enabled", true, "Whether fercetus can be tamed or not. DEFAULT: true");
 
         builder.pop();
         SPEC = builder.build();
@@ -66,9 +60,8 @@ public class HBConfig
             PLOMBO_IS_TAMABLE = VALUE_PLOMBO_TAMABLE.get();
             MURK_IS_TAMABLE = VALUE_MURK_TAMABLE.get();
             DAWN_DOVE_IS_TAMABLE = VALUE_DAWN_DOVE_TAMABLE.get();
-            dawnDoveNestWeight = VALUE_DAWN_DOVE_NEST_WEIGHT.get();
-            zappetRoostWeight = VALUE_ZAPPET_ROOST_WEIGHT.get();
-            plomboTerritoryWeight = VALUE_PLOMBO_TERRITORY_WEIGHT.get();
+            FEROCETUS_IS_TAMABLE = VALUE_FEROCETUS_TAMABLE.get();
+
         } catch (Exception e) {
             HedgesBestiary.LOGGER.warn("An exception was caused trying to load the config for Hedge's Bestiary", e);
             e.printStackTrace();
