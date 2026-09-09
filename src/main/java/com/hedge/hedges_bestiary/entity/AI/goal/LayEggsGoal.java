@@ -84,4 +84,5 @@ public class LayEggsGoal<E extends HBTamableAnimal & EggLayer> extends MoveToBlo
     public double acceptedDistance() {
         return Math.ceil(this.mob.getBbWidth()) + 0.5D;
     }
+
 }

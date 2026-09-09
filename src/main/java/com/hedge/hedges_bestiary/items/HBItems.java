@@ -38,10 +38,10 @@ public class HBItems {
             () -> new TreatItem(new Item.Properties().rarity(Rarity.COMMON), 0));
 
     public static final RegistryObject<Item> SEASONED_TREAT = ITEMS.register("seasoned_treat",
-            () -> new TreatItem(new Item.Properties().rarity(Rarity.UNCOMMON).craftRemainder(Items.BUCKET),1));
+            () -> new TreatItem(new Item.Properties().rarity(Rarity.UNCOMMON).craftRemainder(Items.GLASS_BOTTLE),1));
 
     public static final RegistryObject<Item> HEARTY_TREAT = ITEMS.register("hearty_treat",
-            () -> new TreatItem(new Item.Properties().rarity(Rarity.RARE).craftRemainder(Items.HONEY_BOTTLE),2));
+            () -> new TreatItem(new Item.Properties().rarity(Rarity.RARE),2));
 
     public static final RegistryObject<Item> ENDGELIC_JUDGEMENT = ITEMS.register("endgelic_judgement",
             () -> new EndgelicJudgementItem(new Item.Properties().durability(500).rarity(RARITY_ENDGELIC)));

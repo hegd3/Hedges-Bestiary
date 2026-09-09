@@ -383,7 +383,7 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
             return Vec3.ZERO;
         }
         if (this.getAnimState() == 2) {
-            return new Vec3(0, 0, 0.05);
+            return new Vec3(0, 0, 0.1);
         }
         float f1 = pPlayer.zza * 0.35F;
         float f2 = pPlayer.xxa * 0.2F;

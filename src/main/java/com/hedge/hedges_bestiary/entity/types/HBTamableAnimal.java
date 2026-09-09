@@ -55,7 +55,6 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
     protected static final EntityDataAccessor<Boolean> IS_DANCING = SynchedEntityData.defineId(HBTamableAnimal.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<Boolean> IS_NAPPING = SynchedEntityData.defineId(HBTamableAnimal.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<Boolean> HAS_HOME = SynchedEntityData.defineId(HBTamableAnimal.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> DIGGING = SynchedEntityData.defineId(HBTamableAnimal.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<Integer> AUTO_TARGET_TYPE = SynchedEntityData.defineId(HBTamableAnimal.class, EntityDataSerializers.INT);
 
     protected int animTicks = 0;
@@ -238,6 +237,7 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
         }
     }
 
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -247,7 +247,6 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
         this.entityData.define(IS_DANCING, false);
         this.entityData.define(IS_NAPPING, false);
         this.entityData.define(HAS_HOME, false);
-        this.entityData.define(DIGGING, false);
         this.entityData.define(AUTO_TARGET_TYPE, 0);
         this.entityData.define(TAME_COMMAND, 0);
     }
@@ -544,14 +543,6 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
             animal.setOwnerUUID(this.getOwnerUUID());
             animal.setTame(true);
         }
-    }
-
-    public boolean isDigging() {
-        return this.entityData.get(DIGGING);
-    }
-
-    public void setDigging(boolean b) {
-        this.entityData.set(DIGGING, b);
     }
 
     @Override
