@@ -3,6 +3,7 @@ package com.hedge.hedges_bestiary.events;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.client.EntityLayers;
 import com.hedge.hedges_bestiary.client.models.*;
+import com.hedge.hedges_bestiary.client.particle.*;
 import com.hedge.hedges_bestiary.client.renderer.*;
 import com.hedge.hedges_bestiary.client.renderer.projectile.WaveRenderer;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
@@ -12,6 +13,7 @@ import com.hedge.hedges_bestiary.menu.HBTamableMenuScreen;
 import com.hedge.hedges_bestiary.message.OpenTamableScreenMessage;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
+import com.hedge.hedges_bestiary.registry.HBParticles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -23,6 +25,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -84,6 +87,36 @@ public class ClientEvent {
         EntityRenderers.register(HBEntities.SKIB.get(), SkibRenderer::new);
 
         // MenuScreens.register();
+    }
+
+    @SubscribeEvent
+    public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+
+        event.registerSpriteSet(HBParticles.ICE_SHOCKWAVE.get(), AngledParticle.IceShockwaveProvider::new);
+        event.registerSpriteSet(HBParticles.ICE_SHOCKWAVE_BIG.get(), AngledParticle.IceShockwaveBigProvider::new);
+
+        event.registerSpriteSet(HBParticles.MURK_CHARGE.get(), AuraParticle.Provider::new);
+        event.registerSpriteSet(HBParticles.MURK_CHARGE_SHOOT.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
+        event.registerSpriteSet(HBParticles.MURK_EXPLODE.get(), DynamicExplosionParticle.MurkExplosionProvider::new);
+        event.registerSpriteSet(HBParticles.VOLATILE_EXPLODE.get(), DynamicExplosionParticle.VolatileExplosionProvider::new);
+
+        event.registerSpriteSet(HBParticles.MURK_IMPACT.get(), DynamicExplosionParticle.MurkImpactProvider::new);
+
+        event.registerSpriteSet(HBParticles.SMOKE.get(), SmokeParticle.Provider::new);
+        event.registerSpriteSet(HBParticles.ENDGEL_SCREAM.get(), EndgelScreamParticle.Provider::new);
+
+        event.registerSpriteSet(HBParticles.ELECTRIC_SPARKS.get(), AuraParticle.Provider::new);
+        event.registerSpriteSet(HBParticles.LIGHTNING_EXPLODE.get(), DynamicExplosionParticle.LightningExplodeProvider::new);
+
+        event.registerSpriteSet(HBParticles.FIREBALL.get(), ProjectileTrailParticle.FireBallProvider::new);
+        event.registerSpriteSet(HBParticles.FIREBALL_EXPLODE.get(), DynamicExplosionParticle.FireBallExplodeProvider::new);
+        event.registerSpriteSet(HBParticles.SLEEP.get(), SleepParticle.Provider::new);
+
+        event.registerSpriteSet(HBParticles.ENDGEL_TRAIL.get(), AuraParticle.Provider::new);
+        event.registerSpriteSet(HBParticles.ENDGEL_EXPLODE.get(), DynamicExplosionParticle.EndgelExplodeProvider::new);
+        event.registerSpriteSet(HBParticles.ENDGEL_BULLET.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
+        event.registerSpriteSet(HBParticles.ENDGEL_BLAST_EXPLODE.get(), ProjectileTrailParticle.EndgelBlastExplodeProvider::new);
+
     }
 
     @SubscribeEvent

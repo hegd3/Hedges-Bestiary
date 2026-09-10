@@ -55,34 +55,5 @@ public class ServerEvent {
     }
 
 
-    @SubscribeEvent
-    public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-
-        event.registerSpriteSet(HBParticles.ICE_SHOCKWAVE.get(), AngledParticle.IceShockwaveProvider::new);
-        event.registerSpriteSet(HBParticles.ICE_SHOCKWAVE_BIG.get(), AngledParticle.IceShockwaveBigProvider::new);
-
-        event.registerSpriteSet(HBParticles.MURK_CHARGE.get(), AuraParticle.Provider::new);
-        event.registerSpriteSet(HBParticles.MURK_CHARGE_SHOOT.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
-        event.registerSpriteSet(HBParticles.MURK_EXPLODE.get(), DynamicExplosionParticle.MurkExplosionProvider::new);
-        event.registerSpriteSet(HBParticles.VOLATILE_EXPLODE.get(), DynamicExplosionParticle.VolatileExplosionProvider::new);
-
-        event.registerSpriteSet(HBParticles.MURK_IMPACT.get(), DynamicExplosionParticle.MurkImpactProvider::new);
-
-        event.registerSpriteSet(HBParticles.SMOKE.get(), SmokeParticle.Provider::new);
-        event.registerSpriteSet(HBParticles.ENDGEL_SCREAM.get(), EndgelScreamParticle.Provider::new);
-
-        event.registerSpriteSet(HBParticles.ELECTRIC_SPARKS.get(), AuraParticle.Provider::new);
-        event.registerSpriteSet(HBParticles.LIGHTNING_EXPLODE.get(), DynamicExplosionParticle.LightningExplodeProvider::new);
-
-        event.registerSpriteSet(HBParticles.FIREBALL.get(), ProjectileTrailParticle.FireBallProvider::new);
-        event.registerSpriteSet(HBParticles.FIREBALL_EXPLODE.get(), DynamicExplosionParticle.FireBallExplodeProvider::new);
-        event.registerSpriteSet(HBParticles.SLEEP.get(), SleepParticle.Provider::new);
-
-        event.registerSpriteSet(HBParticles.ENDGEL_TRAIL.get(), AuraParticle.Provider::new);
-        event.registerSpriteSet(HBParticles.ENDGEL_EXPLODE.get(), DynamicExplosionParticle.EndgelExplodeProvider::new);
-        event.registerSpriteSet(HBParticles.ENDGEL_BULLET.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
-        event.registerSpriteSet(HBParticles.ENDGEL_BLAST_EXPLODE.get(), ProjectileTrailParticle.EndgelBlastExplodeProvider::new);
-
-    }
 
 }
