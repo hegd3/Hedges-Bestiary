@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 
 public class SmoothAnimationState extends AnimationState {
-
+    // source https://github.com/Peeko32213/OpposingForce/blob/main/src/main/java/com/barl_inc/opposing_force/utils/SmoothAnimationState.java
     public static final Vector3f ANIMATION_VECTOR_CACHE = new Vector3f();
 
     public float factorOld;
