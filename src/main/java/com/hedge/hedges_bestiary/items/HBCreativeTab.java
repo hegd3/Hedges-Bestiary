@@ -28,7 +28,7 @@ public class HBCreativeTab {
                         // crafting items
                         output.accept(HBItems.MURK_SPIKE.get());
                         output.accept(HBItems.ENDGELIC_HEART.get());
-                        output.accept(HBItems.TEARACUDA_TOOTH.get());
+                        //output.accept(HBItems.TEARACUDA_TOOTH.get());
 
                         //crafted items
 
