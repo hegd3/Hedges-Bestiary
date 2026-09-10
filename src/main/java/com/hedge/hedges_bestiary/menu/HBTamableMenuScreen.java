@@ -32,9 +32,9 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
     private float xMouse;
     private float yMouse;
     private final HBTamableMenuButton[] buttons;
-    public HBTamableMenuScreen(HBTamableMenu pMenu, Inventory pPlayerInventory, HBTamableAnimal animal) {
-        super(pMenu, pPlayerInventory, animal.getName());
-        this.animal = animal;
+    public HBTamableMenuScreen(HBTamableMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+        super(pMenu, pPlayerInventory, pTitle);
+        this.animal = pMenu.getAnimal();
         this.imageWidth = 225;
         this.imageHeight = 158;
         this.titleLabelX+=30;
@@ -55,6 +55,7 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
         }
 
     }
+
 
     @Override
     protected void renderBg(GuiGraphics poseStack, float f, int i, int j) {

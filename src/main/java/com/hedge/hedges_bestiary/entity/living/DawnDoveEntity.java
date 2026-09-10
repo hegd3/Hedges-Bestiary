@@ -197,15 +197,16 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
     @Override
     protected void tickRidden(Player pPlayer, Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
-        float turnSpeed = 5.0F;
-        float currentYaw = this.getYRot();
-        float targetYaw = pPlayer.getYRot();
-        float deltaYaw = Mth.wrapDegrees(targetYaw - currentYaw);
+        if (this.level().isClientSide && pPlayer.zza != 0 || pPlayer.xxa != 0) {
+            float turnSpeed = 5.0F;
+            float currentYaw = this.getYRot();
+            float targetYaw = pPlayer.getYRot();
+            float deltaYaw = Mth.wrapDegrees(targetYaw - currentYaw);
 
-        float newYaw = currentYaw + Mth.clamp(deltaYaw, -turnSpeed, turnSpeed);
-        this.setYRot(newYaw);
-        this.setYHeadRot(pPlayer.getYHeadRot());
-        this.setXRot(Mth.clamp(pPlayer.getXRot(), -45, 45));
+            float newYaw = currentYaw + Mth.clamp(deltaYaw, -turnSpeed, turnSpeed);
+            this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -45, 45));
+            this.setYHeadRot(pPlayer.getYHeadRot());
+        }
         if (this.isFlying()) {
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.004, 0));
             if (this.hasControllingPassenger() && this.flyProgress == 5 && this.onGround())

@@ -5,7 +5,6 @@ import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.menu.HBTamableMenu;
 import com.hedge.hedges_bestiary.message.DanceJukeboxMessage;
-import com.hedge.hedges_bestiary.message.OpenTamableScreenMessage;
 import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.BlockPos;
@@ -30,11 +29,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
@@ -117,14 +113,13 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
 
     public void openCustomInventoryScreen(Player player) {
         if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
-            if (serverPlayer.containerMenu != serverPlayer.inventoryMenu) serverPlayer.closeContainer();
-            serverPlayer.nextContainerCounter();
-            serverPlayer.containerMenu = new HBTamableMenu(serverPlayer.containerCounter,this);
+            NetworkHooks.openScreen(serverPlayer, new SimpleMenuProvider(
+                    (containerId, playerInventory, p) ->
+                            new HBTamableMenu(containerId, this),
+                    this.getName()
+            ), buf -> buf.writeInt(this.getId())
+            );
 
-            HedgesBestiary.sendMSGToServer(new OpenTamableScreenMessage(this.getId(), serverPlayer.containerCounter));
-
-            serverPlayer.initMenu(serverPlayer.containerMenu);
-            MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(serverPlayer, serverPlayer.containerMenu));
         }
     }
 

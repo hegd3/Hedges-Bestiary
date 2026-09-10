@@ -6,21 +6,13 @@ import com.hedge.hedges_bestiary.client.models.*;
 import com.hedge.hedges_bestiary.client.particle.*;
 import com.hedge.hedges_bestiary.client.renderer.*;
 import com.hedge.hedges_bestiary.client.renderer.projectile.WaveRenderer;
-import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.items.HBItems;
-import com.hedge.hedges_bestiary.menu.HBTamableMenu;
-import com.hedge.hedges_bestiary.menu.HBTamableMenuScreen;
-import com.hedge.hedges_bestiary.message.OpenTamableScreenMessage;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
 import com.hedge.hedges_bestiary.registry.HBParticles;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -29,8 +21,6 @@ import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-
-import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = HedgesBestiary.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -43,9 +33,7 @@ public class ClientEvent {
         event.register(HBKeyMappings.MOUNT_ABILITY_KEY);
     }
 
-
-
-        @SubscribeEvent
+    @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(EntityLayers.BURODON_LAYER, BurodonModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.SPOTTED_STRIKER_LAYER, SpottedStrikerModel::createBodyLayer);
@@ -146,20 +134,5 @@ public class ClientEvent {
         );
     }
 
-    public static void openTamableScreen(OpenTamableScreenMessage packet) {
-        Minecraft client = Minecraft.getInstance();
-        Level level = client.level;
-        Optional.ofNullable(level).ifPresent(world -> {
-            Entity entity = world.getEntity(packet.getId());
-            if (entity instanceof HBTamableAnimal animal) {
-                int syncId = packet.getSyncId();
-                LocalPlayer clientPlayerEntity = client.player;
-                assert clientPlayerEntity != null;
-                HBTamableMenu menu = new HBTamableMenu(syncId, animal);
-                clientPlayerEntity.containerMenu = menu;
-                client.execute(() -> client.setScreen(new HBTamableMenuScreen(menu, clientPlayerEntity.getInventory(), animal)));
-            }
-        });
-    }
 
 }
