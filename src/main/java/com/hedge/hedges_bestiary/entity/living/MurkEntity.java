@@ -338,10 +338,10 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     @Override
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
-        float newYaw = Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYRot());
-        this.setYRot(newYaw);
+        float newYaw = Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYHeadRot());
+        this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -10, 10));
         this.setYHeadRot(pPlayer.getYHeadRot());
-        this.setXRot(Mth.clamp(pPlayer.getXRot(), -10, 10));
+
     }
 
     @Override
@@ -859,6 +859,11 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     @Override
     protected void positionRider(Entity passenger, MoveFunction moveFunc) {
         final float angle = (MathHelpers.STARTING_ANGLE * this.yBodyRot);
+        passenger.setYBodyRot(this.yBodyRot);
+        if (passenger instanceof LivingEntity living) {
+            clampRotation(living, 105);
+        }
+
         double targetY = this.getY() + passenger.getBbHeight();
         double extraX = -Mth.sin(Mth.PI + angle);
         double extraZ = -Mth.cos(angle);

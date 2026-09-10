@@ -156,6 +156,16 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
 
     }
 
+    protected void clampRotation(LivingEntity livingEntity, float clampRange) {
+        livingEntity.setYBodyRot(this.getYRot());
+        float f = Mth.wrapDegrees(livingEntity.getYRot() - this.getYRot());
+        float f1 = Mth.clamp(f, -clampRange, clampRange);
+        livingEntity.yRotO += f1 - f;
+        livingEntity.yBodyRotO += f1 - f;
+        livingEntity.setYRot(livingEntity.getYRot() + f1 - f);
+        livingEntity.setYHeadRot(livingEntity.getYRot());
+    }
+
 
     @Override
     protected void dropEquipment() {

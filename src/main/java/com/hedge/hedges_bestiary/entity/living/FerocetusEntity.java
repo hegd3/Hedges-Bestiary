@@ -560,6 +560,10 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     @Override
     protected void positionRider(Entity passenger, MoveFunction moveFunc) {
         final float angle = (MathHelpers.STARTING_ANGLE * this.yBodyRot);
+        passenger.setYBodyRot(this.yBodyRot);
+        if (passenger instanceof LivingEntity living) {
+            clampRotation(living, 105);
+        }
         double targetY = this.getY() + passenger.getBbHeight();
         double extraX = Mth.sin(Mth.PI + angle) * 0.25;
         double extraZ = Mth.cos(angle) * 0.25;
@@ -570,11 +574,10 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     @Override
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
-        if (this.level().isClientSide && this.isInWater() && (pPlayer.zza != 0 || this.yya != 0)) {
-            float newYaw = Mth.rotLerp(0.1F, this.getYRot(), pPlayer.getYRot());
-            this.setYRot(newYaw);
+        if (this.isInWater() && (pPlayer.zza != 0 || this.yya != 0)) {
+            float newYaw = Mth.rotLerp(0.1F, this.getYRot(), pPlayer.getYHeadRot());
+            this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -30, 30));
             this.setYHeadRot(pPlayer.getYHeadRot());
-            this.setXRot(Mth.clamp(pPlayer.getXRot(), -30, 30));
         } else if (this.onGround()) {
             this.ejectPassengers();
         }

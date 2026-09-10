@@ -9,7 +9,7 @@
       "behavior": "Aggressive, hunts players & livestock",
       "taming": "When grabbed by a dawn dove, feed it a $(treat2); repeat this process several times",
       "habitat": "Savanna",
-      "breeding": "Cooked beef (lays eggs)",
+      "breeding": "Steak (lays eggs)",
       "extra": "Can be ridden when tamed-- $(ability) to shoot fireballs, RMB to grab"
     },
     {

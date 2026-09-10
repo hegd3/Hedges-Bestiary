@@ -197,19 +197,15 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
     @Override
     protected void tickRidden(Player pPlayer, Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
-        if (this.level().isClientSide && pPlayer.zza != 0 || pPlayer.xxa != 0) {
-            float turnSpeed = 5.0F;
-            float currentYaw = this.getYRot();
-            float targetYaw = pPlayer.getYRot();
-            float deltaYaw = Mth.wrapDegrees(targetYaw - currentYaw);
-
-            float newYaw = currentYaw + Mth.clamp(deltaYaw, -turnSpeed, turnSpeed);
+        if (pPlayer.zza != 0 || pPlayer.xxa != 0) {
+            float newYaw = Mth.rotLerp(0.1F, this.getYRot(), pPlayer.getYHeadRot());
             this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -45, 45));
             this.setYHeadRot(pPlayer.getYHeadRot());
+
         }
         if (this.isFlying()) {
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.004, 0));
-            if (this.hasControllingPassenger() && this.flyProgress == 5 && this.onGround())
+            if (this.hasControllingPassenger() && this.flyProgress == 5 && this.onGround() && !this.level().isClientSide)
                 this.setFlying(false);
 
         }
@@ -271,8 +267,10 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
 
     @Override
     public void positionRider(Entity passenger, Entity.MoveFunction moveFunc) {
-        if (this.isPassengerOfSameVehicle(passenger) && passenger instanceof LivingEntity && !this.touchingUnloadedChunk()) {
+        if (this.isPassengerOfSameVehicle(passenger) && passenger instanceof LivingEntity living && !this.touchingUnloadedChunk()) {
             final float angle = (MathHelpers.STARTING_ANGLE * this.yBodyRot);
+            passenger.setYBodyRot(this.yBodyRot);
+            clampRotation(living, 105);
             float flight = this.getFlyProgress(1.0F);
             double targetY = this.getY() + passenger.getBbHeight() + 0.35F * flight;
             double extraX;
@@ -292,7 +290,6 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
             }
 
 
-            passenger.setYBodyRot(this.yBodyRot);
             passenger.fallDistance = 0.0F;
             moveFunc.accept(passenger, this.getX() + extraX, targetY, this.getZ() + extraZ);
         } else {

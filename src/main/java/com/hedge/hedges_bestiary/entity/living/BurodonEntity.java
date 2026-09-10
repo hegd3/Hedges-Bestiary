@@ -40,6 +40,7 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -133,7 +134,7 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
         this.goalSelector.addGoal(i++, new HBFollowOwnerGoal(this, 1.2D, 1.4D, 7.0f, 10.0f));
         this.goalSelector.addGoal(i++, new BurodonAttackGoal(this));
         this.goalSelector.addGoal(i++, new BreedGoal(this, 1.0f));
-        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(HBTags.DAWN_DOVE_FOOD), false));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(Items.MUTTON), false));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new NapGoal(this));
         this.goalSelector.addGoal(i++, new GroupFollowLeaderGoal<>(this, 10F, 5F));
@@ -327,7 +328,7 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
 
     @Override
     public boolean isFood(ItemStack pStack) {
-        return pStack.is(HBTags.DAWN_DOVE_FOOD) && super.isFood(pStack);
+        return pStack.is(Items.MUTTON) && super.isFood(pStack);
     }
 
     @Override

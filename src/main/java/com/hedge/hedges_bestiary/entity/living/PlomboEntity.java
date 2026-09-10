@@ -366,15 +366,10 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     @Override
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
-        float turnSpeed = 5.0F;
-        float currentYaw = this.getYRot();
-        float targetYaw = pPlayer.getYRot();
-        float deltaYaw = Mth.wrapDegrees(targetYaw - currentYaw);
-
-        float newYaw = currentYaw + Mth.clamp(deltaYaw, -turnSpeed, turnSpeed);
-        this.setYRot(newYaw);
+        float newYaw = Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYHeadRot());
+        this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -10, 10));
         this.setYHeadRot(pPlayer.getYHeadRot());
-        this.setXRot(Mth.clamp(pPlayer.getXRot(), -10, 10));
+
     }
 
     @Override
@@ -395,10 +390,13 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     @Override
     protected void positionRider(Entity passenger, MoveFunction moveFunc) {
         final float angle = (MathHelpers.STARTING_ANGLE * this.yBodyRot);
+        passenger.setYBodyRot(this.yBodyRot);
+        if (passenger instanceof LivingEntity living) {
+            clampRotation(living, 105);
+        }
         double targetY = this.getY() + passenger.getBbHeight();
         double extraX = -Mth.sin(Mth.PI + angle) * 0.5F;
         double extraZ = -Mth.cos(angle) * 0.5F;
-
         if (this.getAnimState() == 2 || this.isScratching()) {
             extraX *=4F;
             extraZ *=4F;
