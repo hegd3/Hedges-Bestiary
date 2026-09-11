@@ -27,24 +27,24 @@ public class HBPathNavigatorGround extends GroundPathNavigation {
     protected void followThePath() {
         Path path = Objects.requireNonNull(this.path);
         Vec3 entityPos = this.getTempMobPos();
-        this.maxDistanceToWaypoint = this.mob.getBbWidth() * 0.8F;
+        this.maxDistanceToWaypoint = this.mob.getBbWidth() * 0.75F;
         BlockPos next = path.getNextNodePos();
-        double x = clampCoord(this.mob.getX(), next),
+        double x = clampCoord(this.mob.getX(), next.getX()),
                 y = Math.abs(this.mob.getY() - next.getY()),
-                z = clampCoord(this.mob.getZ(), next);
-        boolean validDist = x < this.maxDistanceToWaypoint && z < this.maxDistanceToWaypoint && y < this.maxYDrop;
+                z = clampCoord(this.mob.getZ(), next.getZ());
+        boolean validDist = x < maxDistanceToWaypoint && z < maxDistanceToWaypoint && y < this.maxYDrop;
         if (validDist || this.mob.getPathfindingMalus(this.path.getNextNode().type) >= 0.0F && this.validNextNode(entityPos)) {
             this.path.advance();
         }
         this.doStuckDetection(entityPos);
     }
 
-    private double clampCoord(double coord, BlockPos pos) {
-        return Math.abs(coord - pos.getX() + 0.5);
+    private double clampCoord(double coord, double nextCoord) {
+        return Math.abs(coord - nextCoord - 0.5);
     }
 
     private boolean validNextNode(@NotNull Vec3 pos) {
-        if (this.path.getNextNode() == this.path.getEndNode()) {
+        if (this.path.getNextNodeIndex() + 1 >= this.path.getNodeCount()) {
             return false;
         }
         Vec3 next = Vec3.atBottomCenterOf(this.path.getNextNodePos());

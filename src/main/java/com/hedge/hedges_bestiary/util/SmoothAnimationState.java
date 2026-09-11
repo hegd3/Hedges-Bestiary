@@ -30,8 +30,7 @@ public class SmoothAnimationState extends AnimationState {
     public void animateWhen(boolean condition, int tickCount) {
         float target = condition ? 1.0F : 0.0F;
         this.factorOld = this.factor;
-        this.factor += (target - this.factor) * this.lerpSpeed;
-        this.factor = Mth.clamp(this.factor, 0.0F, 1.0F);
+        this.factor = Mth.clamp(Mth.lerp(this.lerpSpeed, this.factor, target), 0.0F, 1.0F);
         if (condition) {
             this.startIfStopped(tickCount);
         } else {
