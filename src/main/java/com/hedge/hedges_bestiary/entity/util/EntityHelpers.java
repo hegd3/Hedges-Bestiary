@@ -44,9 +44,6 @@ public class EntityHelpers {
         return crossZ < 0;
     }
 
-    public static void spawnParticles(Level level, ParticleOptions particle, double x, double y, double z, int count, double deltaX, double deltaY, double deltaZ, double speed, boolean force) {
-        level.getServer().getPlayerList().getPlayers().forEach(player -> ((ServerLevel) level).sendParticles(player, particle, force, x, y, z, count, deltaX, deltaY, deltaZ, speed));
-    }
 
     public static double getRandomScaled(RandomSource random, double sc) {
         return (2.0D * random.nextFloat() - 1.0D) * sc;
@@ -72,6 +69,24 @@ public class EntityHelpers {
     }
 
     @Nullable
+    public static Vec3 getRandomSemiaquaticPos(PathfinderMob mob, int radius, int verticalDistance) {
+        Level level = mob.level();
+        RandomSource random = mob.getRandom();
+        Vec3 candidate = mob.position().add(radius * random.nextFloat() - radius * random.nextFloat(), 0, radius * random.nextFloat() - radius * random.nextFloat());
+        BlockPos pos = WorldHelpers.fromVec3(candidate);
+        for (int i = 0; i < verticalDistance; i++) {
+            if (level.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                pos = pos.above();
+            }
+        }
+        if (level.getBlockState(pos).isAir()) {
+            return null;
+        }
+        return new Vec3(pos.getX(), pos.getY(), pos.getZ());
+
+    }
+
+        @Nullable
     public static Vec3 getRandomSwimPos(PathfinderMob mob, int radius, int verticalDistance, boolean preferSurface) {
         Level level = mob.level();
         RandomSource random = mob.getRandom();
@@ -115,27 +130,6 @@ public class EntityHelpers {
 
     public static int blocksFromWaterBoundary(Level level, BlockPos basePos, int maxDistance, Direction direction) {
 
-
-        if (!isWaterBlock(level, basePos) && !isWaterBlock(level, basePos.above())) {
-            return 0;
-        }
-
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-        int i = 1;
-        while (i <= maxDistance) {
-            mutablePos.set(basePos).move(direction, i);
-            if (!isWaterBlock(level, mutablePos)) {
-                return i;
-            }
-            i++;
-        }
-
-        return i;
-    }
-
-    public static int blocksFromWaterBoundary(LivingEntity entity, int maxDistance, Direction direction) {
-        BlockPos basePos = entity.blockPosition();
-        Level level = entity.level();
 
         if (!isWaterBlock(level, basePos) && !isWaterBlock(level, basePos.above())) {
             return 0;

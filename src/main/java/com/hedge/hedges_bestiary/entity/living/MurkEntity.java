@@ -192,7 +192,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
         this.goalSelector.addGoal(i++, new FindAndPickItemGoal(this, FOOD));
         this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1, Ingredient.of(HBItems.SKIB.get()), false));
         this.goalSelector.addGoal(i++, new NapGoal(this, false));
-        this.goalSelector.addGoal(i, new CustomSwimGoal(this, 1.0, 10, 10, 7, true));
+        this.goalSelector.addGoal(i, new CustomSwimGoal(this, 1.0, 10, 10, 7, true, true));
         this.goalSelector.addGoal(i++, new RandomStrollGoal(this, 1.0) {
             @Override
             public boolean canUse() {

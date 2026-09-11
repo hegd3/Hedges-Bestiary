@@ -17,13 +17,18 @@ public class CustomSwimGoal extends RandomStrollGoal {
     private int ticksTilHeightCheck;
     private Vec3 pos;
     private final boolean preferSurface;
-
+    private final boolean semiAquatic;
     public CustomSwimGoal(PathfinderMob mob, double speedModifier, int interval, int radius, int height, boolean preferSurface) {
+        this(mob, speedModifier, interval, radius, height, preferSurface, false);
+    }
+
+    public CustomSwimGoal(PathfinderMob mob, double speedModifier, int interval, int radius, int height, boolean preferSurface, boolean semiAquatic) {
         super(mob, speedModifier, interval);
         this.radius = radius;
         this.height = height;
         this.bound = height / 2;
         this.preferSurface = preferSurface;
+        this.semiAquatic = semiAquatic;
     }
 
     @Override
@@ -72,7 +77,8 @@ public class CustomSwimGoal extends RandomStrollGoal {
 
     @Override
     protected @Nullable Vec3 getPosition() {
-        this.pos = EntityHelpers.getRandomSwimPos(this.mob, this.radius, this.height, this.preferSurface);
+        this.pos = semiAquatic ? EntityHelpers.getRandomSemiaquaticPos(this.mob, this.radius, this.height) :
+                EntityHelpers.getRandomSwimPos(this.mob, this.radius, this.height, this.preferSurface);
         return this.pos;
     }
 }
