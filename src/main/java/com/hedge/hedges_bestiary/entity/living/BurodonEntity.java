@@ -2,26 +2,24 @@ package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.config.HBConfig;
-import com.hedge.hedges_bestiary.entity.AI.control.AdvancedTurner;
-import com.hedge.hedges_bestiary.entity.AI.goal.*;
-import com.hedge.hedges_bestiary.entity.AI.goal.specific.BurodonAttackGoal;
-import com.hedge.hedges_bestiary.entity.AI.control.ATMLookControl;
-import com.hedge.hedges_bestiary.entity.AI.control.ATMMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.navigation.MMPathNavigatorGround;
-import com.hedge.hedges_bestiary.entity.AI.targeting.HBHurtByTargetGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetMonstersGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetPlayersGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetWhenAwakeGoal;
+import com.hedge.hedges_bestiary.entity.ai.control.AdvancedTurner;
+import com.hedge.hedges_bestiary.entity.ai.goal.*;
+import com.hedge.hedges_bestiary.entity.ai.goal.specific.BurodonAttackGoal;
+import com.hedge.hedges_bestiary.entity.ai.control.ATMLookControl;
+import com.hedge.hedges_bestiary.entity.ai.control.ATMMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
+import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetWhenAwakeGoal;
 import com.hedge.hedges_bestiary.entity.types.HBGroupMob;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
-import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.hedge.hedges_bestiary.registry.HBTags;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -43,7 +41,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -90,7 +87,7 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
 
     @Override
     protected PathNavigation createNavigation(Level pLevel) {
-        return new MMPathNavigatorGround(this, pLevel);
+        return new HBPathNavigatorGround(this, pLevel);
     }
 
     public static AttributeSupplier.Builder bakeAttributes(){

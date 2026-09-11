@@ -3,18 +3,17 @@ package com.hedge.hedges_bestiary.entity.living;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.config.HBConfig;
-import com.hedge.hedges_bestiary.entity.AI.control.ATMLookControl;
-import com.hedge.hedges_bestiary.entity.AI.control.ATMMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.control.AdvancedTurner;
-import com.hedge.hedges_bestiary.entity.AI.goal.*;
-import com.hedge.hedges_bestiary.entity.AI.goal.specific.PlomboAttackGoal;
-import com.hedge.hedges_bestiary.entity.AI.navigation.MMPathNavigatorGround;
-import com.hedge.hedges_bestiary.entity.AI.targeting.HBHurtByTargetGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetMonstersGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetPlayersGoal;
+import com.hedge.hedges_bestiary.entity.ai.control.ATMLookControl;
+import com.hedge.hedges_bestiary.entity.ai.control.ATMMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.control.AdvancedTurner;
+import com.hedge.hedges_bestiary.entity.ai.goal.*;
+import com.hedge.hedges_bestiary.entity.ai.goal.specific.PlomboAttackGoal;
+import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
+import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
-import com.hedge.hedges_bestiary.entity.types.HUDMount;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.entity.util.MathHelpers;
@@ -24,7 +23,6 @@ import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -63,7 +61,6 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -100,7 +97,7 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
 
     @Override
     protected PathNavigation createNavigation(Level pLevel) {
-        return new MMPathNavigatorGround(this, pLevel);
+        return new HBPathNavigatorGround(this, pLevel);
     }
 
     public static AttributeSupplier.Builder bakeAttributes(){

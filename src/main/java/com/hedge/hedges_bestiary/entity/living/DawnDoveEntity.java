@@ -4,14 +4,14 @@ import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
-import com.hedge.hedges_bestiary.entity.AI.control.FlyingMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.goal.*;
-import com.hedge.hedges_bestiary.entity.AI.goal.specific.DawnDoveAttackGoal;
-import com.hedge.hedges_bestiary.entity.AI.navigation.MMPathNavigatorGround;
-import com.hedge.hedges_bestiary.entity.AI.targeting.HBHurtByTargetGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetMonstersGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetPlayersGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetWhenAwakeGoal;
+import com.hedge.hedges_bestiary.entity.ai.control.FlyingMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.goal.*;
+import com.hedge.hedges_bestiary.entity.ai.goal.specific.DawnDoveAttackGoal;
+import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
+import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetWhenAwakeGoal;
 import com.hedge.hedges_bestiary.entity.projectile.DragonFireBall;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
 import com.hedge.hedges_bestiary.entity.types.EggLayer;
@@ -57,7 +57,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.Nullable;
@@ -570,7 +569,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
         } else {
             this.lookControl = new LookControl(this);
             this.moveControl = new MoveControl(this);
-            this.navigation = new MMPathNavigatorGround(this, this.level());
+            this.navigation = new HBPathNavigatorGround(this, this.level());
         }
     }
 

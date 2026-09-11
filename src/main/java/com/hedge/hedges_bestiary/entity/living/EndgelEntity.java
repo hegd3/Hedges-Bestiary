@@ -2,11 +2,11 @@ package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.client.particle.EndgelScreamParticleOptions;
-import com.hedge.hedges_bestiary.entity.AI.control.FlyingMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.goal.FlyingWanderGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.specific.EndgelAttackGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.HBHurtByTargetGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetBelowGoal;
+import com.hedge.hedges_bestiary.entity.ai.control.FlyingMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.goal.FlyingWanderGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.specific.EndgelAttackGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetBelowGoal;
 import com.hedge.hedges_bestiary.entity.projectile.EndgelBlast;
 import com.hedge.hedges_bestiary.entity.projectile.EndgelBullet;
 import com.hedge.hedges_bestiary.entity.types.HBMonster;

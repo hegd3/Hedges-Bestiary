@@ -4,18 +4,18 @@ import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.client.HBSounds;
-import com.hedge.hedges_bestiary.entity.AI.control.ATMMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.control.ATMSwimLookControl;
-import com.hedge.hedges_bestiary.entity.AI.control.ATMSwimMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.control.AdvancedTurner;
-import com.hedge.hedges_bestiary.entity.AI.goal.*;
-import com.hedge.hedges_bestiary.entity.AI.goal.specific.MurkAttackGoal;
-import com.hedge.hedges_bestiary.entity.AI.navigation.HBAmphibiousPathNavigator;
-import com.hedge.hedges_bestiary.entity.AI.navigation.MMPathNavigatorGround;
-import com.hedge.hedges_bestiary.entity.AI.targeting.HBHurtByTargetGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetMonstersGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetPlayersGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetWhenAwakeGoal;
+import com.hedge.hedges_bestiary.entity.ai.control.ATMMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.control.ATMSwimLookControl;
+import com.hedge.hedges_bestiary.entity.ai.control.ATMSwimMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.control.AdvancedTurner;
+import com.hedge.hedges_bestiary.entity.ai.goal.*;
+import com.hedge.hedges_bestiary.entity.ai.goal.specific.MurkAttackGoal;
+import com.hedge.hedges_bestiary.entity.ai.navigation.HBAmphibiousPathNavigator;
+import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
+import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetWhenAwakeGoal;
 import com.hedge.hedges_bestiary.entity.living.ambientfish.SkibEntity;
 import com.hedge.hedges_bestiary.entity.projectile.MurkSmoke;
 import com.hedge.hedges_bestiary.entity.types.*;
@@ -416,7 +416,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
         } else {
             this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, 10);
         }
-        final boolean landNav = this.navigation instanceof MMPathNavigatorGround;
+        final boolean landNav = this.navigation instanceof HBPathNavigatorGround;
         if (this.isInWater()) {
             if (landNav) {
                 this.switchNav(true);
@@ -878,7 +878,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
             this.navigation = this.createNavigation(this.level());
         } else {
             this.moveControl = new ATMMoveControl<>(this, 90);
-            this.navigation = new MMPathNavigatorGround(this, this.level());
+            this.navigation = new HBPathNavigatorGround(this, this.level());
 
         }
     }

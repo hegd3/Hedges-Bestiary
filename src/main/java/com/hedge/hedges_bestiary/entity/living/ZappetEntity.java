@@ -3,12 +3,10 @@ package com.hedge.hedges_bestiary.entity.living;
 import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.client.HBSounds;
-import com.hedge.hedges_bestiary.entity.AI.control.FlyingMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.goal.*;
-import com.hedge.hedges_bestiary.entity.AI.navigation.MMPathNavigatorGround;
-import com.hedge.hedges_bestiary.entity.AI.targeting.HBHurtByTargetGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetMonstersGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.TargetPlayersGoal;
+import com.hedge.hedges_bestiary.entity.ai.control.FlyingMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.goal.*;
+import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
+import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
 import com.hedge.hedges_bestiary.entity.types.*;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.registry.HBEntities;
@@ -376,7 +374,7 @@ public class ZappetEntity extends TamableFlyer implements HBGroupMob<ZappetEntit
         } else {
             this.lookControl = new LookControl(this);
             this.moveControl = new MoveControl(this);
-            this.navigation = new MMPathNavigatorGround(this, this.level());
+            this.navigation = new HBPathNavigatorGround(this, this.level());
         }
     }
 

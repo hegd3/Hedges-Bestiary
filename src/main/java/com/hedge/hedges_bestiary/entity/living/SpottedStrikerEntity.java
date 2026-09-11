@@ -1,12 +1,12 @@
 package com.hedge.hedges_bestiary.entity.living;
 
-import com.hedge.hedges_bestiary.entity.AI.control.SwimmingMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.goal.AvoidTargetWhenLowGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.CustomSwimGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.FindAndPickItemGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.HBHurtByTargetGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.specific.SpottedStrikerAttackGoal;
-import com.hedge.hedges_bestiary.entity.AI.navigation.FluidPathNavigation;
+import com.hedge.hedges_bestiary.entity.ai.control.SwimmingMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.goal.AvoidTargetWhenLowGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.CustomSwimGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.FindAndPickItemGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.specific.SpottedStrikerAttackGoal;
+import com.hedge.hedges_bestiary.entity.ai.navigation.FluidPathNavigation;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
 import com.hedge.hedges_bestiary.entity.types.HBAquaticMob;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;

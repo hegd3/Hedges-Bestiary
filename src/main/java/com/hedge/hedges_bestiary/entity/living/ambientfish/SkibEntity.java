@@ -1,7 +1,7 @@
 package com.hedge.hedges_bestiary.entity.living.ambientfish;
 
 import com.hedge.hedges_bestiary.client.particle.VolatileExplosionParticleOptions;
-import com.hedge.hedges_bestiary.entity.AI.goal.IdleInPlaceGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.IdleInPlaceGoal;
 import com.hedge.hedges_bestiary.entity.types.HBAquaticMob;
 import com.hedge.hedges_bestiary.entity.types.IdleAnimMob;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
@@ -36,9 +36,7 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bucketable;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;

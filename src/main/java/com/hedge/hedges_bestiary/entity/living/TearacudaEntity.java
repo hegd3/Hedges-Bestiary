@@ -1,14 +1,14 @@
 package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
-import com.hedge.hedges_bestiary.entity.AI.control.SwimmingMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.goal.CustomSwimGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.FindAndPickItemGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.GroupFollowLeaderGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.LeaveGroupGoal;
-import com.hedge.hedges_bestiary.entity.AI.targeting.HBHurtByTargetGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.specific.TearacudaAttackGoal;
-import com.hedge.hedges_bestiary.entity.AI.navigation.FluidPathNavigation;
+import com.hedge.hedges_bestiary.entity.ai.control.SwimmingMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.goal.CustomSwimGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.FindAndPickItemGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.GroupFollowLeaderGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.LeaveGroupGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.specific.TearacudaAttackGoal;
+import com.hedge.hedges_bestiary.entity.ai.navigation.FluidPathNavigation;
 import com.hedge.hedges_bestiary.entity.types.HBBucketableSchoolingMob;
 import com.hedge.hedges_bestiary.entity.types.HBSchoolingMob;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;

@@ -1,7 +1,7 @@
 package com.hedge.hedges_bestiary.entity.types;
 
-import com.hedge.hedges_bestiary.entity.AI.control.FlyingMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.navigation.MMPathNavigatorGround;
+import com.hedge.hedges_bestiary.entity.ai.control.FlyingMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -135,7 +135,7 @@ public abstract class TamableFlyer extends HBTamableAnimal implements SemiFlyer 
 
     @Override
     public boolean isLandNav() {
-        return this.navigation instanceof MMPathNavigatorGround;
+        return this.navigation instanceof HBPathNavigatorGround;
     }
 
 
@@ -174,7 +174,7 @@ public abstract class TamableFlyer extends HBTamableAnimal implements SemiFlyer 
         } else {
             this.lookControl = new LookControl(this);
             this.moveControl = new MoveControl(this);
-            this.navigation = new MMPathNavigatorGround(this, this.level());
+            this.navigation = new HBPathNavigatorGround(this, this.level());
         }
     }
 

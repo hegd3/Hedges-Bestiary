@@ -1,9 +1,9 @@
 package com.hedge.hedges_bestiary.entity.living.ambientfish;
 
-import com.hedge.hedges_bestiary.entity.AI.control.SwimmingMoveControl;
-import com.hedge.hedges_bestiary.entity.AI.goal.GroupFollowLeaderGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.CustomSwimGoal;
-import com.hedge.hedges_bestiary.entity.AI.goal.LeaveGroupGoal;
+import com.hedge.hedges_bestiary.entity.ai.control.SwimmingMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.goal.GroupFollowLeaderGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.CustomSwimGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.LeaveGroupGoal;
 import com.hedge.hedges_bestiary.entity.types.HBBucketableSchoolingMob;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.items.HBItems;
