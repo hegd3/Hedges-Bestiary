@@ -21,6 +21,7 @@ import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.message.EntityKeyMessage;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
+import com.hedge.hedges_bestiary.registry.HBLootTables;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -29,6 +30,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -69,7 +71,6 @@ import java.util.List;
 
 public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, AdvancedTurner {
 
-    private static final ResourceLocation FORAGE_LOOT_TABLE = ResourceLocation.fromNamespaceAndPath("hedges_bestiary", "gameplay/plombo_foraging");
     private static final EntityDataAccessor<Boolean> LEFT = SynchedEntityData.defineId(PlomboEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SCRATCHING = SynchedEntityData.defineId(PlomboEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAS_BARREL = SynchedEntityData.defineId(PlomboEntity.class, EntityDataSerializers.BOOLEAN);
@@ -92,7 +93,6 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
         super(pEntityType, pLevel);
         this.lookControl = new ATMLookControl<>(this, 90);
         this.moveControl = new ATMMoveControl<>(this, 90);
-        this.setMaxUpStep(1.0f);
     }
 
     @Override
@@ -107,7 +107,8 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
                 .add(Attributes.ATTACK_KNOCKBACK, 0.8D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.89)
                 .add(Attributes.FOLLOW_RANGE, 35F)
-                .add(Attributes.MOVEMENT_SPEED, 0.22F);
+                .add(Attributes.MOVEMENT_SPEED, 0.22F)
+                .add(Attributes.STEP_HEIGHT, 1.0F);
     }
 
     @Override
@@ -178,11 +179,11 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(LEFT, false);
-        this.entityData.define(SCRATCHING, false);
-        this.entityData.define(HAS_BARREL, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(LEFT, false);
+        builder.define(SCRATCHING, false);
+        builder.define(HAS_BARREL, false);
     }
 
     @Override
@@ -319,7 +320,7 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
         this.yawnAnimationState.animateWhen(animState == 5, this.tickCount);
     }
 
-        @Override
+    @Override
     public boolean isInvulnerableTo(DamageSource source) {
 
         return source.is(DamageTypes.SWEET_BERRY_BUSH) || super.isInvulnerableTo(source);
@@ -517,7 +518,7 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     }
 
     private void addForageItems() {
-        LootTable loottable = level().getServer().getLootData().getLootTable(FORAGE_LOOT_TABLE);
+        LootTable loottable = level().getServer().reloadableRegistries().getLootTable(HBLootTables.FORAGE_LOOT_TABLE);
         List<ItemStack> items = loottable.getRandomItems((new LootParams.Builder((ServerLevel) level())).withParameter(LootContextParams.THIS_ENTITY, this).create(LootContextParamSets.PIGLIN_BARTER));
         items.forEach(item -> inventory.addItem(item));
     }

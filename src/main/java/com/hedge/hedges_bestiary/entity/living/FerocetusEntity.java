@@ -57,8 +57,9 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -66,7 +67,7 @@ import java.util.function.Predicate;
 
 public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, HBGroupMob<FerocetusEntity>, HUDMount {
 
-    private static final ResourceLocation SPRITE = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/mount/ferocetus_hud.png");
+    private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/gui/mount/ferocetus_hud.png");
 
     public static final EntityDataAccessor<Boolean> LEFT = SynchedEntityData.defineId(FerocetusEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> GRABBED_ENTITY_ID = SynchedEntityData.defineId(FerocetusEntity.class, EntityDataSerializers.INT);
@@ -96,7 +97,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     public final SmoothAnimationState biteAnimationState = new SmoothAnimationState();
     public final SmoothAnimationState ramAnimationState = new SmoothAnimationState();
     public final SmoothAnimationState airAnimationState = new SmoothAnimationState(0.1F);
-    public final SmoothAnimationState spinAnimationState = new SmoothAnimationState();
+    public final AnimationState spinAnimationState = new AnimationState();
     public final SmoothAnimationState callAnimationState = new SmoothAnimationState();
     public final SmoothAnimationState grabAnimationState = new SmoothAnimationState();
     public final SmoothAnimationState grabbingAnimationState = new SmoothAnimationState(0.1F);
@@ -109,8 +110,8 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
         super(pEntityType, pLevel);
         this.moveControl = new SwimmingMoveControl(this, 999, 7, 0.02f, 0.0f);
         this.lookControl = new SmoothSwimmingLookControl(this, 0);
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0f);
-        this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0f);
+        this.setPathfindingMalus(PathType.WATER, 0.0f);
+        this.setPathfindingMalus(PathType.WATER_BORDER, 0.0f);
     }
 
     public int getMaxHeadXRot() {
@@ -122,12 +123,12 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(LEFT, false);
-        this.entityData.define(GRABBED_ENTITY_ID, -1);
-
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(LEFT, false);
+        builder.define(GRABBED_ENTITY_ID, -1);
     }
+
 
 
     @Override
@@ -489,10 +490,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     }
 
     private void tickRoll() {
-        float prevRoll = this.roll;
-        float targetRoll = Math.max(-0.45F, Math.min(0.45F, (this.getYRot() - this.yRotO) * 0.1F));
-        targetRoll = -targetRoll;
-        this.roll = prevRoll + (targetRoll - prevRoll) * 0.05F;
+        this.roll = Mth.rotLerp(0.05F, this.roll, Mth.clamp((this.yRotO - this.getYRot()) * 0.1F, -0.45F, 0.45F));
     }
 
 
@@ -693,7 +691,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
 
 
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData) {
         if ((pReason == MobSpawnType.CHUNK_GENERATION || pReason == MobSpawnType.NATURAL)) {
             int groupSize = (int) (this.getMaxGroupSize() * this.getRandom().nextFloat());
             if (groupSize > 0 && !this.level().isClientSide()) {
@@ -707,7 +705,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
             }
         }
 
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData);
 
     }
 
@@ -847,8 +845,8 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     }
 
     @Override
-    public boolean canBreatheUnderwater() {
-        return true;
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
     }
 
     private void handleAirSupply(int pAirSupply) {

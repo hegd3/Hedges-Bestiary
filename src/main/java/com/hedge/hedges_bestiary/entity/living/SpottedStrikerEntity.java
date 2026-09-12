@@ -79,9 +79,9 @@ public class SpottedStrikerEntity extends HBAquaticMob implements AttackStateMob
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(CLOAKED, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(CLOAKED, false);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class SpottedStrikerEntity extends HBAquaticMob implements AttackStateMob
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose pPose, EntityDimensions pDimensions) {
+    public double getEyeY() {
         return this.getBbHeight() * 0.4f;
     }
 

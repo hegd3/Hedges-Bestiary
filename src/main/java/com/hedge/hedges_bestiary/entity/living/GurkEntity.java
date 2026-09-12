@@ -48,9 +48,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
 public class GurkEntity extends HBTamableAnimal implements VariantMob, EggLayer {
@@ -68,8 +67,8 @@ public class GurkEntity extends HBTamableAnimal implements VariantMob, EggLayer 
         this.lookControl = new SemiaquaticLookControl(this, 30);
 
 
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0f);
-        this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0f);
+        this.setPathfindingMalus(PathType.WATER, 0.0f);
+        this.setPathfindingMalus(PathType.WATER_BORDER, 0.0f);
 
     }
 
@@ -92,13 +91,11 @@ public class GurkEntity extends HBTamableAnimal implements VariantMob, EggLayer 
         return levelReader.isUnobstructed(this);
     }
 
-
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(VARIANT, 0);
-        this.entityData.define(HAS_EGG, false);
-
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT, 0);
+        builder.define(HAS_EGG, false);
     }
 
     @Override
@@ -204,7 +201,7 @@ public class GurkEntity extends HBTamableAnimal implements VariantMob, EggLayer 
     }
 
     @Override
-    public boolean canDrownInFluidType(FluidType type) {
+    public boolean canDrownInFluidType(net.neoforged.neoforge.fluids.FluidType type) {
         return false;
     }
 

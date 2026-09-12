@@ -82,7 +82,6 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
         super(pEntityType, pLevel);
         this.moveControl = new ATMMoveControl<>(this, 90);
         this.lookControl = new ATMLookControl<>(this, 90);
-        this.setMaxUpStep(1);
     }
 
     @Override
@@ -97,7 +96,8 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.6)
                 .add(Attributes.FOLLOW_RANGE, 25F)
-                .add(Attributes.MOVEMENT_SPEED, 0.25F);
+                .add(Attributes.MOVEMENT_SPEED, 0.25F)
+                .add(Attributes.STEP_HEIGHT, 1.0F);
     }
 
 
@@ -308,7 +308,7 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose pPose, EntityDimensions pDimensions) {
+    public double getEyeY() {
         return this.getBbHeight()/1.38f;
     }
 

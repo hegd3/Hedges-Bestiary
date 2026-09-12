@@ -3,6 +3,7 @@ package com.hedge.hedges_bestiary.entity.projectile;
 
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.registry.HBParticles;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -62,6 +63,11 @@ public class DragonFireBall extends GenericProjectile {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+
+    }
+
+    @Override
     public void handleEntityEvent(byte pId) {
         if (pId == 39) {
             this.level().addParticle(HBParticles.FIREBALL_EXPLODE.get(), true, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
@@ -98,8 +104,5 @@ public class DragonFireBall extends GenericProjectile {
         return 3000;
     }
 
-    @Override
-    protected void defineSynchedData() {
 
-    }
 }

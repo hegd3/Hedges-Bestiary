@@ -10,6 +10,6 @@ import java.util.function.Supplier;
 
 public class WaterMobBucketItem extends MobBucketItem {
     public WaterMobBucketItem(Supplier<? extends EntityType<?>> pType) {
-        super(pType, () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1));
+        super(pType.get(), Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1));
     }
 }

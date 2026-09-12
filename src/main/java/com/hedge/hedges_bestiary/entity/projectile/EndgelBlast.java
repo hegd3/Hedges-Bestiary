@@ -5,6 +5,7 @@ import com.hedge.hedges_bestiary.client.particle.EndgelScreamParticleOptions;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBParticles;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
@@ -94,13 +95,11 @@ public class EndgelBlast extends HomingProjectile {
 
     }
 
+
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+
     }
-
-
-
-
 
     @Override
     public void handleEntityEvent(byte pId) {

@@ -301,10 +301,7 @@ public class EndgelEntity extends HBMonster {
     }
 
     private void tickRoll() {
-        float prevRoll = this.roll;
-        float targetRoll = Math.max(-0.45F, Math.min(0.45F, (this.getYRot() - this.yRotO) * 0.1F));
-        targetRoll = -targetRoll;
-        this.roll = prevRoll + (targetRoll - prevRoll) * 0.05F;
+        this.roll = Mth.rotLerp(0.05F, this.roll, Mth.clamp((this.yRotO - this.getYRot()) * 0.1F, -0.45F, 0.45F));
     }
 
     @Override

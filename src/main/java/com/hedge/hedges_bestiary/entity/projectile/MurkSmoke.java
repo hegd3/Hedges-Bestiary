@@ -46,10 +46,6 @@ public class MurkSmoke extends GenericProjectile {
         return this.isCharged() ? 8 : 4;
     }
 
-    @Override
-    protected void defineSynchedData() {
-        this.entityData.define(CHARGED, false);
-    }
 
     @Override
     public float getSpeed() {
@@ -76,5 +72,10 @@ public class MurkSmoke extends GenericProjectile {
 
     public void setCharged(boolean b) {
         this.entityData.set(CHARGED, b);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+
     }
 }

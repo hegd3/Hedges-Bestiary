@@ -68,10 +68,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,7 +78,7 @@ import java.util.function.Predicate;
 
 public class MurkEntity extends HBTamableAnimal implements AttackStateMob, AdvancedTurner, EggLayer, HUDMount{
 
-    private static final ResourceLocation SPRITE = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/mount/murk_hud.png");
+    private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/gui/mount/murk_hud.png");
 
     private static final EntityDataAccessor<Boolean> CHARGED = SynchedEntityData.defineId(MurkEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LEFT = SynchedEntityData.defineId(MurkEntity.class, EntityDataSerializers.BOOLEAN);
@@ -123,9 +121,8 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
         this.lookControl = new ATMSwimLookControl<>(this, 25, 90);
         this.moveControl = new ATMSwimMoveControl<>(this, 45, 0.4f, 1f, 15);
 
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0f);
-        this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0f);
-        this.setMaxUpStep(1.0F);
+        this.setPathfindingMalus(PathType.WATER, 0.0f);
+        this.setPathfindingMalus(PathType.WATER_BORDER, 0.0f);
 
     }
 
@@ -151,11 +148,12 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(CHARGED, false);
-        this.entityData.define(LEFT, false);
-        this.entityData.define(HAS_EGG, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(CHARGED, false);
+        builder.define(LEFT, false);
+        builder.define(HAS_EGG, false);
+
     }
 
     @Override
@@ -176,7 +174,8 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
                 .add(Attributes.ARMOR, 14)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.85)
                 .add(Attributes.FOLLOW_RANGE, 64F)
-                .add(Attributes.MOVEMENT_SPEED, 0.2F);
+                .add(Attributes.MOVEMENT_SPEED, 0.2F)
+                .add(Attributes.STEP_HEIGHT, 1.0F);
     }
 
     @Override

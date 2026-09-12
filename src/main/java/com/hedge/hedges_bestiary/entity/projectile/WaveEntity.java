@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -95,6 +94,11 @@ public class WaveEntity extends Entity {
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+
     }
 
     @Override
