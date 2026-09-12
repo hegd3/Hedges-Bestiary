@@ -2,16 +2,16 @@ package com.hedge.hedges_bestiary.menu;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
-import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import com.hedge.hedges_bestiary.message.EntityKeyMessage;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import static net.minecraft.client.gui.screens.inventory.InventoryScreen.renderEntityInInventoryFollowsMouse;
 
@@ -120,7 +120,7 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
         @Override
         public void onPress() {
-            PacketDistributor.sendToServer(new EntityKeyPacket(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 0));
+            HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 0));
         }
     }
 
@@ -152,7 +152,7 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
         @Override
         public void onPress() {
-            PacketDistributor.sendToServer(new EntityKeyPacket(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 1));
+            HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 1));
         }
     }
 
@@ -181,7 +181,7 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
         @Override
         public void onPress() {
-            PacketDistributor.sendToServer(new EntityKeyPacket(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 2));
+            HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 2));
         }
     }
 
@@ -208,7 +208,7 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
         @Override
         public void onPress() {
-            PacketDistributor.sendToServer(new EntityKeyPacket(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 3));
+            HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 3));
         }
     }
 }
