@@ -13,10 +13,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.event.EventHooks;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -34,7 +37,7 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
             ItemStack itemstack = player.getProjectile(pStack);
 
             int i = this.getUseDuration(pStack) - pTimeLeft;
-            i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(pStack, pLevel, player, i, !itemstack.isEmpty() || flag);
+            i = EventHooks.onArrowLoose(pStack, pLevel, player, i, !itemstack.isEmpty());
             if (i < 0) return;
 
             if (!itemstack.isEmpty() || flag) {
@@ -84,12 +87,13 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
         abstractarrow.shootFromRotation(player, player.getXRot(), yRot, 0.0F, f * 3.0F, 0.0F);
 
 
-        stack.hurtAndBreak(1, player, (p_289501_) -> {
-            p_289501_.broadcastBreakEvent(player.getUsedItemHand());
-        });
+        stack.hurtAndBreak(this.getDurabilityUse(stack), player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+
 
         level.addFreshEntity(abstractarrow);
     }
+
+
 
     /**
      * Gets the velocity of the arrow entity from the bow's charge
@@ -123,7 +127,7 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         boolean flag = !pPlayer.getProjectile(itemstack).isEmpty();
 
-        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
+        InteractionResultHolder<ItemStack> ret = EventHooks.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
         if (ret != null) return ret;
 
         if (!pPlayer.getAbilities().instabuild && !flag) {
@@ -143,5 +147,12 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
     @Override
     public int getDefaultProjectileRange() {
         return 15;
+    }
+
+    @Override
+    protected void shootProjectile(LivingEntity livingEntity, Projectile projectile, int i, float v, float v1, float v2, @Nullable LivingEntity livingEntity1) {
+        projectile.shootFromRotation(livingEntity, livingEntity.getXRot(), livingEntity.getYRot() + v2, 0.0F, v * 3.0F, 0.0F);
+
+
     }
 }

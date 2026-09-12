@@ -42,13 +42,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 
 public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable {
 
     public static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(SkibEntity.class, EntityDataSerializers.BOOLEAN);
 
-    private float prevGlowProgress = 0.0f;
     public float glowProgress = 0.0f;
 
     public final SmoothAnimationState scratchAnimationState = new SmoothAnimationState(0.25F);
@@ -57,18 +57,16 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
     public SkibEntity(EntityType<? extends SkibEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 20, 0.8f, 1.0f, true);
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-        this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0F);
-        this.setMaxUpStep(1.25f);
+        this.setPathfindingMalus(PathType.WATER_BORDER, 0.0F);
     }
-
 
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(FROM_BUCKET, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FROM_BUCKET, false);
     }
+
 
     @Override
     protected void registerGoals() {
@@ -128,8 +126,8 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 8.0D)
                 .add(Attributes.FOLLOW_RANGE, 8F)
-                .add(Attributes.MOVEMENT_SPEED, 0.18F);
-
+                .add(Attributes.MOVEMENT_SPEED, 0.18F)
+                .add(Attributes.STEP_HEIGHT, 1.25F);
 
     }
 
@@ -241,10 +239,7 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
         return super.canBeAffected(pEffectInstance);
     }
 
-    @Override
-    public MobType getMobType() {
-        return MobType.ARTHROPOD;
-    }
+
 
     @Override
     protected void handleAirSupply(int pAirSupply) {

@@ -13,17 +13,17 @@ import com.hedge.hedges_bestiary.registry.HBParticles;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = HedgesBestiary.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = HedgesBestiary.MODID, value = Dist.CLIENT)
 
 public class ClientEvent {
 
@@ -111,7 +111,7 @@ public class ClientEvent {
     public static void registerItemRenderers(FMLClientSetupEvent event) {
         ItemProperties.register(
                 HBItems.ENDGELIC_JUDGEMENT.get(),
-                new ResourceLocation("pulling"),
+                ResourceLocation.withDefaultNamespace("pulling"),
                 (stack, level, entity, seed) -> {
                     if (entity == null) return 0.0F;
 
@@ -123,12 +123,12 @@ public class ClientEvent {
 
         ItemProperties.register(
                 HBItems.ENDGELIC_JUDGEMENT.get(),
-                new ResourceLocation("pull"),
+                ResourceLocation.withDefaultNamespace("pull"),
                 (stack, level, entity, seed) -> {
                     if (entity == null) return 0.0F;
 
                     return entity.getUseItem() == stack
-                            ? (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F
+                            ? (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20.0F
                             : 0.0F;
                 }
         );

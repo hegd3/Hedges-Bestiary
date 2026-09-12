@@ -10,15 +10,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import static net.minecraft.client.gui.screens.inventory.InventoryScreen.renderEntityInInventoryFollowsMouse;
 
 @OnlyIn(Dist.CLIENT)
 public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> {
 
-    public static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/container/tamable_menu.png");
+    public static final ResourceLocation RESOURCE_LOCATION = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/gui/container/tamable_menu.png");
     private static final Component COMMAND_TEXT = Component.translatable("entity.hedges_bestiary.tamable_menu.display_command");
     private static final Component HOME_POSITION_TEXT = Component.translatable("entity.hedges_bestiary.tamable_menu.home");
     private static final Component AUTO_ATTACKS_TEXT = Component.translatable("entity.hedges_bestiary.tamable_menu.auto_targets");
@@ -59,9 +59,9 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
     @Override
     protected void renderBg(GuiGraphics poseStack, float f, int i, int j) {
-        this.renderBackground(poseStack);
+        this.renderBackground(poseStack, (int) f, i, j);
         poseStack.blit(RESOURCE_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
-        renderEntityInInventoryFollowsMouse(poseStack, this.leftPos + 112, this.topPos + 120, 22, (float) (this.leftPos + 118) - this.xMouse, (float) (this.topPos + 66 - 40) - this.yMouse, animal);
+        renderEntityInInventoryFollowsMouse(poseStack, this.leftPos + 112, this.topPos + 120, this.leftPos + 112, this.topPos + 120, (int) ((float) (this.leftPos + 118) - this.xMouse), 0, (float) (this.topPos + 66 - 40) - this.xMouse, (float) (this.topPos + 66 - 40) - this.yMouse, animal);
     }
 
     public void render(GuiGraphics guiGraphics, int i, int j, float f) {
@@ -106,8 +106,8 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
 
         @Override
-        public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-            super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
             pGuiGraphics.drawCenteredString(this.screen.getMinecraft().font,
                     Component.translatable("entity.hedges_bestiary.tamable_menu.command_" +
                     this.screen.getMob().getCommand()),
@@ -132,8 +132,8 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
 
         @Override
-        public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-            super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
             Component display;
             if (this.screen.getMob().hasHome()) {
                 BlockPos pos = this.screen.getMob().getHomePos();
@@ -164,8 +164,8 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
 
         @Override
-        public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-            super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
             pGuiGraphics.pose().popPose();
             pGuiGraphics.pose().pushPose();
             pGuiGraphics.pose().scale(0.7f, 0.7f, 0.7f);
@@ -191,8 +191,8 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
         }
 
         @Override
-        public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-            super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
             pGuiGraphics.pose().popPose();
             pGuiGraphics.pose().pushPose();
             pGuiGraphics.pose().scale(0.7f, 0.7f, 0.7f);

@@ -6,17 +6,17 @@ import com.hedge.hedges_bestiary.entity.types.HUDMount;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.event.RenderLivingEvent;
+import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.common.NeoForge;
 
-@Mod.EventBusSubscriber(modid = HedgesBestiary.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = HedgesBestiary.MODID, value = Dist.CLIENT)
 
 public class ForgeClientEvent {
 
@@ -24,7 +24,7 @@ public class ForgeClientEvent {
     public static void preRenderLiving(RenderLivingEvent.Pre event) {
         if (ClientProxy.blockedEntityRenders.contains(event.getEntity().getUUID())) {
             if (!HedgesBestiary.PROXY.isFirstPersonPlayer(event.getEntity())) {
-                MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
+                NeoForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
                 event.setCanceled(true);
             }
             ClientProxy.blockedEntityRenders.remove(event.getEntity().getUUID());
@@ -32,19 +32,19 @@ public class ForgeClientEvent {
     }
 
     @SubscribeEvent
-    public static void onPreRenderGuiOverlay(RenderGuiOverlayEvent.Pre event) {
+    public static void onPreRenderGuiOverlay(RenderGuiLayerEvent.Pre event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
         if (player != null && player.getVehicle() instanceof HUDMount) {
-            if (event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id()) ||
-                event.getOverlay().id().equals(VanillaGuiOverlay.MOUNT_HEALTH.id()))
+            if (event.getName().equals(VanillaGuiLayers.EXPERIENCE_BAR) ||
+                event.getName().equals(VanillaGuiLayers.VEHICLE_HEALTH))
                 event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
-    public static void onPostRenderGuiOverlay(RenderGuiOverlayEvent.Post event) {
+    public static void onPostRenderGuiOverlay(RenderGuiLayerEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        if (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id())&& player.getVehicle() instanceof HUDMount mount) {
+        if (event.getName().equals(VanillaGuiLayers.CROSSHAIR)&& player.getVehicle() instanceof HUDMount mount) {
             event.getGuiGraphics().pose().pushPose();
             mount.renderHUD(event.getGuiGraphics());
             event.getGuiGraphics().pose().popPose();
@@ -52,6 +52,7 @@ public class ForgeClientEvent {
     }
 
 
+    /*
     @SubscribeEvent
     public static void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
 
@@ -60,6 +61,8 @@ public class ForgeClientEvent {
             event.getCamera().move(-3, 0.5, 0);
         }
     }
+
+     */
 
 
 

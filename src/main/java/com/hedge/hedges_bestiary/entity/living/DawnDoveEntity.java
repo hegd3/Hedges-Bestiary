@@ -58,7 +58,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -66,7 +65,7 @@ import java.util.function.Predicate;
 
 
 public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStateMob, HUDMount {
-    private static final ResourceLocation SPRITE = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/mount/dawn_dove_hud.png");
+    private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/gui/mount/dawn_dove_hud.png");
     public static final EntityDataAccessor<Integer> GRABBED_ENTITY_ID = SynchedEntityData.defineId(DawnDoveEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(DawnDoveEntity.class, EntityDataSerializers.BOOLEAN);
 

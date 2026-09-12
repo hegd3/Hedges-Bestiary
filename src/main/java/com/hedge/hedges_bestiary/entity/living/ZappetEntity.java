@@ -86,10 +86,7 @@ public class ZappetEntity extends TamableFlyer implements HBGroupMob<ZappetEntit
                 .add(Attributes.MOVEMENT_SPEED, 0.2F);
     }
 
-    @Override
-    public double getMyRidingOffset() {
-        return 0.45;
-    }
+
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -132,15 +129,14 @@ public class ZappetEntity extends TamableFlyer implements HBGroupMob<ZappetEntit
         return player.isShiftKeyDown();
     }
 
+
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(TARGETED_BLOCK_POS, Optional.empty());
-        this.entityData.define(HAS_EGG, false);
-        this.entityData.define(CHARGED, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(TARGETED_BLOCK_POS, Optional.empty());
+        builder.define(HAS_EGG, false);
+        builder.define(CHARGED, false);
     }
-
-
 
     @Override
     protected void registerGoals() {

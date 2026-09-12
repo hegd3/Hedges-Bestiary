@@ -12,8 +12,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 
 import java.util.Objects;
 
@@ -96,7 +96,7 @@ public abstract class GenericProjectile extends Projectile {
             result = new EntityHitResult(entityHitResult.getEntity(), entityHitResult.getEntity().getBoundingBox()
                     .clip(this.position(), this.position().add(this.getDeltaMovement())).orElse(this.position()));
         }
-        if (result.getType() != HitResult.Type.MISS && !MinecraftForge.EVENT_BUS.post(new ProjectileImpactEvent(this, result))) {
+        if (result.getType() != HitResult.Type.MISS && !NeoForge.EVENT_BUS.post(new ProjectileImpactEvent(this, result)).isCanceled()) {
             onHit(result);
         }
     }
