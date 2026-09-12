@@ -17,8 +17,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class MurkRenderer extends MobRenderer<MurkEntity, MurkModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/murk/murk.png");
-    private static final ResourceLocation SLEEP = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/murk/murk_sleep.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/murk/murk.png");
+    private static final ResourceLocation SLEEP = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/murk/murk_sleep.png");
 
 
     public MurkRenderer(EntityRendererProvider.Context pContext) {
@@ -34,8 +34,8 @@ public class MurkRenderer extends MobRenderer<MurkEntity, MurkModel> {
 
     static class MurkEyeLayer extends EyesLayer<MurkEntity, MurkModel> {
 
-        private static final RenderType EYES = RenderType.eyes(new ResourceLocation(HedgesBestiary.MODID, "textures/entity/murk/murk_eyes.png"));
-        private static final RenderType CHARGE = RenderType.eyes(new ResourceLocation(HedgesBestiary.MODID, "textures/entity/murk/murk_charge.png"));
+        private static final RenderType EYES = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/murk/murk_eyes.png"));
+        private static final RenderType CHARGE = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/murk/murk_charge.png"));
 
         @Override
         public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, MurkEntity entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {

@@ -36,7 +36,7 @@ public class GurkRenderer extends MobRenderer<GurkEntity, GurkModel> {
     }
 
     private static ResourceLocation generateTexture(String var) {
-        return new ResourceLocation(HedgesBestiary.MODID, "textures/entity/gurk/gurk_" + var + ".png");
+        return ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/gurk/gurk_" + var + ".png");
     }
 
     @Override

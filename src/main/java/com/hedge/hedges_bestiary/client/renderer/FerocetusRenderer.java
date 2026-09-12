@@ -16,7 +16,7 @@ import net.minecraft.world.entity.Entity;
 
 public class FerocetusRenderer extends MobRenderer<FerocetusEntity, FerocetusModel> {
 
-    private static final ResourceLocation texture = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/ferocetus.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/ferocetus.png");
 
     public FerocetusRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new FerocetusModel(pContext.bakeLayer(EntityLayers.FEROCETUS_LAYER)), 1.2f);
@@ -25,7 +25,7 @@ public class FerocetusRenderer extends MobRenderer<FerocetusEntity, FerocetusMod
 
     @Override
     public ResourceLocation getTextureLocation(FerocetusEntity pEntity) {
-        return texture;
+        return TEXTURE;
     }
 
     private static class FerocetusMountLayer extends RiderLayer<FerocetusEntity, FerocetusModel> {

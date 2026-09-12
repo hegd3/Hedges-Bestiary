@@ -11,8 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class DawnDoveRenderer extends MobRenderer<DawnDoveEntity, DawnDoveModel> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/dawn_dove/dawn_dove.png");
-    private static final ResourceLocation SLEEP = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/dawn_dove/dawn_dove_sleep.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/dawn_dove/dawn_dove.png");
+    private static final ResourceLocation SLEEP = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/dawn_dove/dawn_dove_sleep.png");
 
 
     public DawnDoveRenderer(EntityRendererProvider.Context pContext) {

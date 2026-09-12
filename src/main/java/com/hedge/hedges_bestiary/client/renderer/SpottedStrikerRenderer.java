@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SpottedStrikerRenderer extends MobRenderer<SpottedStrikerEntity, SpottedStrikerModel> {
 
-    private static final ResourceLocation texture = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/spotted_striker.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/spotted_striker.png");
     public SpottedStrikerRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new SpottedStrikerModel(pContext.bakeLayer(EntityLayers.SPOTTED_STRIKER_LAYER)), 1.0f);
     }
@@ -32,7 +32,7 @@ public class SpottedStrikerRenderer extends MobRenderer<SpottedStrikerEntity, Sp
     @Override
     protected @Nullable RenderType getRenderType(SpottedStrikerEntity entity, boolean bodyVisible, boolean translucent, boolean glowing) {
         if (entity.getCloakProgress(1.0f) > 0.0F) {
-            return RenderType.entityTranslucent(texture);
+            return RenderType.entityTranslucent(TEXTURE);
         }
         return super.getRenderType(entity, bodyVisible, translucent, glowing);
     }
@@ -46,6 +46,6 @@ public class SpottedStrikerRenderer extends MobRenderer<SpottedStrikerEntity, Sp
 
     @Override
     public ResourceLocation getTextureLocation(SpottedStrikerEntity pEntity) {
-        return texture;
+        return TEXTURE;
     }
 }

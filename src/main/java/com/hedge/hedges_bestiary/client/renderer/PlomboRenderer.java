@@ -11,10 +11,10 @@ import net.minecraft.resources.ResourceLocation;
 
 public class PlomboRenderer extends MobRenderer<PlomboEntity, PlomboModel> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/plombo/plombo.png");
-    private static final ResourceLocation SLEEPING = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/plombo/plombo_sleeping.png");
-    private static final ResourceLocation TEXTURE_BARRELED = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/plombo/plombo_barreled.png");
-    private static final ResourceLocation SLEEPING_BARRELED = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/plombo/plombo_barreled_sleeping.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/plombo/plombo.png");
+    private static final ResourceLocation SLEEPING = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/plombo/plombo_sleeping.png");
+    private static final ResourceLocation TEXTURE_BARRELED = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/plombo/plombo_barreled.png");
+    private static final ResourceLocation SLEEPING_BARRELED = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/plombo/plombo_barreled_sleeping.png");
 
     public PlomboRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new PlomboModel(pContext.bakeLayer(EntityLayers.PLOMBO_LAYER)), 1.5f);

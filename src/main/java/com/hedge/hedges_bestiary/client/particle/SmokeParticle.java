@@ -2,8 +2,8 @@ package com.hedge.hedges_bestiary.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class SmokeParticle extends TextureSheetParticle {
     private final SpriteSet sprites;

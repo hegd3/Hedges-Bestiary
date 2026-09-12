@@ -22,10 +22,10 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class ZappetRenderer extends MobRenderer<ZappetEntity, ZappetModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/zappet/zappet.png");
-    private static final ResourceLocation BEAM_0 = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/zappet/zappet_beam_0.png");
-    private static final ResourceLocation BEAM_1 = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/zappet/zappet_beam_1.png");
-    private static final ResourceLocation BEAM_2 = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/zappet/zappet_beam_2.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/zappet/zappet.png");
+    private static final ResourceLocation BEAM_0 = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/zappet/zappet_beam_0.png");
+    private static final ResourceLocation BEAM_1 = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/zappet/zappet_beam_1.png");
+    private static final ResourceLocation BEAM_2 = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/zappet/zappet_beam_2.png");
 
 
     public ZappetRenderer(EntityRendererProvider.Context pContext) {
@@ -33,8 +33,8 @@ public class ZappetRenderer extends MobRenderer<ZappetEntity, ZappetModel> {
         this.addLayer(new ZappetGlowLayer(this));
     }
 
-    private static void vertex(VertexConsumer pConsumer, Matrix4f pPose, Matrix3f pNormal, float pX, float pY, float pZ, int pRed, int pGreen, int pBlue, float pU, float pV) {
-        pConsumer.vertex(pPose, pX, pY, pZ).color(pRed, pGreen, pBlue, 255).uv(pU, pV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(pNormal, 0.0F, 1.0F, 0.0F).endVertex();
+    private static void vertex(VertexConsumer pConsumer, PoseStack.Pose pose, float pX, float pY, float pZ, int pRed, int pGreen, int pBlue, float pU, float pV) {
+        pConsumer.addVertex(pose, pX, pY, pZ).setColor(pRed, pGreen, pBlue, 255).setUv(pU, pV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
     private Vec3 getPosition(LivingEntity pLivingEntity, double pYOffset, float pPartialTick) {
@@ -93,26 +93,24 @@ public class ZappetRenderer extends MobRenderer<ZappetEntity, ZappetModel> {
             float f29 = -1.0F + f2;
             float f30 = f4 * 0.5F + f29;
             VertexConsumer ivertexbuilder = buffer.getBuffer(HBRenderTypes.getBeam(this.getBeamTexture(entity)));
-            PoseStack.Pose matrixstack$entry = poseStack.last();
-            Matrix4f matrix4f = matrixstack$entry.pose();
-            Matrix3f matrix3f = matrixstack$entry.normal();
-            vertex(ivertexbuilder, matrix4f, matrix3f, f19, f4, f20, j, k, l, 0.4999F, f30);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f19, 0.0F, f20, j, k, l, 0.4999F, f29);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f21, 0.0F, f22, j, k, l, 0.0F, f29);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f21, f4, f22, j, k, l, 0.0F, f30);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f23, f4, f24, j, k, l, 0.4999F, f30);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f23, 0.0F, f24, j, k, l, 0.4999F, f29);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f25, 0.0F, f26, j, k, l, 0.0F, f29);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f25, f4, f26, j, k, l, 0.0F, f30);
+            PoseStack.Pose pose = poseStack.last();
+            vertex(ivertexbuilder, pose, f19, f4, f20, j, k, l, 0.4999F, f30);
+            vertex(ivertexbuilder, pose, f19, 0.0F, f20, j, k, l, 0.4999F, f29);
+            vertex(ivertexbuilder, pose, f21, 0.0F, f22, j, k, l, 0.0F, f29);
+            vertex(ivertexbuilder, pose, f21, f4, f22, j, k, l, 0.0F, f30);
+            vertex(ivertexbuilder, pose, f23, f4, f24, j, k, l, 0.4999F, f30);
+            vertex(ivertexbuilder, pose, f23, 0.0F, f24, j, k, l, 0.4999F, f29);
+            vertex(ivertexbuilder, pose, f25, 0.0F, f26, j, k, l, 0.0F, f29);
+            vertex(ivertexbuilder, pose, f25, f4, f26, j, k, l, 0.0F, f30);
             float f31 = 0.0F;
             if (entity.tickCount % 4 > 1) {
                 f31 = 0.5F;
             }
 
-            vertex(ivertexbuilder, matrix4f, matrix3f, f11, f4, f12, j, k, l, 0.5F, f31 + 0.5F);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f13, f4, f14, j, k, l, 1.0F, f31 + 0.5F);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f17, f4, f18, j, k, l, 1.0F, f31);
-            vertex(ivertexbuilder, matrix4f, matrix3f, f15, f4, f16, j, k, l, 0.5F, f31);
+            vertex(ivertexbuilder, pose, f11, f4, f12, j, k, l, 0.5F, f31 + 0.5F);
+            vertex(ivertexbuilder, pose, f13, f4, f14, j, k, l, 1.0F, f31 + 0.5F);
+            vertex(ivertexbuilder, pose, f17, f4, f18, j, k, l, 1.0F, f31);
+            vertex(ivertexbuilder, pose, f15, f4, f16, j, k, l, 0.5F, f31);
             poseStack.popPose();
         }
     }

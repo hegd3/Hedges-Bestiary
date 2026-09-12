@@ -94,8 +94,9 @@ public class ChubEntity extends HBBucketableSchoolingMob {
         return new ItemStack(HBItems.CHUB_BUCKET.get());
     }
 
+
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData) {
         if ((pReason == MobSpawnType.CHUNK_GENERATION || pReason == MobSpawnType.NATURAL)) {
             int groupSize = (int) (this.getMaxGroupSize() * this.getRandom().nextFloat());
             if (groupSize > 0 && !this.level().isClientSide()) {
@@ -109,7 +110,7 @@ public class ChubEntity extends HBBucketableSchoolingMob {
             }
         }
 
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData);
 
     }
 

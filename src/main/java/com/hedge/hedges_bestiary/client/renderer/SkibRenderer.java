@@ -18,8 +18,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class SkibRenderer extends MobRenderer<SkibEntity, SkibModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/skib/skib.png");
-    private static final RenderType GLOW = HBRenderTypes.getEyesAlphaEnabled(new ResourceLocation(HedgesBestiary.MODID, "textures/entity/skib/skib_glow.png"));
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/skib/skib.png");
+    private static final RenderType GLOW = HBRenderTypes.getEyesAlphaEnabled(ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/skib/skib_glow.png"));
 
     public SkibRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new SkibModel(pContext.bakeLayer(EntityLayers.SKIB_LAYER)), 0.6f);
