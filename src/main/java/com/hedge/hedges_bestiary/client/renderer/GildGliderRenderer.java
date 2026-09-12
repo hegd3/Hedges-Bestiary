@@ -10,7 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 
 public class GildGliderRenderer extends MobRenderer<GildGliderEntity, GildGliderModel> {
-    private static final ResourceLocation texture = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/gild_glider.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/gild_glider.png");
 
 
     public GildGliderRenderer(EntityRendererProvider.Context pContext) {
@@ -19,7 +19,7 @@ public class GildGliderRenderer extends MobRenderer<GildGliderEntity, GildGlider
 
     @Override
     public ResourceLocation getTextureLocation(GildGliderEntity pEntity) {
-        return texture;
+        return TEXTURE;
     }
 
     @Override

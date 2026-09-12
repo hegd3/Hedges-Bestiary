@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class TearacudaRenderer extends MobRenderer<TearacudaEntity, TearacudaModel> {
 
-    private static final ResourceLocation texture = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/tearacuda/tearacuda.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/tearacuda/tearacuda.png");
 
     public TearacudaRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new TearacudaModel(pContext.bakeLayer(EntityLayers.TEARACUDA_LAYER)), 0.8f);
@@ -20,6 +20,6 @@ public class TearacudaRenderer extends MobRenderer<TearacudaEntity, TearacudaMod
 
     @Override
     public ResourceLocation getTextureLocation(TearacudaEntity pEntity) {
-        return texture;
+        return TEXTURE;
     }
 }

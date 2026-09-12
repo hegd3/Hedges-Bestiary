@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ChubRenderer extends MobRenderer<ChubEntity, ChubModel> {
 
-    private static final ResourceLocation texture = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/chub.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/chub.png");
 
     public ChubRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new ChubModel(pContext.bakeLayer(EntityLayers.CHUB_LAYER)), 0.3f);
@@ -18,6 +18,6 @@ public class ChubRenderer extends MobRenderer<ChubEntity, ChubModel> {
 
     @Override
     public ResourceLocation getTextureLocation(ChubEntity pEntity) {
-        return texture;
+        return TEXTURE;
     }
 }

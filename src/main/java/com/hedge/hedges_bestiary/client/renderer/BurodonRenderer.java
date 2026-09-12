@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class BurodonRenderer extends MobRenderer<BurodonEntity, BurodonModel> {
-    private static final ResourceLocation texture = new ResourceLocation(HedgesBestiary.MODID, "textures/entity/burodon.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/burodon.png");
 
     public BurodonRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new BurodonModel(pContext.bakeLayer(EntityLayers.BURODON_LAYER)), 1.0f);
@@ -24,6 +24,6 @@ public class BurodonRenderer extends MobRenderer<BurodonEntity, BurodonModel> {
 
     @Override
     public ResourceLocation getTextureLocation(BurodonEntity pEntity) {
-        return texture;
+        return TEXTURE;
     }
 }

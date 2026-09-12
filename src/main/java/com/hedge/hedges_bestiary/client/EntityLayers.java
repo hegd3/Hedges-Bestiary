@@ -23,6 +23,6 @@ public class EntityLayers {
     public static final ModelLayerLocation GENERIC_PROJECTILE_LAYER = main("generic_projectile");
 
     private static ModelLayerLocation main(String id) {
-        return new ModelLayerLocation(new ResourceLocation(HedgesBestiary.MODID, id), "main");
+        return new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, id), "main");
     }
 }

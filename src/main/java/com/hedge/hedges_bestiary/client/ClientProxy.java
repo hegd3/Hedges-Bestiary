@@ -5,18 +5,18 @@ import com.hedge.hedges_bestiary.HedgesBestiary;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = HedgesBestiary.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = HedgesBestiary.MODID, value = Dist.CLIENT)
 
 public class ClientProxy extends CommonProxy {
 
@@ -24,7 +24,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void init() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus bus = ModLoadingContext.get().getActiveContainer().getEventBus();
     }
 
     public void blockRenderingEntity(UUID id) {

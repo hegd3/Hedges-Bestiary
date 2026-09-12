@@ -5,10 +5,12 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.FastColor;
 import org.joml.Vector3f;
 
@@ -66,58 +68,22 @@ public class SmokeParticleOptions implements ParticleOptions {
                     ).apply(instance, SmokeParticleOptions::new)
             );
 
-    public static final Deserializer<SmokeParticleOptions> DESERIALIZER =
-            new Deserializer<>() {
-                @Override
-                public SmokeParticleOptions fromCommand(
-                        ParticleType<SmokeParticleOptions> type,
-                        StringReader reader
-                ) throws CommandSyntaxException {
-                    reader.expect(' ');
-                    float size = reader.readFloat();
-                    reader.expect(' ');
-                    int lifetime = reader.readInt();
+    public static StreamCodec<? super ByteBuf, SmokeParticleOptions> STREAM_CODEC = StreamCodec.of(
+            (buf, option) -> {
+                buf.writeFloat(option.size);
+                buf.writeInt(option.lifetime);
+                buf.writeFloat(option.color.x);
+                buf.writeFloat(option.color.y);
+                buf.writeFloat(option.color.z);
 
-                    reader.expect(' ');
-                    float r = reader.readFloat();
-                    reader.expect(' ');
-                    float g = reader.readFloat();
-                    reader.expect(' ');
-                    float b = reader.readFloat();
-                    return new SmokeParticleOptions(size, lifetime, r, g, b);
-                }
+            },
+            (buf) -> new SmokeParticleOptions(buf.readFloat(), buf.readInt(), buf.readFloat(), buf.readFloat(), buf.readFloat())
+    );
 
-                @Override
-                public SmokeParticleOptions fromNetwork(
-                        ParticleType<SmokeParticleOptions> type,
-                        FriendlyByteBuf buf
-                ) {
-                    return new SmokeParticleOptions(
-                            buf.readFloat(),
-                            buf.readInt(),
-                            buf.readFloat(),
-                            buf.readFloat(),
-                            buf.readFloat()
-                    );
-                }
-            };
 
     @Override
     public ParticleType<?> getType() {
         return HBParticles.SMOKE.get();
     }
 
-    @Override
-    public void writeToNetwork(FriendlyByteBuf pBuffer) {
-        pBuffer.writeFloat(this.size);
-        pBuffer.writeInt(this.lifetime);
-        pBuffer.writeFloat(this.color.x());
-        pBuffer.writeFloat(this.color.y());
-        pBuffer.writeFloat(this.color.z());
-
-    }
-
-    public String writeToString() {
-        return String.format(Locale.ROOT, "%s %.2f %d %.2f %.2f %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()), this.size, this.lifetime, this.color.x(), this.color.y(), this.color.z());
-    }
 }

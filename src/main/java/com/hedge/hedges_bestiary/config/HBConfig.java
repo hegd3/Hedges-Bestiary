@@ -1,25 +1,24 @@
 package com.hedge.hedges_bestiary.config;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class HBConfig
 {
 
 
-    public static final ForgeConfigSpec SPEC;
+    public static final ModConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.BooleanValue VALUE_TAMING_DISABLED;
-    public static final ForgeConfigSpec.BooleanValue VALUE_BREEDING_REQUIRES_TAME;
+    public static final ModConfigSpec.BooleanValue VALUE_TAMING_DISABLED;
+    public static final ModConfigSpec.BooleanValue VALUE_BREEDING_REQUIRES_TAME;
 
-    public static final ForgeConfigSpec.BooleanValue VALUE_GURK_TAMABLE;
-    public static final ForgeConfigSpec.BooleanValue VALUE_BURODON_TAMABLE;
-    public static final ForgeConfigSpec.BooleanValue VALUE_ZAPPET_TAMABLE;
-    public static final ForgeConfigSpec.BooleanValue VALUE_PLOMBO_TAMABLE;
-    public static final ForgeConfigSpec.BooleanValue VALUE_MURK_TAMABLE;
-    public static final ForgeConfigSpec.BooleanValue VALUE_DAWN_DOVE_TAMABLE;
-    public static final ForgeConfigSpec.BooleanValue VALUE_FEROCETUS_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_GURK_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_BURODON_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_ZAPPET_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_PLOMBO_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_MURK_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_DAWN_DOVE_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_FEROCETUS_TAMABLE;
 
 
     public static boolean TAMING_DISABLED = false;
@@ -33,7 +32,7 @@ public class HBConfig
     public static boolean FEROCETUS_IS_TAMABLE = true;
 
     static {
-        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         builder.push("Hedge's Bestiary");
         VALUE_TAMING_DISABLED = buildBoolean(builder, "Disable all taming", false, "Disables ALL Hedge's Bestiary pets from being tamed. DEFAULT: false");
         VALUE_BREEDING_REQUIRES_TAME = buildBoolean(builder, "Only breed when tamed", true, "Whether Hedge's Bestiary pets must be tame in order to breed. Ignored by mobs configured to be untamable. DEFAULT: true");
@@ -70,12 +69,12 @@ public class HBConfig
     }
 
 
-    private static ForgeConfigSpec.BooleanValue buildBoolean(ForgeConfigSpec.Builder builder, String name, boolean defaultValue, String comment) {
+    private static ModConfigSpec.BooleanValue buildBoolean(ModConfigSpec.Builder builder, String name, boolean defaultValue, String comment) {
         return builder.comment(comment).define(name, defaultValue);
     }
 
 
-    private static ForgeConfigSpec.IntValue buildInt(ForgeConfigSpec.Builder builder, String name, int defaultValue, int min, int max, String comment) {
+    private static ModConfigSpec.IntValue buildInt(ModConfigSpec.Builder builder, String name, int defaultValue, int min, int max, String comment) {
         return builder.comment(comment).translation(name).defineInRange(name, defaultValue, min, max);
     }
 
