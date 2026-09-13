@@ -3,20 +3,20 @@ package com.hedge.hedges_bestiary.blocks;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.registry.HBBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class EggBlockEntity<E extends EntityType<?>> extends BlockEntity {
 
-    protected final RegistryObject<E> toHatch;
+    protected final DeferredHolder<EntityType<?>, E> toHatch;
     private int ticksTillHatch = 2000;
     private String ownerUUID = "";
 
@@ -43,40 +43,40 @@ public class EggBlockEntity<E extends EntityType<?>> extends BlockEntity {
         return super.getModelData();
     }
 
-
-
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-
-        tag.putString("ownerUUID", ownerUUID);
-        tag.putInt("ticksTillHatch", ticksTillHatch);
-    }
-
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-
-        this.ownerUUID = tag.getString("ownerUUID");
-        this.ticksTillHatch = tag.getInt("ticksTillHatch");
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        super.handleUpdateTag(tag);
-
-        this.ownerUUID = tag.getString("ownerUUID");
-        this.ticksTillHatch = tag.getInt("ticksTillHatch");
-    }
-
-    @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = this.saveWithFullMetadata();
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.putString("ownerUUID", ownerUUID);
         tag.putInt("ticksTillHatch", ticksTillHatch);
 
-        return super.getUpdateTag();
     }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.ownerUUID = tag.getString("ownerUUID");
+        this.ticksTillHatch = tag.getInt("ticksTillHatch");
+
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        super.handleUpdateTag(tag, lookupProvider);
+        this.ownerUUID = tag.getString("ownerUUID");
+        this.ticksTillHatch = tag.getInt("ticksTillHatch");
+
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = this.saveWithFullMetadata(registries);
+        tag.putString("ownerUUID", ownerUUID);
+        tag.putInt("ticksTillHatch", ticksTillHatch);
+
+        return super.getUpdateTag(registries);
+    }
+
+
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (!level.isClientSide()) {

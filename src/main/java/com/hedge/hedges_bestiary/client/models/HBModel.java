@@ -27,13 +27,13 @@ public abstract class HBModel<E extends Entity> extends HierarchicalModel<E> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
         poseStack.pushPose();
         if (this.young) {
             poseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
             poseStack.translate(0.0F, this.bodyYOffset / 16.0F, 0.0F);
         }
-        this.root().render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+        this.root().render(poseStack, vertexConsumer, packedLight, packedOverlay);
         poseStack.popPose();
     }
 

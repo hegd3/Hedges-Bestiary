@@ -45,7 +45,6 @@ public class ClientEvent {
         event.registerLayerDefinition(EntityLayers.GILD_GLIDER_LAYER, GildGliderModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.CHUB_LAYER, ChubModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.FEROCETUS_LAYER, FerocetusModel::createBodyLayer);
-        event.registerLayerDefinition(EntityLayers.WAVE_LAYER, WaveModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.BANSHEE_LAYER, EndgelModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.DAWN_DOVE_LAYER, DawnDoveModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.SKIB_LAYER, SkibModel::createBodyLayer);
@@ -66,7 +65,6 @@ public class ClientEvent {
         EntityRenderers.register(HBEntities.GILD_GLIDER.get(), GildGliderRenderer::new);
         EntityRenderers.register(HBEntities.CHUB.get(), ChubRenderer::new);
         EntityRenderers.register(HBEntities.FEROCETUS.get(), FerocetusRenderer::new);
-        EntityRenderers.register(HBEntities.WAVE.get(), WaveRenderer::new);
         EntityRenderers.register(HBEntities.ENDGEL.get(), EndgelRenderer::new);
         EntityRenderers.register(HBEntities.ENDGEL_BULLET.get(), ModellessProjectileRenderer::new);
         EntityRenderers.register(HBEntities.ENDGEL_BLAST.get(), ModellessProjectileRenderer::new);

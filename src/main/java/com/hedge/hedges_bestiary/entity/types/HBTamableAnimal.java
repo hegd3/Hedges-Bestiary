@@ -4,7 +4,8 @@ import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.menu.HBTamableMenu;
-import com.hedge.hedges_bestiary.message.DanceJukeboxMessage;
+import com.hedge.hedges_bestiary.networking.packet.DanceJukeboxPacket;
+import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
 import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.BlockPos;
@@ -12,7 +13,6 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -24,14 +24,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -98,7 +96,7 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
         }
         else if (this.isOwnedBy(player) && !this.isFood(itemstack)) {
             if (this.canOwnerCommand(player)) {
-                this.openCustomInventoryScreen(player);
+                this.openCommandGui(player);
                 return InteractionResult.SUCCESS;
             } else if (this.canOwnerMount(player)) {
                 if (!level().isClientSide && player.startRiding(this)) {
@@ -111,15 +109,18 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
     }
 
 
-    public void openCustomInventoryScreen(Player player) {
+    public void openCommandGui(Player player) {
         if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
-            NetworkHooks.openScreen(serverPlayer, new SimpleMenuProvider(
-                    (containerId, playerInventory, p) ->
-                            new HBTamableMenu(containerId, this),
-                    this.getName()
-            ), buf -> buf.writeInt(this.getId())
-            );
+            serverPlayer.openMenu(new SimpleMenuProvider((containerId, playerInventory, p) ->
+                                new HBTamableMenu(containerId, this),
+                    this.getName()));
+        }
+    }
 
+    public void openInventory(Player playerEntity) {
+        if (!this.hasPassenger(playerEntity) && playerEntity instanceof ServerPlayer player) {
+            player.openMenu(new SimpleMenuProvider((containerId, playerInventory, p) ->
+                    ChestMenu.threeRows(containerId, playerInventory, this.inventory), this.getName()));
         }
     }
 
@@ -140,7 +141,7 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
         this.inventory = new SimpleContainer(this.getInventorySize()) {
             @Override
             public boolean stillValid(Player pPlayer) {
-                return HBTamableAnimal.this.isAlive() && !HBTamableAnimal.this.isInsidePortal;
+                return HBTamableAnimal.this.isAlive() && (HBTamableAnimal.this.portalProcess == null || !HBTamableAnimal.this.portalProcess.isInsidePortalThisTick());
             }
         };
         if (simplecontainer != null) {
@@ -187,22 +188,7 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
         }
     }
 
-    public void openInventory(Player playerEntity) {
-        if (!this.hasPassenger(playerEntity)) {
-            NetworkHooks.openScreen((ServerPlayer) playerEntity, new MenuProvider() {
-                @Override
-                public AbstractContainerMenu createMenu(int p_createMenu_1_, Inventory p_createMenu_2_, Player p_createMenu_3_) {
-                    return ChestMenu.threeRows(p_createMenu_1_, p_createMenu_2_, inventory);
-                }
 
-                @Override
-                public Component getDisplayName() {
-                    return HBTamableAnimal.this.getDisplayName();
-                }
-
-            });
-        }
-    }
 
 
 
@@ -244,16 +230,17 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
 
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(HOME_POS, BlockPos.ZERO);
-        this.entityData.define(ANIM_STATE, 0);
-        this.entityData.define(IS_SITTING, false);
-        this.entityData.define(IS_DANCING, false);
-        this.entityData.define(IS_NAPPING, false);
-        this.entityData.define(HAS_HOME, false);
-        this.entityData.define(AUTO_TARGET_TYPE, 0);
-        this.entityData.define(TAME_COMMAND, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(HOME_POS, BlockPos.ZERO);
+        builder.define(ANIM_STATE, 0);
+        builder.define(IS_SITTING, false);
+        builder.define(IS_DANCING, false);
+        builder.define(IS_NAPPING, false);
+        builder.define(HAS_HOME, false);
+        builder.define(AUTO_TARGET_TYPE, 0);
+        builder.define(TAME_COMMAND, 0);
+
     }
 
     @Override
@@ -276,19 +263,20 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
             if (this.inventory != null) {
                 ListTag nbttaglist = compound.getList("Items", 10);
                 this.createInventory();
-                for (int i = 0; i < nbttaglist.size(); ++i) {
+                for (int i = 0; i < nbttaglist.size(); i++) {
                     CompoundTag CompoundNBT = nbttaglist.getCompound(i);
                     int j = CompoundNBT.getByte("Slot") & 255;
-                    this.inventory.setItem(j, ItemStack.of(CompoundNBT));
+                    if (j < this.inventory.getContainerSize()) {
+                        this.inventory.setItem(j, ItemStack.parse(this.registryAccess(), CompoundNBT).orElse(ItemStack.EMPTY));
+                    }
                 }
             } else {
                 ListTag nbttaglist = compound.getList("Items", 10);
                 this.createInventory();
-                for (int i = 0; i < nbttaglist.size(); ++i) {
+                for (int i = 0; i < nbttaglist.size(); i++) {
                     CompoundTag CompoundNBT = nbttaglist.getCompound(i);
                     int j = CompoundNBT.getByte("Slot") & 255;
-                    this.createInventory();
-                    this.inventory.setItem(j, ItemStack.of(CompoundNBT));
+                    this.inventory.setItem(j, ItemStack.parse(this.registryAccess(), CompoundNBT).orElse(ItemStack.EMPTY));
                 }
             }
         }
@@ -317,10 +305,10 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
             for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
                 ItemStack itemstack = this.inventory.getItem(i);
                 if (!itemstack.isEmpty()) {
-                    CompoundTag CompoundNBT = new CompoundTag();
-                    CompoundNBT.putByte("Slot", (byte) i);
-                    itemstack.save(CompoundNBT);
-                    nbttaglist.add(CompoundNBT);
+                    CompoundTag compoundtag = new CompoundTag();
+                    compoundtag.putByte("Slot", (byte)(i - 1));
+                    nbttaglist.add(itemstack.save(this.registryAccess(), compoundtag));
+
                 }
             }
             pCompound.put("Items", nbttaglist);
@@ -445,7 +433,7 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
     }
 
     public void onClientPlayMusicDisc(int entityId, BlockPos pos, boolean dancing) {
-        HedgesBestiary.sendMSGToServer(new DanceJukeboxMessage(entityId, dancing, pos));
+        PacketDistributor.sendToServer(new DanceJukeboxPacket(entityId, dancing, pos));
         if (dancing) {
             this.jukebox = pos;
         } else {
@@ -546,7 +534,7 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
         super.finalizeSpawnChildFromBreeding(pLevel, pAnimal, pBaby);
         if (this.isTame() && pBaby instanceof HBTamableAnimal animal) {
             animal.setOwnerUUID(this.getOwnerUUID());
-            animal.setTame(true);
+            animal.setTame(true, true);
         }
     }
 

@@ -34,10 +34,11 @@ public abstract class TamableFlyer extends HBTamableAnimal implements SemiFlyer 
         super(pEntityType, pLevel);
     }
 
+
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(FLYING, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FLYING, false);
     }
 
     @Override

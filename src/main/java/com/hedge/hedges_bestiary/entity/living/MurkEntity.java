@@ -24,7 +24,7 @@ import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.entity.util.MathHelpers;
 import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.items.TreatItem;
-import com.hedge.hedges_bestiary.message.EntityKeyMessage;
+import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
 import com.hedge.hedges_bestiary.registry.HBEffects;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
@@ -255,14 +255,14 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
             if (this.getAnimState() == 0) {
 
                 if (Minecraft.getInstance().options.keyAttack.isDown()) {
-                    HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.getId(), rider.getId(), 4));
+                    HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 4));
                 } else if (HBKeyMappings.MOUNT_ABILITY_KEY.isDown()) {
                     if (!this.isCharged() && this.chargeProgress >= 1F) {
                         this.chargeProgress = 1F;
-                        HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.getId(), rider.getId(), 5));
+                        HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
                         this.roarCD = 0F;
                     } else {
-                        HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.getId(), rider.getId(), 6));
+                        HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 6));
                     }
                 }
 

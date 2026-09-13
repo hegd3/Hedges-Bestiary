@@ -92,12 +92,10 @@ public class EndgelEntity extends HBMonster {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(LEFT, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(LEFT, false);
     }
-
-
 
     @Override
     protected PathNavigation createNavigation(Level pLevel) {

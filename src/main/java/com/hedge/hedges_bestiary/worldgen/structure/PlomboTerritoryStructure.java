@@ -2,9 +2,8 @@ package com.hedge.hedges_bestiary.worldgen.structure;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.registry.HBStructures;
-import com.hedge.hedges_bestiary.worldgen.structure.piece.DawnDoveNestPiece;
 import com.hedge.hedges_bestiary.worldgen.structure.piece.PlomboTerritoryPiece;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -23,7 +22,7 @@ public class PlomboTerritoryStructure extends Structure {
     private static final ResourceLocation NBT_2 = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "plombo_territory_2");
 
 
-    public static final Codec<PlomboTerritoryStructure> CODEC = simpleCodec(PlomboTerritoryStructure::new);
+    public static final MapCodec<PlomboTerritoryStructure> CODEC = simpleCodec(PlomboTerritoryStructure::new);
 
     public PlomboTerritoryStructure(StructureSettings pSettings) {
         super(pSettings);

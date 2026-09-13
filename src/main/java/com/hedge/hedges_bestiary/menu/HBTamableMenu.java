@@ -24,6 +24,7 @@ public class HBTamableMenu extends AbstractContainerMenu {
     }
 
 
+
     @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
         return ItemStack.EMPTY;

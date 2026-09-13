@@ -22,11 +22,10 @@ public class HBMonster extends Monster implements AnimStateMob, AttackStateMob {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ANIM_STATE, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ANIM_STATE, 0);
     }
-
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {

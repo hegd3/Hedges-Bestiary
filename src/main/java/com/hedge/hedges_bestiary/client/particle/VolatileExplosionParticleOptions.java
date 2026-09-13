@@ -4,6 +4,7 @@ import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.particles.ParticleOptions;
@@ -28,8 +29,8 @@ public class VolatileExplosionParticleOptions implements ParticleOptions {
         return this.size;
     }
 
-    public static final Codec<VolatileExplosionParticleOptions> CODEC =
-            RecordCodecBuilder.create(instance ->
+    public static final MapCodec<VolatileExplosionParticleOptions> CODEC =
+            RecordCodecBuilder.mapCodec(instance ->
                     instance.group(
                             Codec.FLOAT.fieldOf("size").forGetter(VolatileExplosionParticleOptions::getSize)
                     ).apply(instance, VolatileExplosionParticleOptions::new)

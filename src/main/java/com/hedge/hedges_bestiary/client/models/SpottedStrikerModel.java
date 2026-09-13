@@ -88,10 +88,6 @@ public class SpottedStrikerModel extends HBModel<SpottedStrikerEntity> {
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
-		super.renderToBuffer(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha * this.alpha);
-	}
 
 	@Override
 	public ModelPart root() {

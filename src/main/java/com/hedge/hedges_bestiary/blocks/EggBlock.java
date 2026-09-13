@@ -1,7 +1,9 @@
 package com.hedge.hedges_bestiary.blocks;
 
 import com.hedge.hedges_bestiary.registry.HBBlockEntities;
+import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.util.BlockHelpers;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -15,10 +17,12 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LecternBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -28,22 +32,30 @@ import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
 public class EggBlock<E extends EntityType<?>> extends BaseEntityBlock {
+
+    public static final MapCodec<EggBlock<?>> CODEC = simpleCodec(EggBlock::new);
+
     public static final IntegerProperty HATCH = BlockStateProperties.HATCH;
 
     public static final VoxelShape LARGE_EGG = BlockHelpers.createRectangular(10, 14);
-    protected final RegistryObject<E> toHatch;
+    protected final DeferredHolder<EntityType<?>, E> toHatch;
     private final VoxelShape shape;
 
-    public EggBlock(Properties pProperties, RegistryObject<E> toHatch, VoxelShape shape) {
+    public EggBlock(Properties pProperties, DeferredHolder<EntityType<?>, E> toHatch, VoxelShape shape) {
         super(pProperties);
         this.toHatch = toHatch;
         this.shape = shape;
         this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, 0));
+    }
+
+    public EggBlock(Properties properties) {
+        this(properties, HBEntities.GURK, LARGE_EGG);
     }
 
     @Override
@@ -87,7 +99,7 @@ public class EggBlock<E extends EntityType<?>> extends BaseEntityBlock {
         return new EggBlockEntity<>(pPos, pState, toHatch);
     }
 
-    public RegistryObject<E> getToHatch() {
+    public DeferredHolder<EntityType<?>, E> getToHatch() {
         return this.toHatch;
     }
 
@@ -96,6 +108,11 @@ public class EggBlock<E extends EntityType<?>> extends BaseEntityBlock {
         level.setBlock(pos, state.setValue(HATCH, Math.min(this.getHatchLevel(state) + 1, 2)), 2);
         level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
 
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
     }
 
     @Override

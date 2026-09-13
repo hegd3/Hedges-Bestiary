@@ -3,7 +3,7 @@ package com.hedge.hedges_bestiary.worldgen.structure;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.registry.HBStructures;
 import com.hedge.hedges_bestiary.worldgen.structure.piece.ZappetRoostPiece;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -20,7 +20,7 @@ public class ZappetRoostStructure extends Structure {
     private static final ResourceLocation NBT_0 = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "zappet_roost_0");
     private static final ResourceLocation NBT_1 = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "zappet_roost_1");
 
-    public static final Codec<ZappetRoostStructure> CODEC = simpleCodec(ZappetRoostStructure::new);
+    public static final MapCodec<ZappetRoostStructure> CODEC = simpleCodec(ZappetRoostStructure::new);
 
     public ZappetRoostStructure(StructureSettings pSettings) {
         super(pSettings);

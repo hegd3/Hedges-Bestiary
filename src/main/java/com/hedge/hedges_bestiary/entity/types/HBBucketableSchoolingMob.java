@@ -26,9 +26,9 @@ public abstract class HBBucketableSchoolingMob extends HBSchoolingMob implements
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(FROM_BUCKET, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FROM_BUCKET, false);
     }
 
     @Override

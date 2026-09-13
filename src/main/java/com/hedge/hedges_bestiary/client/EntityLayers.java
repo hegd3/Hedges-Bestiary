@@ -15,7 +15,6 @@ public class EntityLayers {
     public static final ModelLayerLocation GILD_GLIDER_LAYER = main("gild_glider");
     public static final ModelLayerLocation CHUB_LAYER = main("chub");
     public static final ModelLayerLocation FEROCETUS_LAYER = main("ferocetus");
-    public static final ModelLayerLocation WAVE_LAYER = main("wave");
     public static final ModelLayerLocation BANSHEE_LAYER = main("banshee");
     public static final ModelLayerLocation DAWN_DOVE_LAYER = main("dawn_dove");
     public static final ModelLayerLocation SKIB_LAYER = main("skib");

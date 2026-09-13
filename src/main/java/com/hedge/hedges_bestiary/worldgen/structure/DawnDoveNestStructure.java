@@ -3,15 +3,13 @@ package com.hedge.hedges_bestiary.worldgen.structure;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.registry.HBStructures;
 import com.hedge.hedges_bestiary.worldgen.structure.piece.DawnDoveNestPiece;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import net.minecraft.world.level.levelgen.structure.structures.SwampHutPiece;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 
 import java.util.Optional;
@@ -23,7 +21,7 @@ public class DawnDoveNestStructure extends Structure {
 
 
 
-    public static final Codec<DawnDoveNestStructure> CODEC = simpleCodec(DawnDoveNestStructure::new);
+    public static final MapCodec<DawnDoveNestStructure> CODEC = simpleCodec(DawnDoveNestStructure::new);
 
     public DawnDoveNestStructure(StructureSettings pSettings) {
         super(pSettings);
