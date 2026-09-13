@@ -14,6 +14,6 @@ public class HBFoodTypes {
             .build();
 
     public static final FoodProperties SKIB = new FoodProperties.Builder().nutrition(3)
-            .effect(() -> new MobEffectInstance(HBEffects.VOLATILITY.get(), 10), 0.5f).build();
+            .effect(() -> new MobEffectInstance(HBEffects.VOLATILITY, 10), 0.5f).build();
 
 }

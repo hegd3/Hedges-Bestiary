@@ -41,7 +41,7 @@ public class MurklevolenceItem extends Item {
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
 
-        pTarget.addEffect(new MobEffectInstance(HBEffects.VOLATILITY.get(), 40), pAttacker);
+        pTarget.addEffect(new MobEffectInstance(HBEffects.VOLATILITY, 40), pAttacker);
         if (pTarget.level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(HBParticles.MURK_IMPACT.get(), pTarget.getX(), pTarget.getY(0.5), pTarget.getZ(), 0, 0, 0, 0, 0);
         }

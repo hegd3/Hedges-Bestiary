@@ -41,7 +41,7 @@ public class MurkRenderer extends MobRenderer<MurkEntity, MurkModel> {
         public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, MurkEntity entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
             if (!entity.isInvisible() && !entity.isNapping()) {
                 VertexConsumer vertexconsumer = pBuffer.getBuffer(entity.isCharged() ? CHARGE : renderType());
-                this.getParentModel().renderToBuffer(pPoseStack, vertexconsumer, 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getParentModel().renderToBuffer(pPoseStack, vertexconsumer, 15728640, OverlayTexture.NO_OVERLAY);
             }
         }
 

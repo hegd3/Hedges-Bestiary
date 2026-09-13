@@ -30,7 +30,7 @@ public class MurkSmoke extends GenericProjectile {
         if (!hit.getEntity().isAlliedTo(this)) {
             boolean hurt = hit.getEntity().hurt(this.damageSources().mobProjectile(this, (LivingEntity) this.getOwner()), this.getDamage());
             if (this.isCharged() && hurt && hit.getEntity() instanceof LivingEntity entity) {
-                entity.addEffect(new MobEffectInstance(HBEffects.VOLATILITY.get(), 40, 1));
+                entity.addEffect(new MobEffectInstance(HBEffects.VOLATILITY, 40, 1));
             }
         }
     }

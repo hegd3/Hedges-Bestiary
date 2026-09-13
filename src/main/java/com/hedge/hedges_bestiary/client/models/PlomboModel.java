@@ -129,7 +129,7 @@ public class PlomboModel extends HBModel<PlomboEntity> {
 	@Override
 	public void setupAnim(PlomboEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-
+		float partialTicks = ageInTicks - entity.tickCount;
 		if (this.young) {
 			this.applyStatic(GenericPosesAnimation.BABY_TRANSFORM);
 		}
@@ -138,15 +138,14 @@ public class PlomboModel extends HBModel<PlomboEntity> {
 		this.animate(entity.swipeAnimationState, entity.swingingLeft() ? PlomboAnimation.SWIPE_LEFT : PlomboAnimation.SWIPE_RIGHT, ageInTicks);
 		this.animate(entity.multiAttackAnimationState, entity.swingingLeft() ? PlomboAnimation.MULTIATTACK_LEFT : PlomboAnimation.MULTIATTACK_RIGHT, ageInTicks);
 
-		this.animateSmooth(entity.napAnimationState, PlomboAnimation.SLEEP, ageInTicks, 1f);
-		this.animateSmooth(entity.danceAnimationState, PlomboAnimation.DANCE, ageInTicks, 1f);
+		this.animateSmooth(entity.napAnimationState, PlomboAnimation.SLEEP, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.danceAnimationState, PlomboAnimation.DANCE, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.sitAnimationState, PlomboAnimation.SIT, ageInTicks, partialTicks,0.5f);
+		this.animateSmooth(entity.scratchAnimationState, PlomboAnimation.SCRATCH, ageInTicks, partialTicks,1f);
 
-		this.animateSmooth(entity.sitAnimationState, PlomboAnimation.SIT, ageInTicks, 0.5f);
-		this.animateSmooth(entity.scratchAnimationState, PlomboAnimation.SCRATCH, ageInTicks, 1f);
-
-		this.animateSmooth(entity.sniffAnimationState, PlomboAnimation.SNIFF, ageInTicks, 1f);
-		this.animateSmooth(entity.yawnAnimationState, PlomboAnimation.YAWN, ageInTicks, 1f);
-		this.animateSmooth(entity.earflickAnimationState, entity.swingingLeft() ? PlomboAnimation.EAR_FLICK_LEFT : PlomboAnimation.EAR_FLICK_RIGHT, ageInTicks, 1f);
+		this.animateSmooth(entity.sniffAnimationState, PlomboAnimation.SNIFF, ageInTicks, partialTicks,1f);
+		this.animateSmooth(entity.yawnAnimationState, PlomboAnimation.YAWN, ageInTicks, partialTicks,1f);
+		this.animateSmooth(entity.earflickAnimationState, entity.swingingLeft() ? PlomboAnimation.EAR_FLICK_LEFT : PlomboAnimation.EAR_FLICK_RIGHT, ageInTicks, partialTicks, 1f);
 
 		this.head.yRot += Mth.clamp(netHeadYaw, -25.0F, 25.0F) * ((float)Math.PI / 180F);
 		this.head.xRot += Mth.clamp(headPitch, -5.0F, 25.0F) * ((float)Math.PI / 180F);

@@ -13,10 +13,12 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 
 public class ZappetGlowLayer extends RenderLayer<ZappetEntity, ZappetModel> {
 
-    private static final RenderType TEXTURE = HBRenderTypes.getEyesAlphaEnabled(new ResourceLocation(HedgesBestiary.MODID, "textures/entity/zappet/zappet_glow.png"));
+    private static final RenderType TEXTURE = HBRenderTypes.getEyesAlphaEnabled(ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/zappet/zappet_glow.png"));
 
     public ZappetGlowLayer(ZappetRenderer pRenderer) {
         super(pRenderer);
@@ -28,7 +30,9 @@ public class ZappetGlowLayer extends RenderLayer<ZappetEntity, ZappetModel> {
         if (entity.isInvisible()) return;
         VertexConsumer vertexconsumer = pBuffer.getBuffer(TEXTURE);
         float alpha = entity.getGlowProgress(pPartialTicks);
-        this.getParentModel().renderToBuffer(pPoseStack, vertexconsumer, 1, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, alpha);
+        int i = FastColor.ARGB32.color(Mth.floor(alpha * 255.0F), 255, 255, 255);
+
+        this.getParentModel().renderToBuffer(pPoseStack, vertexconsumer, 1, OverlayTexture.NO_OVERLAY, i);
 
     }
 

@@ -57,7 +57,7 @@ public class DragonFireBall extends GenericProjectile {
                 entity.setRemainingFireTicks(60);
                 entity.hurt(this.damageSources().explosion(this.getOwner(), this), this.getDamage() - (float)entity.distanceToSqr(this.position()));
             }
-            this.playSound(SoundEvents.GENERIC_EXPLODE, 2.5F, 1.0F);
+            this.playSound(SoundEvents.GENERIC_EXPLODE.value(), 2.5F, 1.0F);
             this.level().broadcastEntityEvent(this, (byte)39);
         }
     }

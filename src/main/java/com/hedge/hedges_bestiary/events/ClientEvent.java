@@ -1,11 +1,9 @@
 package com.hedge.hedges_bestiary.events;
 
-import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.client.EntityLayers;
 import com.hedge.hedges_bestiary.client.models.*;
 import com.hedge.hedges_bestiary.client.particle.*;
 import com.hedge.hedges_bestiary.client.renderer.*;
-import com.hedge.hedges_bestiary.client.renderer.projectile.WaveRenderer;
 import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
@@ -15,25 +13,19 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(modid = HedgesBestiary.MODID, value = Dist.CLIENT)
-
 public class ClientEvent {
 
 
-    @SubscribeEvent
     public static void registerKeyMappings(final RegisterKeyMappingsEvent event) {
         event.register(HBKeyMappings.MOUNT_ABILITY_KEY);
     }
 
-    @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(EntityLayers.BURODON_LAYER, BurodonModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.SPOTTED_STRIKER_LAYER, SpottedStrikerModel::createBodyLayer);
@@ -51,7 +43,6 @@ public class ClientEvent {
         event.registerLayerDefinition(EntityLayers.GENERIC_PROJECTILE_LAYER, CrossedProjectileModel::createBodyLayer);
     }
 
-    @SubscribeEvent
     public static void registerRenderer(FMLClientSetupEvent event)
     {
         EntityRenderers.register(HBEntities.BURODON.get(), BurodonRenderer::new);
@@ -75,7 +66,6 @@ public class ClientEvent {
         // MenuScreens.register();
     }
 
-    @SubscribeEvent
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
 
         event.registerSpriteSet(HBParticles.ICE_SHOCKWAVE.get(), AngledParticle.IceShockwaveProvider::new);
@@ -105,7 +95,6 @@ public class ClientEvent {
 
     }
 
-    @SubscribeEvent
     public static void registerItemRenderers(FMLClientSetupEvent event) {
         ItemProperties.register(
                 HBItems.ENDGELIC_JUDGEMENT.get(),

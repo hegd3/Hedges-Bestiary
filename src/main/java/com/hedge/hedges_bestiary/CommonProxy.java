@@ -6,7 +6,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 
 import java.util.UUID;
 
-@EventBusSubscriber(modid = HedgesBestiary.MODID)
 public class CommonProxy {
 
     public void init() {

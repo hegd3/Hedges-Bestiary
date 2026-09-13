@@ -2,8 +2,8 @@ package com.hedge.hedges_bestiary.blocks;
 
 import com.hedge.hedges_bestiary.util.BlockHelpers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,19 +18,18 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
-public class MultiEggBlock<E extends EntityType<?>> extends EggBlock<E> {
+public class MultiEggBlock<E extends Entity> extends EggBlock<E> {
 
     private static final VoxelShape SINGULAR_EGG = BlockHelpers.createRectangular(10, 9);
     private static final VoxelShape MULTIPLE_EGGS = BlockHelpers.createRectangular(15, 9);
 
     public static final IntegerProperty EGGS = BlockStateProperties.EGGS;
 
-    public MultiEggBlock(Properties pProperties, RegistryObject<E> toHatch) {
+    public MultiEggBlock(Properties pProperties, DeferredHolder<EntityType<?>, EntityType<E>> toHatch) {
         super(pProperties, toHatch, SINGULAR_EGG);
         this.registerDefaultState(this.stateDefinition.any().setValue(EGGS, 1));
     }

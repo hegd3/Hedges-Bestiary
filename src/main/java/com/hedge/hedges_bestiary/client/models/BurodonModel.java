@@ -121,7 +121,7 @@ public class BurodonModel extends HBModel<BurodonEntity> {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		netHeadYaw = Mth.clamp(netHeadYaw, -15.0F, 15.0F) * ((float)Math.PI / 180F);
 		headPitch = Mth.clamp(headPitch, -5.0F, 25.0F) * ((float)Math.PI / 180F);
-
+		float partialTicks = ageInTicks - entity.tickCount;
 		this.headrot.yRot = netHeadYaw;
 		this.headrot.xRot = headPitch;
 		this.neckrot.yRot = netHeadYaw / 2;
@@ -133,19 +133,19 @@ public class BurodonModel extends HBModel<BurodonEntity> {
 			this.animateWalk(BurodonAnimation.RUN, limbSwing, limbSwingAmount * (entity.runProgress/5), 1.3f, 2.2f);
 			this.animateWalk(BurodonAnimation.WALK, limbSwing, limbSwingAmount/3f * (1 - entity.runProgress/5), 2f, 2.5f);
 		}
-		this.animateSmooth(entity.idleAnimationState, BurodonAnimation.IDLE, ageInTicks, 1f);
-		this.animateSmooth(entity.sitAnimationState, BurodonAnimation.SIT, ageInTicks, 1f);
-		this.animateSmooth(entity.napAnimationState, BurodonAnimation.SLEEP, ageInTicks, 1f);
-		this.animateSmooth(entity.airAnimationState, BurodonAnimation.AIR, ageInTicks, 1f);
-		this.animateSmooth(entity.danceAnimationState, BurodonAnimation.DANCE, ageInTicks, 1f);
+		this.animateSmooth(entity.idleAnimationState, BurodonAnimation.IDLE, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.sitAnimationState, BurodonAnimation.SIT, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.napAnimationState, BurodonAnimation.SLEEP, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.airAnimationState, BurodonAnimation.AIR, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.danceAnimationState, BurodonAnimation.DANCE, ageInTicks, partialTicks, 1f);
 		if (entity.getAnimState() > 0) {
-			this.animateSmooth(entity.biteAnimationState, BurodonAnimation.BITE, ageInTicks, 1f);
-			this.animateSmooth(entity.jumpAnimationState, BurodonAnimation.JUMP, ageInTicks, 2f);
-			this.animateSmooth(entity.roarAnimationState, BurodonAnimation.ROAR, ageInTicks, 1f);
+			this.animateSmooth(entity.biteAnimationState, BurodonAnimation.BITE, ageInTicks, partialTicks, 1f);
+			this.animateSmooth(entity.jumpAnimationState, BurodonAnimation.JUMP, ageInTicks, partialTicks, 2f);
+			this.animateSmooth(entity.roarAnimationState, BurodonAnimation.ROAR, ageInTicks, partialTicks, 1f);
 		}
-		this.animateSmooth(entity.yawnAnimationState, BurodonAnimation.YAWN, ageInTicks, 1f);
-		this.animateSmooth(entity.sighAnimationState, BurodonAnimation.SIGH, ageInTicks, 1f);
-		this.animateSmooth(entity.tailFlickAnimationState, BurodonAnimation.TAIL_FLICK, ageInTicks, 1f);
+		this.animateSmooth(entity.yawnAnimationState, BurodonAnimation.YAWN, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.sighAnimationState, BurodonAnimation.SIGH, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.tailFlickAnimationState, BurodonAnimation.TAIL_FLICK, ageInTicks, partialTicks, 1f);
 
 	}
 

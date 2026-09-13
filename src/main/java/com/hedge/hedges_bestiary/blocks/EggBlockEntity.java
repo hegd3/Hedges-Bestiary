@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
@@ -22,9 +23,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 
-public class EggBlockEntity<E extends EntityType<?>> extends BlockEntity {
+public class EggBlockEntity<E extends Entity> extends BlockEntity {
 
-    protected final DeferredHolder<EntityType<?>, E> toHatch;
+    protected final DeferredHolder<EntityType<?>, EntityType<E>> toHatch;
     private int ticksTillHatch = 2000;
     private String ownerUUID = "";
 
@@ -33,7 +34,7 @@ public class EggBlockEntity<E extends EntityType<?>> extends BlockEntity {
         this.toHatch = ((EggBlock<E>)blockState.getBlock()).getToHatch();
     }
 
-    public EggBlockEntity(BlockPos pos, BlockState blockState, RegistryObject<E> toHatch) {
+    public EggBlockEntity(BlockPos pos, BlockState blockState, DeferredHolder<EntityType<?>, EntityType<E>> toHatch) {
         super(HBBlockEntities.EGG_BLOCK_ENTITY.get(), pos, blockState);
         this.toHatch = toHatch;
     }
@@ -86,9 +87,9 @@ public class EggBlockEntity<E extends EntityType<?>> extends BlockEntity {
                         HBTamableAnimal baby = (HBTamableAnimal) toHatch.get().create(level);
                         baby.setPos(this.getBlockPos().getCenter());
                         baby.setBaby(true);
-                        baby.setTame(true);
+                        baby.setTame(true, true);
                         baby.setOwnerUUID(this.getOwnerUUID());
-                        baby.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.BREEDING, null, null);
+                        baby.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.BREEDING, null);
                         baby.playSound(SoundEvents.TURTLE_EGG_HATCH);
                         level.addFreshEntity(baby);
                         level.destroyBlock(this.getBlockPos(), false);
@@ -98,9 +99,9 @@ public class EggBlockEntity<E extends EntityType<?>> extends BlockEntity {
                     HBTamableAnimal baby = (HBTamableAnimal) toHatch.get().create(level);
                     baby.setPos(this.getBlockPos().getCenter());
                     baby.setBaby(true);
-                    baby.setTame(true);
+                    baby.setTame(true, true);
                     baby.setOwnerUUID(this.getOwnerUUID());
-                    baby.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.BREEDING, null, null);
+                    baby.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.BREEDING, null);
                     baby.playSound(SoundEvents.TURTLE_EGG_HATCH);
                     level.addFreshEntity(baby);
                     level.destroyBlock(this.getBlockPos(), false);
@@ -121,12 +122,13 @@ public class EggBlockEntity<E extends EntityType<?>> extends BlockEntity {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
-        var tag = packet.getTag();
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        var tag = pkt.getTag();
         if (tag != null)
         {
-            handleUpdateTag(tag);
+            handleUpdateTag(tag, lookupProvider);
 
             BlockState state = level.getBlockState(worldPosition);
             level.sendBlockUpdated(worldPosition, state, state, 3);

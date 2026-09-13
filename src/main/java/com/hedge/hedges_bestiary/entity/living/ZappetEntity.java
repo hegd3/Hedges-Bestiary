@@ -14,6 +14,8 @@ import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.hedge.hedges_bestiary.registry.HBTags;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,6 +40,9 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -184,7 +189,11 @@ public class ZappetEntity extends TamableFlyer implements HBGroupMob<ZappetEntit
     }
 
     private boolean checkTridentThrow(Entity entity) {
-        return entity instanceof ThrownTrident trident && trident.isChanneling() && this.level().isThundering() && this.level().canSeeSky(this.blockPosition());
+        return entity instanceof ThrownTrident trident && trident.getWeaponItem().getTagEnchantments().getLevel(
+                level().registryAccess()
+                        .lookupOrThrow(Registries.ENCHANTMENT)
+                        .getOrThrow(Enchantments.CHANNELING)) > 0
+                && this.level().isThundering() && this.level().canSeeSky(this.blockPosition());
     }
 
 

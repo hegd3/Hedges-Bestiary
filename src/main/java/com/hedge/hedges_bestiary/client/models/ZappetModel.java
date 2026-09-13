@@ -109,18 +109,18 @@ public class ZappetModel extends HBModel<ZappetEntity> {
 
 		netHeadYaw = Mth.clamp(netHeadYaw, -35.0F, 35.0F) * ((float)Math.PI / 180F);
 		headPitch = Mth.clamp(headPitch, -25.0F, 25.0F) * ((float)Math.PI / 180F);;
-
+		float partialTicks = ageInTicks - entity.tickCount;
 		this.headrot.yRot = netHeadYaw;
 		this.headrot.xRot = headPitch;
 		if (this.young) {
 			this.applyStatic(GenericPosesAnimation.BABY_TRANSFORM);
 		}
 
-		this.animateSmooth(entity.callAnimationState, ZappetAnimation.CALL, ageInTicks, 1f);
-		this.animateSmooth(entity.shootAnimationState, ZappetAnimation.SHOOT, ageInTicks, 1f);
-		this.animateSmooth(entity.sitAnimationState, ZappetAnimation.SIT, ageInTicks, 1f);
-		this.animateSmooth(entity.danceAnimationState, ZappetAnimation.DANCE, ageInTicks, 1f);
-		this.animateSmooth(entity.rideAnimationState, ZappetAnimation.FLY, ageInTicks, 2 + limbSwingAmount);
+		this.animateSmooth(entity.callAnimationState, ZappetAnimation.CALL, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.shootAnimationState, ZappetAnimation.SHOOT, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.sitAnimationState, ZappetAnimation.SIT, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.danceAnimationState, ZappetAnimation.DANCE, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.rideAnimationState, ZappetAnimation.FLY, ageInTicks, partialTicks, 2 + limbSwingAmount);
 
 		if (entity.isPassenger()) {
 			if (entity.getVehicle().onGround()) {
@@ -136,7 +136,6 @@ public class ZappetModel extends HBModel<ZappetEntity> {
 			}
 		}
 		if (entity.isFlying()) {
-			float partialTicks = ageInTicks - entity.tickCount;
 			float flyProgress = entity.getFlyProgress(partialTicks);
 
 			this.animateWalk(ZappetAnimation.FLY, limbSwing, limbSwingAmount, 2f, 2.5f);

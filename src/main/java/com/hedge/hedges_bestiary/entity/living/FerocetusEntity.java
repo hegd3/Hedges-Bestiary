@@ -59,6 +59,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -511,9 +512,9 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
                 if (this.getAnimState() == 0) {
 
                     if (Minecraft.getInstance().options.keyAttack.isDown()) {
-                        HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 4));
+                        PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 4));
                     } else if (HBKeyMappings.MOUNT_ABILITY_KEY.isDown()) {
-                        HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
+                        PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
                     }
 
 

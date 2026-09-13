@@ -38,8 +38,8 @@ public abstract class HBModel<E extends Entity> extends HierarchicalModel<E> {
     }
 
 
-    protected void animateSmooth(SmoothAnimationState animationState, @NotNull AnimationDefinition definition, float ageInTicks, float speed) {
-        animationState.animate(this, definition, ageInTicks, speed);
+    protected void animateSmooth(SmoothAnimationState animationState, @NotNull AnimationDefinition definition, float ageInTicks, float partialTicks, float speed) {
+        animationState.animate(this, definition, ageInTicks, partialTicks, speed);
     }
 
     @Override

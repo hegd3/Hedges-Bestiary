@@ -41,7 +41,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 
@@ -134,7 +133,6 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
     @Override
     protected void clientTick() {
         super.clientTick();
-        this.prevGlowProgress = this.glowProgress;
         this.glowProgress+=0.01F;
         if (this.glowProgress >= 1) {
             this.glowProgress = 0.0F;
@@ -205,7 +203,7 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
                     this.glowProgress = 0.5F;
                 }
                 if (pSource.getEntity().hurt(this.damageSources().generic(), 1.5F) && pSource.getEntity() instanceof LivingEntity entity) {
-                    entity.addEffect(new MobEffectInstance(HBEffects.VOLATILITY.get(), 40));
+                    entity.addEffect(new MobEffectInstance(HBEffects.VOLATILITY, 40));
                 }
             }
         }
