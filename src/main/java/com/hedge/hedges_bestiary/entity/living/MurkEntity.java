@@ -70,6 +70,8 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -218,8 +220,9 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
     }
 
+
     @Override
-    protected float getStandingEyeHeight(Pose pPose, EntityDimensions pDimensions) {
+    public double getEyeY() {
         return this.getBbHeight() * 0.82f;
     }
 
@@ -255,14 +258,14 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
             if (this.getAnimState() == 0) {
 
                 if (Minecraft.getInstance().options.keyAttack.isDown()) {
-                    HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 4));
+                    PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 4));
                 } else if (HBKeyMappings.MOUNT_ABILITY_KEY.isDown()) {
                     if (!this.isCharged() && this.chargeProgress >= 1F) {
                         this.chargeProgress = 1F;
-                        HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
+                        PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
                         this.roarCD = 0F;
                     } else {
-                        HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 6));
+                        PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 6));
                     }
                 }
 
@@ -389,7 +392,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
                     if (!player.getAbilities().instabuild) {
                         stack.shrink(1);
                     }
-                    if (this.tameAttempts-- <= 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
+                    if (this.tameAttempts-- <= 0) {
                         this.level().broadcastEntityEvent(this, (byte) 7);
                         this.tame(player);
                         player.startRiding(this);
@@ -623,7 +626,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
             for (LivingEntity entity : hit) {
                 if (!AttackHelpers.blockBreak(entity)) {
                     AttackHelpers.betterHurt(this, entity, 1.8f, 1.5f);
-                    entity.addEffect(new MobEffectInstance(HBEffects.VOLATILITY.get(), 40, 1));
+                    entity.addEffect(new MobEffectInstance(HBEffects.VOLATILITY, 40, 1));
                 } else {
                     AttackHelpers.betterHurt(this, entity, 0.8f, 0.8f);
                 }

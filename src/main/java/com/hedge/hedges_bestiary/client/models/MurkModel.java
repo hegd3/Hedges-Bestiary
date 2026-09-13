@@ -158,8 +158,9 @@ public class MurkModel extends HBModel<MurkEntity> {
 
 		netHeadYaw = Mth.clamp(netHeadYaw, -25.0F, 25.0F) * Mth.DEG_TO_RAD;
 		headPitch = Mth.clamp(headPitch, -25.0F, 25.0F) * Mth.DEG_TO_RAD;
-		float pitch = entity.getPitch(ageInTicks - entity.tickCount) * Mth.DEG_TO_RAD;
-		float tailYaw = entity.getTrailYaw(ageInTicks - entity.tickCount);
+		float partialTicks = ageInTicks - entity.tickCount;
+		float pitch = entity.getPitch(partialTicks) * Mth.DEG_TO_RAD;
+		float tailYaw = entity.getTrailYaw(partialTicks);
 
 
 
@@ -167,8 +168,8 @@ public class MurkModel extends HBModel<MurkEntity> {
 		if (this.young) {
 			this.applyStatic(GenericPosesAnimation.BABY_TRANSFORM_WITH_NECK);
 		}
-		this.animateSmooth(entity.swimIdleAnimationState, MurkBasicsAnimation.SWIM_IDLE, ageInTicks, 0.5f);
-		this.animateSmooth(entity.idleAnimationState, MurkBasicsAnimation.IDLE, ageInTicks, 0.33f);
+		this.animateSmooth(entity.swimIdleAnimationState, MurkBasicsAnimation.SWIM_IDLE, ageInTicks, partialTicks, 0.5f);
+		this.animateSmooth(entity.idleAnimationState, MurkBasicsAnimation.IDLE, ageInTicks, partialTicks, 0.33f);
 		this.animateWalk(MurkBasicsAnimation.SWIM, limbSwing, limbSwingAmount * (1 - entity.landProgress /5), 1.5f, 2.5f);
 		this.animateWalk(MurkBasicsAnimation.WALK, limbSwing, limbSwingAmount* (entity.landProgress /5), 1.5f, 2.5f);
 
@@ -190,12 +191,12 @@ public class MurkModel extends HBModel<MurkEntity> {
 		this.animate(entity.biteAnimationState, MurkAttacksAnimation.BITE, ageInTicks, 1f);
 		this.animate(entity.breathAnimationState, entity.swingingLeft() ? MurkAttacksAnimation.BREATH_LEFT : MurkAttacksAnimation.BREATH_RIGHT, ageInTicks, 1f);
 		this.animate(entity.sideSlamAnimationState, entity.swingingLeft() ? MurkAttacksAnimation.SIDE_SLAM_LEFT : MurkAttacksAnimation.SIDE_SLAM_RIGHT, ageInTicks, 1f);
-		this.animateSmooth(entity.clicksAnimationState, MurkBasicsAnimation.CLICKS, ageInTicks, 1f);
-		this.animateSmooth(entity.yawnAnimationState, MurkBasicsAnimation.YAWN, ageInTicks, 1f);
-		this.animateSmooth(entity.napAnimationState, MurkBasicsAnimation.SLEEP, ageInTicks, 1f);
-		this.animateSmooth(entity.sitAnimationState, MurkBasicsAnimation.SIT, ageInTicks, 1f);
-		this.animateSmooth(entity.danceAnimationState, MurkBasicsAnimation.DANCE, ageInTicks, 1f);
-		this.animateSmooth(entity.eatAnimationState, MurkAttacksAnimation.BITE, ageInTicks, 2f);
+		this.animateSmooth(entity.clicksAnimationState, MurkBasicsAnimation.CLICKS, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.yawnAnimationState, MurkBasicsAnimation.YAWN, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.napAnimationState, MurkBasicsAnimation.SLEEP, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.sitAnimationState, MurkBasicsAnimation.SIT, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.danceAnimationState, MurkBasicsAnimation.DANCE, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.eatAnimationState, MurkAttacksAnimation.BITE, ageInTicks, partialTicks, 2f);
 
 		this.tail.yRot = Mth.lerp(0.3F, this.tail.yRot, tailYaw * 0.25F);
 		this.tail2.yRot = Mth.lerp(0.3F, this.tail2.yRot, tailYaw * 0.2F);

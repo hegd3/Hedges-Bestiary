@@ -4,6 +4,8 @@ import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.client.ClientProxy;
 import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.config.HBConfig;
+import com.hedge.hedges_bestiary.events.ClientEvent;
+import com.hedge.hedges_bestiary.events.ServerEvent;
 import com.hedge.hedges_bestiary.items.HBCreativeTab;
 import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.registry.*;
@@ -21,6 +23,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
@@ -29,13 +32,11 @@ import java.util.concurrent.Executor;
 
 
 @Mod(HedgesBestiary.MODID)
-@EventBusSubscriber(modid = HedgesBestiary.MODID)
 public class HedgesBestiary
 {
     public static final String MODID = "hedges_bestiary";
 
     public static final Logger LOGGER = LogUtils.getLogger();
-    private static final ResourceLocation PACKET_NETWORK_NAME = new ResourceLocation(MODID + ":main_channel");
     @OnlyIn(Dist.CLIENT)
     public static final CommonProxy PROXY = new ClientProxy();
 
@@ -46,10 +47,22 @@ public class HedgesBestiary
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(this::onModConfigEvent);
-        NeoForge.EVENT_BUS.register(this);
+        modEventBus.addListener(ServerEvent::registerAttributes);
+        modEventBus.addListener(ServerEvent::entitySpawn);
+
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            modEventBus.addListener(ClientEvent::registerLayer);
+            modEventBus.addListener(ClientEvent::registerRenderer);
+            modEventBus.addListener(ClientEvent::registerKeyMappings);
+            modEventBus.addListener(ClientEvent::registerParticleFactories);
+            modEventBus.addListener(ClientEvent::registerItemRenderers);
+
+        }
+
+
+
         HBEntities.register(modEventBus);
         HBMenus.register(modEventBus);
-
         HBBlocks.registerBlocks(modEventBus);
         HBBlockEntities.register(modEventBus);
         HBItems.register(modEventBus);
@@ -63,7 +76,6 @@ public class HedgesBestiary
 
     }
 
-    @SubscribeEvent
     public void onModConfigEvent(final ModConfigEvent event) {
         final ModConfig config = event.getConfig();
         if (config.getSpec() == HBConfig.SPEC) {
@@ -80,8 +92,4 @@ public class HedgesBestiary
     private void clientSetup(final FMLClientSetupEvent event) {
     }
 
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-    }
 }

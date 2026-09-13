@@ -123,25 +123,24 @@ public class DawnDoveModel extends HBModel<DawnDoveEntity> {
 	@Override
 	public void setupAnim(DawnDoveEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-
+		float partialTicks = ageInTicks - entity.tickCount;
 		netHeadYaw = Mth.clamp(netHeadYaw, -15.0F, 15.0F) * ((float)Math.PI / 180F);
 		headPitch = Mth.clamp(headPitch, -8.0F, 8.0F) * ((float)Math.PI / 180F);;
 		if (this.young) {
 			this.applyStatic(GenericPosesAnimation.BABY_TRANSFORM_WITH_NECK);
 		}
-		this.animateSmooth(entity.idleAnimationState, DawnDoveAnimation.IDLE, ageInTicks, 0.5f);
-		this.animateSmooth(entity.sitAnimationState, DawnDoveAnimation.SIT, ageInTicks, 1f);
-		this.animateSmooth(entity.danceAnimationState, DawnDoveAnimation.DANCE, ageInTicks, 1f);
-		this.animateSmooth(entity.flyUpAnimationState, DawnDoveAnimation.FLY_UP, ageInTicks, this.young? limbSwingAmount * 0.4f + 0.8f : limbSwingAmount * 0.25f + 0.6f);
-		this.animateSmooth(entity.flyForwardAnimationState, DawnDoveAnimation.FLY_FORWARD, ageInTicks, 1);
-		this.animateSmooth(entity.glideAnimationState, DawnDoveAnimation.GLIDE, ageInTicks, limbSwingAmount * 0.25f + 0.7f);
-		this.animateSmooth(entity.napAnimationState, DawnDoveAnimation.SLEEP, ageInTicks, 1f);
-		this.animateSmooth(entity.clawAttackAnimationState, DawnDoveAnimation.CLAW_ATTACK, ageInTicks, 1f);
-		this.animateSmooth(entity.eatAnimationState, DawnDoveAnimation.BITE, ageInTicks, 2f);
+		this.animateSmooth(entity.idleAnimationState, DawnDoveAnimation.IDLE, ageInTicks, partialTicks, 0.5f);
+		this.animateSmooth(entity.sitAnimationState, DawnDoveAnimation.SIT, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.danceAnimationState, DawnDoveAnimation.DANCE, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.flyUpAnimationState, DawnDoveAnimation.FLY_UP, ageInTicks, partialTicks, this.young? limbSwingAmount * 0.4f + 0.8f : limbSwingAmount * 0.25f + 0.6f);
+		this.animateSmooth(entity.flyForwardAnimationState, DawnDoveAnimation.FLY_FORWARD, ageInTicks, partialTicks, 1);
+		this.animateSmooth(entity.glideAnimationState, DawnDoveAnimation.GLIDE, ageInTicks, partialTicks, limbSwingAmount * 0.25f + 0.7f);
+		this.animateSmooth(entity.napAnimationState, DawnDoveAnimation.SLEEP, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.clawAttackAnimationState, DawnDoveAnimation.CLAW_ATTACK, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.eatAnimationState, DawnDoveAnimation.BITE, ageInTicks, partialTicks, 2f);
 		this.animate(entity.biteAnimationState, DawnDoveAnimation.BITE, ageInTicks);
 		this.animate(entity.shootAnimationState, DawnDoveAnimation.SHOOT, ageInTicks);
 		if (entity.isFlying()) {
-			float partialTicks = ageInTicks - entity.tickCount;
 			float flyProgress = entity.getFlyProgress(partialTicks);
 
 
@@ -151,7 +150,7 @@ public class DawnDoveModel extends HBModel<DawnDoveEntity> {
 		} else {
 			this.animateWalk(DawnDoveAnimation.WALK, limbSwing, limbSwingAmount, 1.5f, 2.5f);
 		}
-		float tailYaw = entity.getTrailYaw(ageInTicks - entity.tickCount);
+		float tailYaw = entity.getTrailYaw(partialTicks);
 		this.tail.yRot += Mth.lerp(0.3F, this.tail.yRot, tailYaw * 0.27F);
 		this.tail2.yRot += Mth.lerp(0.3F, this.tail2.yRot, tailYaw * 0.23F);
 

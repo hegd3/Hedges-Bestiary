@@ -31,34 +31,12 @@ public record EntityKeyPacket(int entityId, int playerId, int key) implements Cu
             EntityKeyPacket::new
     );
 
-    public EntityKeyPacket(int entityId, int playerId, int key) {
-        this.entityId = entityId;
-        this.playerId = playerId;
-        this.key = key;
-    }
-
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 
-    /*
 
-    public static void handle(EntityKeyPacket message, Supplier<ClientPlayerNetworkEvent> context) {
-        context.get().enqueueWork(() -> {
-            Player playerSided = context.get().getSender();
-            //if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
-            //    playerSided = hedgesBestiary.PROXY.getClientSidePlayer();
-            //}
-            Entity parent = playerSided.level().getEntity(message.entityId);
-            Entity keyPresser = playerSided.level().getEntity(message.playerId);
-            if (parent instanceof KeybindUsing creature && keyPresser instanceof Player) {
-                creature.onKeyPacket(keyPresser, message.type);
-            }
-        });
-        context.get().setPacketHandled(true);
-    }
-     */
 
 }

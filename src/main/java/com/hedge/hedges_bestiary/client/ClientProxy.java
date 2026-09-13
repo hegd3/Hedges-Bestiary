@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(modid = HedgesBestiary.MODID, value = Dist.CLIENT)
-
 public class ClientProxy extends CommonProxy {
 
     public static List<UUID> blockedEntityRenders = new ArrayList<>();

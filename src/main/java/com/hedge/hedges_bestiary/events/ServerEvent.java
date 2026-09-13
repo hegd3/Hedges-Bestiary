@@ -7,6 +7,7 @@ import com.hedge.hedges_bestiary.entity.living.ambientfish.GildGliderEntity;
 import com.hedge.hedges_bestiary.entity.living.ambientfish.ChubEntity;
 import com.hedge.hedges_bestiary.entity.living.ambientfish.SkibEntity;
 import com.hedge.hedges_bestiary.networking.ClientPayloadHandler;
+import com.hedge.hedges_bestiary.networking.packet.DanceJukeboxPacket;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import net.minecraft.world.entity.SpawnPlacementType;
@@ -26,7 +27,6 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 public class ServerEvent {
 
-    @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(HBEntities.BURODON.get(), BurodonEntity.bakeAttributes().build());
         event.put(HBEntities.SPOTTED_STRIKER.get(), SpottedStrikerEntity.bakeAttributes().build());
@@ -44,7 +44,6 @@ public class ServerEvent {
 
     }
 
-    @SubscribeEvent
     public static void entitySpawn(RegisterSpawnPlacementsEvent event) {
         event.register(HBEntities.BURODON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(HBEntities.GURK.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GurkEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
@@ -65,6 +64,8 @@ public class ServerEvent {
                 .executesOn(HandlerThread.MAIN);
 
         registrar.playToServer(EntityKeyPacket.TYPE, EntityKeyPacket.STREAM_CODEC, ClientPayloadHandler::handleEntityKeyPacket);
+        registrar.playToServer(DanceJukeboxPacket.TYPE, DanceJukeboxPacket.STREAM_CODEC, ClientPayloadHandler::handleDanceJukeboxPacket);
+
     }
 
 

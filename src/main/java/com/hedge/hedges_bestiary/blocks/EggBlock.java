@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -31,23 +32,22 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.RegistryObject;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class EggBlock<E extends EntityType<?>> extends BaseEntityBlock {
+public class EggBlock<E extends Entity> extends BaseEntityBlock {
 
     public static final MapCodec<EggBlock<?>> CODEC = simpleCodec(EggBlock::new);
 
     public static final IntegerProperty HATCH = BlockStateProperties.HATCH;
 
     public static final VoxelShape LARGE_EGG = BlockHelpers.createRectangular(10, 14);
-    protected final DeferredHolder<EntityType<?>, E> toHatch;
+    protected final DeferredHolder<EntityType<?>, EntityType<E>> toHatch;
     private final VoxelShape shape;
 
-    public EggBlock(Properties pProperties, DeferredHolder<EntityType<?>, E> toHatch, VoxelShape shape) {
+    public EggBlock(Properties pProperties, DeferredHolder<EntityType<?>, EntityType<E>> toHatch, VoxelShape shape) {
         super(pProperties);
         this.toHatch = toHatch;
         this.shape = shape;
@@ -55,7 +55,7 @@ public class EggBlock<E extends EntityType<?>> extends BaseEntityBlock {
     }
 
     public EggBlock(Properties properties) {
-        this(properties, HBEntities.GURK, LARGE_EGG);
+        this(properties, null, LARGE_EGG);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class EggBlock<E extends EntityType<?>> extends BaseEntityBlock {
         return new EggBlockEntity<>(pPos, pState, toHatch);
     }
 
-    public DeferredHolder<EntityType<?>, E> getToHatch() {
+    public DeferredHolder<EntityType<?>, EntityType<E>> getToHatch() {
         return this.toHatch;
     }
 

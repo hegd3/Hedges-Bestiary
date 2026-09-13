@@ -75,25 +75,26 @@ public class FerocetusModel extends HBModel<FerocetusEntity> {
 	public void setupAnim(FerocetusEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		headPitch = (Mth.clamp(headPitch, -25.0F, 25.0F)) * Mth.DEG_TO_RAD;
-		float pitch = entity.getPitch(ageInTicks - entity.tickCount) * Mth.DEG_TO_RAD;
-		float tailYaw = entity.getTrailYaw(ageInTicks - entity.tickCount);
+		float partialTicks = ageInTicks - entity.tickCount;
+		float pitch = entity.getPitch(partialTicks) * Mth.DEG_TO_RAD;
+		float tailYaw = entity.getTrailYaw(partialTicks);
 		this.tail.yRot = Mth.lerp(0.3F, this.tail.yRot, tailYaw * 0.3F);
 		this.tail.yRot = Mth.lerp(0.3F, this.tail.yRot, tailYaw * 0.25F);
 
 
-		this.animateSmooth(entity.biteAnimationState, FerocetusAnimation.BITE, ageInTicks, 1f);
-		this.animateSmooth(entity.ramAnimationState, FerocetusAnimation.RAM, ageInTicks, 1f);
-		this.animateSmooth(entity.airAnimationState, FerocetusAnimation.AIR, ageInTicks, 1f);
-		this.animateSmooth(entity.grabAnimationState, entity.isGrabbing() ? FerocetusAnimation.CHEW : FerocetusAnimation.GRAB, ageInTicks, 1f);
-		this.animateSmooth(entity.grabbingAnimationState, FerocetusAnimation.GRABBING, ageInTicks, 1f);
+		this.animateSmooth(entity.biteAnimationState, FerocetusAnimation.BITE, partialTicks, ageInTicks, 1f);
+		this.animateSmooth(entity.ramAnimationState, FerocetusAnimation.RAM, partialTicks, ageInTicks, 1f);
+		this.animateSmooth(entity.airAnimationState, FerocetusAnimation.AIR, partialTicks, ageInTicks, 1f);
+		this.animateSmooth(entity.grabAnimationState, entity.isGrabbing() ? FerocetusAnimation.CHEW : FerocetusAnimation.GRAB, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.grabbingAnimationState, FerocetusAnimation.GRABBING, partialTicks, ageInTicks, 1f);
 
 		this.animate(entity.spinAnimationState, entity.swingingLeft() ? FerocetusAnimation.SPIN_LEFT : FerocetusAnimation.SPIN_RIGHT, ageInTicks, 1f);
 		this.animate(entity.danceAnimationState, FerocetusAnimation.DANCE, ageInTicks, 1f);
-		this.animateSmooth(entity.callAnimationState, FerocetusAnimation.CALL, ageInTicks, 1f);
-		this.animateSmooth(entity.idleAnimationState, FerocetusAnimation.IDLE, ageInTicks, 0.5f);
-		this.animateSmooth(entity.beachedAnimationState, FerocetusAnimation.BEACHED, ageInTicks, 0.5f);
+		this.animateSmooth(entity.callAnimationState, FerocetusAnimation.CALL, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.idleAnimationState, FerocetusAnimation.IDLE, ageInTicks, partialTicks, 0.5f);
+		this.animateSmooth(entity.beachedAnimationState, FerocetusAnimation.BEACHED, ageInTicks, partialTicks, 0.5f);
 		if (entity.isInFluidType()) {
-			this.swimcontrol.xRot = headPitch + entity.getPitch(ageInTicks - entity.tickCount) * Mth.DEG_TO_RAD;
+			this.swimcontrol.xRot = headPitch + entity.getPitch(partialTicks) * Mth.DEG_TO_RAD;
 			this.swimcontrol.zRot = entity.roll;
 			this.animateWalk(FerocetusAnimation.SWIM, limbSwing, limbSwingAmount, 1.3f, 1f);
 		} else {

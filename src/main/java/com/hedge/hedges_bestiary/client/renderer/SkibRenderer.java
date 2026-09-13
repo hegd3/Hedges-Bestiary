@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 
 public class SkibRenderer extends MobRenderer<SkibEntity, SkibModel> {
@@ -42,7 +43,8 @@ public class SkibRenderer extends MobRenderer<SkibEntity, SkibModel> {
             if (entity.isInvisible()) return;
             VertexConsumer vertexconsumer = pBuffer.getBuffer(GLOW);
             float alpha = Mth.sin(entity.glowProgress * Mth.PI);
-            this.getParentModel().renderToBuffer(pPoseStack, vertexconsumer, 1, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, alpha);
+            int i = FastColor.ARGB32.color(Mth.floor(alpha * 255.0F), 255, 255, 255);
+            this.getParentModel().renderToBuffer(pPoseStack, vertexconsumer, 1, OverlayTexture.NO_OVERLAY, i);
 
         }
     }

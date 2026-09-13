@@ -222,7 +222,7 @@ public class GurkEntity extends HBTamableAnimal implements VariantMob, EggLayer 
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData) {
 
         if (this.getRandom().nextInt(40) == 0) {
             this.setVariant(3);
@@ -234,7 +234,7 @@ public class GurkEntity extends HBTamableAnimal implements VariantMob, EggLayer 
                 this.setVariant(2);
             }
         }
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData);
     }
 
     @Override

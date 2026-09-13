@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.layers.EyesLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class TearacudaEyeLayer extends EyesLayer<TearacudaEntity, TearacudaModel> {
-    private static final RenderType texture = RenderType.eyes(new ResourceLocation(HedgesBestiary.MODID, "textures/entity/tearacuda/tearacuda_eyes.png"));
+    private static final RenderType texture = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/tearacuda/tearacuda_eyes.png"));
 
     public TearacudaEyeLayer(TearacudaRenderer pRenderer) {
         super(pRenderer);

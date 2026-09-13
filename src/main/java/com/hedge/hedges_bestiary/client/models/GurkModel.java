@@ -90,7 +90,7 @@ public class GurkModel extends HBModel<GurkEntity> {
 
 		netHeadYaw = Mth.clamp(netHeadYaw, -25.0F, 25.0F) * ((float)Math.PI / 180F);
 		headPitch = Mth.clamp(headPitch, -25.0F, 25.0F) * ((float)Math.PI / 180F);
-
+		float partialTicks = ageInTicks - entity.tickCount;
 		this.swimcontrol.xRot = entity.isInFluidType() ? headPitch * 0.75f : 0;
 		this.headrot.yRot = netHeadYaw;
 		this.headrot.xRot = headPitch;
@@ -104,10 +104,10 @@ public class GurkModel extends HBModel<GurkEntity> {
 			this.animateWalk(GurkAnimation.WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
 			this.animate(entity.idleAnimationState, GurkAnimation.IDLE, ageInTicks, 0.5f);
 		}
-		this.animateSmooth(entity.sitAnimationState, GurkAnimation.SIT, ageInTicks, 1f);
-		this.animateSmooth(entity.napAnimationState, GurkAnimation.SLEEP, ageInTicks, 1f);
-		this.animateSmooth(entity.danceAnimationState, GurkAnimation.DANCE, ageInTicks, 1f);
-		this.animateSmooth(entity.standAnimationState, GurkAnimation.STAND_UP, ageInTicks, 1f);
+		this.animateSmooth(entity.sitAnimationState, GurkAnimation.SIT, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.napAnimationState, GurkAnimation.SLEEP, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.danceAnimationState, GurkAnimation.DANCE, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.standAnimationState, GurkAnimation.STAND_UP, ageInTicks, partialTicks, 1f);
 
 	}
 }

@@ -61,6 +61,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -348,9 +349,9 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
             if (this.getAnimState() == 0) {
 
                 if (Minecraft.getInstance().options.keyAttack.isDown()) {
-                    HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 4));
+                    PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 4));
                 } else if (HBKeyMappings.MOUNT_ABILITY_KEY.isDown()) {
-                    HedgesBestiary.sendMSGToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
+                    PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
                 }
 
 

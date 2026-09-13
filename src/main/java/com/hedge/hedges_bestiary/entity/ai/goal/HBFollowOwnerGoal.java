@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 
 import java.util.EnumSet;
@@ -73,8 +73,8 @@ public class HBFollowOwnerGoal extends Goal {
     public void start() {
         this.timeToRecalcPath = 0;
         if (shouldChangeMalus) {
-            this.oldWaterCost = mob.getPathfindingMalus(BlockPathTypes.WATER);
-            this.mob.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+            this.oldWaterCost = mob.getPathfindingMalus(PathType.WATER);
+            this.mob.setPathfindingMalus(PathType.WATER, 0.0F);
         }
     }
 
@@ -83,7 +83,7 @@ public class HBFollowOwnerGoal extends Goal {
         this.owner = null;
         this.mob.getNavigation().stop();
         if (shouldChangeMalus) {
-            this.mob.setPathfindingMalus(BlockPathTypes.WATER, oldWaterCost);
+            this.mob.setPathfindingMalus(PathType.WATER, oldWaterCost);
         }
     }
 
@@ -132,8 +132,8 @@ public class HBFollowOwnerGoal extends Goal {
     }
 
     protected boolean canTeleportTo(BlockPos blockPos) {
-        BlockPathTypes blockpathtypes = WalkNodeEvaluator.getBlockPathTypeStatic(this.mob.level(), blockPos.mutable());
-        if (blockpathtypes != BlockPathTypes.WALKABLE) {
+        PathType blockpathtypes = WalkNodeEvaluator.getPathTypeStatic(this.mob, blockPos.mutable());
+        if (blockpathtypes != PathType.WALKABLE) {
             return false;
         } else {
             BlockState blockstate = mob.level().getBlockState(blockPos.below());

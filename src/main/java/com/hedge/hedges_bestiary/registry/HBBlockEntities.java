@@ -4,6 +4,7 @@ import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.blocks.EggBlockEntity;
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -16,7 +17,7 @@ public class HBBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> DEF_REG = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, HedgesBestiary.MODID);
 
-    public static final DeferredHolder<BlockEntityType<EggBlockEntity<EntityType<?>>>, BlockEntityType<EggBlockEntity<EntityType<?>>>> EGG_BLOCK_ENTITY = DEF_REG.register(
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EggBlockEntity<Entity>>> EGG_BLOCK_ENTITY = DEF_REG.register(
             "egg_block_entity", () -> BlockEntityType.Builder.of(EggBlockEntity::new,
                     HBBlocks.MURK_EGG.get(),
                     HBBlocks.DAWN_DOVE_EGG.get(),
