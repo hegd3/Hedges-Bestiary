@@ -571,8 +571,12 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
         if (this.isInWater() && (pPlayer.zza != 0 || this.yya != 0)) {
-            float newYaw = Mth.rotLerp(0.1F, this.getYRot(), pPlayer.getYHeadRot());
-            this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -30, 30));
+            if (this.level().isClientSide) {
+                float newYaw = Mth.rotLerp(0.1F, this.getYRot(), pPlayer.getYHeadRot());
+                this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -30, 30));
+            } else {
+                this.setRot(pPlayer.getYRot(), Mth.clamp(pPlayer.getXRot(), -30, 30));
+            }
             this.setYHeadRot(pPlayer.getYHeadRot());
         } else if (this.onGround()) {
             this.ejectPassengers();
