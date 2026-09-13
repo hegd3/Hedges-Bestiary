@@ -2,6 +2,7 @@ package com.hedge.hedges_bestiary.message;
 
 import com.hedge.hedges_bestiary.entity.types.KeybindUsing;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.profiling.jfr.event.NetworkSummaryEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;

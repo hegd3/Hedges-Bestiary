@@ -38,7 +38,9 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -148,6 +150,10 @@ public class ZappetEntity extends TamableFlyer implements HBGroupMob<ZappetEntit
         this.goalSelector.addGoal(i++, new FloatGoal(this));
         this.goalSelector.addGoal(i++, new ZappetOnHeadOverrideGoal());
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
+        this.goalSelector.addGoal(i++, new EggLayerBreedGoal<>(this, 1.0f));
+        this.goalSelector.addGoal(i++, new LayEggsGoal<>(this, 100, 1.0f));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(Items.RAW_COPPER), false));
+
         this.goalSelector.addGoal(i++, new FlyerFollowOwnerGoal(this, 1.2D, 1.6D, 8.0f, 5.0f));
         this.goalSelector.addGoal(i++, new ZappetProjectileShieldGoal(this));
         this.goalSelector.addGoal(i++, new FlockingGoal<>(this) {
