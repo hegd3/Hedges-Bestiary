@@ -88,8 +88,6 @@ public class ZappetRenderer extends MobRenderer<ZappetEntity, ZappetModel> {
             float f24 = Mth.sin(0 + (Mth.PI / 2F)) * 0.4F;
             float f25 = Mth.cos(0 + (Mth.PI * 1.5F)) * 0.4F;
             float f26 = Mth.sin(0 + (Mth.PI * 1.5F)) * 0.4F;
-            float f27 = 0.0F;
-            float f28 = 0.4999F;
             float f29 = -1.0F + f2;
             float f30 = f4 * 0.5F + f29;
             VertexConsumer ivertexbuilder = buffer.getBuffer(HBRenderTypes.getBeam(this.getBeamTexture(entity)));

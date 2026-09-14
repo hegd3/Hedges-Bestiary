@@ -43,7 +43,7 @@ public class SkibRenderer extends MobRenderer<SkibEntity, SkibModel> {
             if (entity.isInvisible()) return;
             VertexConsumer vertexconsumer = pBuffer.getBuffer(GLOW);
             float alpha = Mth.sin(entity.glowProgress * Mth.PI);
-            int i = FastColor.ARGB32.color(Mth.floor(alpha * 255.0F), 255, 255, 255);
+            int i = FastColor.ARGB32.color((int)(alpha * 255), 255, 255, 255);
             this.getParentModel().renderToBuffer(pPoseStack, vertexconsumer, 1, OverlayTexture.NO_OVERLAY, i);
 
         }

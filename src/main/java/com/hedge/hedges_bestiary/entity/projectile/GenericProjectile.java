@@ -1,6 +1,7 @@
 package com.hedge.hedges_bestiary.entity.projectile;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -16,6 +17,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 
 import java.util.Objects;
+import java.util.OptionalInt;
 
 public abstract class GenericProjectile extends Projectile {
 
@@ -33,6 +35,7 @@ public abstract class GenericProjectile extends Projectile {
         }
         return super.isAlliedTo(pEntity);
     }
+
 
     @Override
     public void shoot(double pX, double pY, double pZ, float pVelocity, float pInaccuracy) {

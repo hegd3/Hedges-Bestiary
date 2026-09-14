@@ -129,7 +129,7 @@ public class SpottedStrikerModel extends HBModel<SpottedStrikerEntity> {
 
 	@Override
 	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, int color) {
-		int i = FastColor.ARGB32.color(Mth.floor(alpha * 255.0F), 255, 255, 255);
+		int i = FastColor.ARGB32.color(255 - (int)(alpha * 255), 255, 255, 255);
 		super.renderToBuffer(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, i);
 	}
 

@@ -20,7 +20,7 @@ import com.hedge.hedges_bestiary.entity.types.TamableFlyer;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.MathHelpers;
 import com.hedge.hedges_bestiary.items.TreatItem;
-import com.hedge.hedges_bestiary.message.EntityKeyMessage;
+import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
 import com.hedge.hedges_bestiary.registry.HBTags;
@@ -58,6 +58,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -139,10 +140,10 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(GRABBED_ENTITY_ID, -1);
-        this.entityData.define(HAS_EGG, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(GRABBED_ENTITY_ID, -1);
+        builder.define(HAS_EGG, false);
     }
 
 
@@ -167,7 +168,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
                 this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
                 if (!this.isFlying()) {
                     this.setFlying(true);
-                    HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.getId(), rider.getId(), 3));
+                    PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 3));
                 }
 
             } else if (Minecraft.getInstance().options.keySprint.isDown() && this.isFlying()) {
@@ -176,12 +177,12 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
 
             if (this.getAnimState() == 0) {
                 if (Minecraft.getInstance().options.keyAttack.isDown()) {
-                    HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.getId(), rider.getId(), 4));
+                    PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 4));
                 } else if (this.shootCD == 64 && HBKeyMappings.MOUNT_ABILITY_KEY.isDown()) {
                     this.shootCD = 0;
-                    HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.getId(), rider.getId(), 5));
+                    PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
                 } else if (Minecraft.getInstance().options.keyUse.isDown() && this.isFlying()) {
-                    HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.getId(), rider.getId(), 6));
+                    PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 6));
                 }
             }
 
@@ -223,7 +224,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
                         itemStack.shrink(1);
                     }
                     this.tameAttempts--;
-                    if (tameAttempts == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
+                    if (tameAttempts == 0) {
                         this.level().broadcastEntityEvent(this, (byte) 7);
                         this.tame(player);
                         this.heal(this.getMaxHealth());
