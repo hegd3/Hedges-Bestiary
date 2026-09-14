@@ -107,11 +107,6 @@ public class SpottedStrikerEntity extends HBAquaticMob implements AttackStateMob
     }
 
     @Override
-    public double getEyeY() {
-        return this.getBbHeight() * 0.4f;
-    }
-
-    @Override
     public boolean isInvisible() {
         if (!this.level().isClientSide && this.isCloaked()) {
             return true;

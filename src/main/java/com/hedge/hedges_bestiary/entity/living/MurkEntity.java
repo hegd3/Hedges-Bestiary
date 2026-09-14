@@ -220,11 +220,13 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
     }
 
-
+    /*
     @Override
     public double getEyeY() {
         return this.getBbHeight() * 0.82f;
     }
+
+     */
 
     @Override
     public boolean isPushable() {
@@ -340,7 +342,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     @Override
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
-        float newYaw = Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYHeadRot());
+        float newYaw = this.level().isClientSide ? Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYHeadRot()) : pPlayer.getYRot();
         this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -10, 10));
         this.setYHeadRot(pPlayer.getYHeadRot());
 

@@ -113,7 +113,8 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
         if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
             serverPlayer.openMenu(new SimpleMenuProvider((containerId, playerInventory, p) ->
                                 new HBTamableMenu(containerId, this),
-                    this.getName()));
+                    this.getName()),
+            buf -> buf.writeInt(this.getId()));
         }
     }
 

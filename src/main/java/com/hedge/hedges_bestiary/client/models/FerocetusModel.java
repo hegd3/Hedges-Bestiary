@@ -82,17 +82,18 @@ public class FerocetusModel extends HBModel<FerocetusEntity> {
 		this.tail.yRot = Mth.lerp(0.3F, this.tail.yRot, tailYaw * 0.25F);
 
 
-		this.animateSmooth(entity.biteAnimationState, FerocetusAnimation.BITE, partialTicks, ageInTicks, 1f);
-		this.animateSmooth(entity.ramAnimationState, FerocetusAnimation.RAM, partialTicks, ageInTicks, 1f);
-		this.animateSmooth(entity.airAnimationState, FerocetusAnimation.AIR, partialTicks, ageInTicks, 1f);
-		this.animateSmooth(entity.grabAnimationState, entity.isGrabbing() ? FerocetusAnimation.CHEW : FerocetusAnimation.GRAB, ageInTicks, partialTicks, 1f);
-		this.animateSmooth(entity.grabbingAnimationState, FerocetusAnimation.GRABBING, partialTicks, ageInTicks, 1f);
-
-		this.animate(entity.spinAnimationState, entity.swingingLeft() ? FerocetusAnimation.SPIN_LEFT : FerocetusAnimation.SPIN_RIGHT, ageInTicks, 1f);
-		this.animate(entity.danceAnimationState, FerocetusAnimation.DANCE, ageInTicks, 1f);
 		this.animateSmooth(entity.callAnimationState, FerocetusAnimation.CALL, ageInTicks, partialTicks, 1f);
 		this.animateSmooth(entity.idleAnimationState, FerocetusAnimation.IDLE, ageInTicks, partialTicks, 0.5f);
 		this.animateSmooth(entity.beachedAnimationState, FerocetusAnimation.BEACHED, ageInTicks, partialTicks, 0.5f);
+		this.animateSmooth(entity.grabAnimationState, entity.isGrabbing() ? FerocetusAnimation.CHEW : FerocetusAnimation.GRAB, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.grabbingAnimationState, FerocetusAnimation.GRABBING, ageInTicks, partialTicks, 1f);
+
+		this.animateSmooth(entity.biteAnimationState, FerocetusAnimation.BITE, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.ramAnimationState, FerocetusAnimation.RAM, ageInTicks, partialTicks, 1f);
+		this.animateSmooth(entity.airAnimationState, FerocetusAnimation.AIR, ageInTicks, partialTicks, 1f);
+
+		this.animate(entity.spinAnimationState, entity.swingingLeft() ? FerocetusAnimation.SPIN_LEFT : FerocetusAnimation.SPIN_RIGHT, ageInTicks, 1f);
+		this.animate(entity.danceAnimationState, FerocetusAnimation.DANCE, ageInTicks, 1f);
 		if (entity.isInFluidType()) {
 			this.swimcontrol.xRot = headPitch + entity.getPitch(partialTicks) * Mth.DEG_TO_RAD;
 			this.swimcontrol.zRot = entity.roll;

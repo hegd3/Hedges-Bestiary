@@ -307,10 +307,13 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
         return player.isShiftKeyDown();
     }
 
+    /*
     @Override
     public double getEyeY() {
         return this.getBbHeight()/1.38f;
     }
+
+     */
 
     @Override
     public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {

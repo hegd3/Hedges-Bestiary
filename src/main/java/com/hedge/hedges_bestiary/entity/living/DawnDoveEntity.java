@@ -197,7 +197,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
     protected void tickRidden(Player pPlayer, Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
         if (pPlayer.zza != 0 || pPlayer.xxa != 0) {
-            float newYaw = Mth.rotLerp(0.1F, this.getYRot(), pPlayer.getYHeadRot());
+            float newYaw = this.level().isClientSide ? Mth.rotLerp(0.1F, this.getYRot(), pPlayer.getYHeadRot()) : pPlayer.getYRot();
             this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -45, 45));
             this.setYHeadRot(pPlayer.getYHeadRot());
 
