@@ -510,7 +510,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
                     }
                     case 2 -> {
                         if (this.animTicks < 10 && target != null) {
-                       //     this.lookAt(target, 30f, 30f);
+                            //     this.lookAt(target, 30f, 30f);
                             this.getLookControl().setLookAt(target, 30f, 30f);
                         }
                         else if (this.animTicks >= 16 && this.animTicks <= 24 && this.animTicks % 2 == 0) {
@@ -966,4 +966,3 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
 
 }
-

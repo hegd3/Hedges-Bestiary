@@ -46,7 +46,7 @@ public class AvoidTargetWhenLowGoal extends Goal {
         } else if (this.mob.getHealth() > healthThreshold) {
             return false;
         }
-        Vec3 vec3 = DefaultRandomPos.getPosAway(this.mob, radius, yRange, toAvoid.position());
+        Vec3 vec3 = this.getPos(toAvoid);
         if (vec3 == null) {
             return false;
         } else if (toAvoid.distanceToSqr(vec3.x, vec3.y, vec3.z) < toAvoid.distanceToSqr(this.mob)) {
@@ -55,6 +55,10 @@ public class AvoidTargetWhenLowGoal extends Goal {
             this.path = this.mob.getNavigation().createPath(vec3.x, vec3.y, vec3.z, 0);
             return this.path != null;
         }
+    }
+
+    protected Vec3 getPos(LivingEntity target) {
+        return DefaultRandomPos.getPosAway(this.mob, radius, yRange, target.position());
     }
 
     @Override

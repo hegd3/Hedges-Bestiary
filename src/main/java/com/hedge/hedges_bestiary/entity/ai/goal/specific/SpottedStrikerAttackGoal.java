@@ -6,7 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class SpottedStrikerAttackGoal extends GenericMeleeGoal<SpottedStrikerEntity> {
 
-
+    private int cloakPathTicks;
     public SpottedStrikerAttackGoal(SpottedStrikerEntity mob) {
         super(mob, 1.2f);
     }
@@ -17,6 +17,11 @@ public class SpottedStrikerAttackGoal extends GenericMeleeGoal<SpottedStrikerEnt
         if (this.mob.isCloaked()) {
             this.mob.setCloaked(false);
         }
+    }
+
+    @Override
+    public void start() {
+        super.start();
     }
 
     @Override
@@ -34,17 +39,22 @@ public class SpottedStrikerAttackGoal extends GenericMeleeGoal<SpottedStrikerEnt
                     }
                 } else if (this.mob.canUseAttack(livingentity, this.attackReach, this.dist)) {
                     this.mob.setAnimState(1);
-                    this.mob.setCloaked(false);
-                } else if (this.mob.canCloak(this.attackReach, this.dist)) {
+                    if (this.mob.isCloaked()) {
+                        this.mob.setCloaked(false);
+                    }
+                }
+                else if (this.mob.canCloak(this.attackReach, this.dist)) {
                     this.mob.setCloaked(true);
                 }
+
+
             }
         }
     }
 
     @Override
     protected double getSpeedModifier() {
-        if (this.mob.getAnimState() > 0) return 0.7;
+        if (this.mob.getAnimState() > 0) return 0.8;
         return 1.2f;
     }
 

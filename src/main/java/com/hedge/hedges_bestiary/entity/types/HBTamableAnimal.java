@@ -412,6 +412,8 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
         }
     }
 
+
+
     @Override
     public boolean canMate(Animal otherAnimal) {
         if (this.isTamable() && !this.isTame()) {
