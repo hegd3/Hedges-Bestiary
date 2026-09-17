@@ -555,16 +555,18 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
 
     @Override
     protected void positionRider(Entity passenger, MoveFunction moveFunc) {
-        final float angle = (MathHelpers.STARTING_ANGLE * this.yBodyRot);
-        passenger.setYBodyRot(this.yBodyRot);
-        if (passenger instanceof LivingEntity living) {
+        if (this.isPassengerOfSameVehicle(passenger) && passenger instanceof LivingEntity living && !this.touchingUnloadedChunk()) {
+            passenger.setYBodyRot(this.yBodyRot);
             clampRotation(living, 105);
-        }
-        double targetY = this.getY() + passenger.getBbHeight();
-        double extraX = Mth.sin(Mth.PI + angle) * 0.25;
-        double extraZ = Mth.cos(angle) * 0.25;
+            passenger.fallDistance = 0.0F;
 
-        moveFunc.accept(passenger, this.getX() + extraX, targetY, this.getZ() + extraZ);
+            Vec3 v = new Vec3(0, passenger.getBbHeight(), 1).yRot(-this.yBodyRot * Mth.DEG_TO_RAD);
+
+            moveFunc.accept(passenger, this.getX() + v.x, this.getY() + v.y, this.getZ() + v.z);
+
+        } else {
+            super.positionRider(passenger, moveFunc);
+        }
     }
 
     @Override

@@ -271,30 +271,16 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
     @Override
     public void positionRider(Entity passenger, Entity.MoveFunction moveFunc) {
         if (this.isPassengerOfSameVehicle(passenger) && passenger instanceof LivingEntity living && !this.touchingUnloadedChunk()) {
-            final float angle = (MathHelpers.STARTING_ANGLE * this.yBodyRot);
             passenger.setYBodyRot(this.yBodyRot);
             clampRotation(living, 105);
             float flight = this.getFlyProgress(1.0F);
-            double targetY = this.getY() + passenger.getBbHeight() + 0.35F * flight;
-            double extraX;
-            double extraZ;
-            if (this.getPassengers().size() > 1) {
-                int i = this.getPassengers().indexOf(passenger);
-                if (i == 0) {
-                    extraX = 0.5f * Mth.sin(Mth.PI + angle);
-                    extraZ = 0.5f * Mth.cos(angle);
-                } else {
-                    extraX = -0.5f * Mth.sin(Mth.PI + angle);
-                    extraZ = -0.5f * Mth.cos(angle);
-                }
-            } else {
-                extraX = 0.5f * Mth.sin(Mth.PI + angle);
-                extraZ = 0.5f * Mth.cos(angle);
-            }
-
-
+            passenger.setYBodyRot(this.yBodyRot);
+            clampRotation(living, 105);
             passenger.fallDistance = 0.0F;
-            moveFunc.accept(passenger, this.getX() + extraX, targetY, this.getZ() + extraZ);
+            Vec3 v = new Vec3(0, passenger.getBbHeight(), 0.5).yRot(-this.yBodyRot * Mth.DEG_TO_RAD).xRot(flight * Mth.DEG_TO_RAD);
+            moveFunc.accept(passenger, this.getX() + v.x, this.getY() + v.y, this.getZ() + v.z);
+
+
         } else {
             super.positionRider(passenger, moveFunc);
         }

@@ -339,6 +339,7 @@ public class SpottedStrikerEntity extends HBAquaticMob implements AttackStateMob
 
         @Override
         public void start() {
+            super.start();
             if (!this.mob.isCloaked()) {
                 this.mob.setCloaked(true);
             }

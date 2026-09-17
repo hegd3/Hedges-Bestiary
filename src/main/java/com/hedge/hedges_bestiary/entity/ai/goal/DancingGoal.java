@@ -27,7 +27,7 @@ public class DancingGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        if (!this.mob.isSitting() || this.mob.getTarget() != null || this.mob.hasControllingPassenger()) {
+        if (!this.mob.isSitting() || this.mob.getLastHurtByMob() != null || this.mob.hasControllingPassenger()) {
             return false;
         }
         if (this.stopsDancingInWater) {
@@ -47,7 +47,7 @@ public class DancingGoal extends Goal {
             BlockState state = this.mob.level().getBlockState(jukebox);
             if (jukebox == null || !state.is(Blocks.JUKEBOX)) {
                 return false;
-            } else if (!state.getValue(JukeboxBlock.HAS_RECORD) || !jukebox.closerToCenterThan(this.mob.position(), 8D)) {
+            } else if (!state.getValue(JukeboxBlock.HAS_RECORD) || !jukebox.closerToCenterThan(this.mob.position(), 16D)) {
                 return false;
             }
         }

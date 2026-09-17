@@ -390,20 +390,18 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
 
     @Override
     protected void positionRider(Entity passenger, MoveFunction moveFunc) {
-        final float angle = (MathHelpers.STARTING_ANGLE * this.yBodyRot);
-        passenger.setYBodyRot(this.yBodyRot);
-        if (passenger instanceof LivingEntity living) {
+        if (this.isPassengerOfSameVehicle(passenger) && passenger instanceof LivingEntity living && !this.touchingUnloadedChunk()) {
+            passenger.setYBodyRot(this.yBodyRot);
             clampRotation(living, 105);
-        }
-        double targetY = this.getY() + passenger.getBbHeight();
-        double extraX = -Mth.sin(Mth.PI + angle) * 0.5F;
-        double extraZ = -Mth.cos(angle) * 0.5F;
-        if (this.getAnimState() == 2 || this.isScratching()) {
-            extraX *=4F;
-            extraZ *=4F;
-        }
+            passenger.fallDistance = 0.0F;
 
-        moveFunc.accept(passenger, this.getX() + extraX, targetY, this.getZ() + extraZ);
+            Vec3 v = new Vec3(0, passenger.getBbHeight(), this.getAnimState() == 2 ? -2 : -0.5).yRot(-this.yBodyRot * Mth.DEG_TO_RAD);
+
+            moveFunc.accept(passenger, this.getX() + v.x, this.getY() + v.y, this.getZ() + v.z);
+
+        } else {
+            super.positionRider(passenger, moveFunc);
+        }
     }
 
 

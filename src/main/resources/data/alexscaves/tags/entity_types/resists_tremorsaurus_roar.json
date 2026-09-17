@@ -1,0 +1,8 @@
+{
+  "__comment": "all mobs that are not shaken by a tremorsaurus roar.",
+  "replace": false,
+  "values": [
+    "hedges_bestiary:murk",
+    "hedges_bestiary:ferocetus"
+  ]
+}

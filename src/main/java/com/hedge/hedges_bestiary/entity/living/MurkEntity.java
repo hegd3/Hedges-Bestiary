@@ -862,18 +862,18 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
     @Override
     protected void positionRider(Entity passenger, MoveFunction moveFunc) {
-        final float angle = (MathHelpers.STARTING_ANGLE * this.yBodyRot);
-        passenger.setYBodyRot(this.yBodyRot);
-        if (passenger instanceof LivingEntity living) {
+        if (this.isPassengerOfSameVehicle(passenger) && passenger instanceof LivingEntity living && !this.touchingUnloadedChunk()) {
+            passenger.setYBodyRot(this.yBodyRot);
             clampRotation(living, 105);
+            passenger.fallDistance = 0.0F;
+
+            Vec3 v = new Vec3(0, passenger.getBbHeight(), -1).yRot(-this.yBodyRot * Mth.DEG_TO_RAD);
+
+            moveFunc.accept(passenger, this.getX() + v.x, this.getY() + v.y, this.getZ() + v.z);
+
+        } else {
+            super.positionRider(passenger, moveFunc);
         }
-
-        double targetY = this.getY() + passenger.getBbHeight();
-        double extraX = -Mth.sin(Mth.PI + angle);
-        double extraZ = -Mth.cos(angle);
-
-        moveFunc.accept(passenger, this.getX() + extraX, targetY, this.getZ() + extraZ);
-
     }
 
     private void switchNav(boolean inWater) {
