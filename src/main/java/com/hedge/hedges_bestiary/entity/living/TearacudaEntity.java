@@ -68,11 +68,11 @@ public class TearacudaEntity extends HBSchoolingMob implements AttackStateMob {
 
     public static AttributeSupplier.Builder bakeAttributes(){
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.ATTACK_DAMAGE, 6.0D)
+                .add(Attributes.MAX_HEALTH, 18.0D)
+                .add(Attributes.ATTACK_DAMAGE, 4.0D)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.2D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.3)
-                .add(Attributes.FOLLOW_RANGE, 35F)
+                .add(Attributes.FOLLOW_RANGE, 15F)
                 .add(Attributes.MOVEMENT_SPEED, 1.8F);
     }
 

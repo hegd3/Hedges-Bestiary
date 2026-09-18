@@ -15,10 +15,9 @@ import com.hedge.hedges_bestiary.entity.ai.targeting.TargetWhenAwakeGoal;
 import com.hedge.hedges_bestiary.entity.projectile.DragonFireBall;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
 import com.hedge.hedges_bestiary.entity.types.EggLayer;
-import com.hedge.hedges_bestiary.entity.types.HUDMount;
+import com.hedge.hedges_bestiary.entity.types.HBHUDMount;
 import com.hedge.hedges_bestiary.entity.types.TamableFlyer;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
-import com.hedge.hedges_bestiary.entity.util.MathHelpers;
 import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.message.EntityKeyMessage;
 import com.hedge.hedges_bestiary.registry.HBEntities;
@@ -65,7 +64,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 
-public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStateMob, HUDMount {
+public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStateMob, HBHUDMount {
     private static final ResourceLocation SPRITE = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/mount/dawn_dove_hud.png");
     public static final EntityDataAccessor<Integer> GRABBED_ENTITY_ID = SynchedEntityData.defineId(DawnDoveEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(DawnDoveEntity.class, EntityDataSerializers.BOOLEAN);
@@ -146,7 +145,6 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
         this.entityData.define(HAS_EGG, false);
     }
 
-
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
         if (pKey == GRABBED_ENTITY_ID && this.level().isClientSide() && this.getGrabbedEntityID() == -1) {
@@ -162,7 +160,6 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
 
 
         if (isControlledByLocalInstance() && getControllingPassenger() != null && getControllingPassenger() instanceof Player rider) {
-            float speed =(float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
             if (Minecraft.getInstance().options.keyJump.isDown() && this.meterAmount > 0) {
                 this.meterAmount-= 0.01F;
                 this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
@@ -187,17 +184,24 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
             }
 
 
-            this.setSpeed(this.isFlying() ? speed * 4f : speed);
 
         }
         super.travel(vec3d);
     }
 
     @Override
+    protected float getRiddenSpeed(Player pPlayer) {
+        if (this.isFlying()) {
+            return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 4;
+        }
+        return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
+    }
+
+    @Override
     protected void tickRidden(Player pPlayer, Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
         if (pPlayer.zza != 0 || pPlayer.xxa != 0) {
-            this.setRot(pPlayer.getYRot(), Mth.clamp(pPlayer.getXRot(), -20, 20));
+            this.setRot(Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYRot()), Mth.clamp(pPlayer.getXRot(), -20, 20));
             this.setYHeadRot(pPlayer.getYHeadRot());
         }
         if (this.isFlying()) {

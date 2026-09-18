@@ -117,6 +117,8 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
+    runtimeOnly fg.deobf("curse.maven:citadel-331936:7476570")
+    runtimeOnly fg.deobf("curse.maven:alexs-caves-924854:5848216")
 }
 
 tasks.named('processResources', ProcessResources).configure {

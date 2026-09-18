@@ -14,7 +14,6 @@ import com.hedge.hedges_bestiary.entity.types.*;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
-import com.hedge.hedges_bestiary.entity.util.MathHelpers;
 import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.message.EntityKeyMessage;
 import com.hedge.hedges_bestiary.registry.HBEntities;
@@ -64,7 +63,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, HBGroupMob<FerocetusEntity>, HUDMount {
+public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, HBGroupMob<FerocetusEntity>, HBHUDMount {
 
     private static final ResourceLocation SPRITE = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/mount/ferocetus_hud.png");
 
@@ -574,7 +573,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
         if (this.isInWater() && (pPlayer.zza != 0 || this.yya != 0)) {
-            this.setRot(pPlayer.getYRot(), Mth.clamp(pPlayer.getXRot(), -30, 30));
+            this.setRot(Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYRot()), Mth.clamp(pPlayer.getXRot(), -5, 5));
             this.setYHeadRot(pPlayer.getYHeadRot());
         } else if (this.onGround()) {
             this.ejectPassengers();

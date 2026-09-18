@@ -21,7 +21,6 @@ import com.hedge.hedges_bestiary.entity.projectile.MurkSmoke;
 import com.hedge.hedges_bestiary.entity.types.*;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
-import com.hedge.hedges_bestiary.entity.util.MathHelpers;
 import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.message.EntityKeyMessage;
@@ -78,7 +77,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class MurkEntity extends HBTamableAnimal implements AttackStateMob, AdvancedTurner, EggLayer, HUDMount{
+public class MurkEntity extends HBTamableAnimal implements AttackStateMob, AdvancedTurner, EggLayer, HBHUDMount {
 
     private static final ResourceLocation SPRITE = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/mount/murk_hud.png");
 
@@ -251,7 +250,6 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
 
         if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
-            float speed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
 
             if (this.getAnimState() == 0) {
 
@@ -270,7 +268,6 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
             }
 
-            this.setSpeed(speed);
             if (this.isInWater()) {
                 if (Minecraft.getInstance().options.keyJump.isDown()) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
@@ -339,8 +336,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
         if (pPlayer.zza != 0 || pPlayer.xxa != 0 || this.getAnimState() > 0) {
-            this.setRot(pPlayer.getYRot(), Mth.clamp(pPlayer.getXRot(), -20, 20));
-
+            this.setRot(Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYRot()), Mth.clamp(pPlayer.getXRot(), -20, 20));
             this.setYHeadRot(pPlayer.getYHeadRot());
         }
 
