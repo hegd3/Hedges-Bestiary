@@ -23,7 +23,6 @@ public class ForgeClientEvent {
     public static void preRenderLiving(RenderLivingEvent.Pre event) {
         if (ClientProxy.blockedEntityRenders.contains(event.getEntity().getUUID())) {
             if (!HedgesBestiary.PROXY.isFirstPersonPlayer(event.getEntity())) {
-                //MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
                 event.setCanceled(true);
             }
             ClientProxy.blockedEntityRenders.remove(event.getEntity().getUUID());

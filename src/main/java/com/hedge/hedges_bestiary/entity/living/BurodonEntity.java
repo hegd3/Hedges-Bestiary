@@ -302,44 +302,9 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
 
     @Override
     protected boolean canOwnerMount(Player player) {
-        return true;
+        return false;
     }
 
-    @Override
-    protected Vec3 getRiddenInput(Player pPlayer, @NotNull Vec3 pTravelVector) {
-        return new Vec3(pPlayer.xxa, 0, pPlayer.zza);
-    }
-
-    @Override
-    protected void tickRidden(Player pPlayer, Vec3 pTravelVector) {
-        super.tickRidden(pPlayer, pTravelVector);
-        this.setRot(pPlayer.getYRot(), pPlayer.getXRot() * 0.25F);
-        this.setYHeadRot(pPlayer.getYHeadRot());
-    }
-
-    @Override
-    protected void positionRider(Entity passenger, MoveFunction moveFunc) {
-        if (this.isPassengerOfSameVehicle(passenger) && passenger instanceof LivingEntity living && !this.touchingUnloadedChunk()) {
-            passenger.setYBodyRot(this.yBodyRot);
-            clampRotation(living, 105);
-            passenger.fallDistance = 0.0F;
-
-            Vec3 v = new Vec3(0, passenger.getBbHeight(), -1).yRot(-this.yBodyRot * Mth.DEG_TO_RAD);
-
-            moveFunc.accept(passenger, this.getX() + v.x, this.getY() + v.y, this.getZ() + v.z);
-
-        } else {
-            super.positionRider(passenger, moveFunc);
-        }
-    }
-
-    @Override
-    public @Nullable LivingEntity getControllingPassenger() {
-        if (!this.getPassengers().isEmpty() && this.getPassengers().get(0) instanceof Player player) {
-            return player;
-        }
-        return super.getControllingPassenger();
-    }
 
     @Override
     protected boolean canOwnerCommand(Player player) {
