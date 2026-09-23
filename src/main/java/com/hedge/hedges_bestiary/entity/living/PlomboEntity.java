@@ -363,7 +363,7 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     @Override
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
-        float newYaw = this.level().isClientSide ? Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYHeadRot()) : pPlayer.getYRot();
+        float newYaw = Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYHeadRot());
         this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -20, 20));
         this.setYHeadRot(pPlayer.getYHeadRot());
 

@@ -10,9 +10,7 @@ import com.hedge.hedges_bestiary.networking.ClientPayloadHandler;
 import com.hedge.hedges_bestiary.networking.packet.DanceJukeboxPacket;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
 import com.hedge.hedges_bestiary.registry.HBEntities;
-import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -41,6 +39,7 @@ public class ServerEvent {
         event.put(HBEntities.ENDGEL.get(), EndgelEntity.bakeAttributes().build());
         event.put(HBEntities.DAWN_DOVE.get(), DawnDoveEntity.bakeAttributes().build());
         event.put(HBEntities.SKIB.get(), SkibEntity.bakeAttributes().build());
+        event.put(HBEntities.BLURPUM.get(), BlurpumEntity.bakeAttributes().build());
 
     }
 

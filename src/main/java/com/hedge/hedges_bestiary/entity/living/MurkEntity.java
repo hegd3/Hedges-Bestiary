@@ -194,17 +194,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
         this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1, Ingredient.of(HBItems.SKIB.get()), false));
         this.goalSelector.addGoal(i++, new NapGoal(this, false));
         this.goalSelector.addGoal(i, new CustomSwimGoal(this, 1.0, 10, 10, 7, true, true));
-        this.goalSelector.addGoal(i++, new RandomStrollGoal(this, 1.0) {
-            @Override
-            public boolean canUse() {
-                return !this.mob.isInWaterOrBubble() && super.canUse();
-            }
-
-            @Override
-            public boolean canContinueToUse() {
-                return !this.mob.isInWaterOrBubble() && super.canContinueToUse();
-            }
-        });
+        this.goalSelector.addGoal(i++, new SemiaquaticStrollGoal(this, 1.0));
         this.goalSelector.addGoal(i++, new LookAtPlayerGoal(this, LivingEntity.class, 5));
         this.goalSelector.addGoal(i++, new RandomLookAroundGoal(this));
 
@@ -342,7 +332,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     @Override
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
-        float newYaw = this.level().isClientSide ? Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYHeadRot()) : pPlayer.getYRot();
+        float newYaw = Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYHeadRot());
         this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -10, 10));
         this.setYHeadRot(pPlayer.getYHeadRot());
 

@@ -139,17 +139,7 @@ public class GurkEntity extends HBTamableAnimal implements VariantMob, EggLayer 
         this.goalSelector.addGoal(i++, new RandomlySitGoal(this));
         this.goalSelector.addGoal(i++, new LookAtPlayerGoal(this, LivingEntity.class, 5));
         this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0, 10, 10, 4, true, true));
-        this.goalSelector.addGoal(i++, new RandomStrollGoal(this, 1.0) {
-            @Override
-            public boolean canUse() {
-                return !this.mob.isInWaterOrBubble() && super.canUse();
-            }
-
-            @Override
-            public boolean canContinueToUse() {
-                return !this.mob.isInWaterOrBubble() && super.canContinueToUse();
-            }
-        });
+        this.goalSelector.addGoal(i++, new SemiaquaticStrollGoal(this, 1.0));
         this.goalSelector.addGoal(i++, new DancingGoal(this));
         this.goalSelector.addGoal(i, new RandomLookAroundGoal(this));
     }

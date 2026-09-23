@@ -61,6 +61,7 @@ public class HBCreativeTab {
                         output.accept(HBItems.ENDGEL_SPAWN_EGG.get());
                         output.accept(HBItems.DAWN_DOVE_SPAWN_EGG.get());
                         output.accept(HBItems.SKIB_SPAWN_EGG.get());
+                        output.accept(HBItems.BLURPUM_SPAWN_EGG.get());
 
 
                     }).build());

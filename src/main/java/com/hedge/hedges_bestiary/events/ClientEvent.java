@@ -41,6 +41,8 @@ public class ClientEvent {
         event.registerLayerDefinition(EntityLayers.DAWN_DOVE_LAYER, DawnDoveModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.SKIB_LAYER, SkibModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.GENERIC_PROJECTILE_LAYER, CrossedProjectileModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.BLURPUM_LAYER, BlurpumModel::createBodyLayer);
+
     }
 
     public static void registerRenderer(FMLClientSetupEvent event)
@@ -62,6 +64,7 @@ public class ClientEvent {
         EntityRenderers.register(HBEntities.DAWN_DOVE.get(), DawnDoveRenderer::new);
         EntityRenderers.register(HBEntities.DRAGON_FIREBALL.get(), ModellessProjectileRenderer::new);
         EntityRenderers.register(HBEntities.SKIB.get(), SkibRenderer::new);
+        EntityRenderers.register(HBEntities.BLURPUM.get(), BlurpumRenderer::new);
 
         // MenuScreens.register();
     }
