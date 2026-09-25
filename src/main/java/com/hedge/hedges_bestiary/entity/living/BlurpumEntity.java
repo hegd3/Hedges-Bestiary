@@ -9,40 +9,53 @@ import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
 import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
+import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
+import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
+import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
     public final SmoothAnimationState swimIdleAnimationState = new SmoothAnimationState(0.1F);
+    public final AnimationState biteAnimationState = new AnimationState();
     public float landProgress = 0;
     public float prevPitch = 0.0F;
     public float pitch = 0.0F;
     private float prevTrail = 0.0F;
     private float trail = 0.0F;
+
+    private int tameAttempts = 3;
     public BlurpumEntity(EntityType<? extends BlurpumEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
         this.moveControl = new SemiaquaticMoveControl(this, 999, 10, 0.25f);
-        this.lookControl = new SemiaquaticLookControl(this, 30);
+        this.lookControl = new SemiaquaticLookControl(this, 20);
 
 
         this.setPathfindingMalus(PathType.WATER, 0.0f);
@@ -52,12 +65,11 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
 
     public static AttributeSupplier.Builder bakeAttributes(){
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 40.0D)
-                .add(Attributes.ATTACK_DAMAGE, 5.0D)
+                .add(Attributes.MAX_HEALTH, 45.0D)
+                .add(Attributes.ATTACK_DAMAGE, 7.0D)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.7D)
-                .add(Attributes.ARMOR, 14)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.85)
-                .add(Attributes.FOLLOW_RANGE, 64F)
+                .add(Attributes.FOLLOW_RANGE, 20F)
                 .add(Attributes.MOVEMENT_SPEED, 0.2F)
                 .add(Attributes.STEP_HEIGHT, 1.0F);
     }
@@ -66,11 +78,12 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
     protected void registerGoals() {
         int i = 0;
         this.goalSelector.addGoal(i++, new MountOverrideGoal(this));
-        this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this));
-        this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.3, 4.0f, 2.0f, true));
+        this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
+        this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.4, 4.0f, 2.0f, true));
+        this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.4F));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new RandomlySitGoal(this));
-        this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0, 40, 10, 4, true, true));
+        this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0, 40, 15, 4, true, true));
         this.goalSelector.addGoal(i, new SemiaquaticStrollGoal(this, 1.0));
         this.goalSelector.addGoal(i++, new LookAtPlayerGoal(this, LivingEntity.class, 5));
         this.goalSelector.addGoal(i++, new RandomLookAroundGoal(this));
@@ -81,7 +94,16 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
         this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new TargetPlayersGoal(this));
         this.targetSelector.addGoal(4, new TargetMonstersGoal(this));
+        this.targetSelector.addGoal(5, new NonTameRandomTargetGoal<>(this, Player.class, true, CommonPredicates.TARGET_UNCROUCHED));
 
+    }
+
+    @Override
+    protected boolean canRide(Entity vehicle) {
+        if (vehicle instanceof Boat) {
+            return false;
+        }
+        return super.canRide(vehicle);
     }
 
     @Override
@@ -92,14 +114,60 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
             this.setUpAnimStates();
             this.tickTrailYaw();
             this.tickPitch();
-        }
-        if (this.isInWater()) {
-            if (this.landProgress > 0) {
-                this.landProgress -=0.25f;
+            if (this.isInWater()) {
+                if (this.landProgress > 0) {
+                    this.landProgress -=0.25f;
+                }
+            } else if (this.landProgress < 5) {
+                this.landProgress +=0.25f;
             }
-        } else if (this.landProgress < 5) {
-            this.landProgress +=0.25f;
+        } else {
+            if (this.getAnimState() > 0) {
+                if (!this.isAlive()) {
+                    this.resetAnimState();
+                    return;
+                }
+                this.animTicks++;
+                switch (this.getAnimState()) {
+                    case 1 -> {
+                        if (this.animTicks == 10) {
+                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle(), 2, 2, 2, 4);
+                            for (LivingEntity entity : hit) {
+                                this.doHurtTarget(entity);
+                            }
+                        } else if (this.animTicks > 17) {
+                            this.resetAnimState();
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    @Override
+    public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
+        InteractionResult result = super.interactTameCommands(player, hand);
+        if (result == InteractionResult.PASS) {
+            if (!this.isTame() && this.isSitting() && player.isCrouching() && player.getItemInHand(hand).is(HBItems.SEASONED_TREAT.get())) {
+                if (!this.level().isClientSide()) {
+                    if (!player.getAbilities().instabuild) {
+                        player.getItemInHand(hand).shrink(1);
+                    }
+                    if (this.tameAttempts > 0) {
+                        this.tameAttempts--;
+                        this.level().broadcastEntityEvent(this, (byte) 6);
+                    } else {
+                        this.level().broadcastEntityEvent(this, (byte) 7);
+                        this.tame(player);
+                        this.heal(this.getMaxHealth());
+                    }
+                    this.playSound(SoundEvents.PARROT_EAT);
+
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return result;
     }
 
     private void tickPitch() {
@@ -129,6 +197,7 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
         this.swimIdleAnimationState.animateWhen(this.isInWater(), this.tickCount);
         this.sitAnimationState.animateWhen(this.isSitting() && !this.isDancing(), this.tickCount);
         this.danceAnimationState.animateWhen(this.isDancing(), this.tickCount);
+        this.biteAnimationState.animateWhen(this.getAnimState() == 1, this.tickCount);
     }
 
     @Override
@@ -165,12 +234,12 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
 
     @Override
     public boolean canUseAttack(LivingEntity entity, double attackReach, double dist) {
-        return false;
+        return this.getAnimState() == 0 && attackReach >= dist;
     }
 
     @Override
     public double getAttackReachSqr(LivingEntity entity) {
-        return 0;
+        return this.getBbWidth() * this.getBbWidth() * 4 + entity.getBbWidth();
     }
 
     @Override

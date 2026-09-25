@@ -400,6 +400,10 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
                 this.heal(10);
             }
             if (this.getAnimState() > 0) {
+                if (!this.isAlive()) {
+                    this.resetAnimState();
+                    return;
+                }
                 this.animTicks++;
                 switch(this.getAnimState()) {
                     case 1 -> {

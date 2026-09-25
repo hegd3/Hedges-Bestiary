@@ -40,6 +40,7 @@ public class ServerEvent {
         event.put(HBEntities.DAWN_DOVE.get(), DawnDoveEntity.bakeAttributes().build());
         event.put(HBEntities.SKIB.get(), SkibEntity.bakeAttributes().build());
         event.put(HBEntities.BLURPUM.get(), BlurpumEntity.bakeAttributes().build());
+        event.put(HBEntities.GAWK.get(), GawkEntity.bakeAttributes().build());
 
     }
 

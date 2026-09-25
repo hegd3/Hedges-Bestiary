@@ -171,7 +171,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     public static AttributeSupplier.Builder bakeAttributes(){
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 120.0D)
-                .add(Attributes.ATTACK_DAMAGE, 8.0D)
+                .add(Attributes.ATTACK_DAMAGE, 10.0D)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.7D)
                 .add(Attributes.ARMOR, 14)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.85)
@@ -483,6 +483,10 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
                 }
             }
             if (this.getAnimState() > 0) {
+                if (!this.isAlive()) {
+                    this.resetAnimState();
+                    return;
+                }
                 this.animTicks++;
                 switch (this.getAnimState()) {
                     case 1 -> {

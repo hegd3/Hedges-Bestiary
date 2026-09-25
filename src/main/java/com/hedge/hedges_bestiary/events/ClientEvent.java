@@ -42,6 +42,7 @@ public class ClientEvent {
         event.registerLayerDefinition(EntityLayers.SKIB_LAYER, SkibModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.GENERIC_PROJECTILE_LAYER, CrossedProjectileModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.BLURPUM_LAYER, BlurpumModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.GAWK_LAYER, GawkModel::createBodyLayer);
 
     }
 
@@ -65,6 +66,7 @@ public class ClientEvent {
         EntityRenderers.register(HBEntities.DRAGON_FIREBALL.get(), ModellessProjectileRenderer::new);
         EntityRenderers.register(HBEntities.SKIB.get(), SkibRenderer::new);
         EntityRenderers.register(HBEntities.BLURPUM.get(), BlurpumRenderer::new);
+        EntityRenderers.register(HBEntities.GAWK.get(), GawkRenderer::new);
 
         // MenuScreens.register();
     }

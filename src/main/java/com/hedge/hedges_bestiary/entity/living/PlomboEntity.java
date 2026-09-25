@@ -1,6 +1,5 @@
 package com.hedge.hedges_bestiary.entity.living;
 
-import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.ai.control.ATMLookControl;
@@ -51,6 +50,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -203,7 +203,9 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
         this.goalSelector.addGoal(i++, new FloatGoal(this));
         this.goalSelector.addGoal(i++, new MountOverrideGoal(this));
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this));
-        this.goalSelector.addGoal(i++, new HBFollowOwnerGoal(this, 1.1D, 1.3D, 7.0f, 4.0f));
+        this.goalSelector.addGoal(i++, new BreedGoal(this, 1.0f));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(ItemTags.LEAVES), false));
+        this.goalSelector.addGoal(i++, new HBFollowOwnerGoal(this, 1.1f, 1.3D, 7.0f, 4.0f));
         this.goalSelector.addGoal(i++, new AvoidTargetWhenLowGoal(this, 1.3f, 20, 30, 20, 3));
         this.goalSelector.addGoal(i++, new PlomboAttackGoal(this));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this, 1.2d, 16, 4d));
@@ -241,6 +243,10 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
 
     private void tickAnimState() {
         if (this.getAnimState() > 0) {
+            if (!this.isAlive()) {
+                this.resetAnimState();
+                return;
+            }
             animTicks++;
             LivingEntity target = this.getTarget();
             switch (this.getAnimState()) {

@@ -134,15 +134,16 @@ public class BlurpumModel extends HBModel<BlurpumEntity> {
 		}
 		this.animateWalk(BlurpumAnimation.SWIM, limbSwing, limbSwingAmount * (1 - entity.landProgress/5), 2f, 2.5f);
 		this.animateWalk(BlurpumAnimation.WALK, limbSwing, limbSwingAmount * (entity.landProgress/5), 2f, 2.5f);
-		this.animateSmooth(entity.idleAnimationState, BlurpumAnimation.IDLE, ageInTicks, partialTicks, 0.5F);
-		this.animateSmooth(entity.swimIdleAnimationState, BlurpumAnimation.SWIM_IDLE, ageInTicks, partialTicks, 0.5F);
+		this.animateSmooth(entity.idleAnimationState, BlurpumAnimation.IDLE, ageInTicks, partialTicks, 0.3F);
+		this.animateSmooth(entity.swimIdleAnimationState, BlurpumAnimation.SWIM_IDLE, ageInTicks, partialTicks, 0.3F);
 		this.animateSmooth(entity.sitAnimationState, BlurpumAnimation.SIT, ageInTicks, partialTicks, 1F);
 		this.animateSmooth(entity.danceAnimationState, BlurpumAnimation.DANCE, ageInTicks, partialTicks, 1F);
+		this.animate(entity.biteAnimationState, BlurpumAnimation.BITE, ageInTicks, 1F);
 		if (entity.isInWater()) {
 			this.swimcontrol.xRot = pitch;
 		}
-		this.tail.yRot = Mth.lerp(0.3F, this.tail.yRot, tailYaw * 0.25F);
-		this.tail2.yRot = Mth.lerp(0.3F, this.tail2.yRot, tailYaw * 0.2F);
+		this.tail.yRot = Mth.lerp(0.25F, this.tail.yRot, tailYaw * 0.25F);
+		this.tail2.yRot = Mth.lerp(0.15F, this.tail2.yRot, tailYaw * 0.2F);
 
 	}
 }

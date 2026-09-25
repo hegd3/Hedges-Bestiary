@@ -87,7 +87,12 @@ public class HBEntities {
 
     public static final DeferredHolder<EntityType<?>, EntityType<BlurpumEntity>> BLURPUM =
             ENTITY_TYPES.register("blurpum", () -> EntityType.Builder.of(BlurpumEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(1.2f, 1.2f).build("blurpum"));
+                    .sized(1.4f, 1.35f).build("blurpum"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<GawkEntity>> GAWK =
+            ENTITY_TYPES.register("gawk", () -> EntityType.Builder.of(GawkEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(1.1f, 1.2f).build("gawk"));
+
 
     public static void register(IEventBus eventbus) {
         ENTITY_TYPES.register(eventbus);

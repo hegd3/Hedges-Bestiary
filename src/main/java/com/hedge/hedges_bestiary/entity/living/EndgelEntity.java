@@ -121,6 +121,10 @@ public class EndgelEntity extends HBMonster {
     @Override
     protected void serverTick() {
         if (this.getAnimState() > 0) {
+            if (!this.isAlive()) {
+                this.resetAnimState();
+                return;
+            }
             this.animTicks++;
             switch (this.getAnimState()) {
 

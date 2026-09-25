@@ -192,6 +192,10 @@ public class SpottedStrikerEntity extends HBTamableAnimal implements AttackState
             }
             int animState = this.getAnimState();
             if (animState > 0) {
+                if (!this.isAlive()) {
+                    this.resetAnimState();
+                    return;
+                }
                 animTicks++;
                 LivingEntity target = this.getTarget();
                 switch (animState) {

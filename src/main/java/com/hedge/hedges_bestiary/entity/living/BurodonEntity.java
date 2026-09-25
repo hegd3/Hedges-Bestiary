@@ -209,6 +209,10 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
 
     private void tickAnimState() {
         if (this.getAnimState() > 0) {
+            if (!this.isAlive()) {
+                this.resetAnimState();
+                return;
+            }
             animTicks++;
             LivingEntity target = this.getTarget();
             switch (this.getAnimState()) {

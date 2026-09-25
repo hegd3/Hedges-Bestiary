@@ -334,6 +334,10 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
                 this.playSound(SoundEvents.GENERIC_EAT);
             }
             if (this.getAnimState() > 0) {
+                if (!this.isAlive()) {
+                    this.resetAnimState();
+                    return;
+                }
                 this.animTicks++;
                 switch (this.getAnimState()) {
                     case 1 -> {
