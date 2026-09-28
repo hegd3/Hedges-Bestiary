@@ -15,9 +15,9 @@ import net.minecraft.util.Mth;
 public class BlurpumModel extends HBModel<BlurpumEntity> {
 	public static final ModelLayerLocation LAYER_LOCATION = EntityLayers.BLURPUM_LAYER;
 	private final ModelPart root;
-	private final ModelPart swimcontrol;
-	private final ModelPart wholebody;
-	private final ModelPart body;
+	public final ModelPart swimcontrol;
+	public final ModelPart wholebody;
+	public final ModelPart body;
 	private final ModelPart head;
 	private final ModelPart jaw;
 	private final ModelPart tail;

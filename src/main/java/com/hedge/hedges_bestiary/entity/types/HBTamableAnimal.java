@@ -23,6 +23,7 @@ import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
@@ -156,6 +157,11 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
             }
         }
 
+    }
+
+    @Override
+    protected float getRiddenSpeed(Player player) {
+        return (float)this.getAttributes().getValue(Attributes.MOVEMENT_SPEED);
     }
 
     protected void clampRotation(LivingEntity livingEntity, float clampRange) {

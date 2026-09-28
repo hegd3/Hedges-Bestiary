@@ -8,6 +8,9 @@ import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
@@ -25,6 +28,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class GawkEntity extends HBTamableAnimal implements AttackStateMob {
+    private static final EntityDataAccessor<Boolean> LEFT = SynchedEntityData.defineId(GawkEntity.class, EntityDataSerializers.BOOLEAN);
+
     public final SmoothAnimationState swimIdleAnimationState = new SmoothAnimationState(0.1F);
     public final SmoothAnimationState airAnimationState = new SmoothAnimationState(0.1F);
     public final SmoothAnimationState yawnAnimationState = new SmoothAnimationState();
@@ -55,6 +60,12 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(LEFT, false);
+    }
+
+    @Override
     public void tick() {
         super.tick();
         if (this.level().isClientSide) {
@@ -67,6 +78,27 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob {
                 }
             } else if (this.landProgress < 5) {
                 this.landProgress +=0.25f;
+            }
+        } else {
+            if (this.getAnimState() > 0) {
+                this.animTicks++;
+                switch (this.getAnimState()) {
+                    case 2 -> {
+                        if (this.animTicks > 35) {
+                            this.resetAnimState();
+                        }
+                    }
+                    case 3 -> {
+                        if (this.animTicks > 24) {
+                            this.resetAnimState();
+                        }
+                    }
+                    case 4 -> {
+                        if (this.animTicks > 39) {
+                            this.resetAnimState();
+                        }
+                    }
+                }
             }
         }
     }
@@ -143,12 +175,15 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob {
         this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.3, 4.0f, 2.0f, true));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new NapGoal(this));
+        this.goalSelector.addGoal(i++, new IdleInPlaceGoal<>(this));
         this.goalSelector.addGoal(i++, new RandomlySitGoal(this));
         this.goalSelector.addGoal(i++, new LookAtPlayerGoal(this, LivingEntity.class, 5));
         this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0, 10, 30, 6, true, true));
         this.goalSelector.addGoal(i++, new SemiaquaticStrollGoal(this, 1.0));
         this.goalSelector.addGoal(i++, new JumpFromWaterGoal(this, 20, 0.7F));
         this.goalSelector.addGoal(i++, new DancingGoal(this));
+        this.goalSelector.addGoal(i++, new IdleAnimationGoal<>(this));
+
         this.goalSelector.addGoal(i, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(0, new HBHurtByTargetGoal(this, true, TamableAnimal.class));
@@ -175,7 +210,27 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob {
 
     @Override
     public void playIdle() {
+        if (this.isInWater() && this.getRandom().nextBoolean()) {
+            this.setLeft(this.getRandom().nextBoolean());
+            this.setAnimState(2);
+        } else {
+            this.setAnimState(3);
+        }
+    }
 
+    @Override
+    public boolean canPlayStaticIdle() {
+        return super.canPlayStaticIdle() && !this.isInFluidType() && !this.isNapping() && !this.isSitting();
+    }
+
+    @Override
+    public void playStaticIdle() {
+        this.setAnimState(4);
+    }
+
+    @Override
+    public boolean isStaticIdling() {
+        return this.getAnimState() == 4;
     }
 
     @Override
@@ -202,5 +257,13 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob {
     @Override
     public double getAttackReachSqr(LivingEntity entity) {
         return this.getBbWidth() * this.getBbWidth() * 4 + entity.getBbWidth();
+    }
+
+    public boolean swingingLeft() {
+        return this.entityData.get(LEFT);
+    }
+
+    public void setLeft(boolean b) {
+        this.entityData.set(LEFT, b);
     }
 }

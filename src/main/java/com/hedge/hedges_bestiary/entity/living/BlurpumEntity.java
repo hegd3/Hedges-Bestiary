@@ -12,7 +12,10 @@ import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
 import com.hedge.hedges_bestiary.items.HBItems;
+import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import com.hedge.hedges_bestiary.registry.HBKeyMappings;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
@@ -36,6 +39,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -98,12 +103,39 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
 
     }
 
+
+
     @Override
     protected boolean canRide(Entity vehicle) {
         if (vehicle instanceof Boat) {
             return false;
         }
         return super.canRide(vehicle);
+    }
+
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
+    protected boolean shouldPassengersInheritMalus() {
+        return true;
+    }
+
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.99F;
+    }
+
+    @Override
+    public LivingEntity getControllingPassenger() {
+        Entity entity = this.getFirstPassenger();
+        if (entity instanceof Player) {
+            return (Player) entity;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -202,6 +234,29 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
 
     @Override
     public void travel(Vec3 pTravelVector) {
+        if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
+
+            if (this.getAnimState() == 0) {
+
+                if (Minecraft.getInstance().options.keyAttack.isDown()) {
+                    PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
+                }
+
+            }
+
+            if (this.isInWater()) {
+                if (Minecraft.getInstance().options.keyJump.isDown()) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
+                } else if (Minecraft.getInstance().options.keySprint.isDown()) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, -0.03, 0));
+                }
+                this.moveRelative(this.getSpeed(), pTravelVector);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));
+
+            }
+        }
+
         if (this.isEffectiveAi() && this.isInWaterOrBubble()) {
             this.moveRelative(this.getSpeed(), pTravelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
@@ -214,6 +269,30 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
             super.travel(pTravelVector);
         }
 
+    }
+
+    @Override
+    protected void tickRidden(Player player, Vec3 travelVector) {
+        super.tickRidden(player, travelVector);
+        float newYaw = Mth.rotLerp(0.3F, this.getYRot(), player.getYHeadRot());
+        this.setRot(newYaw, Mth.clamp(player.getXRot(), -15, 15));
+        this.setYHeadRot(player.getYHeadRot());
+    }
+
+    @Override
+    protected Vec3 getRiddenInput(Player player, Vec3 travelVector) {
+        float f1;
+        float f2;
+        if (this.isInWater()) {
+            f1 = player.zza * 0.1F;
+            f2 = 0;
+        } else {
+            f1 = player.zza * 0.5F;
+            f2 = player.xxa * 0.2F;
+        }
+        if (f1 < 0.0F)
+            f1 *= 0.25F;
+        return new Vec3(f2, 0, f1);
     }
 
     @Override
@@ -275,5 +354,14 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
     @Override
     protected PathNavigation createNavigation(Level level) {
         return new HBAmphibiousPathNavigator(this, level);
+    }
+
+    @Override
+    public void onKeyPacket(Entity keyPresser, int type) {
+        if (type == 5) {
+            this.setAnimState(1);
+        } else {
+            super.onKeyPacket(keyPresser, type);
+        }
     }
 }

@@ -351,7 +351,6 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     @Override
     public void travel(Vec3 pTravelVector) {
         if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
-            this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
             if (this.getAnimState() == 0) {
 
                 if (Minecraft.getInstance().options.keyAttack.isDown()) {

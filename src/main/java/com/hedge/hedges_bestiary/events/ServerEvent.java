@@ -41,6 +41,7 @@ public class ServerEvent {
         event.put(HBEntities.SKIB.get(), SkibEntity.bakeAttributes().build());
         event.put(HBEntities.BLURPUM.get(), BlurpumEntity.bakeAttributes().build());
         event.put(HBEntities.GAWK.get(), GawkEntity.bakeAttributes().build());
+        event.put(HBEntities.GOPH.get(), GophEntity.bakeAttributes().build());
 
     }
 

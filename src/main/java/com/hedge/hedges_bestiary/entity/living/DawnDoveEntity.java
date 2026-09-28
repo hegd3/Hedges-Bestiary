@@ -162,7 +162,6 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
 
 
         if (isControlledByLocalInstance() && getControllingPassenger() != null && getControllingPassenger() instanceof Player rider) {
-            float speed =(float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
             if (Minecraft.getInstance().options.keyJump.isDown() && this.meterAmount > 0) {
                 this.meterAmount-= 0.01F;
                 this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
@@ -187,10 +186,14 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
             }
 
 
-            this.setSpeed(this.isFlying() ? speed * 4f : speed);
 
         }
         super.travel(vec3d);
+    }
+
+    @Override
+    protected float getRiddenSpeed(Player player) {
+        return this.isFlying() ? super.getRiddenSpeed(player) * 4 : super.getRiddenSpeed(player);
     }
 
     @Override

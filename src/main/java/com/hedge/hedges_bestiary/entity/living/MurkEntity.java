@@ -245,7 +245,6 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
 
         if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
-            float speed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
 
             if (this.getAnimState() == 0) {
 
@@ -264,7 +263,6 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
             }
 
-            this.setSpeed(speed);
             if (this.isInWater()) {
                 if (Minecraft.getInstance().options.keyJump.isDown()) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));

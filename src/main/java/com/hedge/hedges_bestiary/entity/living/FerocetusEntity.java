@@ -506,7 +506,6 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
                 if (this.leftWater) {
                     this.leftWater = false;
                 }
-                float speed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
                 if (Minecraft.getInstance().options.keyJump.isDown()) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.06, 0));
                 } else if (Minecraft.getInstance().options.keySprint.isDown()) {
@@ -523,7 +522,6 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
 
 
                 }
-                this.setSpeed(speed);
                 this.moveRelative(this.getSpeed(), pTravelVector);
                 this.move(MoverType.SELF, this.getDeltaMovement());
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));

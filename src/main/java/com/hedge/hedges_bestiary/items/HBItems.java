@@ -98,6 +98,8 @@ public class HBItems {
 
     public static final DeferredHolder<Item, Item> GAWK_SPAWN_EGG = createEgg("gawk", HBEntities.GAWK, 0x2D2933, 0x7584C7);
 
+    public static final DeferredHolder<Item, Item> GOPH_SPAWN_EGG = createEgg("goph", HBEntities.GOPH, 0x9E7C68, 0xB55E5E);
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
