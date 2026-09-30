@@ -93,11 +93,13 @@ public class HBEntities {
             ENTITY_TYPES.register("gawk", () -> EntityType.Builder.of(GawkEntity::new, MobCategory.CREATURE)
                     .sized(1.1f, 1.2f).build("gawk"));
 
-
     public static final DeferredHolder<EntityType<?>, EntityType<GophEntity>> GOPH =
             ENTITY_TYPES.register("goph", () -> EntityType.Builder.of(GophEntity::new, MobCategory.CREATURE)
                     .sized(0.8f, 0.8f).build("goph"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<ZippermouthEntity>> ZIPPERMOUTH =
+            ENTITY_TYPES.register("zippermouth", () -> EntityType.Builder.of(ZippermouthEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(2.2f, 1.8f).build("zippermouth"));
 
     public static void register(IEventBus eventbus) {
         ENTITY_TYPES.register(eventbus);

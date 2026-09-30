@@ -126,10 +126,6 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         boolean flag = !pPlayer.getProjectile(itemstack).isEmpty();
-
-        InteractionResultHolder<ItemStack> ret = EventHooks.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
-        if (ret != null) return ret;
-
         if (!pPlayer.getAbilities().instabuild && !flag) {
             return InteractionResultHolder.fail(itemstack);
         } else {

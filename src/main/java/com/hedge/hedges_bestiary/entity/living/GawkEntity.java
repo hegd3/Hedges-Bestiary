@@ -41,7 +41,7 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob {
     public float pitch = 0.0F;
     public float roll = 0.0f;
 
-    public GawkEntity(EntityType<? extends HBTamableAnimal> pEntityType, Level pLevel) {
+    public GawkEntity(EntityType<? extends GawkEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new SemiaquaticMoveControl(this, 999, 10, 0.35f);
         this.lookControl = new SemiaquaticLookControl(this, 1);

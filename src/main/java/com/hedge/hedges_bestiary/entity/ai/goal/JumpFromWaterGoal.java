@@ -14,14 +14,22 @@ public class JumpFromWaterGoal extends JumpGoal {
     private static final int[] STEPS_TO_CHECK = new int[]{0, 1, 4, 5, 6, 7};
     private final PathfinderMob mob;
     private final double jumpStrength;
+    private final double jumpStrengthHorizontal;
+    private final boolean rotatesWithJump;
     protected final int interval;
     private boolean breached;
     protected int jumpCD = 1;
 
     public JumpFromWaterGoal(PathfinderMob mob, int pInterval, double jumpStrength) {
+        this(mob, pInterval, jumpStrength, jumpStrength, true);
+    }
+
+    public JumpFromWaterGoal(PathfinderMob mob, int pInterval, double jumpStrength, double jumpStrengthHorizontal, boolean rotatesWithJump) {
         this.mob = mob;
         this.interval = reducedTickDelay(pInterval);
         this.jumpStrength = jumpStrength;
+        this.jumpStrengthHorizontal = jumpStrengthHorizontal;
+        this.rotatesWithJump = rotatesWithJump;
     }
 
     public boolean canUse() {
@@ -57,7 +65,7 @@ public class JumpFromWaterGoal extends JumpGoal {
     }
 
     private boolean surfaceIsClear(BlockPos pPos, int pDx, int pDz, int pScale) {
-        return this.mob.level().getBlockState(pPos.offset(pDx * pScale, 2, pDz * pScale)).isAir() && this.mob.level().getBlockState(pPos.offset(pDx * pScale, 2, pDz * pScale)).isAir();
+        return this.mob.level().getBlockState(pPos.offset(pDx * pScale, (int) (2 + this.mob.getBbHeight()), pDz * pScale)).isAir() && this.mob.level().getBlockState(pPos.offset(pDx * pScale, 2, pDz * pScale)).isAir();
     }
 
 
@@ -66,7 +74,7 @@ public class JumpFromWaterGoal extends JumpGoal {
             return !this.mob.isInWater();
         }
         double d0 = this.mob.getDeltaMovement().y;
-        return (!(d0 * d0 < (double)0.03F) || this.mob.getXRot() == 0.0F || !(Math.abs(this.mob.getXRot()) < 10.0F) || !this.mob.isInWater()) && !this.mob.onGround();
+        return (!(d0 * d0 < (double)0.03F) || this.rotatesWithJump && (this.mob.getXRot() == 0.0F || !(Math.abs(this.mob.getXRot()) < 10.0F)) || !this.mob.isInWater()) && !this.mob.onGround();
     }
 
     public boolean isInterruptable() {
@@ -75,12 +83,12 @@ public class JumpFromWaterGoal extends JumpGoal {
 
     @Override
     public void stop() {
-        this.jumpCD = 20;
+        this.jumpCD = 5;
     }
 
     public void start() {
         Direction direction = this.mob.getMotionDirection();
-        this.mob.setDeltaMovement(this.mob.getDeltaMovement().add((double)direction.getStepX() * jumpStrength, jumpStrength, (double)direction.getStepZ() * jumpStrength));
+        this.mob.setDeltaMovement(this.mob.getDeltaMovement().add((double)direction.getStepX() * jumpStrengthHorizontal, jumpStrength, (double)direction.getStepZ() * jumpStrengthHorizontal));
         this.mob.getNavigation().stop();
     }
 
@@ -97,14 +105,18 @@ public class JumpFromWaterGoal extends JumpGoal {
             this.mob.playSound(SoundEvents.DOLPHIN_JUMP, 1.0F, 1.0F);
         }
 
-        Vec3 vec3 = this.mob.getDeltaMovement();
-        if (vec3.y * vec3.y < (double)0.03F && this.mob.getXRot() != 0.0F) {
-            this.mob.setXRot(Mth.rotLerp(0.2F, this.mob.getXRot(), 0.0F));
-        } else if (vec3.length() > (double)1.0E-5F) {
-            double d0 = vec3.horizontalDistance();
-            double d1 = Math.atan2(-vec3.y, d0) * (double)(180F / (float)Math.PI);
-            this.mob.setXRot((float)d1);
+        if (this.rotatesWithJump) {
+            Vec3 vec3 = this.mob.getDeltaMovement();
+            if (vec3.y * vec3.y < (double)0.03F && this.mob.getXRot() != 0.0F) {
+                this.mob.setXRot(Mth.rotLerp(0.2F, this.mob.getXRot(), 0.0F));
+            } else if (vec3.length() > (double)1.0E-5F) {
+                double d0 = vec3.horizontalDistance();
+                double d1 = Math.atan2(-vec3.y, d0) * (double)(180F / (float)Math.PI);
+                this.mob.setXRot((float)d1);
+            }
         }
+
+
 
     }
 }

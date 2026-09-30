@@ -16,4 +16,5 @@ public class FluidPathNavigation extends WaterBoundPathNavigation {
         this.nodeEvaluator = new FluidsNodeNavigator(true);
         return new PathFinder(this.nodeEvaluator, pMaxVisitedNodes);
     }
+
 }

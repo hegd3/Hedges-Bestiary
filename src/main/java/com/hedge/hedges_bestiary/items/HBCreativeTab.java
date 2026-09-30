@@ -64,6 +64,7 @@ public class HBCreativeTab {
                         output.accept(HBItems.BLURPUM_SPAWN_EGG.get());
                         output.accept(HBItems.GAWK_SPAWN_EGG.get());
                         output.accept(HBItems.GOPH_SPAWN_EGG.get());
+                        output.accept(HBItems.ZIPPERMOUTH_SPAWN_EGG.get());
 
 
                     }).build());

@@ -15,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -31,7 +32,7 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
     public final SmoothAnimationState digAnimationState = new SmoothAnimationState(0.1F);
     public final SmoothAnimationState stretchAnimationState = new SmoothAnimationState();
 
-    public GophEntity(EntityType<? extends HBTamableAnimal> pEntityType, Level pLevel) {
+    public GophEntity(EntityType<? extends GophEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -101,6 +102,7 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
     @Override
     protected void registerGoals() {
         int i = 0;
+        this.goalSelector.addGoal(i++, new FloatGoal(this));
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
         this.goalSelector.addGoal(i++, new HBFollowOwnerGoal(this, 1.2D, 1.4D, 7.0f, 10.0f));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));

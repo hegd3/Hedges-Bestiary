@@ -23,10 +23,15 @@ public class CustomSwimGoal extends RandomStrollGoal {
     }
 
     public CustomSwimGoal(PathfinderMob mob, double speedModifier, int interval, int radius, int height, boolean preferSurface, boolean semiAquatic) {
+        this(mob, speedModifier, interval, radius, height, height / 2, preferSurface, semiAquatic);
+
+    }
+
+    public CustomSwimGoal(PathfinderMob mob, double speedModifier, int interval, int radius, int height, int bound, boolean preferSurface, boolean semiAquatic) {
         super(mob, speedModifier, interval);
         this.radius = radius;
         this.height = height;
-        this.bound = height / 2;
+        this.bound = bound;
         this.preferSurface = preferSurface;
         this.semiAquatic = semiAquatic;
     }
@@ -55,10 +60,10 @@ public class CustomSwimGoal extends RandomStrollGoal {
             if (this.preferSurface) {
                 int blocksFromBoundary = EntityHelpers.blocksFromWaterBoundary(this.mob.level(), blockPos, this.height, Direction.UP);
                 if (blocksFromBoundary > this.bound) {
-                    this.pos = this.pos.add(0, 1, 0);
+                    this.pos = this.pos.add(0, bound, 0);
                     this.mob.getNavigation().moveTo(this.pos.x, this.pos.y, this.pos.z, this.speedModifier);
                 } else {
-                    this.pos = this.pos.add(0, -1, 0);
+                    this.pos = this.pos.add(0, -bound, 0);
                     this.mob.getNavigation().moveTo(this.pos.x, this.pos.y, this.pos.z, this.speedModifier);
                 }
             } else {
@@ -67,7 +72,7 @@ public class CustomSwimGoal extends RandomStrollGoal {
                     this.pos = this.pos.add(0, 1, 0);
                     this.mob.getNavigation().moveTo(this.pos.x, this.pos.y, this.pos.z, this.speedModifier);
                 } else {
-                    this.pos = this.pos.add(0, -1, 0);
+                    this.pos = this.pos.add(0, -bound, 0);
                     this.mob.getNavigation().moveTo(this.pos.x, this.pos.y, this.pos.z, this.speedModifier);
                 }
             }

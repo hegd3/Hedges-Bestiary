@@ -25,6 +25,7 @@ public class GophModel extends HBModel<GophEntity> {
 	private final ModelPart rightleg;
 
 	public GophModel(ModelPart root) {
+		super(0.5f, 24);
 		this.root = root.getChild("root");
 		this.wholebody = this.root.getChild("wholebody");
 		this.body = this.wholebody.getChild("body");
