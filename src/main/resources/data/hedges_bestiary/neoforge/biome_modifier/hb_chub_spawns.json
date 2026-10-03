@@ -1,13 +1,13 @@
 {
-  "type": "forge:add_spawns",
+  "type": "neoforge:add_spawns",
   "biomes": [
     "minecraft:deep_ocean",
     "minecraft:ocean"
   ],
   "spawners":
   {
-    "type": "hedges_bestiary:murk",
-    "weight": 7,
+    "type": "hedges_bestiary:chub",
+    "weight": 3,
     "minCount": 1,
     "maxCount": 1,
     "category": "water_creature"

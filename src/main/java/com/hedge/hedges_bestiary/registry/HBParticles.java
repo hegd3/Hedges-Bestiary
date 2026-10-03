@@ -42,6 +42,8 @@ public class HBParticles {
     public static final Supplier<SimpleParticleType> ENDGEL_BULLET = DEF_REG.register("endgel_bullet", ()-> new SimpleParticleType(false));
     public static final Supplier<SimpleParticleType> ENDGEL_BLAST_EXPLODE = DEF_REG.register("endgel_blast_explode", ()-> new SimpleParticleType(false));
 
+    public static final Supplier<SimpleParticleType> WATER_EXPLODE = DEF_REG.register("water_explode", ()-> new SimpleParticleType(false));
+
     public static final Supplier<ParticleType<VolatileExplosionParticleOptions>> VOLATILE_EXPLODE = DEF_REG.register("volatile_explode", ()-> new ParticleType<>(true) {
 
         @Override

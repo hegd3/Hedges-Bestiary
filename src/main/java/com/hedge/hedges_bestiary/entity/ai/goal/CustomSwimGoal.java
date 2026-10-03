@@ -69,7 +69,7 @@ public class CustomSwimGoal extends RandomStrollGoal {
             } else {
                 int blocksFromBoundary = EntityHelpers.blocksFromWaterBoundary(this.mob.level(), blockPos, this.height, Direction.DOWN);
                 if (blocksFromBoundary <= this.bound) {
-                    this.pos = this.pos.add(0, 1, 0);
+                    this.pos = this.pos.add(0, bound, 0);
                     this.mob.getNavigation().moveTo(this.pos.x, this.pos.y, this.pos.z, this.speedModifier);
                 } else {
                     this.pos = this.pos.add(0, -bound, 0);

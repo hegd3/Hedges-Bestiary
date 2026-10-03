@@ -102,6 +102,8 @@ public class ClientEvent {
         event.registerSpriteSet(HBParticles.ENDGEL_BULLET.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
         event.registerSpriteSet(HBParticles.ENDGEL_BLAST_EXPLODE.get(), ProjectileTrailParticle.EndgelBlastExplodeProvider::new);
 
+        event.registerSpriteSet(HBParticles.WATER_EXPLODE.get(), DynamicExplosionParticle.EndgelExplodeProvider::new);
+
     }
 
     public static void registerItemRenderers(FMLClientSetupEvent event) {

@@ -23,8 +23,9 @@ public class SegmentHelper {
         this.yawTrail[0] = Mth.rotLerp(lerpSpeed, this.yawTrail[0], bodyYaw);
         this.pitchTrail[0] = Mth.rotLerp(lerpSpeed, this.pitchTrail[0], bodyPitch);
         for (int i = 1; i < this.yawTrail.length; i++) {
-            this.yawTrail[i] = Mth.rotLerp(lerpSpeed, this.yawTrail[i], this.yawTrail[i - 1]);
-            this.pitchTrail[i] = Mth.rotLerp(lerpSpeed, this.pitchTrail[i], this.pitchTrail[i - 1]);
+            float currentLerpSpeed = Mth.lerp(i / (float)this.yawTrail.length, this.lerpSpeed, this.lerpSpeed * 0.5F);
+            this.yawTrail[i] = Mth.rotLerp(currentLerpSpeed, this.yawTrail[i], this.yawTrail[i - 1]);
+            this.pitchTrail[i] = Mth.rotLerp(currentLerpSpeed, this.pitchTrail[i], this.pitchTrail[i - 1]);
         }
     }
 

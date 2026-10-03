@@ -105,7 +105,7 @@ public class ZippermouthModel extends HBModel<ZippermouthEntity> {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		float partialTicks = ageInTicks - entity.tickCount;
 		headPitch = Mth.clamp(headPitch, -2.0F, 2.0F) * Mth.DEG_TO_RAD;
-		netHeadYaw = Mth.clamp(netHeadYaw, -5.0F, 5.0F) * Mth.DEG_TO_RAD;
+		netHeadYaw = Mth.clamp(netHeadYaw, -2.0F, 2.0F) * Mth.DEG_TO_RAD;
 
 		if (entity.isInFluidType() || !entity.onGround()) {
 			this.root.xRot += entity.getPitch(partialTicks) * Mth.DEG_TO_RAD;
@@ -114,7 +114,7 @@ public class ZippermouthModel extends HBModel<ZippermouthEntity> {
 		this.head.yRot += netHeadYaw;
 		this.animateSmooth(entity.beachedAnimationState, ZippermouthAnimation.BEACHED, ageInTicks, partialTicks, 0.5F);
 		this.animateSmooth(entity.idleAnimationState, ZippermouthAnimation.IDLE, ageInTicks, partialTicks, 0.5F);
-		this.animateSmooth(entity.rushAnimationState, ZippermouthAnimation.OPEN_MOUTH, ageInTicks, partialTicks, 1F);
+		this.animateSmooth(entity.suckAnimationState, ZippermouthAnimation.OPEN_MOUTH, ageInTicks, partialTicks, 1F);
 		this.animate(entity.biteAnimationState, ZippermouthAnimation.BITE, ageInTicks,1F);
 		this.animateWalk(ZippermouthAnimation.SWIM, limbSwing, limbSwingAmount, 1.0F, 2.5F);
 

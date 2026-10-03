@@ -1,64 +1,81 @@
 package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.entity.ai.control.SwimmingMoveControl;
-import com.hedge.hedges_bestiary.entity.ai.goal.CustomSwimGoal;
-import com.hedge.hedges_bestiary.entity.ai.goal.GenericMeleeGoal;
-import com.hedge.hedges_bestiary.entity.ai.goal.JumpFromWaterGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.*;
+import com.hedge.hedges_bestiary.entity.ai.goal.specific.ZippermouthAttackGoal;
 import com.hedge.hedges_bestiary.entity.ai.navigation.FluidPathNavigation;
 import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
-import com.hedge.hedges_bestiary.entity.types.HBAquaticMob;
+import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.SegmentHelper;
+import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ZippermouthEntity extends HBAquaticMob implements AttackStateMob {
+public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob {
     public float prevPitch = 0.0F;
     public float pitch = 0.0F;
+
+    private int suckCD = 0;
     public final AnimationState biteAnimationState = new AnimationState();
     public final SmoothAnimationState beachedAnimationState = new SmoothAnimationState(0.1F);
-    public final SmoothAnimationState rushAnimationState = new SmoothAnimationState(0.1F);
+    public final SmoothAnimationState suckAnimationState = new SmoothAnimationState(0.1F);
 
-    public final SegmentHelper segmentHelper = new SegmentHelper(4, 0.1F);
+    public final SegmentHelper segmentHelper = new SegmentHelper(4,0.1F);
 
     public ZippermouthEntity(EntityType<? extends ZippermouthEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new SwimmingMoveControl(this, 999, 3, 0.02f, 0.0f);
+        this.setPathfindingMalus(PathType.WATER, 0.0f);
+
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new GenericMeleeGoal<>(this, 2F) {
-            @Override
-            protected void look(LivingEntity target) {
-                ZippermouthEntity.this.lookControl.setLookAt(target, 10.0F, 10.0F);
-                ZippermouthEntity.this.lookAt(target, 10F, 10F);
-            }
-        });
-        this.goalSelector.addGoal(1, new CustomSwimGoal(this, 1.0f, 10, 30, 5, 10, true, false));
-        this.goalSelector.addGoal(2, new JumpFromWaterGoal(this, 10, 1.1F, 1.4F, false));
+        int i =0;
+        this.goalSelector.addGoal(i++, new MountOverrideGoal(this));
+        this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
+        this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.4F, 1.8F, 10, 4));
+        this.goalSelector.addGoal(i++, new ZippermouthAttackGoal(this));
 
-        this.targetSelector.addGoal(0, new HBHurtByTargetGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, true));
+        this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
+        this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0f, 10, 30, 5, true));
+        this.goalSelector.addGoal(i, new JumpFromWaterGoal(this, 10, 1.1F, 1.4F, false));
+
+        this.targetSelector.addGoal(0, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(1, new HBHurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(3, new TargetPlayersGoal(this));
+        this.targetSelector.addGoal(4, new TargetMonstersGoal(this));
+        this.targetSelector.addGoal(5, new NonTameRandomTargetGoal<>(this, FerocetusEntity.class, true, null));
     }
 
     @Override
@@ -74,7 +91,7 @@ public class ZippermouthEntity extends HBAquaticMob implements AttackStateMob {
 
     public static AttributeSupplier.Builder bakeAttributes() {
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 400.0D)
+                .add(Attributes.MAX_HEALTH, 350.0D)
                 .add(Attributes.ATTACK_DAMAGE, 40.0D)
                 .add(Attributes.FOLLOW_RANGE, 20)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.9D)
@@ -93,17 +110,41 @@ public class ZippermouthEntity extends HBAquaticMob implements AttackStateMob {
         return super.getBoundingBoxForCulling().inflate(2.0F);
     }
 
+    @Override
+    protected boolean canOwnerMount(Player player) {
+        return true;
+    }
+
+    @Override
+    protected boolean shouldPassengersInheritMalus() {
+        return true;
+    }
+
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.99F;
+    }
+
+
+    @Override
+    protected boolean canOwnerCommand(Player player) {
+        return player.isShiftKeyDown();
+    }
+
     public void tick() {
         super.tick();
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, 20);
         this.tickPitch();
-        if (this.level().isClientSide) {
+        if (this.level().isClientSide) { // was supposed to be inverse kinematics based but i gave up lol
+            this.setUpAnimStates();
             this.segmentHelper.tick(this.yBodyRotO - this.yBodyRot, this.prevPitch - this.pitch);
+        } else {
+            this.serverTick();
         }
     }
 
-    @Override
     protected void serverTick() {
+        if (this.suckCD > 0) this.suckCD--;
         if (this.getAnimState() > 0) {
             this.animTicks++;
             switch (this.getAnimState()) {
@@ -114,10 +155,32 @@ public class ZippermouthEntity extends HBAquaticMob implements AttackStateMob {
                     else if (this.animTicks == 28) {
                         List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(0.25F), 3, 3, 3, 10);
                         for (LivingEntity entity : hit) {
+                            if (!AttackHelpers.blockBreak(entity)) {
                             this.doHurtTarget(entity);
+                            }
                         }
+                        this.level().broadcastEntityEvent(this, (byte)49);
                     } else if (this.animTicks > 42) {
                         this.resetAnimState();
+                    }
+                }
+                case 2 -> {
+                    if (this.animTicks > 20) {
+                        LivingEntity target = this.getTarget();
+                        if (this.animTicks > 60 || target == null || target.distanceToSqr(this) <= this.getAttackReachSqr(target)) {
+                            this.resetAnimState();
+                            this.suckCD = 200;
+                        }
+                        else if (this.animTicks % 5 == 0 && this.isInWater()) {
+                            Vec3 pos = this.getLookAngle().scale(3);
+                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, pos, 10, 5, 10, 10);
+                            for (LivingEntity entity : hit) {
+                                if (entity.isInWater()) {
+                                    Vec3 v = this.position().add(pos).subtract(entity.position());
+                                    entity.setDeltaMovement(entity.getDeltaMovement().lerp(v, 0.1F));
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -149,16 +212,20 @@ public class ZippermouthEntity extends HBAquaticMob implements AttackStateMob {
     }
 
     public int getMaxHeadXRot() {
-        return 1;
+        return 5;
     }
 
     public int getMaxHeadYRot() {
-        return 1;
+        return 5;
     }
 
     @Override
     protected PathNavigation createNavigation(Level pLevel) {
         return new FluidPathNavigation(this, pLevel);
+    }
+
+    public boolean canRush(double attackReach, double dist) {
+        return this.suckCD == 0 && attackReach * 10 >= dist;
     }
 
     @Override
@@ -181,6 +248,50 @@ public class ZippermouthEntity extends HBAquaticMob implements AttackStateMob {
         this.idleAnimationState.animateWhen(this.isInFluidType() || !this.onGround(), this.tickCount);
         this.beachedAnimationState.animateWhen(!this.idleAnimationState.isStarted(), this.tickCount);
         this.biteAnimationState.animateWhen(this.getAnimState() == 1, this.tickCount);
-        this.rushAnimationState.animateWhen(this.getAnimState() == 2, this.tickCount);
+        this.suckAnimationState.animateWhen(this.getAnimState() == 2, this.tickCount);
+    }
+
+    @Override
+    public SleepType getSleepType() {
+        return SleepType.RESTLESS;
+    }
+
+    @Override
+    public boolean canDrownInFluidType(net.neoforged.neoforge.fluids.FluidType type) {
+        return false;
+    }
+
+    @Override
+    public boolean checkSpawnObstruction(LevelReader levelReader) {
+        return levelReader.isUnobstructed(this);
+    }
+
+    @Override
+    public boolean isFood(ItemStack pStack) {
+        return false;
+    }
+
+    @Override
+    public boolean isMultipartEntity() {
+        return true;
+    }
+
+    @Override
+    public void playIdle() {
+
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 49) {
+            Vec3 v = this.getLookAngle().scale(1.5);
+            this.level().addParticle(HBParticles.WATER_EXPLODE.get(), true, this.getX() + v.x, this.getY() + v.y, this.getZ() + v.z, 0, 0, 0);
+        }
+        super.handleEntityEvent(id);
+    }
+
+    @Override
+    public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+        return null;
     }
 }
