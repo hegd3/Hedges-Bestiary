@@ -9,6 +9,7 @@ import com.hedge.hedges_bestiary.entity.living.ambientfish.SkibEntity;
 import com.hedge.hedges_bestiary.networking.ClientPayloadHandler;
 import com.hedge.hedges_bestiary.networking.packet.DanceJukeboxPacket;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import com.hedge.hedges_bestiary.networking.packet.MultipartEntityPacket;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.Animal;
@@ -67,7 +68,7 @@ public class ServerEvent {
 
         registrar.playToServer(EntityKeyPacket.TYPE, EntityKeyPacket.STREAM_CODEC, ClientPayloadHandler::handleEntityKeyPacket);
         registrar.playToServer(DanceJukeboxPacket.TYPE, DanceJukeboxPacket.STREAM_CODEC, ClientPayloadHandler::handleDanceJukeboxPacket);
-
+        registrar.playToServer(MultipartEntityPacket.TYPE,  MultipartEntityPacket.STREAM_CODEC, ClientPayloadHandler::handleMultipartEntityPacket);
     }
 
 

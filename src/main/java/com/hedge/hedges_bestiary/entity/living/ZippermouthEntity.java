@@ -35,6 +35,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,12 +51,22 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     public final SmoothAnimationState suckAnimationState = new SmoothAnimationState(0.1F);
 
     public final SegmentHelper segmentHelper = new SegmentHelper(4,0.1F);
+    private final ZippermouthPartEntity segment1;
+    private final ZippermouthPartEntity segment2;
+    private final ZippermouthPartEntity segment3;
+    private final ZippermouthPartEntity[] segments;
 
     public ZippermouthEntity(EntityType<? extends ZippermouthEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new SwimmingMoveControl(this, 999, 3, 0.02f, 0.0f);
         this.setPathfindingMalus(PathType.WATER, 0.0f);
+        this.segment1 = new ZippermouthPartEntity(this);
+        this.segment2 = new ZippermouthPartEntity(this);
+        this.segment3 = new ZippermouthPartEntity(this);
 
+        this.segments = new ZippermouthPartEntity[]{
+            segment1, segment2, segment3
+        };
     }
 
     @Override
@@ -137,9 +148,20 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         this.tickPitch();
         if (this.level().isClientSide) { // was supposed to be inverse kinematics based but i gave up lol
             this.setUpAnimStates();
-            this.segmentHelper.tick(this.yBodyRotO - this.yBodyRot, this.prevPitch - this.pitch);
         } else {
             this.serverTick();
+        }
+        this.segmentHelper.tick(this.yBodyRotO - this.yBodyRot, this.prevPitch - this.pitch);
+        this.tickMultiPart();
+
+    }
+
+    public void remove(Entity.RemovalReason removalReason) {
+        super.remove(removalReason);
+        if (this.segments != null) {
+            for (PartEntity part : segments) {
+                part.remove(RemovalReason.KILLED);
+            }
         }
     }
 
@@ -187,6 +209,37 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         }
     }
 
+    private void tickMultiPart() {
+
+        Vec3[] avector3d = new Vec3[this.segments.length];
+        for (int j = 0; j < this.segments.length; j++) {
+            avector3d[j] = new Vec3(this.segments[j].getX(), this.segments[j].getY(), this.segments[j].getZ());
+        }
+        Vec3 center = this.position().add(0, this.getBbHeight() * 0.5F, 0);
+
+        this.segment1.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, -3.56), pitch, this.segmentHelper.getYawAtIndex(0, 0.1F) + this.yBodyRot).add(center));
+        this.segment2.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, -3.56), pitch, this.segmentHelper.getYawAtIndex(1, 0.1F) + this.yBodyRot).add(this.segment1.centeredPosition()));
+        this.segment3.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, -3.56), pitch, this.segmentHelper.getYawAtIndex(2, 0.1F) + this.yBodyRot).add(this.segment2.centeredPosition()));
+
+        for (int l = 0; l < this.segments.length; l++) {
+            this.segments[l].xo = avector3d[l].x;
+            this.segments[l].yo = avector3d[l].y;
+            this.segments[l].zo = avector3d[l].z;
+            this.segments[l].xOld = avector3d[l].x;
+            this.segments[l].yOld = avector3d[l].y;
+            this.segments[l].zOld = avector3d[l].z;
+        }
+    }
+
+    @Override
+    public PartEntity<?>[] getParts() {
+        return this.segments;
+    }
+
+
+    private Vec3 rotateOffsetVec(Vec3 offset, float xRot, float yRot) {
+        return offset.xRot(-xRot * Mth.DEG_TO_RAD).yRot(-yRot * Mth.DEG_TO_RAD);
+    }
 
     private void tickPitch() {
         this.prevPitch = this.pitch;
