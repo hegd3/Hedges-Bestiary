@@ -10,9 +10,14 @@ import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
+import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.entity.util.SegmentHelper;
+import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import com.hedge.hedges_bestiary.registry.HBKeyMappings;
 import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
@@ -36,6 +41,7 @@ import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,6 +57,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     public final SmoothAnimationState suckAnimationState = new SmoothAnimationState(0.1F);
 
     public final SegmentHelper segmentHelper = new SegmentHelper(4,0.1F);
+
     private final ZippermouthPartEntity segment1;
     private final ZippermouthPartEntity segment2;
     private final ZippermouthPartEntity segment3;
@@ -146,14 +153,101 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         super.tick();
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, 20);
         this.tickPitch();
-        if (this.level().isClientSide) { // was supposed to be inverse kinematics based but i gave up lol
+        if (this.level().isClientSide) {
             this.setUpAnimStates();
-        } else {
-            this.serverTick();
         }
-        this.segmentHelper.tick(this.yBodyRotO - this.yBodyRot, this.prevPitch - this.pitch);
+        this.segmentHelper.tick((this.yBodyRotO - this.yBodyRot) * 0.75F, (this.prevPitch - this.pitch) * 1.5F);
         this.tickMultiPart();
+        if (this.suckCD > 0) this.suckCD--;
+        if (this.getAnimState() > 0) {
+            this.animTicks++;
+            switch (this.getAnimState()) {
+                case 1 -> {
+                    if (!this.level().isClientSide) {
+                        if (this.animTicks == 24) {
+                            this.addDeltaMovement(this.getLookAngle().scale(0.3F));
+                        }
+                        else if (this.animTicks == 28) {
+                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(0.25F), 3, 3, 3, 10);
+                            for (LivingEntity entity : hit) {
+                                if (!AttackHelpers.blockBreak(entity)) {
+                                    this.doHurtTarget(entity);
+                                }
+                            }
+                            this.level().broadcastEntityEvent(this, (byte) 49);
+                        } else if (this.animTicks > 42) {
+                            this.resetAnimState();
+                        }
+                    }
+                }
+                case 2 -> {
+                    if (this.animTicks > 20) {
+                        if (!this.level().isClientSide) {
+                            LivingEntity target = this.getTarget();
+                            if (this.animTicks > 60 || target == null || target.distanceToSqr(this) <= this.getAttackReachSqr(target) / 2) {
+                                this.resetAnimState();
+                                this.suckCD = 200;
+                                break;
+                            }
+                        } else {
+                            for (int i = 1; i < 6; i++) {
+                                Vec3 pos = this.position().add(Vec3.directionFromRotation(this.getXRot(), this.yHeadRot).scale(i)).yRot((Mth.wrapDegrees(this.getRandom().nextFloat() * 4 - this.getRandom().nextFloat() * 4)) * Mth.DEG_TO_RAD);
+                                this.level().addParticle(HBParticles.WATER_SUCK.get(), true, pos.x, pos.y + this.getRandom().nextFloat() * 2F - this.getRandom().nextFloat() * 2F, pos.z, 0, 0, 0);
+                            }
+                        }
 
+                        if (this.animTicks % 5 == 0 && this.isInWater()) {
+                            Vec3 pos = Vec3.directionFromRotation(this.getXRot(), this.yHeadRot).scale(3);
+                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, pos, 7, 5, 7, 10);
+                            for (LivingEntity entity : hit) {
+                                if (entity.isInWater()) {
+                                    Vec3 v = this.position().add(pos).subtract(entity.position());
+                                    entity.setDeltaMovement(entity.getDeltaMovement().lerp(v, Math.max(0.05F - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE) / 2, 0.00F)));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    @Override
+    protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
+        super.tickRidden(pPlayer, pTravelVector);
+        if (this.isInWater() && (pPlayer.zza != 0 || this.yya != 0)) {
+            float newYaw = Mth.rotLerp(0.07F, this.getYRot(), pPlayer.getYHeadRot());
+            this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -10, 10));
+            this.setYHeadRot(pPlayer.getYHeadRot());
+        } else if (this.onGround()) {
+            this.ejectPassengers();
+        }
+    }
+
+    @Override
+    protected Vec3 getRiddenInput(Player pPlayer, Vec3 pTravelVector) {
+
+        if (this.isInWater()) {
+            float f1;
+            f1 = pPlayer.zza * 0.015F;
+            if (f1 < 0) f1 = 0;
+            return new Vec3(0, 0, f1);
+
+        }
+        return Vec3.ZERO;
+
+    }
+
+
+    @Override
+    public LivingEntity getControllingPassenger() {
+        Entity entity = this.getFirstPassenger();
+        if (entity instanceof Player) {
+            return (Player) entity;
+        } else {
+            return null;
+        }
     }
 
     public void remove(Entity.RemovalReason removalReason) {
@@ -165,49 +259,6 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         }
     }
 
-    protected void serverTick() {
-        if (this.suckCD > 0) this.suckCD--;
-        if (this.getAnimState() > 0) {
-            this.animTicks++;
-            switch (this.getAnimState()) {
-                case 1 -> {
-                    if (this.animTicks == 24) {
-                        this.addDeltaMovement(this.getLookAngle().scale(0.3F));
-                    }
-                    else if (this.animTicks == 28) {
-                        List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(0.25F), 3, 3, 3, 10);
-                        for (LivingEntity entity : hit) {
-                            if (!AttackHelpers.blockBreak(entity)) {
-                            this.doHurtTarget(entity);
-                            }
-                        }
-                        this.level().broadcastEntityEvent(this, (byte)49);
-                    } else if (this.animTicks > 42) {
-                        this.resetAnimState();
-                    }
-                }
-                case 2 -> {
-                    if (this.animTicks > 20) {
-                        LivingEntity target = this.getTarget();
-                        if (this.animTicks > 60 || target == null || target.distanceToSqr(this) <= this.getAttackReachSqr(target)) {
-                            this.resetAnimState();
-                            this.suckCD = 200;
-                        }
-                        else if (this.animTicks % 5 == 0 && this.isInWater()) {
-                            Vec3 pos = this.getLookAngle().scale(3);
-                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, pos, 10, 5, 10, 10);
-                            for (LivingEntity entity : hit) {
-                                if (entity.isInWater()) {
-                                    Vec3 v = this.position().add(pos).subtract(entity.position());
-                                    entity.setDeltaMovement(entity.getDeltaMovement().lerp(v, 0.1F));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     private void tickMultiPart() {
 
@@ -216,10 +267,9 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
             avector3d[j] = new Vec3(this.segments[j].getX(), this.segments[j].getY(), this.segments[j].getZ());
         }
         Vec3 center = this.position().add(0, this.getBbHeight() * 0.5F, 0);
-
-        this.segment1.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, -3.56), pitch, this.segmentHelper.getYawAtIndex(0, 0.1F) + this.yBodyRot).add(center));
-        this.segment2.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, -3.56), pitch, this.segmentHelper.getYawAtIndex(1, 0.1F) + this.yBodyRot).add(this.segment1.centeredPosition()));
-        this.segment3.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, -3.56), pitch, this.segmentHelper.getYawAtIndex(2, 0.1F) + this.yBodyRot).add(this.segment2.centeredPosition()));
+        this.segment1.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, -3.56), pitch, this.segmentHelper.getYawAtIndex(0, 1.0F) * 20 + this.yBodyRot).add(center));
+        this.segment2.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, -3.56), pitch, this.segmentHelper.getYawAtIndex(1, 1.0F) * 20 + this.yBodyRot).add(this.segment1.centeredPosition()));
+        this.segment3.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, -3.56), pitch, this.segmentHelper.getYawAtIndex(2, 1.0F) * 20 + this.yBodyRot).add(this.segment2.centeredPosition()));
 
         for (int l = 0; l < this.segments.length; l++) {
             this.segments[l].xo = avector3d[l].x;
@@ -254,6 +304,31 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
 
 
     public void travel(Vec3 pTravelVector) {
+
+        if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
+            if (this.isInWater()) {
+                if (Minecraft.getInstance().options.keyJump.isDown()) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
+                } else if (Minecraft.getInstance().options.keySprint.isDown()) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, -0.03, 0));
+                }
+
+                if (this.getAnimState() == 0) {
+
+                    if (Minecraft.getInstance().options.keyAttack.isDown()) {
+                        PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 4));
+                    } else if (HBKeyMappings.MOUNT_ABILITY_KEY.isDown()) {
+                        PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
+                    }
+
+
+                }
+                this.moveRelative(this.getSpeed(), pTravelVector);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));
+            }
+        }
+
         if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(this.getSpeed(), pTravelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());

@@ -89,7 +89,7 @@ public class ZippermouthModel extends HBModel<ZippermouthEntity> {
 		.texOffs(0, 0).addBox(-18.5F, -13.0F, 0.0F, 37.0F, 26.0F, 57.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 57.0F));
 
 		PartDefinition tail = segment3.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(0, 141).addBox(-9.5F, -12.0F, 0.0F, 19.0F, 19.0F, 67.0F, new CubeDeformation(0.0F))
-		.texOffs(204, 57).addBox(0.0F, -38.0F, 7.0F, 0.0F, 26.0F, 56.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 6.0F, 57.0F));
+		.texOffs(204, 57).addBox(0.0F, -38.0F, 7.0F, 0.0F, 26.0F, 56.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 6.0F, 57.0F));
 
 		return LayerDefinition.create(meshdefinition, 512, 512);
 	}
@@ -114,7 +114,7 @@ public class ZippermouthModel extends HBModel<ZippermouthEntity> {
 		this.head.yRot += netHeadYaw;
 		this.animateSmooth(entity.beachedAnimationState, ZippermouthAnimation.BEACHED, ageInTicks, partialTicks, 0.5F);
 		this.animateSmooth(entity.idleAnimationState, ZippermouthAnimation.IDLE, ageInTicks, partialTicks, 0.5F);
-		this.animateSmooth(entity.suckAnimationState, ZippermouthAnimation.OPEN_MOUTH, ageInTicks, partialTicks, 1F);
+		this.animateSmooth(entity.suckAnimationState, ZippermouthAnimation.OPEN_MOUTH, ageInTicks, partialTicks, 1.4F);
 		this.animate(entity.biteAnimationState, ZippermouthAnimation.BITE, ageInTicks,1F);
 		this.animateWalk(ZippermouthAnimation.SWIM, limbSwing, limbSwingAmount, 1.0F, 2.5F);
 

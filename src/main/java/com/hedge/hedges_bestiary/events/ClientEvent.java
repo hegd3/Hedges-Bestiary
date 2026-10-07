@@ -103,6 +103,7 @@ public class ClientEvent {
         event.registerSpriteSet(HBParticles.ENDGEL_BLAST_EXPLODE.get(), ProjectileTrailParticle.EndgelBlastExplodeProvider::new);
 
         event.registerSpriteSet(HBParticles.WATER_EXPLODE.get(), DynamicExplosionParticle.EndgelExplodeProvider::new);
+        event.registerSpriteSet(HBParticles.WATER_SUCK.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
 
     }
 

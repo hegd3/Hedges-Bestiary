@@ -21,20 +21,20 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
 
 public class EggBlockEntity<E extends Entity> extends BlockEntity {
 
-    protected final DeferredHolder<EntityType<?>, EntityType<E>> toHatch;
-    private int ticksTillHatch = 2000;
+    protected Supplier<EntityType<E>> toHatch;
+    private int ticksTillHatch = 120;
     private String ownerUUID = "";
 
     public EggBlockEntity(BlockPos pos, BlockState blockState) {
-        super(HBBlockEntities.EGG_BLOCK_ENTITY.get(), pos, blockState);
-        this.toHatch = ((EggBlock<E>)blockState.getBlock()).getToHatch();
+        this(pos, blockState, ((EggBlock<E>)blockState.getBlock()).getToHatch());
     }
 
-    public EggBlockEntity(BlockPos pos, BlockState blockState, DeferredHolder<EntityType<?>, EntityType<E>> toHatch) {
+    public EggBlockEntity(BlockPos pos, BlockState blockState, Supplier<EntityType<E>> toHatch) {
         super(HBBlockEntities.EGG_BLOCK_ENTITY.get(), pos, blockState);
         this.toHatch = toHatch;
     }
@@ -81,6 +81,7 @@ public class EggBlockEntity<E extends Entity> extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (!level.isClientSide()) {
+            System.out.println(ticksTillHatch);
             if(ticksTillHatch-- <= 0 && toHatch != null){
                 if (state.getBlock() instanceof MultiEggBlock) {
                     for (int i = 0; i < state.getValue(MultiEggBlock.EGGS); i++) {
@@ -108,7 +109,7 @@ public class EggBlockEntity<E extends Entity> extends BlockEntity {
                     this.setRemoved();
                 }
             } else {
-                if (this.ticksTillHatch % 100 == 0 && state.getBlock() instanceof EggBlock<?> block) {
+                if (this.ticksTillHatch % 40 == 0 && state.getBlock() instanceof EggBlock<?> block) {
                     block.crack(state, level, pos);
                 }
             }
@@ -126,13 +127,10 @@ public class EggBlockEntity<E extends Entity> extends BlockEntity {
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
         var tag = pkt.getTag();
-        if (tag != null)
-        {
-            handleUpdateTag(tag, lookupProvider);
+        handleUpdateTag(tag, lookupProvider);
 
-            BlockState state = level.getBlockState(worldPosition);
-            level.sendBlockUpdated(worldPosition, state, state, 3);
-        }
+        BlockState state = level.getBlockState(worldPosition);
+        level.sendBlockUpdated(worldPosition, state, state, 3);
     }
 
     public UUID getOwnerUUID() {

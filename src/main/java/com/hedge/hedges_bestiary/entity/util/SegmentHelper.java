@@ -20,13 +20,15 @@ public class SegmentHelper {
     public void tick(float bodyYaw, float bodyPitch) {
         System.arraycopy(this.yawTrail, 0, this.prevYawTrail, 0, this.yawTrail.length);
         System.arraycopy(this.pitchTrail, 0, this.prevPitchTrail, 0, this.pitchTrail.length);
-        this.yawTrail[0] = Mth.rotLerp(lerpSpeed, this.yawTrail[0], bodyYaw);
-        this.pitchTrail[0] = Mth.rotLerp(lerpSpeed, this.pitchTrail[0], bodyPitch);
-        for (int i = 1; i < this.yawTrail.length; i++) {
-            float currentLerpSpeed = Mth.lerp(i / (float)this.yawTrail.length, this.lerpSpeed, this.lerpSpeed * 0.5F);
-            this.yawTrail[i] = Mth.rotLerp(currentLerpSpeed, this.yawTrail[i], this.yawTrail[i - 1]);
+
+        for (int i = this.yawTrail.length - 1; i > 0; i--) {
+            float currentLerpSpeed = this.lerpSpeed / i;
+            this.yawTrail[i] = Mth.rotLerp(currentLerpSpeed, this.yawTrail[i], Mth.wrapDegrees((this.yawTrail[i - 1] - this.yawTrail[i]) * i));
             this.pitchTrail[i] = Mth.rotLerp(currentLerpSpeed, this.pitchTrail[i], this.pitchTrail[i - 1]);
         }
+        this.yawTrail[0] = Mth.rotLerp(lerpSpeed, this.yawTrail[0], bodyYaw);
+        this.pitchTrail[0] = Mth.rotLerp(lerpSpeed, this.pitchTrail[0], bodyPitch);
+
     }
 
 

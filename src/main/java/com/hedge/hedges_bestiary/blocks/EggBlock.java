@@ -44,10 +44,10 @@ public class EggBlock<E extends Entity> extends BaseEntityBlock {
     public static final IntegerProperty HATCH = BlockStateProperties.HATCH;
 
     public static final VoxelShape LARGE_EGG = BlockHelpers.createRectangular(10, 14);
-    protected final DeferredHolder<EntityType<?>, EntityType<E>> toHatch;
+    protected final Supplier<EntityType<E>> toHatch;
     private final VoxelShape shape;
 
-    public EggBlock(Properties pProperties, DeferredHolder<EntityType<?>, EntityType<E>> toHatch, VoxelShape shape) {
+    public EggBlock(Properties pProperties, Supplier<EntityType<E>> toHatch, VoxelShape shape) {
         super(pProperties);
         this.toHatch = toHatch;
         this.shape = shape;
@@ -99,7 +99,7 @@ public class EggBlock<E extends Entity> extends BaseEntityBlock {
         return new EggBlockEntity<>(pPos, pState, toHatch);
     }
 
-    public DeferredHolder<EntityType<?>, EntityType<E>> getToHatch() {
+    public Supplier<EntityType<E>> getToHatch() {
         return this.toHatch;
     }
 
@@ -112,7 +112,7 @@ public class EggBlock<E extends Entity> extends BaseEntityBlock {
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
-        return null;
+        return CODEC;
     }
 
     @Override

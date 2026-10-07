@@ -35,6 +35,7 @@ public class ZippermouthPartEntity extends PartEntity<ZippermouthEntity> {
         if (!parent.isInvulnerable()) {
             if (this.level().isClientSide) {
                 Entity hurter = source.getEntity();
+                amount*=0.5F;
                 if (source.is(DamageTypeTags.IS_PROJECTILE)) {
                     amount *= 0.35F;
                 }
