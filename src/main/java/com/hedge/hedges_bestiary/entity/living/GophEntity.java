@@ -4,11 +4,15 @@ import com.hedge.hedges_bestiary.entity.ai.goal.*;
 import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
 import com.hedge.hedges_bestiary.entity.types.EggLayer;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
+import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,6 +30,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class GophEntity extends HBTamableAnimal implements EggLayer {
@@ -71,6 +76,27 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
                 }
             }
         }
+    }
+
+    @Override
+    public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
+
+        InteractionResult result = super.interactTameCommands(player, hand);
+        if (result == InteractionResult.PASS && !this.isTame() && !this.isNapping()) {
+            ItemStack itemStack = player.getItemInHand(hand);
+            if (!this.level().isClientSide && itemStack.getItem() instanceof TreatItem treat && treat.getTier() >= 0) {
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
+                this.level().broadcastEntityEvent(this, (byte) 7);
+                this.tame(player);
+                this.heal(this.getMaxHealth());
+            }
+            this.playSound(SoundEvents.GENERIC_EAT);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
+
+        }
+        return result;
     }
 
     @Override

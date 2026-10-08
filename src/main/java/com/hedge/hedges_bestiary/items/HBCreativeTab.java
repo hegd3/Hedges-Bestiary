@@ -35,6 +35,7 @@ public class HBCreativeTab {
                         output.accept(HBItems.PLAIN_TREAT.get());
                         output.accept(HBItems.SEASONED_TREAT.get());
                         output.accept(HBItems.HEARTY_TREAT.get());
+                        output.accept(HBItems.LUSCIOUS_TREAT.get());
                         output.accept(HBItems.ENDGELIC_JUDGEMENT.get());
                         output.accept(HBItems.MURKLEVOLENCE.get());
 
@@ -65,6 +66,7 @@ public class HBCreativeTab {
                         output.accept(HBItems.GAWK_SPAWN_EGG.get());
                         output.accept(HBItems.GOPH_SPAWN_EGG.get());
                         output.accept(HBItems.ZIPPERMOUTH_SPAWN_EGG.get());
+                        output.accept(HBItems.ZIPPERLING_SPAWN_EGG.get());
 
 
                     }).build());

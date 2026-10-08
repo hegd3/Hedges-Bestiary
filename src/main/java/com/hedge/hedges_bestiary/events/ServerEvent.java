@@ -44,6 +44,7 @@ public class ServerEvent {
         event.put(HBEntities.GAWK.get(), GawkEntity.bakeAttributes().build());
         event.put(HBEntities.GOPH.get(), GophEntity.bakeAttributes().build());
         event.put(HBEntities.ZIPPERMOUTH.get(), ZippermouthEntity.bakeAttributes().build());
+        event.put(HBEntities.ZIPPERLING.get(), ZipperlingEntity.bakeAttributes().build());
 
     }
 

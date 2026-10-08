@@ -65,7 +65,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
 
     public ZippermouthEntity(EntityType<? extends ZippermouthEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        this.moveControl = new SwimmingMoveControl(this, 999, 3, 0.02f, 0.0f);
+        this.moveControl = new SwimmingMoveControl(this, 999, 4, 0.02f, 0.0f);
         this.setPathfindingMalus(PathType.WATER, 0.0f);
         this.segment1 = new ZippermouthPartEntity(this);
         this.segment2 = new ZippermouthPartEntity(this);
@@ -110,7 +110,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     public static AttributeSupplier.Builder bakeAttributes() {
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 350.0D)
-                .add(Attributes.ATTACK_DAMAGE, 40.0D)
+                .add(Attributes.ATTACK_DAMAGE, 25.0D)
                 .add(Attributes.FOLLOW_RANGE, 20)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.9D)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F);

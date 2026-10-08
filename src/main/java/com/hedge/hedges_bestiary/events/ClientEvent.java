@@ -45,6 +45,7 @@ public class ClientEvent {
         event.registerLayerDefinition(EntityLayers.GAWK_LAYER, GawkModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.GOPH_LAYER, GophModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.ZIPPERMOUTH_LAYER, ZippermouthModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.ZIPPERLING_LAYER, ZipperlingModel::createBodyLayer);
 
     }
 
@@ -71,6 +72,7 @@ public class ClientEvent {
         EntityRenderers.register(HBEntities.GAWK.get(), GawkRenderer::new);
         EntityRenderers.register(HBEntities.GOPH.get(), GophRenderer::new);
         EntityRenderers.register(HBEntities.ZIPPERMOUTH.get(), ZippermouthRenderer::new);
+        EntityRenderers.register(HBEntities.ZIPPERLING.get(), ZipperlingRenderer::new);
 
         // MenuScreens.register();
     }

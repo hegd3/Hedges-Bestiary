@@ -41,6 +41,10 @@ public class HBItems {
     public static final DeferredHolder<Item, Item> HEARTY_TREAT = ITEMS.register("hearty_treat",
             () -> new TreatItem(new Item.Properties().rarity(Rarity.RARE),2));
 
+    public static final DeferredHolder<Item, Item> LUSCIOUS_TREAT = ITEMS.register("luscious_treat",
+            () -> new TreatItem(new Item.Properties().rarity(Rarity.EPIC),3));
+
+
     public static final DeferredHolder<Item, Item> ENDGELIC_JUDGEMENT = ITEMS.register("endgelic_judgement",
             () -> new EndgelicJudgementItem(new Item.Properties().durability(500).rarity(Rarity.EPIC)));
 
@@ -101,6 +105,8 @@ public class HBItems {
     public static final DeferredHolder<Item, Item> GOPH_SPAWN_EGG = createEgg("goph", HBEntities.GOPH, 0x9E7C68, 0xB55E5E);
 
     public static final DeferredHolder<Item, Item> ZIPPERMOUTH_SPAWN_EGG = createEgg("zippermouth", HBEntities.ZIPPERMOUTH, 0xB52F16, 0x389FBA);
+
+    public static final DeferredHolder<Item, Item> ZIPPERLING_SPAWN_EGG = createEgg("zipperling", HBEntities.ZIPPERLING, 0x6B4B45, 0x8A624A);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
