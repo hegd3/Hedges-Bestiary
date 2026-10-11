@@ -64,6 +64,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     public float prevPitch = 0.0F;
     public float pitch = 0.0F;
 
+    private int jumpCD = 0;
     private int suckMeter = 200;
     private int suckCD = 0;
     public final AnimationState biteAnimationState = new AnimationState();
@@ -281,7 +282,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
 
         if (this.isInWater()) {
             float f1;
-            f1 = pPlayer.zza * 0.015F;
+            f1 = pPlayer.zza * 0.022F;
             if (f1 < 0) f1 = 0;
             return new Vec3(0, 0, f1);
 
@@ -358,6 +359,9 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
 
         if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
             if (this.isInWater()) {
+                if (this.jumpCD > 0) {
+                    this.jumpCD--;
+                }
                 if (Minecraft.getInstance().options.keyJump.isDown()) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
                 } else if (Minecraft.getInstance().options.keySprint.isDown()) {
@@ -383,6 +387,10 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                 this.moveRelative(this.getSpeed(), pTravelVector);
                 this.move(MoverType.SELF, this.getDeltaMovement());
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));
+            }  else if (this.jumpCD == 0 && ! this.onGround() && this.pitch < -5F) {
+                this.jumpCD = 60;
+                Vec3 horizontal = EntityHelpers.bodyAngle(this, this.pitch * 2F).scale(this.getDeltaMovement().length() * 16);
+                this.setDeltaMovement(this.getDeltaMovement().add(horizontal.x, horizontal.y * 2F, horizontal.z));
             }
         }
 

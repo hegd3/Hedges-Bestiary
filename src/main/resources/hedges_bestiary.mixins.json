@@ -1,10 +1,12 @@
 {
   "required": true,
   "package": "com.hedge.hedges_bestiary.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_21",
   "refmap": "hedges_bestiary.refmap.json",
   "mixins": [],
   "client": ["client.CameraMixin"],
-  "server": []
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
 }
