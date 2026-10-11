@@ -105,6 +105,11 @@ public class HBEntities {
             ENTITY_TYPES.register("zipperling", () -> EntityType.Builder.of(ZipperlingEntity::new, MobCategory.WATER_CREATURE)
                     .sized(1.3f, 0.8f).build("zipperling"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<NibNibEntity>> NIB_NIB =
+            ENTITY_TYPES.register("nib_nib", () -> EntityType.Builder.of(NibNibEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(0.8f, 0.8f).build("nib_nib"));
+
+
     public static void register(IEventBus eventbus) {
         ENTITY_TYPES.register(eventbus);
     }

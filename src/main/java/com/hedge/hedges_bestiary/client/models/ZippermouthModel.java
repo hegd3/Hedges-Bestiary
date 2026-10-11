@@ -14,7 +14,7 @@ public class ZippermouthModel extends HBModel<ZippermouthEntity> {
 	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart jaw;
-	private final ModelPart segment;
+	public final ModelPart segment;
 	private final ModelPart leftfin;
 	private final ModelPart leftfinrot;
 	private final ModelPart rightfin;

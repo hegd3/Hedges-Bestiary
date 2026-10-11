@@ -45,6 +45,7 @@ public class ServerEvent {
         event.put(HBEntities.GOPH.get(), GophEntity.bakeAttributes().build());
         event.put(HBEntities.ZIPPERMOUTH.get(), ZippermouthEntity.bakeAttributes().build());
         event.put(HBEntities.ZIPPERLING.get(), ZipperlingEntity.bakeAttributes().build());
+        event.put(HBEntities.NIB_NIB.get(), NibNibEntity.bakeAttributes().build());
 
     }
 

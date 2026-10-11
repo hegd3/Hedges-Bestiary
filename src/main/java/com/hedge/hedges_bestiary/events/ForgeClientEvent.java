@@ -51,7 +51,7 @@ public class ForgeClientEvent {
     }
 
 
-    /*
+
     @SubscribeEvent
     public static void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
 
@@ -61,7 +61,7 @@ public class ForgeClientEvent {
         }
     }
 
-     */
+     
 
 
 

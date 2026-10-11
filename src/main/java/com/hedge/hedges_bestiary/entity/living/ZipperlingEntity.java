@@ -1,10 +1,7 @@
 package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.entity.ai.control.SwimmingMoveControl;
-import com.hedge.hedges_bestiary.entity.ai.goal.AquaticFollowOwnerGoal;
-import com.hedge.hedges_bestiary.entity.ai.goal.CustomSwimGoal;
-import com.hedge.hedges_bestiary.entity.ai.goal.HBSitWhenOrderedGoal;
-import com.hedge.hedges_bestiary.entity.ai.goal.MoveToHomePosGoal;
+import com.hedge.hedges_bestiary.entity.ai.goal.*;
 import com.hedge.hedges_bestiary.entity.ai.navigation.FluidPathNavigation;
 import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
 import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
@@ -14,6 +11,7 @@ import com.hedge.hedges_bestiary.entity.types.HBSchoolingMob;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.util.SegmentHelper;
 import com.hedge.hedges_bestiary.items.HBItems;
+import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.particles.ParticleTypes;
@@ -30,7 +28,6 @@ import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -50,18 +47,17 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
 
     public final SegmentHelper segmentHelper = new SegmentHelper(4,0.1F);
 
-    private int requiredFeeds = 10;
-
+    private int requiredScaleFeeds = 3;
+    private int tameAttempts = 1;
     public ZipperlingEntity(EntityType<? extends HBTamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new SwimmingMoveControl(this, 999, 8, 0.02f, 0.0f);
         this.setPathfindingMalus(PathType.WATER, 0.0f);
-
     }
 
     public static AttributeSupplier.Builder bakeAttributes() {
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MAX_HEALTH, 25.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0D)
                 .add(Attributes.FOLLOW_RANGE, 20)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.3D)
@@ -73,6 +69,7 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
         int i = 0;
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
         this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.4F, 1.8F, 10, 4));
+        this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.2F));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i, new CustomSwimGoal(this, 1.0f, 10, 30, 5, false));
 
@@ -93,6 +90,20 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
             this.tickPitch();
             this.setUpAnimStates();
             this.segmentHelper.tick((this.yBodyRotO - this.yBodyRot) * 0.75F, this.prevPitch - this.pitch);
+        } else {
+            if (this.getAnimState() == 1) {
+                this.animTicks++;
+                if (this.animTicks == 3) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(this.getLookAngle().scale(0.6F)));
+                } else if (this.animTicks == 8) {
+                    LivingEntity target = this.getTarget();
+                    if (target != null && this.withinAttackRange(target, this.getAttackReachSqr(target), this.distanceToSqr(target))) {
+                        this.doHurtTarget(target);
+                    }
+                } else if (this.animTicks == 17) {
+                    this.resetAnimState();
+                }
+            }
         }
     }
 
@@ -109,9 +120,29 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
 
     @Override
     public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
-        if (this.isTame() && player == this.getOwner()) {
+        if (!this.isTame()) {
             ItemStack stack = player.getItemInHand(hand);
-            if (stack.is(HBItems.LUSCIOUS_TREAT)) {
+            if (stack.getItem() instanceof TreatItem treat && treat.getTier() > 0) {
+                if (!this.level().isClientSide) {
+                    if (!player.getAbilities().instabuild) {
+                        stack.shrink(1);
+                    }
+                    if (this.tameAttempts > 0) {
+                        this.tameAttempts--;
+                        this.level().broadcastEntityEvent(this, (byte) 6);
+                    } else {
+                        this.level().broadcastEntityEvent(this, (byte) 7);
+                        this.tame(player);
+                        this.heal(this.getMaxHealth());
+                    }
+                    this.playSound(SoundEvents.PARROT_EAT);
+                }
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+        }
+        else if (player == this.getOwner()) {
+            ItemStack stack = player.getItemInHand(hand);
+            if (stack.is(HBItems.ZIPPERMOUTH_SCALES)) {
                 if (!this.level().isClientSide) {
                     if (!player.getAbilities().instabuild) {
                         stack.shrink(1);
@@ -119,13 +150,13 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
 
                 } else {
                     for (int i = 0; i < 4; i++ ) {
-                        this.level().addParticle(ParticleTypes.HAPPY_VILLAGER, this.getRandomX(1.0F), this.getRandomY() + 0.5F, this.getRandomZ(1.0F), 0.0F, 0.0F, 0.0F);
+                        this.level().addParticle(ParticleTypes.GLOW, this.getRandomX(1.0F), this.getRandomY() + 0.5F, this.getRandomZ(1.0F), 0.0F, 0.0F, 0.0F);
                     }
                 }
-                if (--this.requiredFeeds == 0) {
+                if (--this.requiredScaleFeeds == 0) {
                     this.transform();
                 }
-                this.playSound(SoundEvents.PARROT_EAT);
+                this.playSound(SoundEvents.AMETHYST_BLOCK_HIT);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         }
@@ -176,6 +207,10 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
         return (this.prevPitch + (this.pitch - this.prevPitch) * partialTick);
     }
 
+    @Override
+    public boolean isPushable() {
+        return this.getAnimState() != 1 && super.isPushable();
+    }
 
     @Override
     public void setAttacking() {
@@ -184,7 +219,11 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
 
     @Override
     public boolean canUseAttack(LivingEntity entity, double attackReach, double dist) {
-        return this.getAnimState() == 0 && attackReach >= dist;
+        return this.getAnimState() == 0 && withinAttackRange(entity, attackReach, dist);
+    }
+
+    private boolean withinAttackRange(LivingEntity entity, double attackReach, double dist) {
+        return this.hasLineOfSight(entity) && attackReach >= dist;
     }
 
     @Override

@@ -46,6 +46,7 @@ public class ClientEvent {
         event.registerLayerDefinition(EntityLayers.GOPH_LAYER, GophModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.ZIPPERMOUTH_LAYER, ZippermouthModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.ZIPPERLING_LAYER, ZipperlingModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.NIB_NIB_LAYER, NibNibModel::createBodyLayer);
 
     }
 
@@ -73,6 +74,7 @@ public class ClientEvent {
         EntityRenderers.register(HBEntities.GOPH.get(), GophRenderer::new);
         EntityRenderers.register(HBEntities.ZIPPERMOUTH.get(), ZippermouthRenderer::new);
         EntityRenderers.register(HBEntities.ZIPPERLING.get(), ZipperlingRenderer::new);
+        EntityRenderers.register(HBEntities.NIB_NIB.get(), NibNibRenderer::new);
 
         // MenuScreens.register();
     }

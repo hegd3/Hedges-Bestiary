@@ -23,6 +23,7 @@ public class EntityLayers {
     public static final ModelLayerLocation GOPH_LAYER = main("goph");
     public static final ModelLayerLocation ZIPPERMOUTH_LAYER = main("zippermouth");
     public static final ModelLayerLocation ZIPPERLING_LAYER = main("zipperling");
+    public static final ModelLayerLocation NIB_NIB_LAYER = main("nib_nib_layer");
 
     public static final ModelLayerLocation GENERIC_PROJECTILE_LAYER = main("generic_projectile");
 

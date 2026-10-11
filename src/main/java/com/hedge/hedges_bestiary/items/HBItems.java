@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 public class HBItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, HedgesBestiary.MODID);
 
+    // DROPS|RESOURCES
 
     public static final DeferredHolder<Item, Item> MURK_SPIKE = ITEMS.register("murk_spike",
             () -> new Item(new Item.Properties()));
@@ -28,6 +29,9 @@ public class HBItems {
 
     public static final DeferredHolder<Item, Item> ENDGELIC_HEART = ITEMS.register("endgelic_heart",
             () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+
+    public static final DeferredHolder<Item, Item> ZIPPERMOUTH_SCALES = ITEMS.register("zippermouth_scales",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
 
 
     // CRAFTED ITEMS
@@ -107,6 +111,8 @@ public class HBItems {
     public static final DeferredHolder<Item, Item> ZIPPERMOUTH_SPAWN_EGG = createEgg("zippermouth", HBEntities.ZIPPERMOUTH, 0xB52F16, 0x389FBA);
 
     public static final DeferredHolder<Item, Item> ZIPPERLING_SPAWN_EGG = createEgg("zipperling", HBEntities.ZIPPERLING, 0x6B4B45, 0x8A624A);
+
+    public static final DeferredHolder<Item, Item> NIB_NIB_SPAWN_EGG = createEgg("nib_nib", HBEntities.NIB_NIB, 0xB5AA57, 0xABC1C4);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

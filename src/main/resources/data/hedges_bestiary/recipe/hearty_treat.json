@@ -12,6 +12,7 @@
     }
   ],
   "result": {
-    "item": "hedges_bestiary:hearty_treat"
+    "id": "hedges_bestiary:hearty_treat",
+    "count": 1
   }
 }

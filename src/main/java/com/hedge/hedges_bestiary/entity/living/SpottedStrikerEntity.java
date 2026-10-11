@@ -12,6 +12,7 @@ import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.items.HBItems;
+import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBTags;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.client.Minecraft;
@@ -31,6 +32,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
@@ -41,6 +43,8 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -95,7 +99,7 @@ public class SpottedStrikerEntity extends HBTamableAnimal implements AttackState
 
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        return null;
+        return HBEntities.SPOTTED_STRIKER.get().create(serverLevel);
     }
 
     @Override
@@ -109,6 +113,8 @@ public class SpottedStrikerEntity extends HBTamableAnimal implements AttackState
     protected void registerGoals() {
         int i = 0;
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
+        this.goalSelector.addGoal(i++, new BreedGoal(this, 1.0f));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(ItemTags.FISHES), false));
         this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.6, 7.0f, 4.0f));
         this.goalSelector.addGoal(i++, new SpottedStrikerFleeGoal(this));
         this.goalSelector.addGoal(i++, new FindAndPickItemGoal(this, CommonPredicates.EATS_FISH));

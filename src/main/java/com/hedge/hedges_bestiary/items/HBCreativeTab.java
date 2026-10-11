@@ -25,10 +25,11 @@ public class HBCreativeTab {
                         output.accept(HBBlocks.DAWN_DOVE_EGG.get());
                         output.accept(HBBlocks.MURK_EGG.get());
 
-                        // crafting items
+                        // resources
                         output.accept(HBItems.MURK_SPIKE.get());
                         output.accept(HBItems.ENDGELIC_HEART.get());
                         //output.accept(HBItems.TEARACUDA_TOOTH.get());
+                        output.accept(HBItems.ZIPPERMOUTH_SCALES.get());
 
                         //crafted items
 
@@ -67,6 +68,7 @@ public class HBCreativeTab {
                         output.accept(HBItems.GOPH_SPAWN_EGG.get());
                         output.accept(HBItems.ZIPPERMOUTH_SPAWN_EGG.get());
                         output.accept(HBItems.ZIPPERLING_SPAWN_EGG.get());
+                        output.accept(HBItems.NIB_NIB_SPAWN_EGG.get());
 
 
                     }).build());

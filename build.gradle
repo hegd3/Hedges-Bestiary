@@ -82,7 +82,9 @@ dependencies {
 
     attributesSchema {
         attribute(mappingsAttribute)
+
     }
+
 
 }
 

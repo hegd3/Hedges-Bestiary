@@ -105,7 +105,7 @@ public class ZappetEntity extends TamableFlyer implements HBGroupMob<ZappetEntit
                     this.startRiding(player);
                     return InteractionResult.SUCCESS;
                 }
-            } else {
+            } else if (this.isCharged()) {
                 ItemStack itemStack = player.getItemInHand(hand);
                 if (itemStack.is(HBTags.TREATS)) {
                     if (!this.level().isClientSide) {
