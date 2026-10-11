@@ -15,12 +15,15 @@ import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.entity.util.MathHelpers;
 import com.hedge.hedges_bestiary.entity.util.SegmentHelper;
+import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
 import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -28,9 +31,15 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -42,10 +51,14 @@ import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -247,6 +260,32 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
             }
         }
 
+    }
+
+
+    @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (!this.isTame() && !this.droppedScale()) {
+            ItemStack stack = player.getItemInHand(hand);
+            if (stack.is(HBItems.LUSCIOUS_TREAT)) {
+                if (!this.level().isClientSide) {
+                    if (!player.getAbilities().instabuild) {
+                        stack.shrink(1);
+                    }
+                    ItemEntity scales = this.spawnAtLocation(new ItemStack(HBItems.ZIPPERMOUTH_SCALES.get()), 1);
+                    scales.setGlowingTag(true);
+                    this.setDroppedScale(true);
+
+                } else {
+                    for (int i = 0; i < 4; i++ ) {
+                        this.level().addParticle(ParticleTypes.GLOW, this.getRandomX(1.0F), this.getRandomY() + 0.5F, this.getRandomZ(1.0F), 0.0F, 0.0F, 0.0F);
+                    }
+                }
+                this.playSound(SoundEvents.AMETHYST_CLUSTER_HIT, 2.0F, 1.0F);
+                return InteractionResult.sidedSuccess(level().isClientSide);
+            }
+        }
+        return super.mobInteract(player, hand);
     }
 
 
@@ -483,6 +522,25 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     }
 
     @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        if (spawnType == MobSpawnType.NATURAL || spawnType == MobSpawnType.CHUNK_GENERATION) {
+            int groupSize = (int) (15 * this.getRandom().nextFloat());
+            Vec3 rand = EntityHelpers.getRandomVec3(level.getRandom(), 6);
+            NibNibEntity leader = new NibNibEntity(HBEntities.NIB_NIB.get(), this.level());
+            leader.moveTo(this.getX() + rand.x, this.getY() + rand.y, this.getZ() + rand.z);
+            this.level().addFreshEntity(leader);
+            for (int i = 0; i < groupSize; i++) {
+                rand = EntityHelpers.getRandomVec3(level.getRandom(), 6);
+                NibNibEntity entity = new NibNibEntity(HBEntities.NIB_NIB.get(), this.level());
+                entity.moveTo(this.getX() + rand.x, this.getY() + rand.y, this.getZ() + rand.z);
+                entity.startFollowing(leader);
+                this.level().addFreshEntity(entity);
+            }
+        }
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+    }
+
+    @Override
     public void handleEntityEvent(byte id) {
         if (id == 49) {
             Vec3 v = this.getLookAngle().scale(1.5);
@@ -512,6 +570,30 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
 
     public void setDroppedScale(boolean b) {
         this.entityData.set(DROPPED_SCALE, b);
+    }
+
+    @Override
+    public void onAboveBubbleCol(boolean downwards) {
+    }
+
+    @Override
+    public void onInsideBubbleColumn(boolean downwards) {
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 1;
+    }
+
+    public static boolean canSpawn(EntityType<? extends ZippermouthEntity> zippermouth, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
+        int i = pLevel.getSeaLevel();
+        int j = i - 13;
+        return pLevel.getFluidState(pPos).is(FluidTags.WATER) && pPos.getY() >= j && pPos.getY() <= i + 1;
     }
 
     @Override

@@ -14,10 +14,13 @@ import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
@@ -31,6 +34,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
@@ -45,7 +49,7 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
     public final AnimationState biteAnimationState = new AnimationState();
     public final SmoothAnimationState beachedAnimationState = new SmoothAnimationState(0.1F);
 
-    public final SegmentHelper segmentHelper = new SegmentHelper(4,0.1F);
+    public final SegmentHelper segmentHelper = new SegmentHelper(4,0.17F);
 
     private int requiredScaleFeeds = 3;
     private int tameAttempts = 1;
@@ -267,6 +271,30 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
     @Override
     public void playIdle() {
 
+    }
+
+    @Override
+    public void onAboveBubbleCol(boolean downwards) {
+    }
+
+    @Override
+    public void onInsideBubbleColumn(boolean downwards) {
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 4;
+    }
+
+    public static boolean canSpawn(EntityType<ZipperlingEntity> entity, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {
+        int i = level.getSeaLevel();
+        int j = i - 20;
+        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() >= j && pos.getY() <= i + 1;
     }
 
     @Override
