@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GawkRenderer extends MobRenderer<GawkEntity, GawkModel> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/gawk/gawk.png");
+    private static final ResourceLocation SLEEP = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/gawk/gawk_sleep.png");
 
     public GawkRenderer(EntityRendererProvider.Context context) {
         super(context, new GawkModel(context.bakeLayer(EntityLayers.GAWK_LAYER)), 1.0F);
@@ -17,6 +18,6 @@ public class GawkRenderer extends MobRenderer<GawkEntity, GawkModel> {
 
     @Override
     public ResourceLocation getTextureLocation(GawkEntity gawkEntity) {
-        return TEXTURE;
+        return gawkEntity.isNapping() ? SLEEP : TEXTURE;
     }
 }

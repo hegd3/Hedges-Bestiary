@@ -45,9 +45,9 @@ public class DancingGoal extends Goal {
                 return false;
             }
             BlockState state = this.mob.level().getBlockState(jukebox);
-            if (jukebox == null || !state.is(Blocks.JUKEBOX)) {
+            if (!state.is(Blocks.JUKEBOX)) {
                 return false;
-            } else if (!state.getValue(JukeboxBlock.HAS_RECORD) || !jukebox.closerToCenterThan(this.mob.position(), 16D + this.mob.getBbWidth())) {
+            } else if (!state.getValue(JukeboxBlock.HAS_RECORD) || !jukebox.closerToCenterThan(this.mob.position(), 2)) {
                 return false;
             }
         }

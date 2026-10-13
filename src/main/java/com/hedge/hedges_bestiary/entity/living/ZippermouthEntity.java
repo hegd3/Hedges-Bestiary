@@ -117,7 +117,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         this.goalSelector.addGoal(i, new JumpFromWaterGoal(this, 10, 1.1F, 1.4F, false));
 
         this.targetSelector.addGoal(0, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(1, new HBHurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HBHurtByTargetGoal(this, true, TamableAnimal.class));
         this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new TargetPlayersGoal(this));
         this.targetSelector.addGoal(4, new TargetMonstersGoal(this));
@@ -203,6 +203,10 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                 this.suckMeter += 10;
                 this.suckCD = 40;
             }
+        } else {
+            if (this.tickCount % 200 == 0 && this.getTarget() == null) {
+                this.heal(20);
+            }
         }
         if (this.suckCD > 0) this.suckCD--;
         this.segmentHelper.tick((this.yBodyRotO - this.yBodyRot) * 0.5F, (this.prevPitch - this.pitch));
@@ -246,12 +250,12 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                         }
 
                         if (this.animTicks % 5 == 0 && this.isInWater()) {
-                            Vec3 pos = Vec3.directionFromRotation(this.getXRot(), this.yHeadRot).scale(3);
+                            Vec3 pos = Vec3.directionFromRotation(this.getXRot(), this.yHeadRot).scale(2.5);
                             List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, pos, 7, 5, 7, 10);
                             for (LivingEntity entity : hit) {
-                                if (entity.isInWater()) {
+                                if (entity.isInWater() && !entity.isPassenger()) {
                                     Vec3 v = this.position().add(pos).subtract(entity.position());
-                                    entity.setDeltaMovement(entity.getDeltaMovement().lerp(v, Math.max(0.06F - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE) / 10, 0.00F)));
+                                    entity.setDeltaMovement(entity.getDeltaMovement().lerp(v, Math.max(0.1F - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE) / 10, 0.00F)));
                                 }
                             }
                         }

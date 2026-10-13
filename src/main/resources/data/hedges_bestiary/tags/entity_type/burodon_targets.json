@@ -4,6 +4,7 @@
     "minecraft:cow",
     "minecraft:sheep",
     "minecraft:pig",
-    "minecraft:goat"
+    "minecraft:goat",
+    "hedges_bestiary:gawk"
   ]
 }

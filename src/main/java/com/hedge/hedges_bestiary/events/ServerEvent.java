@@ -60,6 +60,8 @@ public class ServerEvent {
         event.register(HBEntities.SPOTTED_STRIKER.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpottedStrikerEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(HBEntities.ENDGEL.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EndgelEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(HBEntities.SKIB.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.OCEAN_FLOOR, SkibEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(HBEntities.GAWK.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GawkEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(HBEntities.GOPH.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GophEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(HBEntities.ZIPPERMOUTH.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ZippermouthEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(HBEntities.ZIPPERLING.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ZipperlingEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
 

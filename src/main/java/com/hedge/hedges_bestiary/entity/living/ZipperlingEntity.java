@@ -78,7 +78,7 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
         this.goalSelector.addGoal(i, new CustomSwimGoal(this, 1.0f, 10, 30, 5, false));
 
         this.targetSelector.addGoal(0, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(1, new HBHurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HBHurtByTargetGoal(this, true, TamableAnimal.class));
         this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new TargetPlayersGoal(this));
         this.targetSelector.addGoal(4, new TargetMonstersGoal(this));
@@ -93,8 +93,11 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
         if (this.level().isClientSide) {
             this.tickPitch();
             this.setUpAnimStates();
-            this.segmentHelper.tick((this.yBodyRotO - this.yBodyRot) * 0.75F, this.prevPitch - this.pitch);
+            this.segmentHelper.tick((this.yBodyRotO - this.yBodyRot) * 0.5F, this.prevPitch - this.pitch);
         } else {
+            if (this.tickCount % 200 == 0 && this.getTarget() == null) {
+                this.heal(5);
+            }
             if (this.getAnimState() == 1) {
                 this.animTicks++;
                 if (this.animTicks == 3) {

@@ -6,28 +6,29 @@ import com.hedge.hedges_bestiary.entity.types.EggLayer;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BrushableBlock;
+import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -48,12 +49,16 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
                 .add(Attributes.MOVEMENT_SPEED, 0.25F);
     }
 
+    public static boolean canSpawn(EntityType<? extends GophEntity> goph, LevelAccessor level, MobSpawnType pSpawnType, BlockPos pos, RandomSource pRandom) {
+        return pSpawnType == MobSpawnType.SPAWNER || (level.getBlockState(pos.below()).is(BlockTags.SAND) && isBrightEnoughToSpawn(level, pos));
+    }
+
     @Override
     public void tick() {
         super.tick();
         if (this.level().isClientSide) {
             this.setUpAnimStates();
-            if (this.getAnimState() == 2 || this.hasEgg()) {
+            if (this.getAnimState() > 1 || this.hasEgg()) {
                 this.tickDig();
             }
         } else {
@@ -73,6 +78,11 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
                             this.playSound(level().getBlockState(this.blockPosition().below()).getSoundType().getBreakSound());
                         }
                     }
+                    case 3 -> {
+                        if (this.animTicks % 10 == 0) {
+                            this.playSound(level().getBlockState(this.blockPosition().below()).getSoundType().getBreakSound());
+                        }
+                    }
                 }
             }
         }
@@ -82,7 +92,7 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
     public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
 
         InteractionResult result = super.interactTameCommands(player, hand);
-        if (result == InteractionResult.PASS && !this.isTame() && !this.isNapping()) {
+        if (result == InteractionResult.PASS && !this.isTame() && this.isNapping()) {
             ItemStack itemStack = player.getItemInHand(hand);
             if (!this.level().isClientSide && itemStack.getItem() instanceof TreatItem treat && treat.getTier() >= 0) {
                 if (!player.getAbilities().instabuild) {
@@ -103,7 +113,7 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
     public void setUpAnimStates() {
         super.setUpAnimStates();
         this.stretchAnimationState.animateWhen(this.getAnimState() == 1, this.tickCount);
-        this.digAnimationState.animateWhen(this.getAnimState() == 2 || this.hasEgg(), this.tickCount);
+        this.digAnimationState.animateWhen(this.getAnimState() > 1 || this.hasEgg(), this.tickCount);
     }
 
     @Override
@@ -130,6 +140,7 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
         int i = 0;
         this.goalSelector.addGoal(i++, new FloatGoal(this));
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
+        this.goalSelector.addGoal(i++, new GophDigBrushableBlocksGoal(this));
         this.goalSelector.addGoal(i++, new HBFollowOwnerGoal(this, 1.2D, 1.4D, 7.0f, 10.0f));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new NapGoal(this));
@@ -202,7 +213,7 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
 
     @Override
     public SleepType getSleepType() {
-        return SleepType.VESPERTINE;
+        return SleepType.CATHERMAL;
     }
 
     @Override
@@ -218,5 +229,64 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
     @Override
     public void setHasEgg(boolean b) {
 
+    }
+
+    private static class GophDigBrushableBlocksGoal extends MoveToBlockGoal {
+        private final GophEntity goph;
+        private int ticksDigging;
+        public GophDigBrushableBlocksGoal(GophEntity mob) {
+            super(mob, 1.2F, 6);
+            this.goph = mob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return !this.goph.isNapping() && !this.goph.isSitting() && this.goph.isTame() && this.goph.getAnimState() == 0 && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            if (this.ticksDigging > 0) {
+                return this.ticksDigging < 62;
+            }
+            return super.canContinueToUse();
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            if (this.goph.getAnimState() == 3) {
+                if (this.ticksDigging++ == 60) {
+                    if (this.goph.level().getBlockEntity(this.blockPos) instanceof BrushableBlockEntity b && this.goph.getOwner() instanceof Player p) {
+                        b.unpackLootTable(p);
+                        goph.spawnAtLocation(b.getItem(), 1);
+                        goph.level().setBlock(b.getBlockPos(), ((BrushableBlock) (b.getBlockState().getBlock())).getTurnsInto().defaultBlockState(), 2);
+                    }
+                }
+            }
+            else if (this.isReachedTarget()) {
+                this.ticksDigging = 1;
+                this.goph.setAnimState(3);
+            }
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            if (this.goph.getAnimState() == 3) {
+                this.goph.resetAnimState();
+            }
+            this.ticksDigging = 0;
+        }
+
+        @Override
+        public double acceptedDistance() {
+            return Math.ceil(this.mob.getBbWidth()) + 0.5D;
+        }
+
+        @Override
+        protected boolean isValidTarget(LevelReader level, BlockPos pos) {
+            return level.isEmptyBlock(pos.above()) && level.getBlockState(pos).getBlock() instanceof BrushableBlock;
+        }
     }
 }

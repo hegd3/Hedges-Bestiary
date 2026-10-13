@@ -3,22 +3,17 @@ package com.hedge.hedges_bestiary.items;
 import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.entity.projectile.EndgelBullet;
 import com.hedge.hedges_bestiary.registry.HBEntities;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.event.EventHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -118,7 +113,7 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
     /**
      * Returns the action that specifies what animation to play when the item is being used.
      */
-    public UseAnim getUseAnimation(ItemStack pStack) {
+    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.BOW;
     }
 
@@ -126,7 +121,11 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         boolean flag = !pPlayer.getProjectile(itemstack).isEmpty();
-        if (!pPlayer.getAbilities().instabuild && !flag) {
+        InteractionResultHolder<ItemStack> ret = EventHooks.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
+        if (ret != null) {
+            return ret;
+            }
+            if (!pPlayer.getAbilities().instabuild && !flag) {
             return InteractionResultHolder.fail(itemstack);
         } else {
             pPlayer.startUsingItem(pHand);

@@ -109,7 +109,9 @@ public class GawkModel extends HBModel<GawkEntity> {
 		this.animateSmooth(entity.sitAnimationState, GawkAnimation.SIT_MOVEMENT, ageInTicks, partialTicks, 0.5F);
 		this.animateSmooth(entity.yawnAnimationState, GawkAnimation.YAWN, ageInTicks, partialTicks, 1F);
 		this.animateSmooth(entity.staticYawnAnimationState, GawkAnimation.STATIC_YAWN, ageInTicks, partialTicks, 1F);
+		this.animateSmooth(entity.vomitAnimationState, GawkAnimation.VOMIT, ageInTicks, partialTicks, 1F);
 
+		this.animate(entity.biteAnimationState, GawkAnimation.BITE, ageInTicks, 1.0F);
 		this.animate(entity.spinAnimationState, entity.swingingLeft() ? GawkAnimation.SPIN_LEFT : GawkAnimation.SPIN_RIGHT, ageInTicks);
 
 		this.jaw.xRot = this.jaw.xRot - (5 * Mth.DEG_TO_RAD + Mth.cos(ageInTicks * (0.5F + limbSwingAmount/10)) * Mth.DEG_TO_RAD);

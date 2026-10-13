@@ -414,7 +414,7 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
 
     @Override
     public boolean canBeFollowed() {
-        return !this.isBaby() && HBGroupMob.super.canBeFollowed();
+        return !this.isBaby() && !this.isTame() && HBGroupMob.super.canBeFollowed();
     }
 
     @Override
