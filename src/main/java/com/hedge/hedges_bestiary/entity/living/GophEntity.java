@@ -169,8 +169,10 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
     @Override
     public void setNapping(boolean b) {
         if (this.getAnimState() == 0 && b) {
-            this.getNavigation().stop();
-            this.setAnimState(2);
+            if (this.level().getBlockState(this.blockPosition().below()).is(BlockTags.SAND)) {
+                this.getNavigation().stop();
+                this.setAnimState(2);
+            }
         } else {
             super.setNapping(b);
         }

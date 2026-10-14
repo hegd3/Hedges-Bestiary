@@ -31,7 +31,7 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
             boolean flag = player.getAbilities().instabuild;
             ItemStack itemstack = player.getProjectile(pStack);
 
-            int i = this.getUseDuration(pStack) - pTimeLeft;
+            int i = this.getUseDuration(pStack, player) - pTimeLeft;
             i = EventHooks.onArrowLoose(pStack, pLevel, player, i, !itemstack.isEmpty());
             if (i < 0) return;
 
@@ -39,7 +39,6 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
 
                 float f = getPowerForTime(i);
                 if (f >= 0.1F) {
-                    boolean flag1 = player.getAbilities().instabuild;
                     if (!pLevel.isClientSide) {
                         LivingEntity target = player.getLastHurtMob() != null ? player.getLastHurtMob() : player.getLastHurtByMob();
                         if (target == null) {
@@ -61,7 +60,7 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
                     }
 
                     pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), HBSounds.ENDGEL_SHOOT.get(), SoundSource.PLAYERS, 5.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-                    if (!flag1 && !player.getAbilities().instabuild) {
+                    if (!flag) {
                         itemstack.shrink(1);
                         if (itemstack.isEmpty()) {
                             player.getInventory().removeItem(itemstack);
@@ -106,7 +105,7 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
     /**
      * How long it takes to use or consume an item
      */
-    public int getUseDuration(ItemStack pStack) {
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
         return 72000;
     }
 
@@ -124,10 +123,11 @@ public class EndgelicJudgementItem extends ProjectileWeaponItem {
         InteractionResultHolder<ItemStack> ret = EventHooks.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
         if (ret != null) {
             return ret;
-            }
-            if (!pPlayer.getAbilities().instabuild && !flag) {
+        }
+        else if (!pPlayer.hasInfiniteMaterials() && !flag) {
             return InteractionResultHolder.fail(itemstack);
-        } else {
+        }
+        else {
             pPlayer.startUsingItem(pHand);
             return InteractionResultHolder.consume(itemstack);
         }

@@ -15,7 +15,7 @@ import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
-import com.hedge.hedges_bestiary.registry.HBKeyMappings;
+import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
@@ -24,6 +24,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -43,7 +44,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,6 +60,7 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
     private float trail = 0.0F;
 
     private int tameAttempts = 3;
+    private int releaseEffectCD = 0;
     public BlurpumEntity(EntityType<? extends BlurpumEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
@@ -143,6 +144,22 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
     }
 
     @Override
+    public boolean hurt(DamageSource source, float pAmount) {
+        boolean b = super.hurt(source, pAmount);
+        if (b && !this.level().isClientSide && this.releaseEffectCD == 0) {
+            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, Vec3.ZERO, 4, 4, 4, 10);
+            MobEffectInstance effect = new MobEffectInstance(MobEffects.POISON, 100, 3);
+            for (LivingEntity entity : hit) {
+                entity.addEffect(effect);
+            }
+            this.playSound(SoundEvents.LAVA_EXTINGUISH, 1.0F, 1.0F);
+            this.level().broadcastEntityEvent(this, (byte)49);
+            this.releaseEffectCD = 200;
+        }
+        return b;
+    }
+
+    @Override
     public void tick() {
         super.tick();
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, 10);
@@ -158,6 +175,9 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
                 this.landProgress +=0.25f;
             }
         } else {
+            if (this.releaseEffectCD > 0) {
+                this.releaseEffectCD--;
+            }
             if (this.getAnimState() > 0) {
                 if (!this.isAlive()) {
                     this.resetAnimState();
@@ -173,6 +193,11 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
                             }
                         } else if (this.animTicks > 17) {
                             this.resetAnimState();
+                        }
+                    }
+                    case 2 -> {
+                        if (this.animTicks == 10) {
+
                         }
                     }
                 }
@@ -347,7 +372,7 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
 
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        return null;
+        return HBEntities.BLURPUM.get().create(serverLevel);
     }
 
     @Override
@@ -366,6 +391,19 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
             this.setAnimState(1);
         } else {
             super.onKeyPacket(keyPresser, type);
+        }
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 49) {
+            Vec3 pos = this.position();
+            for (int i = 0; i < 6; i++) {
+                Vec3 rand = EntityHelpers.getRandomVec3(this.getRandom(), 1);
+                this.level().addParticle(new SmokeParticleOptions(0.75F + this.getRandom().nextFloat() / 2, 20, 0xA10606), true, pos.x + rand.x, pos.y + rand.y + 0.5, pos.z + rand.z, rand.x / 10F, rand.y / 10F, rand.z / 10F);
+            }
+        } else {
+            super.handleEntityEvent(id);
         }
     }
 }

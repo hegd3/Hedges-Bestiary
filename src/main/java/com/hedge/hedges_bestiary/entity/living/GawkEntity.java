@@ -13,6 +13,7 @@ import com.hedge.hedges_bestiary.entity.types.HBGroupMob;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
+import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -306,7 +307,7 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
 
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        return null;
+        return HBEntities.GAWK.get().create(serverLevel);
     }
 
     @Override

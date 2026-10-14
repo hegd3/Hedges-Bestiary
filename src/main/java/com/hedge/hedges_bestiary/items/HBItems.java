@@ -53,7 +53,7 @@ public class HBItems {
             () -> new EndgelicJudgementItem(new Item.Properties().durability(500).rarity(Rarity.EPIC)));
 
     public static final DeferredHolder<Item, Item> MURKLEVOLENCE = ITEMS.register("murklevolence",
-            () -> new MurklevolenceItem(new Item.Properties().durability(800).rarity(Rarity.RARE)));
+            () -> new MurklevolenceItem(new Item.Properties().durability(800).attributes(MurklevolenceItem.createAttributes()).rarity(Rarity.RARE)));
 
     // FOODS
 
