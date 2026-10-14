@@ -1,0 +1,10 @@
+{
+  "__comment": "all entities naturally targeted by the blurpum.",
+  "values": [
+    "minecraft:cow",
+    "minecraft:sheep",
+    "minecraft:pig",
+    "minecraft:frog",
+    "hedges_bestiary:gurk"
+  ]
+}

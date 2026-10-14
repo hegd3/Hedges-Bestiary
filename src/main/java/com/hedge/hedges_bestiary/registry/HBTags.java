@@ -13,6 +13,7 @@ public class HBTags {
 
     public static final TagKey<EntityType<?>> BURODON_TARGETS = registerEntityTag("burodon_targets");
 
+
     public static final TagKey<EntityType<?>> DAWN_DOVE_TARGETS = registerEntityTag("dawn_dove_targets");
 
     public static final TagKey<EntityType<?>> FEROCETUS_TARGETS = registerEntityTag("ferocetus_targets");
@@ -22,6 +23,8 @@ public class HBTags {
     public static final TagKey<EntityType<?>> TEARACUDA_AVOIDS = registerEntityTag("tearacuda_avoids");
 
     public static final TagKey<EntityType<?>> BYPASSES_ZAPPET_SHIELD = registerEntityTag("bypasses_zappet_shield");
+
+    public static final TagKey<EntityType<?>> BLURPUM_TARGETS = registerEntityTag("blurpum_targets");
 
     public static final TagKey<Item> DAWN_DOVE_FOOD = registerItemTag("dawn_dove_food");
 

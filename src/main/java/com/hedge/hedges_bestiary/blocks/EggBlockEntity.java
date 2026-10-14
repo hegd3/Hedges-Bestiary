@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 public class EggBlockEntity<E extends Entity> extends BlockEntity {
 
     protected Supplier<EntityType<E>> toHatch;
-    private int ticksTillHatch = 120;
+    private int ticksTillHatch = 600;
     private String ownerUUID = "";
 
     public EggBlockEntity(BlockPos pos, BlockState blockState) {
@@ -99,7 +99,7 @@ public class EggBlockEntity<E extends Entity> extends BlockEntity {
                 level.destroyBlock(this.getBlockPos(), false);
                 this.setRemoved();
             } else {
-                if (this.ticksTillHatch % 40 == 0 && state.getBlock() instanceof EggBlock<?> block) {
+                if (this.ticksTillHatch % 200 == 0 && state.getBlock() instanceof EggBlock<?> block) {
                     block.crack(state, level, pos);
                 }
             }

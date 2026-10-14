@@ -24,6 +24,7 @@ public class HBCreativeTab {
                         output.accept(HBBlocks.ZAPPET_EGG.get());
                         output.accept(HBBlocks.DAWN_DOVE_EGG.get());
                         output.accept(HBBlocks.MURK_EGG.get());
+                        output.accept(HBBlocks.BLURPUM_EGGS.get());
 
                         // resources
                         output.accept(HBItems.MURK_SPIKE.get());

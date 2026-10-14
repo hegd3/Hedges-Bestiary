@@ -6,7 +6,6 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class SpottedStrikerAttackGoal extends GenericMeleeGoal<SpottedStrikerEntity> {
 
-    private int cloakPathTicks;
     public SpottedStrikerAttackGoal(SpottedStrikerEntity mob) {
         super(mob, 1.2f);
     }
@@ -20,8 +19,8 @@ public class SpottedStrikerAttackGoal extends GenericMeleeGoal<SpottedStrikerEnt
     }
 
     @Override
-    public void start() {
-        super.start();
+    public boolean canUse() {
+        return !this.mob.isBaby() && super.canUse();
     }
 
     @Override

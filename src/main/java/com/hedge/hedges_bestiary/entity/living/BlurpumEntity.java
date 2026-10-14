@@ -1,5 +1,6 @@
 package com.hedge.hedges_bestiary.entity.living;
 
+import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticLookControl;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticMoveControl;
@@ -9,15 +10,22 @@ import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
 import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
 import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
+import com.hedge.hedges_bestiary.entity.types.EggLayer;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
+import com.hedge.hedges_bestiary.entity.types.HUDMount;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
 import com.hedge.hedges_bestiary.registry.HBEntities;
+import com.hedge.hedges_bestiary.registry.HBTags;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
@@ -42,6 +50,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -49,8 +58,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Predicate;
 
-public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
+public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, EggLayer {
+    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(BlurpumEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final Predicate<LivingEntity> BLURPUM_TARGETS = living -> living.getType().is(HBTags.BLURPUM_TARGETS);
     public final SmoothAnimationState swimIdleAnimationState = new SmoothAnimationState(0.1F);
     public final AnimationState biteAnimationState = new AnimationState();
     public float landProgress = 0;
@@ -85,12 +97,20 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(HAS_EGG, false);
+    }
+
+    @Override
     protected void registerGoals() {
         int i = 0;
         this.goalSelector.addGoal(i++, new MountOverrideGoal(this));
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
+        this.goalSelector.addGoal(i++, new LayRaftEggsGoal<>(this));
         this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.4, 4.0f, 2.0f, true));
         this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.4F));
+        this.goalSelector.addGoal(i++, new EggLayerBreedGoal<>(this, 1.2F));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new RandomlySitGoal(this));
         this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0, 40, 15, 4, true, true));
@@ -104,7 +124,8 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
         this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new TargetPlayersGoal(this));
         this.targetSelector.addGoal(4, new TargetMonstersGoal(this));
-        this.targetSelector.addGoal(5, new NonTameRandomTargetGoal<>(this, Player.class, true, CommonPredicates.TARGET_UNCROUCHED));
+        this.targetSelector.addGoal(5, new NonTameRandomTargetGoal<>(this, LivingEntity.class, true, BLURPUM_TARGETS));
+        this.targetSelector.addGoal(6, new NonTameRandomTargetGoal<>(this, Player.class, true, CommonPredicates.TARGET_UNCROUCHED));
 
     }
 
@@ -146,17 +167,25 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
     @Override
     public boolean hurt(DamageSource source, float pAmount) {
         boolean b = super.hurt(source, pAmount);
-        if (b && !this.level().isClientSide && this.releaseEffectCD == 0) {
+        if (b && source.getEntity() != null && !this.level().isClientSide && this.releaseEffectCD == 0) {
             List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, Vec3.ZERO, 4, 4, 4, 10);
-            MobEffectInstance effect = new MobEffectInstance(MobEffects.POISON, 100, 3);
+            MobEffectInstance effect = new MobEffectInstance(MobEffects.POISON, 60, 1);
             for (LivingEntity entity : hit) {
-                entity.addEffect(effect);
+                entity.addEffect(effect, this);
             }
-            this.playSound(SoundEvents.LAVA_EXTINGUISH, 1.0F, 1.0F);
+            this.playSound(SoundEvents.LAVA_EXTINGUISH, 1.0F, 2.0F);
             this.level().broadcastEntityEvent(this, (byte)49);
             this.releaseEffectCD = 200;
         }
         return b;
+    }
+
+    @Override
+    public boolean canBeAffected(MobEffectInstance effectInstance) {
+        if (effectInstance.is(MobEffects.POISON)) {
+            return false;
+        }
+        return super.canBeAffected(effectInstance);
     }
 
     @Override
@@ -177,6 +206,9 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
         } else {
             if (this.releaseEffectCD > 0) {
                 this.releaseEffectCD--;
+            }
+            if (this.tickCount % 200 == 0) {
+                this.heal(this.getTarget() == null ? 5F : 2F);
             }
             if (this.getAnimState() > 0) {
                 if (!this.isAlive()) {
@@ -370,6 +402,8 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
 
     }
 
+
+
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         return HBEntities.BLURPUM.get().create(serverLevel);
@@ -399,11 +433,27 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob {
         if (id == 49) {
             Vec3 pos = this.position();
             for (int i = 0; i < 6; i++) {
-                Vec3 rand = EntityHelpers.getRandomVec3(this.getRandom(), 1);
-                this.level().addParticle(new SmokeParticleOptions(0.75F + this.getRandom().nextFloat() / 2, 20, 0xA10606), true, pos.x + rand.x, pos.y + rand.y + 0.5, pos.z + rand.z, rand.x / 10F, rand.y / 10F, rand.z / 10F);
+                Vec3 rand = EntityHelpers.getRandomVec3(this.getRandom(), 2);
+                this.level().addParticle(new SmokeParticleOptions(0.75F, 20, 0xA10606), true, pos.x + rand.x, pos.y + 0.5, pos.z + rand.z, rand.x / 100F, rand.y / 100F, rand.z / 100F);
             }
         } else {
             super.handleEntityEvent(id);
         }
+    }
+
+
+    @Override
+    public BlockState getEgg() {
+        return HBBlocks.BLURPUM_EGGS.get().defaultBlockState();
+    }
+
+    @Override
+    public boolean hasEgg() {
+        return this.entityData.get(HAS_EGG);
+    }
+
+    @Override
+    public void setHasEgg(boolean b) {
+        this.entityData.set(HAS_EGG, b);
     }
 }

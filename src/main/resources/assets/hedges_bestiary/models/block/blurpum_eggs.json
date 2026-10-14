@@ -1,0 +1,6 @@
+{
+  "parent": "hedges_bestiary:block/horizontal_plane_template",
+  "textures": {
+    "texture": "hedges_bestiary:block/egg/blurpum_eggs"
+  }
+}

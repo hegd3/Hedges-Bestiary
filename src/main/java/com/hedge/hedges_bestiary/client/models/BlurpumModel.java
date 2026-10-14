@@ -142,8 +142,8 @@ public class BlurpumModel extends HBModel<BlurpumEntity> {
 		if (entity.isInWater()) {
 			this.swimcontrol.xRot = pitch;
 		}
-		this.tail.yRot = Mth.lerp(0.25F, this.tail.yRot, tailYaw * 0.25F);
-		this.tail2.yRot = Mth.lerp(0.15F, this.tail2.yRot, tailYaw * 0.2F);
+		this.tail.yRot = Mth.lerp(0.35F, this.tail.yRot, tailYaw * 0.45F);
+		this.tail2.yRot = Mth.lerp(0.3F, this.tail2.yRot, tailYaw * 0.4F);
 
 	}
 }
