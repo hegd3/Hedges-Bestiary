@@ -1,0 +1,6 @@
+{
+  "parent": "hedges_bestiary:block/multi_egg_template_4",
+  "textures": {
+    "texture": "hedges_bestiary:block/egg/goph_egg_very_cracked"
+  }
+}

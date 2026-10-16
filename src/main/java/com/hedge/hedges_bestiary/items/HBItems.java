@@ -23,7 +23,6 @@ public class HBItems {
 
     public static final DeferredHolder<Item, Item> MURK_SPIKE = ITEMS.register("murk_spike",
             () -> new Item(new Item.Properties()));
-
     public static final DeferredHolder<Item, Item> TEARACUDA_TOOTH = ITEMS.register("tearacuda_tooth",
             () -> new Item(new Item.Properties()));
 
@@ -33,6 +32,12 @@ public class HBItems {
     public static final DeferredHolder<Item, Item> ZIPPERMOUTH_SCALES = ITEMS.register("zippermouth_scales",
             () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
 
+    public static final DeferredHolder<Item, Item> FINE_MILK = ITEMS.register("fine_milk_bottle",
+            () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE)));
+
+    public static final DeferredHolder<Item, Item> RICH_MILK = ITEMS.register("rich_milk_bottle",
+            () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE)));
+
 
     // CRAFTED ITEMS
 
@@ -40,7 +45,7 @@ public class HBItems {
             () -> new TreatItem(new Item.Properties().rarity(Rarity.COMMON), 0));
 
     public static final DeferredHolder<Item, Item> SEASONED_TREAT = ITEMS.register("seasoned_treat",
-            () -> new TreatItem(new Item.Properties().rarity(Rarity.UNCOMMON).craftRemainder(Items.GLASS_BOTTLE),1));
+            () -> new TreatItem(new Item.Properties().rarity(Rarity.UNCOMMON),1));
 
     public static final DeferredHolder<Item, Item> HEARTY_TREAT = ITEMS.register("hearty_treat",
             () -> new TreatItem(new Item.Properties().rarity(Rarity.RARE),2));

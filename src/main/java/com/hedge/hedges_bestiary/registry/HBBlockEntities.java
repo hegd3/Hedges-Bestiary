@@ -23,6 +23,7 @@ public class HBBlockEntities {
                     HBBlocks.DAWN_DOVE_EGG.get(),
                     HBBlocks.GURK_EGG.get(),
                     HBBlocks.ZAPPET_EGG.get(),
+                    HBBlocks.GOPH_EGG.get(),
                     HBBlocks.BLURPUM_EGGS.get()
             ).build(null));
 

@@ -92,7 +92,7 @@ public class HBFollowOwnerGoal extends Goal {
         this.mob.getLookControl().setLookAt(owner, 10.0F, (float) mob.getMaxHeadXRot());
         if (--this.timeToRecalcPath <= 0) {
             this.timeToRecalcPath = this.adjustedTickDelay(10);
-            if (this.mob.distanceToSqr(owner) >= 256.0D) {
+            if (this.mob.distanceToSqr(owner) >= 400.0D) {
                 this.teleportToOwner();
             } else if (this.mob.distanceToSqr(owner) >= 64.0D) {
                 this.mob.getNavigation().moveTo(owner, sprintSpeedModifier);
@@ -152,7 +152,7 @@ public class HBFollowOwnerGoal extends Goal {
 
     protected boolean isInCombat() {
         if (this.owner != null) {
-            return mob.distanceTo(owner) < 30 && mob.getTarget() != null && mob.getTarget().isAlive();
+            return mob.distanceToSqr(owner) <= 4096 && mob.getTarget() != null && mob.getTarget().isAlive();
         }
         return false;
     }

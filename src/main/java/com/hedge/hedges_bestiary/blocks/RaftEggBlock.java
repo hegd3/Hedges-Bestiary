@@ -40,6 +40,7 @@ public class RaftEggBlock<E extends Entity> extends EggBlock<E> {
 
     }
 
+    @Override
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         return !this.canSurvive(state, level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
@@ -48,6 +49,7 @@ public class RaftEggBlock<E extends Entity> extends EggBlock<E> {
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return mayPlaceOn(level, pos.below());
     }
+
 
 
 

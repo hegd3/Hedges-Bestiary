@@ -5,6 +5,10 @@
     "minecraft:sheep",
     "minecraft:pig",
     "minecraft:frog",
-    "hedges_bestiary:gurk"
+    "minecraft:turtle",
+    "minecraft:dolphin",
+    "hedges_bestiary:gurk",
+    "hedges_bestiary:gawk",
+    "hedges_bestiary:burodon"
   ]
 }

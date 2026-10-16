@@ -3,11 +3,13 @@ package com.hedge.hedges_bestiary.menu;
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -41,20 +43,24 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
         this.titleLabelX+=30;
         if (!this.animal.canAccessInventory()) {
             buttons = new HBTamableMenuButton[]{
-                    new CommandButton(this.leftPos + 150, this.topPos + 100, this),
-                    new AutoTargetButton(this.leftPos + 280, this.topPos + 100, this),
-                    new HomeButton(this.leftPos + 215, this.topPos + 200, this),
-
+                    new AutoTargetButton(0, 0, this),
+                    new CommandButton(0, 0, this),
+                    new HomeButton(0, 0, this),
             };
         } else {
             buttons = new HBTamableMenuButton[]{
-                    new CommandButton(this.leftPos + 150, this.topPos + 100, this),
-                    new AutoTargetButton(this.leftPos + 280, this.topPos + 100, this),
-                    new HomeButton(this.leftPos + 150, this.topPos + 200, this),
-                    new AccessInventoryButton(this.leftPos + 280, this.topPos + 200, this),
+                    new AutoTargetButton(0, 0, this),
+                    new CommandButton(0, 0, this),
+                    new HomeButton(0, 0, this),
+                    new AccessInventoryButton(0, 0, this),
             };
         }
+        int angle = 360/buttons.length;
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].setPosition((int)(titleLabelX*5.5 + (Mth.sin(angle * Mth.DEG_TO_RAD) * titleLabelX * 2)), this.titleLabelY*23 + (int)(Mth.cos(angle * Mth.DEG_TO_RAD) * titleLabelY * 10));
 
+            angle += 360/buttons.length;
+        }
     }
 
     public void render(GuiGraphics guiGraphics, int i, int j, float f) {

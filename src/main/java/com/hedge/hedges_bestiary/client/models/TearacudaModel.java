@@ -53,7 +53,7 @@ public class TearacudaModel extends HBModel<TearacudaEntity> {
 
 		PartDefinition swimcontrol = root.addOrReplaceChild("swimcontrol", CubeListBuilder.create(), PartPose.offset(0.0F, 6.0F, 0.0F));
 
-		PartDefinition body = swimcontrol.addOrReplaceChild("body", CubeListBuilder.create().texOffs(43, 82).addBox(0.0F, -15.0F, -8.0F, 0.0F, 7.0F, 21.0F, new CubeDeformation(0.0F))
+		PartDefinition body = swimcontrol.addOrReplaceChild("body", CubeListBuilder.create().texOffs(43, 82).addBox(0.0F, -15.0F, -8.0F, 0.0F, 7.0F, 21.0F, new CubeDeformation(0.01F))
 				.texOffs(0, 0).addBox(-4.5F, -8.0F, -12.0F, 9.0F, 17.0F, 25.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -9.0F, 0.0F));
 
 		PartDefinition leftfin = body.addOrReplaceChild("leftfin", CubeListBuilder.create().texOffs(44, 42).addBox(0.0F, 0.0F, -13.0F, 0.0F, 8.0F, 26.0F, new CubeDeformation(0.0F)), PartPose.offset(4.5F, 9.0F, 0.0F));

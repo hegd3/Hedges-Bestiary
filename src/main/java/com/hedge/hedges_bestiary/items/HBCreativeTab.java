@@ -21,10 +21,13 @@ public class HBCreativeTab {
                     .displayItems((itemDisplayParameters, output) -> {
                         // blocks
                         output.accept(HBBlocks.GURK_EGG.get());
+                        output.accept(HBBlocks.GOPH_EGG.get());
                         output.accept(HBBlocks.ZAPPET_EGG.get());
+                        output.accept(HBBlocks.BLURPUM_EGGS.get());
                         output.accept(HBBlocks.DAWN_DOVE_EGG.get());
                         output.accept(HBBlocks.MURK_EGG.get());
-                        output.accept(HBBlocks.BLURPUM_EGGS.get());
+                        output.accept(HBItems.FINE_MILK.get());
+                        output.accept(HBItems.RICH_MILK.get());
 
                         // resources
                         output.accept(HBItems.MURK_SPIKE.get());

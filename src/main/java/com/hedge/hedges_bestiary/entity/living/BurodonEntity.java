@@ -15,6 +15,7 @@ import com.hedge.hedges_bestiary.entity.ai.targeting.TargetWhenAwakeGoal;
 import com.hedge.hedges_bestiary.entity.types.HBGroupMob;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
+import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBParticles;
@@ -38,6 +39,7 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -72,6 +74,7 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
     private int jumpCD = 0;
     private int roarCD = 0;
     private int groupSize = 1;
+    private int milkCD = 0;
 
     public static final int BITE_ANIM = 1;
     public static final int JUMP_ANIM = 2;
@@ -104,7 +107,22 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
     @Override
     public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if (!this.isTame() && itemStack.getItem() instanceof TreatItem treat && treat.getTier() > 0) {
+        if (this.isTame()) {
+            if (!this.isBaby() && itemStack.getItem() == Items.GLASS_BOTTLE && this.milkCD == 0) {
+                if (!this.level().isClientSide) {
+                    if (!player.getAbilities().instabuild) {
+                        player.getItemInHand(hand).shrink(1);
+
+                    }
+                    player.addItem(new ItemStack(HBItems.FINE_MILK));
+                    this.playSound(SoundEvents.BOTTLE_FILL);
+                    this.milkCD = 2500;
+                }
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+
+            }
+        }
+        else if (itemStack.getItem() instanceof TreatItem treat && treat.getTier() > 0) {
             if (this.getAnimState() == ROAR_ANIM) {
                 if (!this.level().isClientSide) {
                     if (!player.getAbilities().instabuild) {
@@ -191,6 +209,9 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
         } else {
             if (this.tickCount % 200 == 0) {
                 this.heal(10);
+            }
+            if (this.milkCD > 0) {
+                this.milkCD--;
             }
             this.tickCooldowns();
             this.tickAnimState();

@@ -81,7 +81,6 @@ public class EggBlockEntity<E extends Entity> extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (!level.isClientSide()) {
-            System.out.println(ticksTillHatch);
             if(ticksTillHatch-- <= 0 && toHatch != null){
                 if (state.getBlock() instanceof MultiEggBlock) {
                     for (int i = 0; i < state.getValue(MultiEggBlock.EGGS); i++) {

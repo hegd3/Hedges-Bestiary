@@ -23,7 +23,7 @@ import net.minecraft.world.phys.Vec3;
 
 
 public class PlomboTerritoryPiece extends TemplateStructurePiece {
-
+    private boolean spawned = false;
     public PlomboTerritoryPiece(StructureTemplateManager manager, ResourceLocation re, StructurePlaceSettings pPlaceSettings, BlockPos pos) {
         super(HBStructurePieces.PLOMBO_TERRITORY.get(), 0, manager, re, re.toString(), pPlaceSettings, pos);
 
@@ -47,7 +47,7 @@ public class PlomboTerritoryPiece extends TemplateStructurePiece {
     @Override
     public void postProcess(WorldGenLevel level, StructureManager pStructureManager, ChunkGenerator pGenerator, RandomSource pRandom, BoundingBox pBox, ChunkPos pChunkPos, BlockPos pPos) {
         super.postProcess(level, pStructureManager, pGenerator, pRandom, pBox, pChunkPos, pPos);
-        this.spawnMob(level, pPos);
+        if (!this.spawned) this.spawnMob(level, pPos);
     }
 
     private void spawnMob(ServerLevelAccessor level, BlockPos pos) {
@@ -66,5 +66,6 @@ public class PlomboTerritoryPiece extends TemplateStructurePiece {
         entity.setHasHome(true);
         entity.setHomePos(entity.blockPosition());
         level.addFreshEntity(entity);
+        this.spawned = true;
     }
 }

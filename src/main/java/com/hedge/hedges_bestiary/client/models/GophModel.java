@@ -1,6 +1,7 @@
 package com.hedge.hedges_bestiary.client.models;
 
 import com.hedge.hedges_bestiary.client.EntityLayers;
+import com.hedge.hedges_bestiary.client.animations.GenericPosesAnimation;
 import com.hedge.hedges_bestiary.client.animations.GophAnimation;
 import com.hedge.hedges_bestiary.client.animations.GurkAnimation;
 import com.hedge.hedges_bestiary.client.models.HBModel;
@@ -86,6 +87,9 @@ public class GophModel extends HBModel<GophEntity> {
 		float partialTicks = ageInTicks - entity.tickCount;
 		this.head.yRot = netHeadYaw;
 		this.head.xRot = headPitch;
+		if (this.young) {
+			this.applyStatic(GenericPosesAnimation.BABY_TRANSFORM);
+		}
 		this.animateWalk(GophAnimation.WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
 		this.animate(entity.idleAnimationState, GophAnimation.IDLE, ageInTicks, 0.5f);
 		this.animateSmooth(entity.sitAnimationState, GophAnimation.SIT, ageInTicks, partialTicks, 1f);

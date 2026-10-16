@@ -1,5 +1,6 @@
 package com.hedge.hedges_bestiary.entity.living;
 
+import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.entity.ai.goal.*;
 import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
 import com.hedge.hedges_bestiary.entity.types.EggLayer;
@@ -9,6 +10,9 @@ import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
@@ -37,6 +41,7 @@ import org.jetbrains.annotations.Nullable;
 public class GophEntity extends HBTamableAnimal implements EggLayer {
     public final SmoothAnimationState digAnimationState = new SmoothAnimationState(0.1F);
     public final SmoothAnimationState stretchAnimationState = new SmoothAnimationState();
+    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(GophEntity.class, EntityDataSerializers.BOOLEAN);
 
     public GophEntity(EntityType<? extends GophEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -47,6 +52,12 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
                 .add(Attributes.MAX_HEALTH, 8.0D)
                 .add(Attributes.FOLLOW_RANGE, 8F)
                 .add(Attributes.MOVEMENT_SPEED, 0.25F);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(HAS_EGG, false);
     }
 
     public static boolean canSpawn(EntityType<? extends GophEntity> goph, LevelAccessor level, MobSpawnType pSpawnType, BlockPos pos, RandomSource pRandom) {
@@ -140,6 +151,8 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
         int i = 0;
         this.goalSelector.addGoal(i++, new FloatGoal(this));
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
+        this.goalSelector.addGoal(i++, new EggLayerBreedGoal<>(this, 1.0f));
+        this.goalSelector.addGoal(i++, new LayEggsGoal<>(this, 100, 1.0f));
         this.goalSelector.addGoal(i++, new GophDigBrushableBlocksGoal(this));
         this.goalSelector.addGoal(i++, new HBFollowOwnerGoal(this, 1.2D, 1.4D, 7.0f, 10.0f));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
@@ -215,22 +228,27 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
 
     @Override
     public SleepType getSleepType() {
-        return SleepType.CATHERMAL;
+        return SleepType.NOCTURNAL;
     }
 
     @Override
     public BlockState getEgg() {
-        return null;
+        return HBBlocks.GOPH_EGG.get().defaultBlockState();
+    }
+
+    @Override
+    public boolean laysMultipleEggs() {
+        return true;
     }
 
     @Override
     public boolean hasEgg() {
-        return false;
+        return this.entityData.get(HAS_EGG);
     }
 
     @Override
     public void setHasEgg(boolean b) {
-
+        this.entityData.set(HAS_EGG, b);
     }
 
     private static class GophDigBrushableBlocksGoal extends MoveToBlockGoal {

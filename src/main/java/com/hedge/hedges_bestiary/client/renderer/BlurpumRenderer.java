@@ -17,7 +17,9 @@ import net.minecraft.world.entity.Entity;
 
 public class BlurpumRenderer extends MobRenderer<BlurpumEntity, BlurpumModel> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/blurpum.png");
+    private static final ResourceLocation FRESHWATER = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/blurpum/blurpum_freshwater.png");
+    private static final ResourceLocation COASTAL = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/blurpum/blurpum_coastal.png");
+    private static final ResourceLocation COLD = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/entity/blurpum/blurpum_cold.png");
 
     public BlurpumRenderer(EntityRendererProvider.Context context) {
         super(context, new BlurpumModel(context.bakeLayer(EntityLayers.BLURPUM_LAYER)), 1.0F);
@@ -26,7 +28,11 @@ public class BlurpumRenderer extends MobRenderer<BlurpumEntity, BlurpumModel> {
 
     @Override
     public ResourceLocation getTextureLocation(BlurpumEntity blurpumEntity) {
-        return TEXTURE;
+        return switch (blurpumEntity.getVariant()) {
+            case 1 -> COASTAL;
+            case 2 -> COLD;
+            default -> FRESHWATER;
+        };
     }
 
     private static class BlurpumRiderLayer extends RiderLayer<BlurpumEntity, BlurpumModel> {

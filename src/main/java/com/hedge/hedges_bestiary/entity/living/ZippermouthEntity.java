@@ -32,6 +32,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
@@ -55,10 +56,11 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -93,7 +95,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
 
     public ZippermouthEntity(EntityType<? extends ZippermouthEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        this.moveControl = new SwimmingMoveControl(this, 999, 4, 0.02f, 0.0f);
+        this.moveControl = new SwimmingMoveControl(this, 999, 6, 0.02f, 0.0f);
         this.setPathfindingMalus(PathType.WATER, 0.0f);
         this.segment1 = new ZippermouthPartEntity(this);
         this.segment2 = new ZippermouthPartEntity(this);
@@ -193,6 +195,14 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         return player.isShiftKeyDown();
     }
 
+    @Override
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        if (this.tickCount % 40 == 0 && this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+            this.breakBlock();
+        }
+    }
+
     public void tick() {
         super.tick();
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, 20);
@@ -204,7 +214,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                 this.suckCD = 40;
             }
         } else {
-            if (this.tickCount % 200 == 0 && this.getTarget() == null) {
+            if (this.tickCount % 100 == 0 && this.getTarget() == null) {
                 this.heal(20);
             }
         }
@@ -265,6 +275,31 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         }
 
     }
+
+    private void breakBlock() {
+        for (int a = (int) Math.round(this.getBoundingBox().minX); a <= (int) Math.round(this.getBoundingBox().maxX); a++) {
+            for (int b = (int) Math.round(this.getBoundingBox().minY) - 1; (b <= (int) Math.round(this.getBoundingBox().maxY) + 1) && (b <= 127); b++) {
+                for (int c = (int) Math.round(this.getBoundingBox().minZ); c <= (int) Math.round(this.getBoundingBox().maxZ); c++) {
+                    BlockPos pos = new BlockPos(a, b, c);
+                    BlockState state = level().getBlockState(pos);
+                    FluidState fluidState = level().getFluidState(pos);
+                    Block block = state.getBlock();
+                    if (!state.isAir() && !state.getShape(level(), pos).isEmpty() && fluidState.isEmpty()) {
+                        if (block != Blocks.AIR) {
+                            this.setDeltaMovement(this.getDeltaMovement().multiply(0.6F, 1, 0.6F));
+                            if (state.is(BlockTags.ICE)) {
+                                level().destroyBlock(pos, false);
+                                level().setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+                            } else {
+                                level().destroyBlock(pos, true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        }
 
 
     @Override
