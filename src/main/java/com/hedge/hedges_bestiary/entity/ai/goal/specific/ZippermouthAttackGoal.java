@@ -27,7 +27,10 @@ public class ZippermouthAttackGoal extends GenericMeleeGoal<ZippermouthEntity> {
             this.look(living);
         }
         if (animState == 0) {
-            if (this.mob.canRush(attackReach, dist)) {
+            if (this.mob.canMultiBite(attackReach, dist))  {
+                this.mob.setAnimState(3);
+            }
+            else if (this.mob.canSuck(attackReach, dist)) {
                 this.mob.setAnimState(2);
             }
             else if (this.mob.canUseAttack(living, attackReach, dist)) {

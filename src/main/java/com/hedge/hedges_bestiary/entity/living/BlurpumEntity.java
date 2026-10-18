@@ -1,5 +1,6 @@
 package com.hedge.hedges_bestiary.entity.living;
 
+import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticLookControl;
@@ -26,11 +27,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -52,6 +53,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -69,6 +71,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, EggLayer, VariantMob, HUDMount {
+    private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/gui/mount/blurpum_hud.png");
 
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(BlurpumEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(BlurpumEntity.class, EntityDataSerializers.BOOLEAN);
@@ -144,6 +147,7 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
         this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.4, 4.0f, 2.0f, true));
         this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.4F));
         this.goalSelector.addGoal(i++, new EggLayerBreedGoal<>(this, 1.2F));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(HBItems.RAW_URKMEAT.get()), false));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new RandomlySitGoal(this));
         this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0, 40, 15, 4, true, true));
@@ -213,7 +217,7 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
             }
             this.playSound(SoundEvents.LAVA_EXTINGUISH, 1.0F, 2.0F);
             this.level().broadcastEntityEvent(this, (byte)49);
-            this.releaseEffectCD = 200;
+            this.releaseEffectCD = variant == 1 ? 100 : 200;
         }
         return b;
     }
@@ -228,9 +232,32 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
-        if (pKey == VARIANT && this.getVariant() == 1) {
-            if (this.getAttributes().getValue(Attributes.MOVEMENT_SPEED) < 0.23F) {
-                this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.23F);
+        if (pKey == VARIANT) {
+            switch (this.getVariant()) {
+                case 1 -> {
+                    if (this.getAttributes().getBaseValue(Attributes.MOVEMENT_SPEED) < 0.24F) {
+                        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.24F);
+                    }
+                    if (this.getAttributes().getBaseValue(Attributes.ATTACK_DAMAGE) > 6F) {
+                        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(6F);
+                    }
+                    if (this.getAttributes().getBaseValue(Attributes.MAX_HEALTH) > 40F) {
+                        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(40F);
+                        this.setHealth(this.getMaxHealth());
+                    }
+                }
+                case 2 -> {
+                    if (this.getAttributes().getBaseValue(Attributes.MOVEMENT_SPEED) < 0.22F) {
+                        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.22F);
+                    }
+                    if (this.getAttributes().getBaseValue(Attributes.MAX_HEALTH) < 50F) {
+                        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(50F);
+                        this.heal(this.getMaxHealth());
+                    }
+                    if (this.getAttributes().getBaseValue(Attributes.ATTACK_DAMAGE) > 5F) {
+                        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(5F);
+                    }
+                }
             }
         }
         super.onSyncedDataUpdated(pKey);
@@ -240,6 +267,9 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
     public void tick() {
         super.tick();
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, 10);
+        if (this.releaseEffectCD > 0) {
+            this.releaseEffectCD--;
+        }
         if (this.level().isClientSide) {
             this.setUpAnimStates();
             this.tickTrailYaw();
@@ -252,10 +282,7 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
                 this.landProgress +=0.25f;
             }
         } else {
-            if (this.releaseEffectCD > 0) {
-                this.releaseEffectCD--;
-            }
-            if (this.tickCount % 200 == 0) {
+            if (this.tickCount % (this.getVariant() == 2 ? 100 : 200) == 0) {
                 this.heal(this.getTarget() == null ? 5F : 2F);
             }
             if (this.getAnimState() > 0) {
@@ -453,7 +480,7 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
 
     @Override
     public boolean isFood(ItemStack pStack) {
-        return super.isFood(pStack) && pStack.is(ItemTags.FISHES);
+        return super.isFood(pStack) && pStack.is(HBItems.RAW_URKMEAT);
     }
 
     @Override
@@ -490,6 +517,7 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
     @Override
     public void handleEntityEvent(byte id) {
         if (id == 49) {
+            this.releaseEffectCD = this.getVariant() == 1 ? 100 : 200;
             Vec3 pos = this.position();
             for (int i = 0; i < 6; i++) {
                 Vec3 rand = EntityHelpers.getRandomVec3(this.getRandom(), 2);
@@ -515,6 +543,12 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
     @Override
     public void onInsideBubbleColumn(boolean downwards) {
     }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
 
     @Override
     public BlockState getEgg() {
@@ -544,8 +578,26 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
 
     @Override
     public void renderHUD(GuiGraphics guiGraphics) {
+        int screenWidth = guiGraphics.guiWidth(), screenHeight = guiGraphics.guiHeight();
+        int imageWidth = 192, imageHeight = 22;
+        int x = (screenWidth - imageWidth) / 2;
+        float maxBar = this.getVariant() == 1 ? 100F : 200F;
+
+        guiGraphics.blit(SPRITE, (screenWidth - 71) / 2, screenHeight - 84, this.getVariant() * 71, 43, 71, 53, 256, 128);
+
+        guiGraphics.blit(SPRITE, x, screenHeight - 43, 0, 0, imageWidth, imageHeight, 256, 128);
+        imageWidth = Math.min((int)(192 * ((maxBar - this.releaseEffectCD)/maxBar)), 192);
+
+        guiGraphics.blit(SPRITE, x, screenHeight - 31, 0, 21, imageWidth, 10, 256, 128);
+
+
+        imageHeight = (int) (this.getHealth() / this.getMaxHealth() * 11);
+        x = (screenWidth - 13) / 2;
+
+        guiGraphics.blit(SPRITE, x, screenHeight - 31 - imageHeight, 0, 42 - imageHeight, 13, imageHeight, 256, 128);
 
     }
+
 
     @Override
     public float getCameraOffsetZ() {

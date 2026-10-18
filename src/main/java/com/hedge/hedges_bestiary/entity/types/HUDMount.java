@@ -3,6 +3,7 @@ package com.hedge.hedges_bestiary.entity.types;
 import net.minecraft.client.gui.GuiGraphics;
 
 public interface HUDMount {
+    static final int TOP_OF_BAR = 21;
 
     void renderHUD(GuiGraphics guiGraphics);
 

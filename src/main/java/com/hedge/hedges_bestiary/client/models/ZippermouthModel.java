@@ -116,6 +116,7 @@ public class ZippermouthModel extends HBModel<ZippermouthEntity> {
 		this.animateSmooth(entity.idleAnimationState, ZippermouthAnimation.IDLE, ageInTicks, partialTicks, 0.5F);
 		this.animateSmooth(entity.suckAnimationState, ZippermouthAnimation.OPEN_MOUTH, ageInTicks, partialTicks, 1.4F);
 		this.animate(entity.biteAnimationState, ZippermouthAnimation.BITE, ageInTicks,1F);
+		this.animate(entity.multiBiteAnimationState, ZippermouthAnimation.MULTIBITE, ageInTicks,1F);
 		this.animateWalk(ZippermouthAnimation.SWIM, limbSwing, limbSwingAmount, 1.0F, 2.5F);
 
 		for (int i = 0; i < this.segmentParts.length; i++) {

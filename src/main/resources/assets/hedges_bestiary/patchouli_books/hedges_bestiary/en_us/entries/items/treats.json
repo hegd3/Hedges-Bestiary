@@ -4,24 +4,40 @@
   "category": "hedges_bestiary:getting_started",
   "pages": [
     {
-      "type": "patchouli:text",
+      "type": "patchouli:spotlight",
+      "title": "Treats",
+      "item": {
+        "item": "hedges_bestiary:plain_treat"
+      },
       "text": "Treats are the first step to Hedge's Bestiary. They are the primary means of taming the many wild creatures found in your world!$(br2)Entries in the $(l:hedges_bestiary:mobs_category)mobs category$(/l) are labeled with the type of treat the mob can be tamed with."
     },
     {
       "type": "patchouli:crafting",
+      "anchor": "treat1",
       "recipe": "hedges_bestiary:plain_treat",
       "text": "The first tier of treat you can craft is the plain treat. The other treats will be consecutively harder to craft."
     },
     {
       "type": "patchouli:crafting",
-      "anchor": "treat1",
+      "anchor": "treat2",
       "recipe": "hedges_bestiary:seasoned_treat",
       "text": "The second tier of treat you can craft is the seasoned treat. Eggs that can be used in the crafting recipe come from mobs tamable with the plain treat. Alternatively, a sniffer egg can be used instead."
     },
     {
+      "type": "patchouli:text",
+      "title": "Milk Bottles",
+      "text": "$(br2)The milk of mammalian tames can be collected with bottles, which is a vital ingredient for certain treats.  The milk received depends on the type of treat the mob is tamable with.$(br2)Entries in the $(l:hedges_bestiary:mobs_category)mobs category$(/l) are specified with the type of milk they produce."
+    },
+    {
       "type": "patchouli:crafting",
+      "anchor": "treat3",
       "recipe": "hedges_bestiary:hearty_treat",
-      "text": "The third tier of treat you can craft is the hearty treat. Eggs that can be used in the crafting recipe come from mobs tamable with the seasoned treat."
+      "text": "The third tier of treat you can craft is the hearty treat. Eggs that can be used in the crafting recipe come from mobs tamable with the seasoned treat. Fine Milk is acquired from mammals tamable with the seasoned treat."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:luscious_treat",
+      "text": "The fourth tier of treat you can craft is the luscious treat. Eggs that can be used in the crafting recipe come from mobs tamable with the hearty treat. Rich Milk is acquired from mammals tamable with the hearty treat."
     }
   ]
 }

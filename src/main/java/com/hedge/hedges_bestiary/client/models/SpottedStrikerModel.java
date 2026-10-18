@@ -1,6 +1,7 @@
 package com.hedge.hedges_bestiary.client.models;
 
 
+import com.hedge.hedges_bestiary.client.animations.GenericPosesAnimation;
 import com.hedge.hedges_bestiary.client.animations.SpottedStrikerAnimation;
 import com.hedge.hedges_bestiary.client.EntityLayers;
 import com.hedge.hedges_bestiary.entity.living.SpottedStrikerEntity;
@@ -33,6 +34,7 @@ public class SpottedStrikerModel extends HBModel<SpottedStrikerEntity> {
 	private final ModelPart tail3;
 
 	public SpottedStrikerModel(ModelPart root) {
+		super(0.5f, 24);
 		this.root = root.getChild("root");
 		this.swimcontrol = this.root.getChild("swimcontrol");
 		this.leftfin = this.swimcontrol.getChild("leftfin");
@@ -94,8 +96,10 @@ public class SpottedStrikerModel extends HBModel<SpottedStrikerEntity> {
 
 	@Override
 	public void setupAnim(SpottedStrikerEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
 		this.root().getAllParts().forEach(ModelPart::resetPose);
+		if (this.young) {
+			this.applyStatic(GenericPosesAnimation.BABY_TRANSFORM);
+		}
 		float partialTicks = ageInTicks - entity.tickCount;
 		headPitch = Mth.clamp(headPitch, -15.0F, 15.0F) * ((float) Math.PI / 180F);
 		netHeadYaw = Mth.clamp(netHeadYaw, -15.0F, 15.0F) * ((float)Math.PI / 180F);
@@ -126,10 +130,15 @@ public class SpottedStrikerModel extends HBModel<SpottedStrikerEntity> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer buffer, int pPackedLight, int pPackedOverlay, int color) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int pPackedLight, int pPackedOverlay, int color) {
+		poseStack.pushPose();
 		int i = FastColor.ARGB32.color((int)(255 * this.alpha), 255, 255, 255);
-
-		this.root().render(pPoseStack, buffer.setColor(1f, 1f, 1f, this.alpha * 255), pPackedLight, pPackedOverlay, i);
+		if (this.young) {
+			poseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
+			poseStack.translate(0.0F, this.bodyYOffset / 16.0F, 0.0F);
+		}
+		this.root().render(poseStack, buffer.setColor(1f, 1f, 1f, this.alpha * 255), pPackedLight, pPackedOverlay, i);
+		poseStack.popPose();
 	}
 
 }

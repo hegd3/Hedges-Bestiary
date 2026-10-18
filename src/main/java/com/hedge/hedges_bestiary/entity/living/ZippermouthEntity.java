@@ -13,7 +13,6 @@ import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.types.HUDMount;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
-import com.hedge.hedges_bestiary.entity.util.MathHelpers;
 import com.hedge.hedges_bestiary.entity.util.SegmentHelper;
 import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
@@ -35,7 +34,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -45,8 +43,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
@@ -54,10 +50,8 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.*;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -82,7 +76,10 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     private int jumpCD = 0;
     private int suckMeter = 200;
     private int suckCD = 0;
+    private int multiBiteCD = 0;
     public final AnimationState biteAnimationState = new AnimationState();
+    public final AnimationState multiBiteAnimationState = new AnimationState();
+
     public final SmoothAnimationState beachedAnimationState = new SmoothAnimationState(0.1F);
     public final SmoothAnimationState suckAnimationState = new SmoothAnimationState(0.1F);
 
@@ -140,6 +137,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     public static AttributeSupplier.Builder bakeAttributes() {
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 350.0D)
+                .add(Attributes.ARMOR, 8)
                 .add(Attributes.ATTACK_DAMAGE, 30.0D)
                 .add(Attributes.FOLLOW_RANGE, 20)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.9D)
@@ -199,7 +197,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     protected void customServerAiStep() {
         super.customServerAiStep();
         if (this.tickCount % 40 == 0 && this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
-            this.breakBlock();
+            this.breakIce();
         }
     }
 
@@ -218,10 +216,19 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                 this.heal(20);
             }
         }
+        if (!this.level().isClientSide && this.multiBiteCD > 0) {
+            this.multiBiteCD--;
+        }
         if (this.suckCD > 0) this.suckCD--;
         this.segmentHelper.tick((this.yBodyRotO - this.yBodyRot) * 0.5F, (this.prevPitch - this.pitch));
         this.tickMultiPart();
         if (this.getAnimState() > 0) {
+            if (!this.isAlive()) {
+                if (this.level().isClientSide) {
+                    this.resetAnimState();
+                }
+                return;
+            }
             this.animTicks++;
             switch (this.getAnimState()) {
                 case 1 -> {
@@ -271,27 +278,17 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                         }
                     }
                 }
-            }
-        }
-
-    }
-
-    private void breakBlock() {
-        for (int a = (int) Math.round(this.getBoundingBox().minX); a <= (int) Math.round(this.getBoundingBox().maxX); a++) {
-            for (int b = (int) Math.round(this.getBoundingBox().minY) - 1; (b <= (int) Math.round(this.getBoundingBox().maxY) + 1) && (b <= 127); b++) {
-                for (int c = (int) Math.round(this.getBoundingBox().minZ); c <= (int) Math.round(this.getBoundingBox().maxZ); c++) {
-                    BlockPos pos = new BlockPos(a, b, c);
-                    BlockState state = level().getBlockState(pos);
-                    FluidState fluidState = level().getFluidState(pos);
-                    Block block = state.getBlock();
-                    if (!state.isAir() && !state.getShape(level(), pos).isEmpty() && fluidState.isEmpty()) {
-                        if (block != Blocks.AIR) {
-                            this.setDeltaMovement(this.getDeltaMovement().multiply(0.6F, 1, 0.6F));
-                            if (state.is(BlockTags.ICE)) {
-                                level().destroyBlock(pos, false);
-                                level().setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
-                            } else {
-                                level().destroyBlock(pos, true);
+                case 3 -> {
+                    switch (this.animTicks) {
+                        case 18, 31 -> this.addDeltaMovement(this.getLookAngle().scale(0.3F));
+                        case 22 -> this.multiBite(0.5F);
+                        case 35 ->  this.multiBite(0.75F);
+                        case 46 -> this.addDeltaMovement(this.getLookAngle().scale(0.4F));
+                        case 50 -> this.multiBite(0.8F);
+                        default -> {
+                            if (this.animTicks > 64 && !this.level().isClientSide) {
+                                this.resetAnimState();
+                                this.multiBiteCD = 200;
                             }
                         }
                     }
@@ -299,7 +296,36 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
             }
         }
 
+    }
+
+    private void multiBite(float damageMultiplier) {
+        if (!this.level().isClientSide) {
+            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(0.25F), 3, 3, 3, 10);
+            for (LivingEntity entity : hit) {
+                if (!AttackHelpers.blockBreak(entity)) {
+                    AttackHelpers.betterHurt(this, entity, damageMultiplier);
+                }
+            }
+            this.level().broadcastEntityEvent(this, (byte) 49);
         }
+    }
+
+    private void breakIce() {
+        for (int a = (int) Math.round(this.getBoundingBox().minX); a <= (int) Math.round(this.getBoundingBox().maxX); a++) {
+            for (int b = (int) Math.round(this.getBoundingBox().minY) - 1; (b <= (int) Math.round(this.getBoundingBox().maxY) + 1) && (b <= 127); b++) {
+                for (int c = (int) Math.round(this.getBoundingBox().minZ); c <= (int) Math.round(this.getBoundingBox().maxZ); c++) {
+                    BlockPos pos = new BlockPos(a, b, c);
+                    BlockState state = level().getBlockState(pos);
+                    FluidState fluidState = level().getFluidState(pos);
+                    if (!state.getShape(level(), pos).isEmpty() && fluidState.isEmpty() && state.is(BlockTags.ICE)) {
+                        level().destroyBlock(pos, false);
+                        level().setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+
+                    }
+                }
+            }
+        }
+    }
 
 
     @Override
@@ -495,8 +521,12 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         return new FluidPathNavigation(this, pLevel);
     }
 
-    public boolean canRush(double attackReach, double dist) {
+    public boolean canSuck(double attackReach, double dist) {
         return this.suckCD == 0 && attackReach * 10 >= dist;
+    }
+
+    public boolean canMultiBite(double attackReach, double dist) {
+        return this.multiBiteCD == 0 && attackReach * 3 >= dist;
     }
 
     @Override
@@ -528,6 +558,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         this.beachedAnimationState.animateWhen(!this.idleAnimationState.isStarted(), this.tickCount);
         this.biteAnimationState.animateWhen(this.getAnimState() == 1, this.tickCount);
         this.suckAnimationState.animateWhen(this.getAnimState() == 2, this.tickCount);
+        this.multiBiteAnimationState.animateWhen(this.getAnimState() == 3, this.tickCount);
     }
 
     @Override
@@ -591,7 +622,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     @Override
     public void onKeyPacket(Entity keyPresser, int type) {
         switch (type) {
-            case 5 -> this.setAnimState(1);
+            case 5 -> this.setAnimState(this.multiBiteCD == 0 ? 3 : 1);
             case 6 -> this.setAnimState(2);
             case 7 -> this.resetAnimState();
             default -> super.onKeyPacket(keyPresser, type);

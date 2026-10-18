@@ -1,0 +1,27 @@
+{
+  "name": "Spotted Striker",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Aggressive, hunts players & fish",
+      "taming": "Feed 1* $(treat1) whilst it is fleeing at low health",
+      "habitat": "Warm & lukewarm oceans",
+      "breeding": "Any fish",
+      "extra": "Spotted Strikers can turn invisible, confusing and surprising enemies when they strike"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/burodon.png",
+        "hedges_bestiary:textures/gui/book/burodon_1.png"
+      ],
+      "border": true,
+      "text": "Spotted Strikers call dense reefs and kelp forests their hunting territories"
+
+    }
+
+  ]
+}

@@ -218,7 +218,7 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
 
     @Override
     public boolean isFood(ItemStack pStack) {
-        return super.isFood(pStack) && pStack.is(Items.FROGSPAWN);
+        return super.isFood(pStack) && pStack.is(Items.SUGAR);
     }
 
     @Override

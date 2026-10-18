@@ -10,7 +10,7 @@ public class HBFoodTypes {
     public static final FoodProperties RAW_URKMEAT = new FoodProperties.Builder().nutrition(3)
             .effect(() -> new MobEffectInstance(MobEffects.POISON, 200), 0.5f).build();
 
-    public static final FoodProperties COOKED_URKMEAT = new FoodProperties.Builder().nutrition(8)
+    public static final FoodProperties COOKED_URKMEAT = new FoodProperties.Builder().nutrition(8).saturationModifier(0.4F)
             .build();
 
     public static final FoodProperties SKIB = new FoodProperties.Builder().nutrition(3)

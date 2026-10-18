@@ -1,5 +1,6 @@
 package com.hedge.hedges_bestiary.entity.living;
 
+import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticLookControl;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticMoveControl;
@@ -9,22 +10,28 @@ import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
 import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
 import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
+import com.hedge.hedges_bestiary.entity.types.EggLayer;
 import com.hedge.hedges_bestiary.entity.types.HBGroupMob;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
+import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.registry.HBEntities;
+import com.hedge.hedges_bestiary.registry.HBTags;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -36,18 +43,22 @@ import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 import java.util.List;
 
-public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGroupMob<GawkEntity> {
+public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGroupMob<GawkEntity>, EggLayer {
     private static final EntityDataAccessor<Boolean> LEFT = SynchedEntityData.defineId(GawkEntity.class, EntityDataSerializers.BOOLEAN);
-
+    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(GawkEntity.class, EntityDataSerializers.BOOLEAN);
     public final SmoothAnimationState swimIdleAnimationState = new SmoothAnimationState(0.1F);
     public final SmoothAnimationState airAnimationState = new SmoothAnimationState(0.1F);
     public final SmoothAnimationState yawnAnimationState = new SmoothAnimationState();
@@ -88,6 +99,7 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(LEFT, false);
+        builder.define(HAS_EGG, false);
     }
 
     @Override
@@ -105,8 +117,18 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
             } else if (this.landProgress < 5) {
                 this.landProgress +=0.25f;
             }
+            if (this.hasEgg() && this.onGround()) {
+                this.tickDig();
+            }
         } else {
+            if (this.tickCount % 200 == 0 && this.getTarget() == null) {
+                this.heal(5);
+            }
             if (this.getAnimState() > 0) {
+                if (!this.isAlive()) {
+                    this.resetAnimState();
+                    return;
+                }
                 this.animTicks++;
                 switch (this.getAnimState()) {
                     case 1 -> {
@@ -224,6 +246,10 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
         int i = 0;
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this));
         this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.3, 4.0f, 2.0f, true));
+        this.goalSelector.addGoal(i++, new EggLayerBreedGoal<>(this, 1.0f));
+        this.goalSelector.addGoal(i++, new LayEggsGoal<>(this, 100, 1.0f));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(ItemTags.FISHES), false));
+
         this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.3));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new NapGoal(this));
@@ -249,7 +275,25 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
 
     }
 
-
+    @Override
+    public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
+        if (!this.isTame()) {
+            ItemStack itemstack = player.getItemInHand(hand);
+            if (itemstack.getItem() instanceof TreatItem treat && treat.getTier() > 0) {
+                if (!this.level().isClientSide) {
+                    if (!player.getAbilities().instabuild) {
+                        player.getItemInHand(hand).shrink(1);
+                    }
+                    this.level().broadcastEntityEvent(this, (byte) 7);
+                    this.tame(player);
+                    this.heal(this.getMaxHealth());
+                    this.playSound(SoundEvents.PARROT_EAT);
+                }
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+        }
+        return super.interactTameCommands(player, hand);
+    }
 
     @Override
     public boolean isAlliedTo(Entity pEntity) {
@@ -389,6 +433,27 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
         int i = pLevel.getSeaLevel();
         return pLevel.getBlockState(pPos.below()).is(BlockTags.ICE) && pPos.getY() >= i && pPos.getY() < (i + 5);
     }
+
+    @Override
+    public BlockState getEgg() {
+        return HBBlocks.GAWK_EGG.get().defaultBlockState();
+    }
+
+    @Override
+    public boolean hasEgg() {
+        return this.entityData.get(HAS_EGG);
+    }
+
+    @Override
+    public void setHasEgg(boolean b) {
+        this.entityData.set(HAS_EGG, b);
+    }
+
+    @Override
+    public boolean laysMultipleEggs() {
+        return true;
+    }
+
 
     private static class GawkFeedBabiesGoal extends Goal {
         private int interval = 100;

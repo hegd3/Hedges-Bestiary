@@ -136,6 +136,7 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
                 this.playSound(SoundEvents.GENERIC_EAT);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
+            return InteractionResult.PASS;
         }
         return super.interactTameCommands(player, hand);
     }
@@ -331,14 +332,6 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
     protected boolean canOwnerCommand(Player player) {
         return player.isShiftKeyDown();
     }
-
-    /*
-    @Override
-    public double getEyeY() {
-        return this.getBbHeight()/1.38f;
-    }
-
-     */
 
     @Override
     public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {

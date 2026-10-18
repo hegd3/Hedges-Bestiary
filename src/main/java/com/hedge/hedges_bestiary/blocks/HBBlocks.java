@@ -39,6 +39,9 @@ public class HBBlocks {
             () -> new MultiEggBlock<>(BlockBehaviour.Properties.ofFullCopy(Blocks.TURTLE_EGG),
                     HBEntities.GOPH));
 
+    public static final DeferredHolder<Block, Block>  GAWK_EGG = registerBlock("gawk_egg",
+            () -> new MultiEggBlock<>(BlockBehaviour.Properties.ofFullCopy(Blocks.TURTLE_EGG),
+                    HBEntities.GAWK));
 
     public static final DeferredHolder<Block, Block> BLURPUM_EGGS = registerBlock("blurpum_eggs",
             () -> new RaftEggBlock<>(BlockBehaviour.Properties.ofFullCopy(Blocks.FROGSPAWN),

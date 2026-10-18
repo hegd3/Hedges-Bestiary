@@ -12,6 +12,7 @@ import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.items.HBItems;
+import com.hedge.hedges_bestiary.items.TreatItem;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBTags;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
@@ -27,6 +28,8 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -51,6 +54,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -114,11 +118,11 @@ public class SpottedStrikerEntity extends HBTamableAnimal implements AttackState
         int i = 0;
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
         this.goalSelector.addGoal(i++, new BreedGoal(this, 1.0f));
-        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(ItemTags.FISHES), false));
         this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.6, 7.0f, 4.0f));
         this.goalSelector.addGoal(i++, new SpottedStrikerFleeGoal(this));
         this.goalSelector.addGoal(i++, new FindAndPickItemGoal(this, CommonPredicates.EATS_FISH));
         this.goalSelector.addGoal(i++, new SpottedStrikerAttackGoal(this));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(ItemTags.FISHES), false));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0f, 30, 10, 5, false));
         this.goalSelector.addGoal(i, new DancingGoal(this, false));
@@ -169,6 +173,31 @@ public class SpottedStrikerEntity extends HBTamableAnimal implements AttackState
             this.playSound(SoundEvents.TROPICAL_FISH_FLOP, this.getSoundVolume(), this.getVoicePitch());
         }
         super.aiStep();
+    }
+
+    @Override
+    public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
+        if (!this.isTame()) {
+            if (this.getHealth() <= 10F) {
+                ItemStack itemStack = player.getItemInHand(hand);
+                if (itemStack.getItem() instanceof TreatItem treat && treat.getTier() > 0) {
+                    if (!this.level().isClientSide) {
+                        if (!player.getAbilities().instabuild) {
+                            itemStack.shrink(1);
+                        }
+
+                        this.level().broadcastEntityEvent(this, (byte) 7);
+                        this.tame(player);
+                        this.heal(this.getMaxHealth());
+                        if (this.isCloaked()) this.setCloaked(false);
+                    }
+                    this.playSound(SoundEvents.GENERIC_EAT);
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
+                return InteractionResult.PASS;
+            }
+        }
+        return super.interactTameCommands(player, hand);
     }
 
     @Override

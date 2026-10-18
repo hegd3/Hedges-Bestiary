@@ -22,6 +22,7 @@ public class HBCreativeTab {
                         // blocks
                         output.accept(HBBlocks.GURK_EGG.get());
                         output.accept(HBBlocks.GOPH_EGG.get());
+                        output.accept(HBBlocks.GAWK_EGG.get());
                         output.accept(HBBlocks.ZAPPET_EGG.get());
                         output.accept(HBBlocks.BLURPUM_EGGS.get());
                         output.accept(HBBlocks.DAWN_DOVE_EGG.get());

@@ -85,7 +85,8 @@ public class BlurpumModel extends HBModel<BlurpumEntity> {
 
 		PartDefinition tail = wholebody.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(0, 84).addBox(-6.5F, -4.0F, 0.0F, 13.0F, 8.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -4.0F, 12.0F));
 
-		PartDefinition tail2 = tail.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(92, 0).addBox(-4.5F, -1.0F, 0.0F, 9.0F, 4.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 17.0F));
+		PartDefinition tail2 = tail.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(92, 0).addBox(-4.5F, -1.0F, 0.0F, 9.0F, 4.0F, 17.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 147).addBox(0.0F, -15.0F, 0.0F, 0.0F, 19.0F, 26.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 0.0F, 17.0F));
 
 		PartDefinition plane_r1 = tail2.addOrReplaceChild("plane_r1", CubeListBuilder.create().texOffs(5, 128).mirror().addBox(0.0F, -5.0F, -8.5F, 0.0F, 5.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.5F, -1.0F, 8.5F, 0.0F, 0.0F, -0.829F));
 

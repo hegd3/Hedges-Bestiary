@@ -1,0 +1,39 @@
+{
+  "name": "Blurpum",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Aggressive, hunts players & livestock; $(o)ignores crouching players",
+      "taming": "Feed 4* $(treat1) whilst it is basking on land",
+      "habitat": "Rivers, swamps, beaches, frozen oceans",
+      "breeding": "Raw Urkmeat (lays eggs in water)",
+      "extra": "See next page"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/burodon.png",
+        "hedges_bestiary:textures/gui/book/burodon_1.png"
+      ],
+      "border": true,
+      "text": "Blurpums can often be seen basking with their mouths wide open next to the water's edge"
+
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Blurpums can be ridden when tamed. Upon receiving damage, blurpums will occasionally release a poisonous gas in response.$(br2)Blurpums come in three biome-dependent variants: Freshwater, cold, and coastal. Freshwater blurpums deal more damage and have the most lethal poison, but are the slowest; cold blurpums have more health and regeneration, and their poison gas also freezes, but deal the least damage; coastal blurpums are faster and their posion replenishes quicker, but have less health"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/plombo_2.png"
+      ],
+      "border": true,
+      "text": "From first to last image: $(#368F2E)Freshwater Blurpum, $(#A68F76)Cold Blurpum, $(#5890D1)Coastal Blurpum"
+    }
+
+  ]
+}
