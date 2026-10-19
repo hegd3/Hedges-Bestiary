@@ -290,7 +290,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                         default -> {
                             if (this.animTicks > 64 && !this.level().isClientSide) {
                                 this.resetAnimState();
-                                this.multiBiteCD = 200;
+                                this.multiBiteCD = 140;
                             }
                         }
                     }

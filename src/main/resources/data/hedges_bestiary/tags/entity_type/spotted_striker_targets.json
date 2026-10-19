@@ -2,8 +2,8 @@
   "__comment": "all entities naturally targeted by the spotted striker.",
   "values": [
     "minecraft:tropical_fish",
+    "minecraft:squid",
     "minecraft:dolphin",
-    "hedges_bestiary:gild_glider",
-    "hedges_bestiary:squid"
+    "hedges_bestiary:gild_glider"
   ]
 }

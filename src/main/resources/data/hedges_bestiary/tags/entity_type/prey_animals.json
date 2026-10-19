@@ -1,0 +1,26 @@
+{
+  "__comment": "passive prey for generic targeting",
+  "values": [
+    "minecraft:cat",
+    "minecraft:chicken",
+    "minecraft:cow",
+    "minecraft:donkey",
+    "minecraft:fox",
+    "minecraft:horse",
+    "minecraft:llama",
+    "minecraft:mule",
+    "minecraft:mooshroom",
+    "minecraft:ocelot",
+    "minecraft:panda",
+    "minecraft:parrot",
+    "minecraft:pig",
+    "minecraft:rabbit",
+    "minecraft:sheep",
+    "minecraft:strider",
+    "minecraft:trader_llama",
+    "minecraft:wolf",
+    "hedges_bestiary:gurk",
+    "hedges_bestiary:goph",
+    "hedges_bestiary:gawk"
+  ]
+}

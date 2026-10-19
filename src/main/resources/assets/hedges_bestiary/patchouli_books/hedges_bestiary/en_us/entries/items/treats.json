@@ -26,18 +26,18 @@
     {
       "type": "patchouli:text",
       "title": "Milk Bottles",
-      "text": "$(br2)The milk of mammalian tames can be collected with bottles, which is a vital ingredient for certain treats.  The milk received depends on the type of treat the mob is tamable with.$(br2)Entries in the $(l:hedges_bestiary:mobs_category)mobs category$(/l) are specified with the type of milk they produce."
+      "text": "$(br2)The milk of mammalian tames can be collected with bottles, which is a vital ingredient for later treats. The quality of milk received depends on the type of treat the mob is tamable with.$(br2)Entries in the $(l:hedges_bestiary:mobs_category)mobs category$(/l) have a * in their title if the mob can be milked."
     },
     {
       "type": "patchouli:crafting",
       "anchor": "treat3",
       "recipe": "hedges_bestiary:hearty_treat",
-      "text": "The third tier of treat you can craft is the hearty treat. Eggs that can be used in the crafting recipe come from mobs tamable with the seasoned treat. Fine Milk is acquired from mammals tamable with the seasoned treat."
+      "text": "The third tier of treat you can craft is the hearty treat. Eggs that can be used in the crafting recipe along with Fine Milk come from mobs tamable with the seasoned treat"
     },
     {
       "type": "patchouli:crafting",
       "recipe": "hedges_bestiary:luscious_treat",
-      "text": "The fourth tier of treat you can craft is the luscious treat. Eggs that can be used in the crafting recipe come from mobs tamable with the hearty treat. Rich Milk is acquired from mammals tamable with the hearty treat."
+      "text": "The fourth tier of treat you can craft is the luscious treat. Eggs that can be used in the crafting recipe along with Rich Milk come from mobs tamable with the hearty treat"
     }
   ]
 }

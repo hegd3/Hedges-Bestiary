@@ -49,12 +49,12 @@
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/tearacuda.png"
+        "hedges_bestiary:textures/gui/book/nib_nib_img.png"
       ],
       "anchor": "nib_nib",
       "title": "Nib Nib",
       "border": true,
-      "text": "Commensal, aggressive cephalopods that follow other larger aquatic mobs"
+      "text": "Commensal, aggressive cephalopods that follow larger aquatic mobs"
     }
   ]
 }

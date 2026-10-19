@@ -103,7 +103,7 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
     public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
 
         InteractionResult result = super.interactTameCommands(player, hand);
-        if (result == InteractionResult.PASS && !this.isTame() && this.isNapping()) {
+        if (result == InteractionResult.PASS && !this.isTame() && !this.isNapping() && this.getLastHurtByMob() == null) {
             ItemStack itemStack = player.getItemInHand(hand);
             if (!this.level().isClientSide && itemStack.getItem() instanceof TreatItem treat && treat.getTier() >= 0) {
                 if (!player.getAbilities().instabuild) {
@@ -119,6 +119,12 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
         }
         return result;
     }
+
+    @Override
+    public boolean canBeSeenAsEnemy() {
+        return !this.isNapping() && super.canBeSeenAsEnemy();
+    }
+
 
     @Override
     public void setUpAnimStates() {

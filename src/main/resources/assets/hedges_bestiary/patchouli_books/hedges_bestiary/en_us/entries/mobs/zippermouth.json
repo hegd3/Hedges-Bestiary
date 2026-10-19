@@ -15,9 +15,9 @@
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/ferocetus.png",
-        "hedges_bestiary:textures/gui/book/ferocetus_1.png",
-        "hedges_bestiary:textures/gui/book/ferocetus_2.png"
+        "hedges_bestiary:textures/gui/book/zippermouth_img.png",
+        "hedges_bestiary:textures/gui/book/zippermouth_img_1.png",
+        "hedges_bestiary:textures/gui/book/zippermouth_img_2.png"
       ],
       "border": true,
       "text": "The Zippermouth is the adult form of the much smaller $(l:hedges_bestiary:mobs/zipperling)Zipperling"
@@ -30,10 +30,10 @@
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/plombo_2.png"
+        "hedges_bestiary:textures/gui/book/zippermouth_img_3.png"
       ],
       "border": true,
-      "text": "These great serpents are often accompanied by $(l:hedges_bestiary:mobs/aquatic_life#nib_nib)nib nibs$(/l), which attack players on sight"
+      "text": "These great fish can displace huge amounts of water by opening their jaws"
     }
 
   ]

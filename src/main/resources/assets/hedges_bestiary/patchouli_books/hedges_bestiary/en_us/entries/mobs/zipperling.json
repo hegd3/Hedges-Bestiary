@@ -16,7 +16,9 @@
       "type": "patchouli:image",
       "images": [
         "hedges_bestiary:textures/gui/book/zipperling_img.png",
-        "hedges_bestiary:textures/gui/book/zipperling_img_1.png"
+        "hedges_bestiary:textures/gui/book/zipperling_img_1.png",
+        "hedges_bestiary:textures/gui/book/zipperling_img_2.png"
+
       ],
       "border": true,
       "text": "The Zipperling is a swift deep-ocean hunter, making quick darts before every bite"

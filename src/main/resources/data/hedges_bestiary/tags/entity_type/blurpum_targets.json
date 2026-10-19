@@ -1,13 +1,7 @@
 {
   "__comment": "all entities naturally targeted by the blurpum.",
   "values": [
-    "minecraft:cow",
-    "minecraft:sheep",
-    "minecraft:pig",
-    "minecraft:frog",
-    "minecraft:turtle",
-    "minecraft:dolphin",
-    "minecraft:squid",
+    "#hedges_bestiary:prey_animals",
     "hedges_bestiary:gurk",
     "hedges_bestiary:gawk",
     "hedges_bestiary:burodon"

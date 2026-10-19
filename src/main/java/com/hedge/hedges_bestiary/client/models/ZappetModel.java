@@ -7,10 +7,13 @@ import com.hedge.hedges_bestiary.client.animations.GenericPosesAnimation;
 import com.hedge.hedges_bestiary.client.animations.ZappetAnimation;
 import com.hedge.hedges_bestiary.client.EntityLayers;
 import com.hedge.hedges_bestiary.entity.living.ZappetEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 
 public class ZappetModel extends HBModel<ZappetEntity> {
@@ -146,5 +149,16 @@ public class ZappetModel extends HBModel<ZappetEntity> {
 		} else if (!entity.isPassenger()) {
 			this.animateWalk(ZappetAnimation.WALK, limbSwing, limbSwingAmount, 1.8f, 2.5f);
 		}
+	}
+
+	@Override
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int pPackedLight, int pPackedOverlay, int color) {
+		poseStack.pushPose();
+		if (this.young) {
+			poseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
+			poseStack.translate(0.0F, this.bodyYOffset / 16.0F, 0.0F);
+		}
+		this.root().render(poseStack, buffer, pPackedLight, pPackedOverlay, color);
+		poseStack.popPose();
 	}
 }

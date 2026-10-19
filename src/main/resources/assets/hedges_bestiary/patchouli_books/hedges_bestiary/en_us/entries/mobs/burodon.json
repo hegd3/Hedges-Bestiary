@@ -1,5 +1,5 @@
 {
-  "name": "Burodon",
+  "name": "Burodon*",
   "icon": "hedges_bestiary:seasoned_treat",
   "category": "hedges_bestiary:mobs_category",
   "sortnum": 1,
@@ -10,7 +10,7 @@
       "taming": "Feed 1* $(treat1) whilst it is roaring",
       "habitat": "Snowy plains, snowy taigas, groves",
       "breeding": "Raw mutton",
-      "extra": "Produces $(finemilk). The roar of a Burodon is enchanted with the winter itself, freezing enemies whilst healing allies."
+      "extra": "*Produces $(finemilk). The roar of a Burodon is enchanted with the winter itself, freezing enemies whilst healing allies."
     },
     {
       "type": "patchouli:image",

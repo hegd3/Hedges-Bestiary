@@ -1,0 +1,10 @@
+{
+  "__comment": "all tier 3 mobs (mobs tamable with the hearty treat",
+  "values": [
+    "hedges_bestiary:murk",
+    "hedges_bestiary:dawn_dove",
+    "hedges_bestiary:plombo",
+    "hedges_bestiary:ferocetus"
+  ]
+}
+

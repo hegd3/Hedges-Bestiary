@@ -96,8 +96,6 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
         guiGraphics.blit(RESOURCE_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
-        renderEntityInInventoryFollowsMouse(guiGraphics, this.leftPos + 112, this.topPos + 120, this.leftPos + 112, this.topPos + 120, (int) ((float) (this.leftPos + 118) - this.xMouse), 0, (float) (this.topPos + 66 - 40) - this.xMouse, (float) (this.topPos + 66 - 40) - this.yMouse, animal);
-
     }
 
     public HBTamableAnimal getMob() {

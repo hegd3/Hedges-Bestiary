@@ -111,7 +111,7 @@ public class BurodonEntity extends HBTamableAnimal implements AttackStateMob, Ad
             if (!this.isBaby() && itemStack.getItem() == Items.GLASS_BOTTLE && this.milkCD == 0) {
                 if (!this.level().isClientSide) {
                     if (!player.getAbilities().instabuild) {
-                        player.getItemInHand(hand).shrink(1);
+                        itemStack.shrink(1);
 
                     }
                     player.addItem(new ItemStack(HBItems.FINE_MILK));

@@ -28,9 +28,9 @@ public class ZappetGlowLayer extends RenderLayer<ZappetEntity, ZappetModel> {
     public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, ZappetEntity entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 
         if (entity.isInvisible()) return;
-        VertexConsumer vertexconsumer = pBuffer.getBuffer(TEXTURE);
         float alpha = entity.getGlowProgress(pPartialTicks);
-        int i = FastColor.ARGB32.color(Mth.floor(alpha * 255.0F), 255, 255, 255);
+        VertexConsumer vertexconsumer = pBuffer.getBuffer(TEXTURE).setColor(1f, 1f, 1f, alpha * 255F);
+        int i = FastColor.ARGB32.color((int)(alpha * 255F), 255, 255, 255);
 
         this.getParentModel().renderToBuffer(pPoseStack, vertexconsumer, 1, OverlayTexture.NO_OVERLAY, i);
 
