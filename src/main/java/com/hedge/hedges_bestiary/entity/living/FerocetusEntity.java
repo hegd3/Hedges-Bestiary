@@ -525,10 +525,10 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
                 this.moveRelative(this.getSpeed(), pTravelVector);
                 this.move(MoverType.SELF, this.getDeltaMovement());
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));
-            } else if (!this.leftWater && this.groundTimer < 20 && this.pitch < -5F) {
+            } else if (!this.leftWater && this.groundTimer < 20 && !this.horizontalCollision && this.pitch < -5F) {
                 this.leftWater = true;
                 Vec3 horizontal = EntityHelpers.bodyAngle(this, this.pitch * 1.2F).scale(this.getDeltaMovement().length() * 6);
-                this.setDeltaMovement(this.getDeltaMovement().add(horizontal.x, horizontal.y * 2, horizontal.z));
+                this.setDeltaMovement(this.getDeltaMovement().add(horizontal.x, Math.min(horizontal.y * 2, 1), horizontal.z));
             }
         }
         if (this.isEffectiveAi() && this.isInWater()) {

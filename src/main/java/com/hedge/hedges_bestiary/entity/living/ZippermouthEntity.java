@@ -1,6 +1,7 @@
 package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
+import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.entity.ai.control.SwimmingMoveControl;
 import com.hedge.hedges_bestiary.entity.ai.goal.*;
 import com.hedge.hedges_bestiary.entity.ai.goal.specific.ZippermouthAttackGoal;
@@ -139,7 +140,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                 .add(Attributes.MAX_HEALTH, 350.0D)
                 .add(Attributes.ARMOR, 8)
                 .add(Attributes.ATTACK_DAMAGE, 30.0D)
-                .add(Attributes.FOLLOW_RANGE, 20)
+                .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.9D)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F);
     }
@@ -243,6 +244,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                                     this.doHurtTarget(entity);
                                 }
                             }
+                            this.playSound(HBSounds.ZIPPERMOUTH_BITE.get(), 1.8F, 1.0F);
                             this.level().broadcastEntityEvent(this, (byte) 49);
                         } else if (this.animTicks > 42) {
                             this.resetAnimState();
@@ -306,6 +308,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                     AttackHelpers.betterHurt(this, entity, damageMultiplier);
                 }
             }
+            this.playSound(HBSounds.ZIPPERMOUTH_BITE.get(), 1.8F, 1.8F - damageMultiplier);
             this.level().broadcastEntityEvent(this, (byte) 49);
         }
     }
@@ -491,10 +494,10 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                 this.moveRelative(this.getSpeed(), pTravelVector);
                 this.move(MoverType.SELF, this.getDeltaMovement());
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));
-            }  else if (this.jumpCD == 0 && ! this.onGround() && this.pitch < -5F) {
+            }  else if (this.jumpCD == 0 && !this.onGround() && !this.horizontalCollision && this.pitch < -5F) {
                 this.jumpCD = 60;
                 Vec3 horizontal = EntityHelpers.bodyAngle(this, this.pitch * 2F).scale(this.getDeltaMovement().length() * 16);
-                this.setDeltaMovement(this.getDeltaMovement().add(horizontal.x, horizontal.y * 2F, horizontal.z));
+                this.setDeltaMovement(this.getDeltaMovement().add(horizontal.x, Math.min(horizontal.y * 2F, 1), horizontal.z));
             }
         }
 
@@ -664,6 +667,16 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         int i = pLevel.getSeaLevel();
         int j = i - 13;
         return pLevel.getFluidState(pPos).is(FluidTags.WATER) && pPos.getY() >= j && pPos.getY() <= i + 1;
+    }
+
+    @Override
+    public float getCameraOffsetY() {
+        return 1F;
+    }
+
+    @Override
+    public float getCameraOffsetZ() {
+        return -3.5F;
     }
 
     @Override

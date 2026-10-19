@@ -24,7 +24,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "While Zippermouths cannot be tamed, one can transmute a $(l:hedges_bestiary:mobs/zipperling) into a Zippermouth.$(br2)First one must find an adult zippermouth and feed it 1* $(treat4). The creature will shed one of its scales in gratitude, however it will not accept any more treats after that. Giving three of these scales to a zipperling turns it into a zippermouth.$(br2)Zippermouths can be ridden when tamed--$(ability) to use suction"
+      "text": "While Zippermouths cannot be tamed, one can transmute a $(l:hedges_bestiary:mobs/zipperling)Zipperling$(/l) into a Zippermouth.$(br2)First one must find an adult zippermouth and feed it 1* $(treat3). The creature will shed one of its scales in gratitude, however it will not accept any more treats after that. Giving three of these scales to a zipperling turns it into a zippermouth.$(br2)Zippermouths can be ridden when tamed--$(ability) to use suction"
 
     },
     {
@@ -33,7 +33,7 @@
         "hedges_bestiary:textures/gui/book/plombo_2.png"
       ],
       "border": true,
-      "text": "These great serpents are often accompanied by $(l:hedges_bestiary:mobs/aquatic_life#nibnib)nib nibs, which attack players on sight"
+      "text": "These great serpents are often accompanied by $(l:hedges_bestiary:mobs/aquatic_life#nib_nib)nib nibs$(/l), which attack players on sight"
     }
 
   ]

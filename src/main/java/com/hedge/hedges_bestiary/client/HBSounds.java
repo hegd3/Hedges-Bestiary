@@ -56,6 +56,8 @@ public class HBSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> DAWN_DOVE_HURT = createSoundEvent("dawn_dove_hurt");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> ZIPPERMOUTH_BITE = createSoundEvent("zippermouth_bite");
+
     public static final DeferredHolder<SoundEvent, SoundEvent> ENDGEL_AMBIENT = createSoundEvent("endgel_ambient");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> ENDGEL_SHOOT = createSoundEvent("endgel_shoot");

@@ -145,7 +145,12 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
         this.goalSelector.addGoal(i++, new LayRaftEggsGoal<>(this));
         this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.4, 4.0f, 2.0f, true));
-        this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.4F));
+        this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.4F) {
+            @Override
+            public boolean canUse() {
+                return !this.mob.isBaby() && super.canUse();
+            }
+        });
         this.goalSelector.addGoal(i++, new EggLayerBreedGoal<>(this, 1.2F));
         this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(HBItems.RAW_URKMEAT.get()), false));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));

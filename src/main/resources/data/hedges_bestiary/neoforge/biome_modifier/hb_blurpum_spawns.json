@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_spawns",
-  "biomes": "#hedges_bestiary:is_gurk_biome",
+  "biomes": "#hedges_bestiary:is_blurpum_biome",
   "spawners":
   {
     "type": "hedges_bestiary:blurpum",

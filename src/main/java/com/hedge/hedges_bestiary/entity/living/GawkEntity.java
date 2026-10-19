@@ -91,7 +91,7 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
                 .add(Attributes.MAX_HEALTH, 12.0D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.2D)
-                .add(Attributes.FOLLOW_RANGE, 16F)
+                .add(Attributes.FOLLOW_RANGE, 25F)
                 .add(Attributes.MOVEMENT_SPEED, 0.25F);
     }
 
@@ -249,8 +249,13 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
         this.goalSelector.addGoal(i++, new EggLayerBreedGoal<>(this, 1.0f));
         this.goalSelector.addGoal(i++, new LayEggsGoal<>(this, 100, 1.0f));
         this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(ItemTags.FISHES), false));
-
-        this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.3));
+        this.goalSelector.addGoal(i++, new AvoidTargetWhenLowGoal(this, 1.3D, 20, 8, 16, 7));
+        this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.3) {
+            @Override
+            public boolean canUse() {
+                return !this.mob.isBaby() && super.canUse();
+            }
+        });
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
         this.goalSelector.addGoal(i++, new NapGoal(this));
         this.goalSelector.addGoal(i++, new GawkFeedBabiesGoal(this));

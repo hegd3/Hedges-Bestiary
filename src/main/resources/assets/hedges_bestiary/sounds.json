@@ -215,6 +215,15 @@
     ],
     "subtitle": "hedgesbestiary.sound.subtitle.dawn_dove_hurt"
   },
+  "zippermouth_bite": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:zippermouth_bite"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.zippermouth_bite"
+  },
   "endgel_ambient": {
     "category": "hostile",
     "sounds": [

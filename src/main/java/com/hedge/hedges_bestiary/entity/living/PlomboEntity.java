@@ -219,7 +219,6 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
         this.goalSelector.addGoal(i++, new BreedGoal(this, 1.0f));
         this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(ItemTags.LEAVES), false));
         this.goalSelector.addGoal(i++, new HBFollowOwnerGoal(this, 1.1f, 1.3D, 7.0f, 4.0f));
-        this.goalSelector.addGoal(i++, new AvoidTargetWhenLowGoal(this, 1.3f, 20, 30, 20, 3));
         this.goalSelector.addGoal(i++, new PlomboAttackGoal(this));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this, 1.2d, 16, 4d));
         this.goalSelector.addGoal(i++, new PlomboScratchLeavesGoal(this));

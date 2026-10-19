@@ -15,8 +15,8 @@
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/burodon.png",
-        "hedges_bestiary:textures/gui/book/burodon_1.png"
+        "hedges_bestiary:textures/gui/book/gawk_img.png",
+        "hedges_bestiary:textures/gui/book/gawk_img_1.png"
       ],
       "border": true,
       "text": "Gawks are communal urks, found in large colonies huddling atop the ice"

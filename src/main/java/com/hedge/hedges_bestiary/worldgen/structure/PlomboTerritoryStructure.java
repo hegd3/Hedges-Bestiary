@@ -2,6 +2,7 @@ package com.hedge.hedges_bestiary.worldgen.structure;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.registry.HBStructures;
+import com.hedge.hedges_bestiary.util.WorldHelpers;
 import com.hedge.hedges_bestiary.worldgen.structure.piece.PlomboTerritoryPiece;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -38,7 +39,9 @@ public class PlomboTerritoryStructure extends Structure {
 
     private static void generatePieces(StructurePiecesBuilder builder, GenerationContext context) {
 
-        BlockPos blockpos = new BlockPos(context.chunkPos().getMinBlockX(), getLowestY(context, 12, 12), context.chunkPos().getMinBlockZ());
+        int x = context.chunkPos().getMinBlockX(), z =  context.chunkPos().getMinBlockZ();
+
+        BlockPos blockpos = new BlockPos(x, WorldHelpers.getHighestY(context, x, z), z);
         builder.addPiece(new PlomboTerritoryPiece(context.structureTemplateManager(), getNBT(context.random()), new StructurePlaceSettings(), blockpos));
     }
 

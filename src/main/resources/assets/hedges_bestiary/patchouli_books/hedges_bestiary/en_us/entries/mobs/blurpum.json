@@ -15,8 +15,9 @@
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/burodon.png",
-        "hedges_bestiary:textures/gui/book/burodon_1.png"
+        "hedges_bestiary:textures/gui/book/blurpum_img_basking.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_basking_1.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_basking_2.png"
       ],
       "border": true,
       "text": "Blurpums can often be seen basking with their mouths wide open next to the water's edge"
@@ -29,7 +30,9 @@
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/plombo_2.png"
+        "hedges_bestiary:textures/gui/book/blurpum_img.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_1.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_2.png"
       ],
       "border": true,
       "text": "From first to last image: $(#368F2E)Freshwater Blurpum, $(#A68F76)Cold Blurpum, $(#5890D1)Coastal Blurpum"

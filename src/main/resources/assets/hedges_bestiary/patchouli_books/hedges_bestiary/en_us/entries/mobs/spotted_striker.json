@@ -10,13 +10,13 @@
       "taming": "Feed 1* $(treat1) whilst it is fleeing at low health",
       "habitat": "Warm & lukewarm oceans",
       "breeding": "Any fish",
-      "extra": "Spotted Strikers can turn invisible, confusing and surprising enemies when they strike"
+      "extra": "Spotted Strikers can turn invisible, confusing and surprising enemies when it strikes or flees"
     },
     {
       "type": "patchouli:image",
       "images": [
-        "hedges_bestiary:textures/gui/book/burodon.png",
-        "hedges_bestiary:textures/gui/book/burodon_1.png"
+        "hedges_bestiary:textures/gui/book/spotted_striker_img.png",
+        "hedges_bestiary:textures/gui/book/spotted_striker_img_1.png"
       ],
       "border": true,
       "text": "Spotted Strikers call dense reefs and kelp forests their hunting territories"
