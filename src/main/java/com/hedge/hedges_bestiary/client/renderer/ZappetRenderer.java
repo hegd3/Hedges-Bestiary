@@ -49,7 +49,6 @@ public class ZappetRenderer extends MobRenderer<ZappetEntity, ZappetModel> {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
         BlockPos beamPos = entity.getTargetedPos();
         if (beamPos != null) {
-            float f = 1.0F;
             float f1 = (float) entity.level().getGameTime() + partialTicks;
             float f2 = -1.0F * (f1 * 0.15F % 1.0F);
             float f3 = 1.13F;
@@ -64,14 +63,10 @@ public class ZappetRenderer extends MobRenderer<ZappetEntity, ZappetModel> {
             float f6 = (float) Math.atan2(vector3d2.z, vector3d2.x);
             poseStack.mulPose(Axis.YP.rotationDegrees(((Mth.PI / 2F) - f6) * Mth.RAD_TO_DEG));
             poseStack.mulPose(Axis.XP.rotationDegrees(f5 * Mth.RAD_TO_DEG));
-            int i = 1;
-            float f7 = f1 * 0.05F * 1.5F;
             float f8 = 1F;
             int j = (int) (f8 * 179.0F);
             int k = (int) (f8 * 253.0F);
             int l = (int) (f8 * 255.0F);
-            float f9 = 0.2F;
-            float f10 = 0.282F;
             float f11 = Mth.cos(0 + 2.3561945F) * 0.8F;
             float f12 = Mth.sin(0 + 2.3561945F) * 0.8F;
             float f13 = Mth.cos(0 + Mth.PI / 4) * 0.8F;
@@ -88,8 +83,6 @@ public class ZappetRenderer extends MobRenderer<ZappetEntity, ZappetModel> {
             float f24 = Mth.sin(0 + (Mth.PI / 2F)) * 0.4F;
             float f25 = Mth.cos(0 + (Mth.PI * 1.5F)) * 0.4F;
             float f26 = Mth.sin(0 + (Mth.PI * 1.5F)) * 0.4F;
-            float f27 = 0.0F;
-            float f28 = 0.4999F;
             float f29 = -1.0F + f2;
             float f30 = f4 * 0.5F + f29;
             VertexConsumer ivertexbuilder = buffer.getBuffer(HBRenderTypes.getBeam(this.getBeamTexture(entity)));

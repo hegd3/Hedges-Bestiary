@@ -43,6 +43,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidType;
 
 public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable {
 
@@ -213,7 +214,8 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
     @Override
     public void travel(Vec3 pTravelVector) {
         if (this.getAnimState() > 0) {
-            super.travel(this.getDeltaMovement().multiply(0, 1, 0));
+            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.06D, 0));
+            super.travel(Vec3.ZERO);
         } else if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(this.getSpeed(), pTravelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
@@ -237,7 +239,10 @@ public class SkibEntity extends HBAquaticMob implements IdleAnimMob, Bucketable 
         return super.canBeAffected(pEffectInstance);
     }
 
-
+    @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
+    }
 
     @Override
     protected void handleAirSupply(int pAirSupply) {

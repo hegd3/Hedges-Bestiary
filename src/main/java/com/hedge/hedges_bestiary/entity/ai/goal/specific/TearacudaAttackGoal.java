@@ -14,6 +14,17 @@ public class TearacudaAttackGoal extends GenericMeleeGoal<TearacudaEntity> {
     }
 
     @Override
+    protected void look(LivingEntity target) {
+        if (this.mob.getAnimState() == 2) {
+            this.mob.lookAt(target, 10f, 10f);
+            this.mob.getLookControl().setLookAt(target, 10f, 10f);
+
+        } else {
+            super.look(target);
+        }
+    }
+
+    @Override
     public void tick() {
         LivingEntity livingentity = this.mob.getTarget();
         if (livingentity != null) {
@@ -48,5 +59,7 @@ public class TearacudaAttackGoal extends GenericMeleeGoal<TearacudaEntity> {
                 this.mob.setXRot(pitch);
             }
         }
+
+
     }
 }

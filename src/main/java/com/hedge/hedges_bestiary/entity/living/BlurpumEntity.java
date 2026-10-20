@@ -1,0 +1,633 @@
+package com.hedge.hedges_bestiary.entity.living;
+
+import com.hedge.hedges_bestiary.HedgesBestiary;
+import com.hedge.hedges_bestiary.blocks.HBBlocks;
+import com.hedge.hedges_bestiary.client.HBSounds;
+import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
+import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticLookControl;
+import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticMoveControl;
+import com.hedge.hedges_bestiary.entity.ai.goal.*;
+import com.hedge.hedges_bestiary.entity.ai.navigation.HBAmphibiousPathNavigator;
+import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetMonstersGoal;
+import com.hedge.hedges_bestiary.entity.ai.targeting.TargetPlayersGoal;
+import com.hedge.hedges_bestiary.entity.types.*;
+import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
+import com.hedge.hedges_bestiary.entity.util.CommonPredicates;
+import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
+import com.hedge.hedges_bestiary.items.HBItems;
+import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import com.hedge.hedges_bestiary.registry.HBEntities;
+import com.hedge.hedges_bestiary.registry.HBTags;
+import com.hedge.hedges_bestiary.util.SmoothAnimationState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.function.Predicate;
+
+public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, EggLayer, VariantMob, HUDMount {
+    private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath(HedgesBestiary.MODID, "textures/gui/mount/blurpum_hud.png");
+
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(BlurpumEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(BlurpumEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final Predicate<LivingEntity> BLURPUM_TARGETS = living -> living.getType().is(HBTags.BLURPUM_TARGETS);
+    public final SmoothAnimationState swimIdleAnimationState = new SmoothAnimationState(0.1F);
+    public final AnimationState biteAnimationState = new AnimationState();
+    public float landProgress = 0;
+    public float prevPitch = 0.0F;
+    public float pitch = 0.0F;
+    private float prevTrail = 0.0F;
+    private float trail = 0.0F;
+
+    private int tameAttempts = 3;
+    private int releaseEffectCD = 0;
+    public BlurpumEntity(EntityType<? extends BlurpumEntity> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
+
+        this.moveControl = new SemiaquaticMoveControl(this, 999, 10, 0.25f);
+        this.lookControl = new SemiaquaticLookControl(this, 20);
+
+
+        this.setPathfindingMalus(PathType.WATER, 0.0f);
+        this.setPathfindingMalus(PathType.WATER_BORDER, 0.0f);
+
+    }
+
+    public static boolean canSpawn(EntityType<? extends BlurpumEntity> blurpum, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
+        return pSpawnType == MobSpawnType.SPAWNER || pLevel.getFluidState(pPos).is(FluidTags.WATER) && pPos.getY() > pLevel.getSeaLevel() - 14;
+    }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 1;
+    }
+
+    public static AttributeSupplier.Builder bakeAttributes(){
+        return Animal.createLivingAttributes()
+                .add(Attributes.MAX_HEALTH, 45.0D)
+                .add(Attributes.ATTACK_DAMAGE, 7.0D)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.7D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.85)
+                .add(Attributes.FOLLOW_RANGE, 20F)
+                .add(Attributes.MOVEMENT_SPEED, 0.2F)
+                .add(Attributes.STEP_HEIGHT, 1.0F);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(HAS_EGG, false);
+        builder.define(VARIANT, 0);
+
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setVariant(compound.getInt("Variant"));
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putInt("Variant", this.getVariant());
+    }
+
+    @Override
+    protected void registerGoals() {
+        int i = 0;
+        this.goalSelector.addGoal(i++, new MountOverrideGoal(this));
+        this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this, false));
+        this.goalSelector.addGoal(i++, new LayRaftEggsGoal<>(this));
+        this.goalSelector.addGoal(i++, new AquaticFollowOwnerGoal(this, 1.2, 1.4, 4.0f, 2.0f, true));
+        this.goalSelector.addGoal(i++, new GenericMeleeGoal<>(this, 1.4F) {
+            @Override
+            public boolean canUse() {
+                return !this.mob.isBaby() && super.canUse();
+            }
+        });
+        this.goalSelector.addGoal(i++, new EggLayerBreedGoal<>(this, 1.2F));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(HBItems.RAW_URKMEAT.get()), false));
+        this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this));
+        this.goalSelector.addGoal(i++, new RandomlySitGoal(this));
+        this.goalSelector.addGoal(i++, new CustomSwimGoal(this, 1.0, 40, 15, 4, true, true));
+        this.goalSelector.addGoal(i, new SemiaquaticStrollGoal(this, 1.0));
+        this.goalSelector.addGoal(i++, new LookAtPlayerGoal(this, LivingEntity.class, 5));
+        this.goalSelector.addGoal(i++, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(i, new DancingGoal(this));
+
+        this.targetSelector.addGoal(0, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(1, new HBHurtByTargetGoal(this, true, TamableAnimal.class));
+        this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(3, new TargetPlayersGoal(this));
+        this.targetSelector.addGoal(4, new TargetMonstersGoal(this));
+        this.targetSelector.addGoal(5, new NonTameRandomTargetGoal<>(this, LivingEntity.class, true, BLURPUM_TARGETS));
+        this.targetSelector.addGoal(6, new NonTameRandomTargetGoal<>(this, Player.class, true, CommonPredicates.TARGET_UNCROUCHED));
+
+    }
+
+
+
+    @Override
+    protected boolean canRide(Entity vehicle) {
+        if (vehicle instanceof Boat) {
+            return false;
+        }
+        return super.canRide(vehicle);
+    }
+
+    @Override
+    protected boolean shouldPassengersInheritMalus() {
+        return true;
+    }
+
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.99F;
+    }
+
+    @Override
+    public LivingEntity getControllingPassenger() {
+        Entity entity = this.getFirstPassenger();
+        if (entity instanceof Player) {
+            return (Player) entity;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float pAmount) {
+
+        boolean b = super.hurt(source, pAmount);
+        if (b && source.getEntity() != null && !this.level().isClientSide && this.releaseEffectCD == 0) {
+            int variant = this.getVariant();
+            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, Vec3.ZERO, 4, 2, 4, 10);
+            MobEffectInstance effect = new MobEffectInstance(MobEffects.POISON, 60, variant == 0 ? 2 :1);
+            if (variant == 2) {
+                for (LivingEntity entity : hit) {
+                    entity.addEffect(effect, this);
+                    entity.setTicksFrozen(60);
+                }
+
+            } else {
+                for (LivingEntity entity : hit) {
+                    entity.addEffect(effect, this);
+                }
+            }
+            this.playSound(SoundEvents.LAVA_EXTINGUISH, 1.0F, 2.0F);
+            this.level().broadcastEntityEvent(this, (byte)49);
+            this.releaseEffectCD = variant == 1 ? 100 : 200;
+        }
+        return b;
+    }
+
+    @Override
+    public boolean canBeAffected(MobEffectInstance effectInstance) {
+        if (effectInstance.is(MobEffects.POISON)) {
+            return false;
+        }
+        return super.canBeAffected(effectInstance);
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+        if (pKey == VARIANT) {
+            switch (this.getVariant()) {
+                case 1 -> {
+                    if (this.getAttributes().getBaseValue(Attributes.MOVEMENT_SPEED) < 0.24F) {
+                        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.24F);
+                    }
+                    if (this.getAttributes().getBaseValue(Attributes.ATTACK_DAMAGE) > 6F) {
+                        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(6F);
+                    }
+                    if (this.getAttributes().getBaseValue(Attributes.MAX_HEALTH) > 40F) {
+                        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(40F);
+                        this.setHealth(this.getMaxHealth());
+                    }
+                }
+                case 2 -> {
+                    if (this.getAttributes().getBaseValue(Attributes.MOVEMENT_SPEED) < 0.22F) {
+                        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.22F);
+                    }
+                    if (this.getAttributes().getBaseValue(Attributes.MAX_HEALTH) < 50F) {
+                        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(50F);
+                        this.heal(this.getMaxHealth());
+                    }
+                    if (this.getAttributes().getBaseValue(Attributes.ATTACK_DAMAGE) > 5F) {
+                        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(5F);
+                    }
+                }
+            }
+        }
+        super.onSyncedDataUpdated(pKey);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, 10);
+        if (this.releaseEffectCD > 0) {
+            this.releaseEffectCD--;
+        }
+        if (this.level().isClientSide) {
+            this.setUpAnimStates();
+            this.tickTrailYaw();
+            this.tickPitch();
+            if (this.isInWater()) {
+                if (this.landProgress > 0) {
+                    this.landProgress -=0.25f;
+                }
+            } else if (this.landProgress < 5) {
+                this.landProgress +=0.25f;
+            }
+        } else {
+            if (this.tickCount % (this.getVariant() == 2 ? 100 : 200) == 0) {
+                this.heal(this.getTarget() == null ? 5F : 2F);
+            }
+            if (this.getAnimState() > 0) {
+                if (!this.isAlive()) {
+                    this.resetAnimState();
+                    return;
+                }
+                this.animTicks++;
+                if (this.animTicks == 10) {
+                    List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle(), 2, 2, 2, 4);
+                    for (LivingEntity entity : hit) {
+                        this.doHurtTarget(entity);
+                    }
+                } else if (this.animTicks > 17) {
+                    this.resetAnimState();
+                }
+
+
+            }
+        }
+    }
+
+    @Override
+    public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
+        InteractionResult result = super.interactTameCommands(player, hand);
+        if (result == InteractionResult.PASS) {
+            if (!this.isTame() && this.isSitting() && player.isCrouching() && player.getItemInHand(hand).is(HBItems.SEASONED_TREAT.get())) {
+                if (!this.level().isClientSide()) {
+                    if (!player.getAbilities().instabuild) {
+                        player.getItemInHand(hand).shrink(1);
+                    }
+                    if (this.tameAttempts > 0) {
+                        this.tameAttempts--;
+                        this.level().broadcastEntityEvent(this, (byte) 6);
+                    } else {
+                        this.level().broadcastEntityEvent(this, (byte) 7);
+                        this.tame(player);
+                        this.heal(this.getMaxHealth());
+                    }
+                    this.playSound(SoundEvents.PARROT_EAT);
+
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return result;
+    }
+
+    private void tickPitch() {
+        this.prevPitch = this.pitch;
+        float target = (Mth.clamp((float)this.getDeltaMovement().y * 4F, -1F, 1F)) * -Mth.RAD_TO_DEG;
+        this.pitch = Mth.approachDegrees(pitch, target, 2.5F);
+
+    }
+
+    public float getPitch(float partialTick) {
+        return (this.prevPitch + (this.pitch - this.prevPitch) * partialTick);
+    }
+
+
+    private void tickTrailYaw() {
+        this.prevTrail = this.trail;
+        this.trail = Mth.rotLerp(0.2F, this.trail, yBodyRotO - yBodyRot) * 0.8F;
+    }
+
+    public float getTrailYaw(float partialTick) {
+        return (this.prevTrail + (this.trail - this.prevTrail) * partialTick);
+    }
+
+    @Override
+    public void setUpAnimStates() {
+        this.idleAnimationState.animateWhen(!this.isInWater(), this.tickCount);
+        this.swimIdleAnimationState.animateWhen(this.isInWater(), this.tickCount);
+        this.sitAnimationState.animateWhen(this.isSitting() && !this.isDancing(), this.tickCount);
+        this.danceAnimationState.animateWhen(this.isDancing(), this.tickCount);
+        this.biteAnimationState.animateWhen(this.getAnimState() == 1, this.tickCount);
+    }
+
+    @Override
+    public void travel(Vec3 pTravelVector) {
+        if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
+
+            if (this.getAnimState() == 0) {
+
+                if (Minecraft.getInstance().options.keyAttack.isDown()) {
+                    PacketDistributor.sendToServer(new EntityKeyPacket(this.getId(), rider.getId(), 5));
+                }
+
+            }
+
+            if (this.isInWater()) {
+                if (Minecraft.getInstance().options.keyJump.isDown()) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
+                } else if (Minecraft.getInstance().options.keySprint.isDown()) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, -0.03, 0));
+                }
+                this.moveRelative(this.getSpeed(), pTravelVector);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));
+
+            }
+        }
+
+        if (this.isEffectiveAi() && this.isInWaterOrBubble()) {
+            this.moveRelative(this.getSpeed(), pTravelVector);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            if (this.horizontalCollision && this.level().getBlockState(this.blockPosition().above()).isAir()) {
+                final float f1 = this.getYRot() * Mth.DEG_TO_RAD;
+                this.setDeltaMovement(this.getDeltaMovement().add(-Mth.sin(f1) * 0.08f, 0.04D, Mth.cos(f1) * 0.08f));
+            }
+        } else {
+            super.travel(pTravelVector);
+        }
+
+    }
+
+    @Override
+    protected void tickRidden(Player player, Vec3 travelVector) {
+        super.tickRidden(player, travelVector);
+        float newYaw = Mth.rotLerp(0.3F, this.getYRot(), player.getYHeadRot());
+        this.setRot(newYaw, Mth.clamp(player.getXRot(), -15, 15));
+        this.setYHeadRot(player.getYHeadRot());
+    }
+
+    @Override
+    protected Vec3 getRiddenInput(Player player, Vec3 travelVector) {
+        float f1;
+        float f2;
+        if (this.isInWater()) {
+            f1 = player.zza * 0.1F;
+            f2 = 0;
+        } else {
+            f1 = player.zza * 0.5F;
+            f2 = player.xxa * 0.2F;
+        }
+        if (f1 < 0.0F)
+            f1 *= 0.25F;
+        return new Vec3(f2, 0, f1);
+    }
+
+    @Override
+    public boolean canFreeze() {
+        return this.getVariant() != 2 && super.canFreeze();
+    }
+
+
+    @Override
+    public boolean canDrownInFluidType(net.neoforged.neoforge.fluids.FluidType type) {
+        return false;
+    }
+
+    @Override
+    public boolean checkSpawnObstruction(LevelReader levelReader) {
+        return levelReader.isUnobstructed(this);
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData) {
+        Holder<Biome> biome = pLevel.getBiome(this.blockPosition());
+        if (biome.is(Tags.Biomes.IS_COLD)) {
+            this.setVariant(2);
+        } else if (biome.is(BiomeTags.IS_OCEAN) || biome.is(BiomeTags.IS_BEACH)) {
+            this.setVariant(1);
+        }
+
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData);
+
+    }
+
+    @Override
+    public void setAttacking() {
+        this.setAnimState(1);
+    }
+
+    @Override
+    public boolean canUseAttack(LivingEntity entity, double attackReach, double dist) {
+        return this.getAnimState() == 0 && attackReach >= dist;
+    }
+
+    @Override
+    public double getAttackReachSqr(LivingEntity entity) {
+        return this.getBbWidth() * this.getBbWidth() * 4 + entity.getBbWidth();
+    }
+
+    @Override
+    protected boolean canOwnerMount(Player player) {
+        return true;
+    }
+
+    @Override
+    protected boolean canOwnerCommand(Player player) {
+        return player.isShiftKeyDown();
+    }
+
+    @Override
+    public boolean isFood(ItemStack pStack) {
+        return super.isFood(pStack) && pStack.is(HBItems.RAW_URKMEAT);
+    }
+
+    @Override
+    public void playIdle() {
+
+    }
+
+
+
+    @Override
+    public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+        return HBEntities.BLURPUM.get().create(serverLevel);
+    }
+
+    @Override
+    public SleepType getSleepType() {
+        return SleepType.RESTLESS;
+    }
+
+    @Override
+    protected PathNavigation createNavigation(Level level) {
+        return new HBAmphibiousPathNavigator(this, level);
+    }
+
+    @Override
+    public void onKeyPacket(Entity keyPresser, int type) {
+        if (type == 5) {
+            this.setAnimState(1);
+        } else {
+            super.onKeyPacket(keyPresser, type);
+        }
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 49) {
+            this.releaseEffectCD = this.getVariant() == 1 ? 100 : 200;
+            Vec3 pos = this.position();
+            for (int i = 0; i < 6; i++) {
+                Vec3 rand = EntityHelpers.getRandomVec3(this.getRandom(), 2);
+                this.level().addParticle(new SmokeParticleOptions(0.75F, 20, this.getParticleColor()), true, pos.x + rand.x, pos.y + 0.5, pos.z + rand.z, rand.x / 100F, rand.y / 100F, rand.z / 100F);
+            }
+        } else {
+            super.handleEntityEvent(id);
+        }
+    }
+
+    private int getParticleColor() {
+        return switch (this.getVariant()) {
+            case 1 -> 0xFF8652;
+            case 2 -> 0xD1D1FF;
+            default -> 0xFF5280;
+        };
+    }
+
+    @Override
+    public void onAboveBubbleCol(boolean downwards) {
+    }
+
+    @Override
+    public void onInsideBubbleColumn(boolean downwards) {
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
+
+    @Override
+    public BlockState getEgg() {
+        return HBBlocks.BLURPUM_EGGS.get().defaultBlockState();
+    }
+
+    @Override
+    public boolean hasEgg() {
+        return this.entityData.get(HAS_EGG);
+    }
+
+    @Override
+    public void setHasEgg(boolean b) {
+        this.entityData.set(HAS_EGG, b);
+    }
+
+
+    @Override
+    public void setVariant(int i) {
+        this.entityData.set(VARIANT, i);
+    }
+
+    @Override
+    public int getVariant() {
+        return this.entityData.get(VARIANT);
+    }
+
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        return HBSounds.BLURPUM_AMBIENT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
+        return HBSounds.BLURPUM_HURT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return HBSounds.BLURPUM_DIE.get();
+    }
+
+    @Override
+    public void renderHUD(GuiGraphics guiGraphics) {
+        int screenWidth = guiGraphics.guiWidth(), screenHeight = guiGraphics.guiHeight();
+        int imageWidth = 192, imageHeight = 22;
+        int x = (screenWidth - imageWidth) / 2;
+        float maxBar = this.getVariant() == 1 ? 100F : 200F;
+
+        guiGraphics.blit(SPRITE, (screenWidth - 71) / 2, screenHeight - 84, this.getVariant() * 71, 43, 71, 53, 256, 128);
+
+        guiGraphics.blit(SPRITE, x, screenHeight - 43, 0, 0, imageWidth, imageHeight, 256, 128);
+        imageWidth = Math.min((int)(192 * ((maxBar - this.releaseEffectCD)/maxBar)), 192);
+
+        guiGraphics.blit(SPRITE, x, screenHeight - 31, 0, 21, imageWidth, 10, 256, 128);
+
+
+        imageHeight = (int) (this.getHealth() / this.getMaxHealth() * 11);
+        x = (screenWidth - 13) / 2;
+
+        guiGraphics.blit(SPRITE, x, screenHeight - 31 - imageHeight, 0, 42 - imageHeight, 13, imageHeight, 256, 128);
+
+    }
+
+
+    @Override
+    public float getCameraOffsetZ() {
+        return -1.5F;
+    }
+
+    @Override
+    public float getCameraOffsetY() {
+        return 0.3F;
+    }
+}

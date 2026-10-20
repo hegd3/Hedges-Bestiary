@@ -31,10 +31,13 @@ public class SpottedStrikerRenderer extends MobRenderer<SpottedStrikerEntity, Sp
 
     @Override
     protected @Nullable RenderType getRenderType(SpottedStrikerEntity entity, boolean bodyVisible, boolean translucent, boolean glowing) {
-        if (entity.getCloakProgress(1.0f) > 0.0F) {
+
+        //if (entity.getCloakProgress(1.0f) > 0.0F) {
             return RenderType.entityTranslucent(TEXTURE);
-        }
-        return super.getRenderType(entity, bodyVisible, translucent, glowing);
+        //}
+        //return super.getRenderType(entity, bodyVisible, translucent, glowing);
+
+
     }
 
     @Override

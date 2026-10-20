@@ -22,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 
 public class ZappetRoostPiece extends TemplateStructurePiece {
+    private boolean spawned = false;
 
     public ZappetRoostPiece(StructureTemplateManager manager, ResourceLocation re, StructurePlaceSettings pPlaceSettings, BlockPos pos) {
         super(HBStructurePieces.ZAPPET_ROOST.get(), 0, manager, re, re.toString(), pPlaceSettings, pos);
@@ -45,7 +46,7 @@ public class ZappetRoostPiece extends TemplateStructurePiece {
     @Override
     public void postProcess(WorldGenLevel level, StructureManager pStructureManager, ChunkGenerator pGenerator, RandomSource pRandom, BoundingBox pBox, ChunkPos pChunkPos, BlockPos pPos) {
         super.postProcess(level, pStructureManager, pGenerator, pRandom, pBox, pChunkPos, pPos);
-        this.spawnMob(level, pPos);
+        if (!this.spawned) this.spawnMob(level, pPos);
     }
 
     private void spawnMob(ServerLevelAccessor level, BlockPos pos) {
@@ -72,5 +73,6 @@ public class ZappetRoostPiece extends TemplateStructurePiece {
             follower.startFollowing(entity);
             level.addFreshEntity(follower);
         }
+        this.spawned = true;
     }
 }

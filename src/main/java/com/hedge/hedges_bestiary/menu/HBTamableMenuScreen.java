@@ -2,16 +2,19 @@ package com.hedge.hedges_bestiary.menu;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
-import com.hedge.hedges_bestiary.message.EntityKeyMessage;
+import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import static net.minecraft.client.gui.screens.inventory.InventoryScreen.renderEntityInInventoryFollowsMouse;
 
@@ -40,28 +43,24 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
         this.titleLabelX+=30;
         if (!this.animal.canAccessInventory()) {
             buttons = new HBTamableMenuButton[]{
-                    new CommandButton(this.leftPos + 150, this.topPos + 100, this),
-                    new AutoTargetButton(this.leftPos + 280, this.topPos + 100, this),
-                    new HomeButton(this.leftPos + 215, this.topPos + 200, this),
-
+                    new AutoTargetButton(0, 0, this),
+                    new CommandButton(0, 0, this),
+                    new HomeButton(0, 0, this),
             };
         } else {
             buttons = new HBTamableMenuButton[]{
-                    new CommandButton(this.leftPos + 150, this.topPos + 100, this),
-                    new AutoTargetButton(this.leftPos + 280, this.topPos + 100, this),
-                    new HomeButton(this.leftPos + 150, this.topPos + 200, this),
-                    new AccessInventoryButton(this.leftPos + 280, this.topPos + 200, this),
+                    new AutoTargetButton(0, 0, this),
+                    new CommandButton(0, 0, this),
+                    new HomeButton(0, 0, this),
+                    new AccessInventoryButton(0, 0, this),
             };
         }
+        int angle = 360/buttons.length;
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].setPosition((int)(titleLabelX*5.5 + (Mth.sin(angle * Mth.DEG_TO_RAD) * titleLabelX * 2)), this.titleLabelY*23 + (int)(Mth.cos(angle * Mth.DEG_TO_RAD) * titleLabelY * 10));
 
-    }
-
-
-    @Override
-    protected void renderBg(GuiGraphics poseStack, float f, int i, int j) {
-        this.renderBackground(poseStack, (int) f, i, j);
-        poseStack.blit(RESOURCE_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
-        renderEntityInInventoryFollowsMouse(poseStack, this.leftPos + 112, this.topPos + 120, this.leftPos + 112, this.topPos + 120, (int) ((float) (this.leftPos + 118) - this.xMouse), 0, (float) (this.topPos + 66 - 40) - this.xMouse, (float) (this.topPos + 66 - 40) - this.yMouse, animal);
+            angle += 360/buttons.length;
+        }
     }
 
     public void render(GuiGraphics guiGraphics, int i, int j, float f) {
@@ -94,6 +93,11 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
     }
 
+    @Override
+    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
+        guiGraphics.blit(RESOURCE_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+    }
+
     public HBTamableAnimal getMob() {
         return this.animal;
     }
@@ -120,7 +124,7 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
         @Override
         public void onPress() {
-            HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 0));
+            PacketDistributor.sendToServer(new EntityKeyPacket(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 0));
         }
     }
 
@@ -152,7 +156,7 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
         @Override
         public void onPress() {
-            HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 1));
+            PacketDistributor.sendToServer(new EntityKeyPacket(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 1));
         }
     }
 
@@ -181,7 +185,7 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
         @Override
         public void onPress() {
-            HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 2));
+            PacketDistributor.sendToServer(new EntityKeyPacket(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 2));
         }
     }
 
@@ -208,7 +212,7 @@ public class HBTamableMenuScreen extends AbstractContainerScreen<HBTamableMenu> 
 
         @Override
         public void onPress() {
-            HedgesBestiary.sendMSGToServer(new EntityKeyMessage(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 3));
+            PacketDistributor.sendToServer(new EntityKeyPacket(this.screen.getMob().getId(), this.screen.getMob().getOwner().getId(), 3));
         }
     }
 }

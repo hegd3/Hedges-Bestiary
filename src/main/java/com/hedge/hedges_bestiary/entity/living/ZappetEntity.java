@@ -105,7 +105,7 @@ public class ZappetEntity extends TamableFlyer implements HBGroupMob<ZappetEntit
                     this.startRiding(player);
                     return InteractionResult.SUCCESS;
                 }
-            } else {
+            } else if (this.isCharged()) {
                 ItemStack itemStack = player.getItemInHand(hand);
                 if (itemStack.is(HBTags.TREATS)) {
                     if (!this.level().isClientSide) {
@@ -172,7 +172,6 @@ public class ZappetEntity extends TamableFlyer implements HBGroupMob<ZappetEntit
         this.goalSelector.addGoal(i++, new LeaveGroupGoal<>(this));
         this.goalSelector.addGoal(i, new DancingGoal(this));
 
-        this.targetSelector.addGoal(2, new HBHurtByTargetGoal(this, true, TamableAnimal.class));
     }
 
     @Override

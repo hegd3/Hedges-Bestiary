@@ -21,20 +21,27 @@ public class HBCreativeTab {
                     .displayItems((itemDisplayParameters, output) -> {
                         // blocks
                         output.accept(HBBlocks.GURK_EGG.get());
+                        output.accept(HBBlocks.GOPH_EGG.get());
+                        output.accept(HBBlocks.GAWK_EGG.get());
                         output.accept(HBBlocks.ZAPPET_EGG.get());
+                        output.accept(HBBlocks.BLURPUM_EGGS.get());
                         output.accept(HBBlocks.DAWN_DOVE_EGG.get());
                         output.accept(HBBlocks.MURK_EGG.get());
+                        output.accept(HBItems.FINE_MILK.get());
+                        output.accept(HBItems.RICH_MILK.get());
 
-                        // crafting items
+                        // resources
                         output.accept(HBItems.MURK_SPIKE.get());
                         output.accept(HBItems.ENDGELIC_HEART.get());
                         //output.accept(HBItems.TEARACUDA_TOOTH.get());
+                        output.accept(HBItems.ZIPPERMOUTH_SCALES.get());
 
                         //crafted items
 
                         output.accept(HBItems.PLAIN_TREAT.get());
                         output.accept(HBItems.SEASONED_TREAT.get());
                         output.accept(HBItems.HEARTY_TREAT.get());
+                        output.accept(HBItems.LUSCIOUS_TREAT.get());
                         output.accept(HBItems.ENDGELIC_JUDGEMENT.get());
                         output.accept(HBItems.MURKLEVOLENCE.get());
 
@@ -61,6 +68,12 @@ public class HBCreativeTab {
                         output.accept(HBItems.ENDGEL_SPAWN_EGG.get());
                         output.accept(HBItems.DAWN_DOVE_SPAWN_EGG.get());
                         output.accept(HBItems.SKIB_SPAWN_EGG.get());
+                        output.accept(HBItems.BLURPUM_SPAWN_EGG.get());
+                        output.accept(HBItems.GAWK_SPAWN_EGG.get());
+                        output.accept(HBItems.GOPH_SPAWN_EGG.get());
+                        output.accept(HBItems.ZIPPERMOUTH_SPAWN_EGG.get());
+                        output.accept(HBItems.ZIPPERLING_SPAWN_EGG.get());
+                        output.accept(HBItems.NIB_NIB_SPAWN_EGG.get());
 
 
                     }).build());

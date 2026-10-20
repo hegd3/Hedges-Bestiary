@@ -9,10 +9,9 @@ import com.hedge.hedges_bestiary.entity.living.ambientfish.SkibEntity;
 import com.hedge.hedges_bestiary.networking.ClientPayloadHandler;
 import com.hedge.hedges_bestiary.networking.packet.DanceJukeboxPacket;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import com.hedge.hedges_bestiary.networking.packet.MultipartEntityPacket;
 import com.hedge.hedges_bestiary.registry.HBEntities;
-import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -41,6 +40,12 @@ public class ServerEvent {
         event.put(HBEntities.ENDGEL.get(), EndgelEntity.bakeAttributes().build());
         event.put(HBEntities.DAWN_DOVE.get(), DawnDoveEntity.bakeAttributes().build());
         event.put(HBEntities.SKIB.get(), SkibEntity.bakeAttributes().build());
+        event.put(HBEntities.BLURPUM.get(), BlurpumEntity.bakeAttributes().build());
+        event.put(HBEntities.GAWK.get(), GawkEntity.bakeAttributes().build());
+        event.put(HBEntities.GOPH.get(), GophEntity.bakeAttributes().build());
+        event.put(HBEntities.ZIPPERMOUTH.get(), ZippermouthEntity.bakeAttributes().build());
+        event.put(HBEntities.ZIPPERLING.get(), ZipperlingEntity.bakeAttributes().build());
+        event.put(HBEntities.NIB_NIB.get(), NibNibEntity.bakeAttributes().build());
 
     }
 
@@ -55,6 +60,11 @@ public class ServerEvent {
         event.register(HBEntities.SPOTTED_STRIKER.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpottedStrikerEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(HBEntities.ENDGEL.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EndgelEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(HBEntities.SKIB.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.OCEAN_FLOOR, SkibEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(HBEntities.GAWK.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GawkEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(HBEntities.GOPH.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GophEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(HBEntities.BLURPUM.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlurpumEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(HBEntities.ZIPPERMOUTH.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ZippermouthEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(HBEntities.ZIPPERLING.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ZipperlingEntity::canSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
 
     }
 
@@ -65,7 +75,7 @@ public class ServerEvent {
 
         registrar.playToServer(EntityKeyPacket.TYPE, EntityKeyPacket.STREAM_CODEC, ClientPayloadHandler::handleEntityKeyPacket);
         registrar.playToServer(DanceJukeboxPacket.TYPE, DanceJukeboxPacket.STREAM_CODEC, ClientPayloadHandler::handleDanceJukeboxPacket);
-
+        registrar.playToServer(MultipartEntityPacket.TYPE,  MultipartEntityPacket.STREAM_CODEC, ClientPayloadHandler::handleMultipartEntityPacket);
     }
 
 

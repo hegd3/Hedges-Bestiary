@@ -25,6 +25,8 @@ public class MurkSmoke extends GenericProjectile {
         this.setNoGravity(true);
     }
 
+
+
     protected void onHitEntity(EntityHitResult hit) {
         super.onHitEntity(hit);
         if (!hit.getEntity().isAlliedTo(this)) {
@@ -76,6 +78,6 @@ public class MurkSmoke extends GenericProjectile {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-
+        builder.define(CHARGED, false);
     }
 }

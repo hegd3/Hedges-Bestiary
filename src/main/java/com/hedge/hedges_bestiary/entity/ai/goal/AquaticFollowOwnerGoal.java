@@ -22,7 +22,7 @@ public class AquaticFollowOwnerGoal extends HBFollowOwnerGoal {
         this.mob.getLookControl().setLookAt(owner, 10.0F, (float) mob.getMaxHeadXRot());
         if (--this.timeToRecalcPath <= 0) {
             this.timeToRecalcPath = this.adjustedTickDelay(10);
-            if (this.mob.distanceToSqr(owner) >= 256.0D) {
+            if (this.mob.distanceToSqr(owner) >= 400.0D) {
                 this.teleportToOwner();
             } else if (this.mob.isInWater() || this.semiaquatic) {
                 if (this.mob.distanceToSqr(owner) >= 64.0D) {

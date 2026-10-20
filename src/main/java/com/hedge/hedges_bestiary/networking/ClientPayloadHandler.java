@@ -4,7 +4,9 @@ import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.types.KeybindUsing;
 import com.hedge.hedges_bestiary.networking.packet.DanceJukeboxPacket;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
+import com.hedge.hedges_bestiary.networking.packet.MultipartEntityPacket;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -26,5 +28,14 @@ public class ClientPayloadHandler {
             dancer.setDancing(danceJukeboxPacket.dance());
         }
 
+    }
+
+    public static void handleMultipartEntityPacket(MultipartEntityPacket multipartEntityPacket, IPayloadContext iPayloadContext) {
+        Player player = iPayloadContext.player();
+        Entity parent = player.level().getEntity(multipartEntityPacket.parentId());
+        if (parent != null && !parent.isInvulnerable()) {
+            Entity hurter = player.level().getEntity(multipartEntityPacket.playerId());
+            parent.hurt(hurter instanceof LivingEntity e ? hurter.damageSources().mobAttack(e) : parent.damageSources().generic(), (float) multipartEntityPacket.damage());
+        }
     }
 }

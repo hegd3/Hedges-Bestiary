@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "DPD",
+    "A A"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:bow"
+    },
+    "D": {
+      "item": "hedges_bestiary:endgelic_heart"
+    },
+    "A": {
+      "item": "minecraft:phantom_membrane"
+    }
+  },
+  "result": {
+    "id": "hedges_bestiary:endgelic_judgement",
+    "count": 1
+  }
+}

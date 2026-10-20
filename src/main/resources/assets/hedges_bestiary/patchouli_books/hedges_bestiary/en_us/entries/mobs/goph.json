@@ -1,0 +1,26 @@
+{
+  "name": "Goph",
+  "icon": "hedges_bestiary:plain_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Passive, flees upon hit",
+      "taming": "Feed 1* $(treat1) whilst it is awake",
+      "habitat": "Deserts",
+      "breeding": "Sugar (lays eggs)",
+      "extra": "Tamed Gophs will dig up brushable blocks (i.e. suspicious sand)"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/goph_img.png",
+        "hedges_bestiary:textures/gui/book/goph_img_1.png"
+      ],
+      "border": true,
+      "text": "Gophs are the smallest members of the urk family, preferring to stay buried and hidden during the day"
+
+    }
+
+  ]
+}

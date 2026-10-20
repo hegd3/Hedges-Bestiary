@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item":"minecraft:sugar"
+    },
+    {
+      "item":"minecraft:wheat"
+    },
+    {
+      "tag":"hedges_bestiary:plain_treat_ingredient"
+    }
+  ],
+  "result": {
+    "id": "hedges_bestiary:plain_treat",
+    "count": 1
+  }
+}

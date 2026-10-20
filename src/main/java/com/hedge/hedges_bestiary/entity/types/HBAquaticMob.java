@@ -117,7 +117,7 @@ public class HBAquaticMob extends WaterAnimal implements AnimStateMob {
 
     @Override
     public void setUpAnimStates() {
-        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
+        this.idleAnimationState.animateWhen(true, this.tickCount);
     }
 
     public void resetAnimState() {

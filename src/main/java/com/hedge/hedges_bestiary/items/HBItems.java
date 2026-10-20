@@ -19,15 +19,24 @@ import java.util.function.Supplier;
 public class HBItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, HedgesBestiary.MODID);
 
+    // DROPS|RESOURCES
 
     public static final DeferredHolder<Item, Item> MURK_SPIKE = ITEMS.register("murk_spike",
             () -> new Item(new Item.Properties()));
-
     public static final DeferredHolder<Item, Item> TEARACUDA_TOOTH = ITEMS.register("tearacuda_tooth",
             () -> new Item(new Item.Properties()));
 
     public static final DeferredHolder<Item, Item> ENDGELIC_HEART = ITEMS.register("endgelic_heart",
             () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+
+    public static final DeferredHolder<Item, Item> ZIPPERMOUTH_SCALES = ITEMS.register("zippermouth_scales",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+
+    public static final DeferredHolder<Item, Item> FINE_MILK = ITEMS.register("fine_milk_bottle",
+            () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE)));
+
+    public static final DeferredHolder<Item, Item> RICH_MILK = ITEMS.register("rich_milk_bottle",
+            () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE)));
 
 
     // CRAFTED ITEMS
@@ -36,16 +45,20 @@ public class HBItems {
             () -> new TreatItem(new Item.Properties().rarity(Rarity.COMMON), 0));
 
     public static final DeferredHolder<Item, Item> SEASONED_TREAT = ITEMS.register("seasoned_treat",
-            () -> new TreatItem(new Item.Properties().rarity(Rarity.UNCOMMON).craftRemainder(Items.GLASS_BOTTLE),1));
+            () -> new TreatItem(new Item.Properties().rarity(Rarity.UNCOMMON),1));
 
     public static final DeferredHolder<Item, Item> HEARTY_TREAT = ITEMS.register("hearty_treat",
             () -> new TreatItem(new Item.Properties().rarity(Rarity.RARE),2));
+
+    public static final DeferredHolder<Item, Item> LUSCIOUS_TREAT = ITEMS.register("luscious_treat",
+            () -> new TreatItem(new Item.Properties().rarity(Rarity.EPIC),3));
+
 
     public static final DeferredHolder<Item, Item> ENDGELIC_JUDGEMENT = ITEMS.register("endgelic_judgement",
             () -> new EndgelicJudgementItem(new Item.Properties().durability(500).rarity(Rarity.EPIC)));
 
     public static final DeferredHolder<Item, Item> MURKLEVOLENCE = ITEMS.register("murklevolence",
-            () -> new MurklevolenceItem(new Item.Properties().durability(800).rarity(Rarity.RARE)));
+            () -> new MurklevolenceItem(new Item.Properties().durability(800).attributes(MurklevolenceItem.createAttributes()).rarity(Rarity.RARE)));
 
     // FOODS
 
@@ -93,6 +106,18 @@ public class HBItems {
     public static final DeferredHolder<Item, Item> DAWN_DOVE_SPAWN_EGG = createEgg("dawn_dove", HBEntities.DAWN_DOVE, 0x61523d, 0x2c261c);
 
     public static final DeferredHolder<Item, Item> SKIB_SPAWN_EGG = createEgg("skib", HBEntities.SKIB, 0x614946, 0xC22D2D);
+
+    public static final DeferredHolder<Item, Item> BLURPUM_SPAWN_EGG = createEgg("blurpum", HBEntities.BLURPUM, 0x614946, 0x68787D);
+
+    public static final DeferredHolder<Item, Item> GAWK_SPAWN_EGG = createEgg("gawk", HBEntities.GAWK, 0x2D2933, 0x7584C7);
+
+    public static final DeferredHolder<Item, Item> GOPH_SPAWN_EGG = createEgg("goph", HBEntities.GOPH, 0x9E7C68, 0xB55E5E);
+
+    public static final DeferredHolder<Item, Item> ZIPPERMOUTH_SPAWN_EGG = createEgg("zippermouth", HBEntities.ZIPPERMOUTH, 0xB52F16, 0x389FBA);
+
+    public static final DeferredHolder<Item, Item> ZIPPERLING_SPAWN_EGG = createEgg("zipperling", HBEntities.ZIPPERLING, 0x6B4B45, 0x8A624A);
+
+    public static final DeferredHolder<Item, Item> NIB_NIB_SPAWN_EGG = createEgg("nib_nib", HBEntities.NIB_NIB, 0xB5AA57, 0xABC1C4);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

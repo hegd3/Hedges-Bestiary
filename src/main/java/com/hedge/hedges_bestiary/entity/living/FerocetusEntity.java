@@ -50,6 +50,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -93,6 +94,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     private boolean leftWater = false;
 
     private int tameAttempts  = 2;
+    private int milkCD = 0;
 
     public final SmoothAnimationState biteAnimationState = new SmoothAnimationState();
     public final SmoothAnimationState ramAnimationState = new SmoothAnimationState();
@@ -166,30 +168,47 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
 
     @Override
     public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
-        InteractionResult result = super.interactTameCommands(player, hand);
-        if (result == InteractionResult.PASS && !this.isTame() && this.isGrabbing() && this.getAnimState() == 4) {
+        if (!this.isTame()) {
+            if (this.isGrabbing() && this.getAnimState() == 4) {
+                ItemStack stack = player.getItemInHand(hand);
+                if (stack.is(HBItems.HEARTY_TREAT.get())) {
+                    if (!this.level().isClientSide) {
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        if (this.tameAttempts-- > 0) {
+                            this.level().broadcastEntityEvent(this, (byte) 6);
+
+                        } else {
+                            this.level().broadcastEntityEvent(this, (byte) 7);
+                            this.tame(player);
+                            this.heal(this.getMaxHealth());
+                        }
+                        this.resetAnimState();
+                        this.releaseGrab();
+                        this.playSound(SoundEvents.PARROT_EAT);
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+            }
+        } else {
             ItemStack stack = player.getItemInHand(hand);
-            if (stack.is(HBItems.HEARTY_TREAT.get())) {
+
+            if (!this.isBaby() && stack.getItem() == Items.GLASS_BOTTLE && this.milkCD == 0) {
                 if (!this.level().isClientSide) {
                     if (!player.getAbilities().instabuild) {
                         stack.shrink(1);
-                    }
-                    if (this.tameAttempts-- > 0) {
-                        this.level().broadcastEntityEvent(this, (byte) 6);
 
-                    } else {
-                        this.level().broadcastEntityEvent(this, (byte) 7);
-                        this.tame(player);
-                        this.heal(this.getMaxHealth());
                     }
-                    this.resetAnimState();
-                    this.releaseGrab();
-                    this.playSound(SoundEvents.PARROT_EAT);
+                    player.addItem(new ItemStack(HBItems.RICH_MILK));
+                    this.playSound(SoundEvents.BOTTLE_FILL);
+                    this.milkCD = 2500;
                 }
-                return InteractionResult.SUCCESS;
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+
             }
         }
-        return result;
+        return super.interactTameCommands(player, hand);
     }
 
     @Override
@@ -323,6 +342,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
             this.tickPitch();
             this.tickRoll();
         } else {
+            this.milkCD = Math.max(this.milkCD - 1, 0);
             this.attackCD = Math.max(this.attackCD - 1, 0);
             this.jumpCD = Math.max(this.jumpCD - 1, 0);
             if (this.tickCount % 200 == 0) {
@@ -334,6 +354,10 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
                 this.playSound(SoundEvents.GENERIC_EAT);
             }
             if (this.getAnimState() > 0) {
+                if (!this.isAlive()) {
+                    this.resetAnimState();
+                    return;
+                }
                 this.animTicks++;
                 switch (this.getAnimState()) {
                     case 1 -> {
@@ -502,7 +526,6 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
                 if (this.leftWater) {
                     this.leftWater = false;
                 }
-                float speed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
                 if (Minecraft.getInstance().options.keyJump.isDown()) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.06, 0));
                 } else if (Minecraft.getInstance().options.keySprint.isDown()) {
@@ -519,14 +542,13 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
 
 
                 }
-                this.setSpeed(speed);
                 this.moveRelative(this.getSpeed(), pTravelVector);
                 this.move(MoverType.SELF, this.getDeltaMovement());
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.9D).add(0, 0.002425F, 0));
-            } else if (!this.leftWater && this.groundTimer < 20 && this.pitch < -5F) {
+            } else if (!this.leftWater && this.groundTimer < 20 && !this.horizontalCollision && this.pitch < -5F) {
                 this.leftWater = true;
                 Vec3 horizontal = EntityHelpers.bodyAngle(this, this.pitch * 1.2F).scale(this.getDeltaMovement().length() * 6);
-                this.setDeltaMovement(this.getDeltaMovement().add(horizontal.x, horizontal.y * 2, horizontal.z));
+                this.setDeltaMovement(this.getDeltaMovement().add(horizontal.x, Math.min(horizontal.y * 2, 1), horizontal.z));
             }
         }
         if (this.isEffectiveAi() && this.isInWater()) {

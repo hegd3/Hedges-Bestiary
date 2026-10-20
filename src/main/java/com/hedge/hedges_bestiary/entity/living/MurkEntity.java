@@ -171,7 +171,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     public static AttributeSupplier.Builder bakeAttributes(){
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 120.0D)
-                .add(Attributes.ATTACK_DAMAGE, 8.0D)
+                .add(Attributes.ATTACK_DAMAGE, 10.0D)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.7D)
                 .add(Attributes.ARMOR, 14)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.85)
@@ -194,17 +194,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
         this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1, Ingredient.of(HBItems.SKIB.get()), false));
         this.goalSelector.addGoal(i++, new NapGoal(this, false));
         this.goalSelector.addGoal(i, new CustomSwimGoal(this, 1.0, 10, 10, 7, true, true));
-        this.goalSelector.addGoal(i++, new RandomStrollGoal(this, 1.0) {
-            @Override
-            public boolean canUse() {
-                return !this.mob.isInWaterOrBubble() && super.canUse();
-            }
-
-            @Override
-            public boolean canContinueToUse() {
-                return !this.mob.isInWaterOrBubble() && super.canContinueToUse();
-            }
-        });
+        this.goalSelector.addGoal(i++, new SemiaquaticStrollGoal(this, 1.0));
         this.goalSelector.addGoal(i++, new LookAtPlayerGoal(this, LivingEntity.class, 5));
         this.goalSelector.addGoal(i++, new RandomLookAroundGoal(this));
 
@@ -220,11 +210,13 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
     }
 
-
+    /*
     @Override
     public double getEyeY() {
         return this.getBbHeight() * 0.82f;
     }
+
+     */
 
     @Override
     public boolean isPushable() {
@@ -253,7 +245,6 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
 
         if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
-            float speed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
 
             if (this.getAnimState() == 0) {
 
@@ -272,7 +263,6 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
             }
 
-            this.setSpeed(speed);
             if (this.isInWater()) {
                 if (Minecraft.getInstance().options.keyJump.isDown()) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.03, 0));
@@ -491,6 +481,10 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
                 }
             }
             if (this.getAnimState() > 0) {
+                if (!this.isAlive()) {
+                    this.resetAnimState();
+                    return;
+                }
                 this.animTicks++;
                 switch (this.getAnimState()) {
                     case 1 -> {
@@ -508,7 +502,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
                     }
                     case 2 -> {
                         if (this.animTicks < 10 && target != null) {
-                       //     this.lookAt(target, 30f, 30f);
+                            //     this.lookAt(target, 30f, 30f);
                             this.getLookControl().setLookAt(target, 30f, 30f);
                         }
                         else if (this.animTicks >= 16 && this.animTicks <= 24 && this.animTicks % 2 == 0) {
@@ -964,4 +958,3 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
 
 
 }
-

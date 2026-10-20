@@ -1,0 +1,9 @@
+{
+  "__comment": "interchangeable crafting ingredient for the seasoned treat",
+  "values": [
+    "hedges_bestiary:gawk_egg",
+    "hedges_bestiary:zappet_egg",
+    "hedges_bestiary:blurpum_eggs"
+
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "DPD",
+    " A "
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    "D": {
+      "item": "hedges_bestiary:murk_spike"
+    },
+    "A": {
+      "item": "minecraft:diamond_axe"
+    }
+  },
+  "result": {
+    "id": "hedges_bestiary:murklevolence",
+    "count": 1
+  }
+}

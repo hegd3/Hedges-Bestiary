@@ -41,6 +41,13 @@ public class ClientEvent {
         event.registerLayerDefinition(EntityLayers.DAWN_DOVE_LAYER, DawnDoveModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.SKIB_LAYER, SkibModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.GENERIC_PROJECTILE_LAYER, CrossedProjectileModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.BLURPUM_LAYER, BlurpumModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.GAWK_LAYER, GawkModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.GOPH_LAYER, GophModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.ZIPPERMOUTH_LAYER, ZippermouthModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.ZIPPERLING_LAYER, ZipperlingModel::createBodyLayer);
+        event.registerLayerDefinition(EntityLayers.NIB_NIB_LAYER, NibNibModel::createBodyLayer);
+
     }
 
     public static void registerRenderer(FMLClientSetupEvent event)
@@ -62,6 +69,12 @@ public class ClientEvent {
         EntityRenderers.register(HBEntities.DAWN_DOVE.get(), DawnDoveRenderer::new);
         EntityRenderers.register(HBEntities.DRAGON_FIREBALL.get(), ModellessProjectileRenderer::new);
         EntityRenderers.register(HBEntities.SKIB.get(), SkibRenderer::new);
+        EntityRenderers.register(HBEntities.BLURPUM.get(), BlurpumRenderer::new);
+        EntityRenderers.register(HBEntities.GAWK.get(), GawkRenderer::new);
+        EntityRenderers.register(HBEntities.GOPH.get(), GophRenderer::new);
+        EntityRenderers.register(HBEntities.ZIPPERMOUTH.get(), ZippermouthRenderer::new);
+        EntityRenderers.register(HBEntities.ZIPPERLING.get(), ZipperlingRenderer::new);
+        EntityRenderers.register(HBEntities.NIB_NIB.get(), NibNibRenderer::new);
 
         // MenuScreens.register();
     }
@@ -92,6 +105,9 @@ public class ClientEvent {
         event.registerSpriteSet(HBParticles.ENDGEL_EXPLODE.get(), DynamicExplosionParticle.EndgelExplodeProvider::new);
         event.registerSpriteSet(HBParticles.ENDGEL_BULLET.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
         event.registerSpriteSet(HBParticles.ENDGEL_BLAST_EXPLODE.get(), ProjectileTrailParticle.EndgelBlastExplodeProvider::new);
+
+        event.registerSpriteSet(HBParticles.WATER_EXPLODE.get(), DynamicExplosionParticle.EndgelExplodeProvider::new);
+        event.registerSpriteSet(HBParticles.WATER_SUCK.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
 
     }
 

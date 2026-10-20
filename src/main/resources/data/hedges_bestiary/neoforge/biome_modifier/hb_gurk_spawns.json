@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#hedges_bestiary:is_gurk_biome",
+  "spawners":
+  {
+    "type": "hedges_bestiary:gurk",
+    "weight": 10,
+    "minCount": 3,
+    "maxCount": 5,
+    "category": "water_creature"
+  }
+}

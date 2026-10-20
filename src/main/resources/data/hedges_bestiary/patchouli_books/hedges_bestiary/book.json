@@ -7,9 +7,14 @@
   "book_texture": "hedges_bestiary:textures/gui/book/book.png",
   "model": "hedges_bestiary:hedges_bestiary",
   "macros": {
-    "$(treat0)": "$(l:hedges_bestiary:items/treats)plain treat$(/l)",
-    "$(treat1)": "$(l:hedges_bestiary:items/treats#treat1)seasoned treat$(/l)",
-    "$(treat2)": "$(l:hedges_bestiary:items/treats#treat1)hearty treat$(/l)",
+    "$(finemilk)": "$(l:hedges_bestiary:items/treats#treat2)fine milk$(/l)",
+    "$(richmilk)": "$(l:hedges_bestiary:items/treats#treat2)rich milk$(/l)",
+
+    "$(treat0)": "$(l:hedges_bestiary:items/treats#treat1)plain treat$(/l)",
+    "$(treat1)": "$(l:hedges_bestiary:items/treats#treat2)seasoned treat$(/l)",
+    "$(treat2)": "$(l:hedges_bestiary:items/treats#treat3)hearty treat$(/l)",
+    "$(treat3)": "$(l:hedges_bestiary:items/treats#treat3)luscious treat$(/l)",
+
     "$(ability)": "$(k:hedges_bestiary.mountSpecialKey)"
   }
 }

@@ -1,0 +1,16 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": [
+    "minecraft:warm_ocean",
+    "minecraft:lukewarm_ocean",
+    "minecraft:deep_lukewarm_ocean"
+  ],
+  "spawners":
+  {
+    "type": "hedges_bestiary:gild_glider",
+    "weight": 3,
+    "minCount": 1,
+    "maxCount": 1,
+    "category": "water_creature"
+  }
+}

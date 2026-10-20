@@ -1,0 +1,27 @@
+{
+  "name": "Gawk",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Neutral",
+      "taming": "Feed 1* $(treat1)",
+      "habitat": "Frozen oceans",
+      "breeding": "Any fish (lays eggs)",
+      "extra": "Tamed Gawks set to wander will feed any nearby baby animals, accelerating their growth speed"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/gawk_img.png",
+        "hedges_bestiary:textures/gui/book/gawk_img_1.png"
+      ],
+      "border": true,
+      "text": "Gawks are communal urks, found in large colonies huddling atop the ice"
+
+    }
+
+  ]
+}

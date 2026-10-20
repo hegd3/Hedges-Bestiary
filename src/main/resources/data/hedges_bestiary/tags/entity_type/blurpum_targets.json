@@ -1,0 +1,9 @@
+{
+  "__comment": "all entities naturally targeted by the blurpum.",
+  "values": [
+    "#hedges_bestiary:prey_animals",
+    "hedges_bestiary:gurk",
+    "hedges_bestiary:gawk",
+    "hedges_bestiary:burodon"
+  ]
+}

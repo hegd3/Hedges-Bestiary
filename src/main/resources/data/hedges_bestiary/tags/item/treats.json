@@ -1,0 +1,10 @@
+{
+  "__comment": "all treats",
+  "values": [
+    "hedges_bestiary:plain_treat",
+    "hedges_bestiary:seasoned_treat",
+    "hedges_bestiary:hearty_treat",
+    "hedges_bestiary:luscious_treat"
+
+  ]
+}

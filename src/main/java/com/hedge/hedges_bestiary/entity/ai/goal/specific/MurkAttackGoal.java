@@ -77,7 +77,7 @@ public class MurkAttackGoal extends GenericMeleeGoal<MurkEntity> {
                     this.mob.setAttacking();
                 }
             } else {
-                if (this.mob.isInFluidType()) {
+                if (this.mob.isInWater()) {
                     if (this.mob.canMultiBite(this.attackReach, this.dist)) {
                         this.mob.setAnimState(3);
                         this.mob.getNavigation().stop();

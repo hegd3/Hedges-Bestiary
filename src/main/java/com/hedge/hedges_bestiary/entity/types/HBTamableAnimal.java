@@ -23,6 +23,7 @@ import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
@@ -113,7 +114,8 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
         if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
             serverPlayer.openMenu(new SimpleMenuProvider((containerId, playerInventory, p) ->
                                 new HBTamableMenu(containerId, this),
-                    this.getName()));
+                    this.getName()),
+            buf -> buf.writeInt(this.getId()));
         }
     }
 
@@ -155,6 +157,11 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
             }
         }
 
+    }
+
+    @Override
+    protected float getRiddenSpeed(Player player) {
+        return (float)this.getAttributes().getValue(Attributes.MOVEMENT_SPEED);
     }
 
     protected void clampRotation(LivingEntity livingEntity, float clampRange) {
@@ -410,6 +417,8 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
             this.setTarget(null);
         }
     }
+
+
 
     @Override
     public boolean canMate(Animal otherAnimal) {

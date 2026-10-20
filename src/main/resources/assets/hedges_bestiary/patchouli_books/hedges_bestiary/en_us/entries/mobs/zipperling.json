@@ -1,0 +1,28 @@
+{
+  "name": "Zipperling",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Neutral, hunts various fish",
+      "taming": "Feed 2* $(treat1)",
+      "habitat": "Regular & Lukewarm oceans",
+      "breeding": "None",
+      "extra": "Can be raised into a $(l:hedges_bestiary:mobs/zippermouth)much larger form$(/l), but requires a special item.."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/zipperling_img.png",
+        "hedges_bestiary:textures/gui/book/zipperling_img_1.png",
+        "hedges_bestiary:textures/gui/book/zipperling_img_2.png"
+
+      ],
+      "border": true,
+      "text": "The Zipperling is a swift deep-ocean hunter, making quick darts before every bite"
+    }
+
+  ]
+}

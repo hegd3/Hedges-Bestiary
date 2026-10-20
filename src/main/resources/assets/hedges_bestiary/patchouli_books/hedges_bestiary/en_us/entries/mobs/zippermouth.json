@@ -1,0 +1,40 @@
+{
+  "name": "Zippermouth",
+  "icon": "hedges_bestiary:luscious_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Neutral",
+      "taming": "See next page",
+      "habitat": "Regular & Lukewarm oceans",
+      "breeding": "None",
+      "extra": "See next page"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/zippermouth_img.png",
+        "hedges_bestiary:textures/gui/book/zippermouth_img_1.png",
+        "hedges_bestiary:textures/gui/book/zippermouth_img_2.png"
+      ],
+      "border": true,
+      "text": "The Zippermouth is the adult form of the much smaller $(l:hedges_bestiary:mobs/zipperling)Zipperling"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "While Zippermouths cannot be tamed, one can transmute a $(l:hedges_bestiary:mobs/zipperling)Zipperling$(/l) into a Zippermouth.$(br2)First one must find an adult zippermouth and feed it 1* $(treat3). The creature will shed one of its scales in gratitude, however it will not accept any more treats after that. Giving three of these scales to a zipperling turns it into a zippermouth.$(br2)Zippermouths can be ridden when tamed--$(ability) to use suction"
+
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/zippermouth_img_3.png"
+      ],
+      "border": true,
+      "text": "These great fish can displace huge amounts of water by opening their jaws"
+    }
+
+  ]
+}

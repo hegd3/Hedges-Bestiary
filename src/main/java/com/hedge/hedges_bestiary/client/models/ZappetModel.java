@@ -7,10 +7,13 @@ import com.hedge.hedges_bestiary.client.animations.GenericPosesAnimation;
 import com.hedge.hedges_bestiary.client.animations.ZappetAnimation;
 import com.hedge.hedges_bestiary.client.EntityLayers;
 import com.hedge.hedges_bestiary.entity.living.ZappetEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 
 public class ZappetModel extends HBModel<ZappetEntity> {

@@ -145,6 +145,10 @@ public class TearacudaEntity extends HBSchoolingMob implements AttackStateMob {
             }
         }
         if (this.getAnimState() > 0) {
+            if (!this.isAlive()) {
+                this.resetAnimState();
+                return;
+            }
             animTicks++;
             LivingEntity target = this.getTarget();
             switch (this.getAnimState()) {

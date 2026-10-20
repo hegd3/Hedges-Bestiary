@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#hedges_bestiary:is_blurpum_biome",
+  "spawners":
+  {
+    "type": "hedges_bestiary:blurpum",
+    "weight": 7,
+    "minCount": 1,
+    "maxCount": 1,
+    "category": "water_creature"
+  }
+}

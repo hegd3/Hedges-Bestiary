@@ -21,20 +21,20 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
 
 public class EggBlockEntity<E extends Entity> extends BlockEntity {
 
-    protected final DeferredHolder<EntityType<?>, EntityType<E>> toHatch;
-    private int ticksTillHatch = 2000;
+    protected Supplier<EntityType<E>> toHatch;
+    private int ticksTillHatch = 600;
     private String ownerUUID = "";
 
     public EggBlockEntity(BlockPos pos, BlockState blockState) {
-        super(HBBlockEntities.EGG_BLOCK_ENTITY.get(), pos, blockState);
-        this.toHatch = ((EggBlock<E>)blockState.getBlock()).getToHatch();
+        this(pos, blockState, ((EggBlock<E>)blockState.getBlock()).getToHatch());
     }
 
-    public EggBlockEntity(BlockPos pos, BlockState blockState, DeferredHolder<EntityType<?>, EntityType<E>> toHatch) {
+    public EggBlockEntity(BlockPos pos, BlockState blockState, Supplier<EntityType<E>> toHatch) {
         super(HBBlockEntities.EGG_BLOCK_ENTITY.get(), pos, blockState);
         this.toHatch = toHatch;
     }
@@ -84,37 +84,38 @@ public class EggBlockEntity<E extends Entity> extends BlockEntity {
             if(ticksTillHatch-- <= 0 && toHatch != null){
                 if (state.getBlock() instanceof MultiEggBlock) {
                     for (int i = 0; i < state.getValue(MultiEggBlock.EGGS); i++) {
-                        HBTamableAnimal baby = (HBTamableAnimal) toHatch.get().create(level);
-                        baby.setPos(this.getBlockPos().getCenter());
-                        baby.setBaby(true);
-                        baby.setTame(true, true);
-                        baby.setOwnerUUID(this.getOwnerUUID());
-                        baby.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.BREEDING, null);
-                        baby.playSound(SoundEvents.TURTLE_EGG_HATCH);
-                        level.addFreshEntity(baby);
-                        level.destroyBlock(this.getBlockPos(), false);
-                        this.setRemoved();
+                        this.hatch(level, pos);
                     }
-                } else {
-                    HBTamableAnimal baby = (HBTamableAnimal) toHatch.get().create(level);
-                    baby.setPos(this.getBlockPos().getCenter());
-                    baby.setBaby(true);
-                    baby.setTame(true, true);
-                    baby.setOwnerUUID(this.getOwnerUUID());
-                    baby.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.BREEDING, null);
-                    baby.playSound(SoundEvents.TURTLE_EGG_HATCH);
-                    level.addFreshEntity(baby);
                     level.destroyBlock(this.getBlockPos(), false);
                     this.setRemoved();
+                } else if (state.getBlock() instanceof RaftEggBlock<?> egg) {
+                    for (int i = 0; i < level.random.nextInt(egg.getMaxEggs()) + 1; i++) {
+                        this.hatch(level, pos);
+                    }
+                } else {
+                    this.hatch(level, pos);
                 }
+                level.destroyBlock(this.getBlockPos(), false);
+                this.setRemoved();
             } else {
-                if (this.ticksTillHatch % 100 == 0 && state.getBlock() instanceof EggBlock<?> block) {
+                if (this.ticksTillHatch % 200 == 0 && state.getBlock() instanceof EggBlock<?> block) {
                     block.crack(state, level, pos);
                 }
             }
             setChanged();
             level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
         }
+    }
+
+    private void hatch(Level level, BlockPos pos) {
+        HBTamableAnimal baby = (HBTamableAnimal) toHatch.get().create(level);
+        baby.setPos(this.getBlockPos().getCenter());
+        baby.setBaby(true);
+        baby.setTame(true, true);
+        baby.setOwnerUUID(this.getOwnerUUID());
+        baby.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.BREEDING, null);
+        baby.playSound(SoundEvents.TURTLE_EGG_HATCH);
+        level.addFreshEntity(baby);
     }
 
     @Override
@@ -126,13 +127,10 @@ public class EggBlockEntity<E extends Entity> extends BlockEntity {
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
         var tag = pkt.getTag();
-        if (tag != null)
-        {
-            handleUpdateTag(tag, lookupProvider);
+        handleUpdateTag(tag, lookupProvider);
 
-            BlockState state = level.getBlockState(worldPosition);
-            level.sendBlockUpdated(worldPosition, state, state, 3);
-        }
+        BlockState state = level.getBlockState(worldPosition);
+        level.sendBlockUpdated(worldPosition, state, state, 3);
     }
 
     public UUID getOwnerUUID() {

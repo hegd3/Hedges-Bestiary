@@ -1,6 +1,5 @@
 package com.hedge.hedges_bestiary.entity.living;
 
-import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.ai.control.ATMLookControl;
@@ -50,7 +49,9 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -86,6 +87,7 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     private int attackCD = 0;
     private int multiAttackCD = 0;
     private int tameAttempts = 2;
+    private int milkCD = 0;
     private TurnType turnType = TurnType.NORMAL;
 
     public PlomboEntity(EntityType<? extends PlomboEntity> pEntityType, Level pLevel) {
@@ -133,18 +135,18 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     @Override
     public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
         if (this.isTame() && player == this.getOwner()) {
-            if (!this.hasBarrel()) {
-                if (player.getItemInHand(hand).is(Items.BARREL)) {
-                    if (!this.level().isClientSide()) {
-                        if (!player.getAbilities().instabuild) {
-                            player.getItemInHand(hand).shrink(1);
-                        }
-                        this.setHasBarrel(true);
-                        this.playSound(SoundEvents.HORSE_SADDLE, 1.0F, 1.0F);
+            ItemStack stack = player.getItemInHand(hand);
+            if (stack.is(Items.BARREL) && !this.hasBarrel()) {
+                if (!this.level().isClientSide()) {
+                    if (!player.getAbilities().instabuild) {
+                        player.getItemInHand(hand).shrink(1);
                     }
-                    return InteractionResult.SUCCESS;
+                    this.setHasBarrel(true);
+                    this.playSound(SoundEvents.HORSE_SADDLE, 1.0F, 1.0F);
                 }
-            } else if (player.getItemInHand(hand).is(Items.SHEARS)) {
+                return InteractionResult.SUCCESS;
+
+            } else if (stack.is(Items.SHEARS)) {
                 if (!this.level().isClientSide()) {
                     this.setHasBarrel(false);
                     this.playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
@@ -153,6 +155,17 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
                     items.forEach(item -> {spawnAtLocation(item, 0.0F);});
                 }
                 return InteractionResult.SUCCESS;
+            } else if (stack.is(Items.GLASS_BOTTLE) && !this.isBaby() && this.milkCD == 0) {
+                if (!this.level().isClientSide) {
+                    if (!player.getAbilities().instabuild) {
+                        player.getItemInHand(hand).shrink(1);
+                    }
+                    player.addItem(new ItemStack(HBItems.RICH_MILK));
+                    this.playSound(SoundEvents.BOTTLE_FILL);
+                    this.milkCD = 3000;
+                }
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+
             }
         }
         InteractionResult result = super.interactTameCommands(player, hand);
@@ -203,8 +216,9 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
         this.goalSelector.addGoal(i++, new FloatGoal(this));
         this.goalSelector.addGoal(i++, new MountOverrideGoal(this));
         this.goalSelector.addGoal(i++, new HBSitWhenOrderedGoal(this));
-        this.goalSelector.addGoal(i++, new HBFollowOwnerGoal(this, 1.1D, 1.3D, 7.0f, 4.0f));
-        this.goalSelector.addGoal(i++, new AvoidTargetWhenLowGoal(this, 1.3f, 20, 30, 20, 3));
+        this.goalSelector.addGoal(i++, new BreedGoal(this, 1.0f));
+        this.goalSelector.addGoal(i++, new HBTemptGoal(this, 1.1f, Ingredient.of(ItemTags.LEAVES), false));
+        this.goalSelector.addGoal(i++, new HBFollowOwnerGoal(this, 1.1f, 1.3D, 7.0f, 4.0f));
         this.goalSelector.addGoal(i++, new PlomboAttackGoal(this));
         this.goalSelector.addGoal(i++, new MoveToHomePosGoal(this, 1.2d, 16, 4d));
         this.goalSelector.addGoal(i++, new PlomboScratchLeavesGoal(this));
@@ -233,6 +247,9 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
             if (this.tickCount % 200 == 0) {
                 this.heal(20);
             }
+            if (this.milkCD > 0) {
+                this.milkCD--;
+            }
             this.multiAttackCD = Math.max(this.multiAttackCD - 1, 0);
             this.attackCD = Math.max(this.attackCD - 1, 0);
             this.tickAnimState();
@@ -241,6 +258,10 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
 
     private void tickAnimState() {
         if (this.getAnimState() > 0) {
+            if (!this.isAlive()) {
+                this.resetAnimState();
+                return;
+            }
             animTicks++;
             LivingEntity target = this.getTarget();
             switch (this.getAnimState()) {
@@ -345,7 +366,6 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     @Override
     public void travel(Vec3 pTravelVector) {
         if (isControlledByLocalInstance() && getControllingPassenger() instanceof Player rider) {
-            this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
             if (this.getAnimState() == 0) {
 
                 if (Minecraft.getInstance().options.keyAttack.isDown()) {
@@ -364,7 +384,7 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
         float newYaw = Mth.rotLerp(0.15F, this.getYRot(), pPlayer.getYHeadRot());
-        this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -10, 10));
+        this.setRot(newYaw, Mth.clamp(pPlayer.getXRot(), -20, 20));
         this.setYHeadRot(pPlayer.getYHeadRot());
 
     }

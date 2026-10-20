@@ -9,12 +9,10 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
-import net.neoforged.neoforge.common.NeoForge;
 
 @EventBusSubscriber(modid = HedgesBestiary.MODID, value = Dist.CLIENT)
 
@@ -24,7 +22,6 @@ public class ForgeClientEvent {
     public static void preRenderLiving(RenderLivingEvent.Pre event) {
         if (ClientProxy.blockedEntityRenders.contains(event.getEntity().getUUID())) {
             if (!HedgesBestiary.PROXY.isFirstPersonPlayer(event.getEntity())) {
-                NeoForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
                 event.setCanceled(true);
             }
             ClientProxy.blockedEntityRenders.remove(event.getEntity().getUUID());
@@ -44,7 +41,7 @@ public class ForgeClientEvent {
     @SubscribeEvent
     public static void onPostRenderGuiOverlay(RenderGuiLayerEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        if (event.getName().equals(VanillaGuiLayers.CROSSHAIR)&& player.getVehicle() instanceof HUDMount mount) {
+        if (event.getName().equals(VanillaGuiLayers.CROSSHAIR) && player.getVehicle() instanceof HUDMount mount && !Minecraft.getInstance().options.hideGui) {
             event.getGuiGraphics().pose().pushPose();
             mount.renderHUD(event.getGuiGraphics());
             event.getGuiGraphics().pose().popPose();
@@ -52,17 +49,19 @@ public class ForgeClientEvent {
     }
 
 
-    /*
+
     @SubscribeEvent
-    public static void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
+    public static void computeCameraFOV(ViewportEvent.ComputeFov event) {
 
         Entity player = Minecraft.getInstance().getCameraEntity();
-        if (player != null && player.getVehicle() instanceof HUDMount && event.getCamera().isDetached()) {
-            event.getCamera().move(-3, 0.5, 0);
+        if (player != null && player.getVehicle() instanceof HUDMount mount && event.getCamera().isDetached()) {
+            event.getCamera().move(mount.getCameraOffsetZ(), mount.getCameraOffsetY(), mount.getCameraOffsetX());
         }
     }
 
-     */
+
+
+
 
 
 

@@ -153,7 +153,7 @@ public class EndgelModel extends HBModel<EndgelEntity> {
 		this.animateSmooth(entity.idleAnimationState, EndgelAnimation.FLY, ageInTicks, partialTicks, 0.5f + limbSwingAmount * 0.35f);
 		this.animate(entity.spinAnimationState, entity.getLeft() ? EndgelAnimation.ROLL_LEFT: EndgelAnimation.ROLL_RIGHT, ageInTicks);
 		this.animate(entity.shootAnimationState, EndgelAnimation.SHOOT, ageInTicks);
-		this.animateSmooth(entity.screamWindupAnimationState, EndgelAnimation.SCREAM_WINDUP, partialTicks, ageInTicks, 1f);
+		this.animateSmooth(entity.screamWindupAnimationState, EndgelAnimation.SCREAM_WINDUP, ageInTicks, partialTicks, 1f);
 		this.animateSmooth(entity.screamAnimationState, EndgelAnimation.SCREAM, ageInTicks, partialTicks, 1f);
 		float tailYaw = entity.getTrailYaw(ageInTicks - entity.tickCount);
 		this.tail.yRot = Mth.lerp(0.3F, this.tail.yRot, tailYaw * 0.3F);

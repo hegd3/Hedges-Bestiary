@@ -1,7 +1,0 @@
-{
-  "__comment": "interchangeable crafting ingredient for the seasoned treat",
-  "values": [
-    "minecraft:sniffer_egg",
-    "hedges_bestiary:gurk_egg"
-  ]
-}

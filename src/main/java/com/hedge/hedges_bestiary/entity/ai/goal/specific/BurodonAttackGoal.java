@@ -13,7 +13,7 @@ public class BurodonAttackGoal extends GenericMeleeGoal<BurodonEntity> {
 
     @Override
     public boolean canUse() {
-        return !this.mob.isBaby() && super.canUse();
+        return super.canUse();
     }
 
     @Override

@@ -1,0 +1,13 @@
+{
+  "__comment": "all items eaten by the dawn dove",
+  "values": [
+    "minecraft:beef",
+    "minecraft:cooked_beef",
+    "minecraft:porkchop",
+    "minecraft:cooked_porkchop",
+    "minecraft:mutton",
+    "minecraft:cooked_mutton",
+    "hedges_bestiary:raw_urkmeat",
+    "hedges_bestiary:cooked_urkmeat"
+  ]
+}

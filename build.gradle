@@ -82,7 +82,12 @@ dependencies {
 
     attributesSchema {
         attribute(mappingsAttribute)
+
     }
+
+    localRuntime "maven.modrinth:nU0bVIaL:BIogJv2D"
+    localRuntime "maven.modrinth:nvQzSEkH:eYz2YBGT"
+
 
 }
 

@@ -8,6 +8,7 @@ import com.hedge.hedges_bestiary.events.ClientEvent;
 import com.hedge.hedges_bestiary.events.ServerEvent;
 import com.hedge.hedges_bestiary.items.HBCreativeTab;
 import com.hedge.hedges_bestiary.items.HBItems;
+import com.hedge.hedges_bestiary.menu.HBTamableMenuScreen;
 import com.hedge.hedges_bestiary.registry.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +25,7 @@ import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
@@ -56,7 +58,7 @@ public class HedgesBestiary
             modEventBus.addListener(ClientEvent::registerKeyMappings);
             modEventBus.addListener(ClientEvent::registerParticleFactories);
             modEventBus.addListener(ClientEvent::registerItemRenderers);
-
+            modEventBus.addListener(this::registerScreens);
         }
 
 
@@ -81,6 +83,10 @@ public class HedgesBestiary
         if (config.getSpec() == HBConfig.SPEC) {
             HBConfig.bake();
         }
+    }
+
+    public void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(HBMenus.TAMABLE_MENU.get(), HBTamableMenuScreen::new);
     }
 
 

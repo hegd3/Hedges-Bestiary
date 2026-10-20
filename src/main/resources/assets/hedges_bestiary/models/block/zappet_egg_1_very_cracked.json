@@ -1,5 +1,5 @@
 {
-  "parent": "hedges_bestiary:block/multi_egg_template_4",
+  "parent": "hedges_bestiary:block/multi_egg_template_1",
   "textures": {
     "texture": "hedges_bestiary:block/egg/zappet_egg_very_cracked"
   }
