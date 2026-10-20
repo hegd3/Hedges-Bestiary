@@ -39,8 +39,8 @@ public class HedgesBestiary
     public static final String MODID = "hedges_bestiary";
 
     public static final Logger LOGGER = LogUtils.getLogger();
-    @OnlyIn(Dist.CLIENT)
-    public static final CommonProxy PROXY = new ClientProxy();
+
+    public static final CommonProxy PROXY= new ClientProxy();
 
     public HedgesBestiary(IEventBus modEventBus,  ModContainer modContainer)
     {

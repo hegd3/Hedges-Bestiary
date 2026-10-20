@@ -39,7 +39,7 @@ public class DancingGoal extends Goal {
                 return false;
             }
         }
-        if (this.mob.tickCount % 10 == 0) {
+        if (this.mob.tickCount % 40 == 0) {
             BlockPos jukebox = this.mob.getJukebox();
             if (jukebox == null) {
                 return false;
@@ -47,9 +47,7 @@ public class DancingGoal extends Goal {
             BlockState state = this.mob.level().getBlockState(jukebox);
             if (!state.is(Blocks.JUKEBOX)) {
                 return false;
-            } else if (!state.getValue(JukeboxBlock.HAS_RECORD) || !jukebox.closerToCenterThan(this.mob.position(), 2)) {
-                return false;
-            }
+            } else return state.getValue(JukeboxBlock.HAS_RECORD) && jukebox.closerToCenterThan(this.mob.position(), 16);
         }
         return true;
     }

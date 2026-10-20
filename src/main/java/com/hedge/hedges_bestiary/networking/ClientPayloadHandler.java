@@ -1,8 +1,6 @@
 package com.hedge.hedges_bestiary.networking;
 
-import com.hedge.hedges_bestiary.entity.types.HBTamableAnimal;
 import com.hedge.hedges_bestiary.entity.types.KeybindUsing;
-import com.hedge.hedges_bestiary.networking.packet.DanceJukeboxPacket;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
 import com.hedge.hedges_bestiary.networking.packet.MultipartEntityPacket;
 import net.minecraft.world.entity.Entity;
@@ -22,13 +20,6 @@ public class ClientPayloadHandler {
         }
     }
 
-    public static void handleDanceJukeboxPacket(DanceJukeboxPacket danceJukeboxPacket, IPayloadContext iPayloadContext) {
-        Player player = iPayloadContext.player();
-        if (player.level().getEntity(danceJukeboxPacket.entityId()) instanceof HBTamableAnimal dancer) {
-            dancer.setDancing(danceJukeboxPacket.dance());
-        }
-
-    }
 
     public static void handleMultipartEntityPacket(MultipartEntityPacket multipartEntityPacket, IPayloadContext iPayloadContext) {
         Player player = iPayloadContext.player();

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
 
     public static List<UUID> blockedEntityRenders = new ArrayList<>();

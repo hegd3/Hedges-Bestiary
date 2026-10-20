@@ -1,11 +1,8 @@
 package com.hedge.hedges_bestiary.entity.types;
 
 import com.hedge.hedges_bestiary.config.HBConfig;
-import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.entity.util.EntityHelpers;
 import com.hedge.hedges_bestiary.menu.HBTamableMenu;
-import com.hedge.hedges_bestiary.networking.packet.DanceJukeboxPacket;
-import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
 import com.hedge.hedges_bestiary.registry.HBParticles;
 import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.BlockPos;
@@ -30,7 +27,6 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -438,17 +434,12 @@ public abstract class HBTamableAnimal extends TamableAnimal implements AnimState
     }
 
     public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
-        this.onClientPlayMusicDisc(this.getId(), pos, playing);
-    }
-
-    public void onClientPlayMusicDisc(int entityId, BlockPos pos, boolean dancing) {
-        PacketDistributor.sendToServer(new DanceJukeboxPacket(entityId, dancing, pos));
-        if (dancing) {
+        this.setDancing(playing);
+        if (playing) {
             this.jukebox = pos;
-        } else {
-            this.jukebox = null;
         }
     }
+
 
     public void setSitting(boolean b) {
         this.entityData.set(IS_SITTING, b);

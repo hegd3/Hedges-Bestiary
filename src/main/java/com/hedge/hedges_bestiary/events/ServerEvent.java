@@ -1,13 +1,11 @@
 package com.hedge.hedges_bestiary.events;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
-import com.hedge.hedges_bestiary.client.particle.*;
 import com.hedge.hedges_bestiary.entity.living.*;
 import com.hedge.hedges_bestiary.entity.living.ambientfish.GildGliderEntity;
 import com.hedge.hedges_bestiary.entity.living.ambientfish.ChubEntity;
 import com.hedge.hedges_bestiary.entity.living.ambientfish.SkibEntity;
 import com.hedge.hedges_bestiary.networking.ClientPayloadHandler;
-import com.hedge.hedges_bestiary.networking.packet.DanceJukeboxPacket;
 import com.hedge.hedges_bestiary.networking.packet.EntityKeyPacket;
 import com.hedge.hedges_bestiary.networking.packet.MultipartEntityPacket;
 import com.hedge.hedges_bestiary.registry.HBEntities;
@@ -74,7 +72,6 @@ public class ServerEvent {
                 .executesOn(HandlerThread.MAIN);
 
         registrar.playToServer(EntityKeyPacket.TYPE, EntityKeyPacket.STREAM_CODEC, ClientPayloadHandler::handleEntityKeyPacket);
-        registrar.playToServer(DanceJukeboxPacket.TYPE, DanceJukeboxPacket.STREAM_CODEC, ClientPayloadHandler::handleDanceJukeboxPacket);
         registrar.playToServer(MultipartEntityPacket.TYPE,  MultipartEntityPacket.STREAM_CODEC, ClientPayloadHandler::handleMultipartEntityPacket);
     }
 
