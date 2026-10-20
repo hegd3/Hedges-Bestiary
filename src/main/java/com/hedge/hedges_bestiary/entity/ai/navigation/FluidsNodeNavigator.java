@@ -18,22 +18,41 @@ public class FluidsNodeNavigator extends SwimNodeEvaluator {
 
     @Override
     public PathType getPathType(Mob mob, BlockPos pos) {
-        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         Level level = mob.level();
-        int x = pos.getX(), y = pos.getY(), z = pos.getZ();
-        for (int i = x; i < x + entityWidth; ++i) {
-            for (int j = y; j < y + entityHeight; ++j) {
-                for (int k = z; k < z + entityDepth; ++k) {
-                    FluidState fluidstate = level.getFluidState(blockpos$mutableblockpos.set(i, j, k));
-                    BlockState blockstate = level.getBlockState(blockpos$mutableblockpos.set(i, j, k));
+        BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
 
-                    if (fluidstate.isEmpty() && !blockstate.isAir()) {
+        boolean hasWater = false;
+
+        int minX = pos.getX();
+        int minY = pos.getY();
+        int minZ = pos.getZ();
+
+        for (int x = minX; x < minX + entityWidth; x++) {
+            for (int y = minY; y < minY + entityHeight; y++) {
+                for (int z = minZ; z < minZ + entityDepth; z++) {
+                    cursor.set(x, y, z);
+
+                    FluidState fluid = level.getFluidState(cursor);
+                    BlockState block = level.getBlockState(cursor);
+
+                    if (fluid.isEmpty() && !block.isAir()) {
                         return PathType.BLOCKED;
+                    }
+
+                    if (!fluid.isEmpty()) {
+                        hasWater = true;
                     }
                 }
             }
         }
-        BlockState blockstate1 = level.getBlockState(blockpos$mutableblockpos);
-        return blockstate1.isAir() ? PathType.BREACH : !blockstate1.getFluidState().isEmpty() ? PathType.WATER : PathType.BLOCKED;
+
+        if (hasWater) {
+            return PathType.WATER;
+        }
+
+        BlockPos below = pos.below();
+        return level.getFluidState(below).isEmpty()
+                ? PathType.BREACH
+                : PathType.WATER;
     }
 }
