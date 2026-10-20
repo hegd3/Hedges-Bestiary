@@ -6,6 +6,8 @@ package com.hedge.hedges_bestiary.client.models;// Made with Blockbench 5.1.6
 import com.hedge.hedges_bestiary.client.animations.SkibAnimation;
 import com.hedge.hedges_bestiary.client.EntityLayers;
 import com.hedge.hedges_bestiary.entity.living.ambientfish.SkibEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -84,4 +86,5 @@ public class SkibModel extends HBModel<SkibEntity> {
 		this.animateSmooth(entity.hideAnimationState, SkibAnimation.HIDE, ageInTicks, partialTicks, 1f);
 
 	}
+
 }

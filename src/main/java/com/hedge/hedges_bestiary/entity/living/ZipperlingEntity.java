@@ -17,12 +17,14 @@ import com.hedge.hedges_bestiary.util.SmoothAnimationState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -292,6 +294,16 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
     @Override
     public int getMaxSpawnClusterSize() {
         return 4;
+    }
+
+    @Override
+    protected @org.jetbrains.annotations.Nullable SoundEvent getHurtSound(DamageSource pDamageSource) {
+        return SoundEvents.COD_HURT;
+    }
+
+    @Override
+    protected @org.jetbrains.annotations.Nullable SoundEvent getDeathSound() {
+        return SoundEvents.COD_DEATH;
     }
 
     public static boolean canSpawn(EntityType<ZipperlingEntity> entity, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {

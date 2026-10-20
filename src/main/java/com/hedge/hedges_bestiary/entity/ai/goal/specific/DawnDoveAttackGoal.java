@@ -41,6 +41,9 @@ public class DawnDoveAttackGoal extends GenericMeleeGoal<DawnDoveEntity> {
                     Vec3 pos = this.findFlightPos(livingentity);
                     this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, 1.3);
                     this.reachedDropPos = true;
+                } else if (this.phaseTicks > 20 && this.attackReach >= this.dist) {
+                    this.randomFlying = false;
+                    this.phaseTicks = 0;
                 }
 
             }

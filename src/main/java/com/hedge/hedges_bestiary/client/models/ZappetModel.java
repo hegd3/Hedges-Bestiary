@@ -150,15 +150,4 @@ public class ZappetModel extends HBModel<ZappetEntity> {
 			this.animateWalk(ZappetAnimation.WALK, limbSwing, limbSwingAmount, 1.8f, 2.5f);
 		}
 	}
-
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int pPackedLight, int pPackedOverlay, int color) {
-		poseStack.pushPose();
-		if (this.young) {
-			poseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
-			poseStack.translate(0.0F, this.bodyYOffset / 16.0F, 0.0F);
-		}
-		this.root().render(poseStack, buffer, pPackedLight, pPackedOverlay, color);
-		poseStack.popPose();
-	}
 }

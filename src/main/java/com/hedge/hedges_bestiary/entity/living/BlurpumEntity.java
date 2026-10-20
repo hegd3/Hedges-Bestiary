@@ -2,6 +2,7 @@ package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
+import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticLookControl;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticMoveControl;
@@ -29,6 +30,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
@@ -579,6 +581,21 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
     @Override
     public int getVariant() {
         return this.entityData.get(VARIANT);
+    }
+
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        return HBSounds.BLURPUM_AMBIENT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
+        return HBSounds.BLURPUM_HURT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return HBSounds.BLURPUM_DIE.get();
     }
 
     @Override

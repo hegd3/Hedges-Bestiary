@@ -1,6 +1,7 @@
 package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
+import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticLookControl;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticMoveControl;
@@ -24,6 +25,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -32,6 +34,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -152,7 +155,10 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
                         }
                     }
                     case 4 -> {
-                        if (this.animTicks > 39) {
+                        if (this.animTicks == 10) {
+                            this.playSound(HBSounds.GAWK_CALL.get(), 1.5F, this.getRandom().nextFloat() * 0.2F + (this.isBaby() ? 1.5F : 1.1F));
+                        }
+                        else if (this.animTicks > 39) {
                             this.resetAnimState();
                         }
                     }
@@ -330,6 +336,7 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
             this.setAnimState(2);
         } else {
             this.setAnimState(3);
+            this.playSound(HBSounds.GAWK_AMBIENT.get(), 1.5F, this.getRandom().nextFloat() * 0.2F + (this.isBaby() ? 1.5F : 1.1F));
         }
     }
 
@@ -459,6 +466,15 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
         return true;
     }
 
+    @Override
+    protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
+        return HBSounds.GAWK_HURT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return HBSounds.GAWK_DIE.get();
+    }
 
     private static class GawkFeedBabiesGoal extends Goal {
         private int interval = 100;

@@ -1,6 +1,7 @@
 package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
+import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.entity.ai.goal.*;
 import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
 import com.hedge.hedges_bestiary.entity.types.EggLayer;
@@ -14,12 +15,14 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -255,6 +258,21 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
     @Override
     public void setHasEgg(boolean b) {
         this.entityData.set(HAS_EGG, b);
+    }
+
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        return HBSounds.GOPH_AMBIENT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
+        return HBSounds.GOPH_HURT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return HBSounds.GOPH_DIE.get();
     }
 
     private static class GophDigBrushableBlocksGoal extends MoveToBlockGoal {

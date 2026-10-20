@@ -35,6 +35,39 @@
     ],
     "subtitle": "hedgesbestiary.sound.subtitle.gurk_die"
   },
+  "goph_ambient": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:goph_ambient_0"
+      },
+      {
+        "name": "hedges_bestiary:goph_ambient_1"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.goph_ambient"
+  },
+  "goph_hurt": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:goph_hurt_0"
+      },
+      {
+        "name": "hedges_bestiary:goph_hurt_1"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.goph_hurts"
+  },
+  "goph_die": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:goph_die"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.goph_die"
+  },
   "burodon_roar": {
     "category": "neutral",
     "sounds": [
@@ -61,6 +94,75 @@
       }
     ],
     "subtitle": "hedgesbestiary.sound.subtitle.burodon_die"
+  },
+  "gawk_ambient": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:gawk_ambient"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.gawk_ambient"
+  },
+  "gawk_call": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:gawk_call"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.gawk_call"
+  },
+  "gawk_hurt": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:gawk_hurt"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.gawk_hurt"
+  },
+  "gawk_die": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:gawk_die"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.gawk_die"
+  },
+  "blurpum_ambient": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:blurpum_ambient_0"
+      },
+      {
+        "name": "hedges_bestiary:blurpum_ambient_1"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.blurpum_ambient"
+  },
+  "blurpum_hurt": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:blurpum_hurt_0"
+      },
+      {
+        "name": "hedges_bestiary:blurpum_hurt_1"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.blurpum_hurt"
+  },
+  "blurpum_die": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:blurpum_die"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.blurpum_die"
   },
   "murk_clicks": {
     "category": "neutral",
@@ -223,6 +325,39 @@
       }
     ],
     "subtitle": "hedgesbestiary.sound.subtitle.zippermouth_bite"
+  },
+  "zippermouth_ambient": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:zippermouth_ambient_0"
+      },
+      {
+        "name": "hedges_bestiary:zippermouth_ambient_1"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.zippermouth_ambient"
+  },
+  "zippermouth_hurt": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:zippermouth_hurt_0"
+      },
+      {
+        "name": "hedges_bestiary:zippermouth_hurt_1"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.zippermouth_hurt"
+  },
+  "zippermouth_death": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "hedges_bestiary:zippermouth_death"
+      }
+    ],
+    "subtitle": "hedgesbestiary.sound.subtitle.zippermouth_death"
   },
   "endgel_ambient": {
     "category": "hostile",

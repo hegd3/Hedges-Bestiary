@@ -31,6 +31,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
@@ -592,6 +593,31 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     @Override
     public void playIdle() {
 
+    }
+
+    @Override
+    public void playAmbientSound() {
+        this.playSound(HBSounds.ZIPPERMOUTH_AMBIENT.get(), 1.5F, 1.0F - this.getRandom().nextFloat() * 0.25F);
+    }
+
+    @Override
+    protected void playHurtSound(DamageSource source) {
+        this.playSound(HBSounds.ZIPPERMOUTH_HURT.get(), 1.5F, 1.0F - this.getRandom().nextFloat() * 0.25F);
+    }
+
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        return HBSounds.ZIPPERMOUTH_AMBIENT.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getDeathSound() {
+        return HBSounds.ZIPPERMOUTH_DIE.get();
+    }
+
+    @Override
+    protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
+        return HBSounds.ZIPPERMOUTH_HURT.get();
     }
 
     @Override

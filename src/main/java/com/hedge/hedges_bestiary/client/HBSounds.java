@@ -56,7 +56,33 @@ public class HBSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> DAWN_DOVE_HURT = createSoundEvent("dawn_dove_hurt");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOPH_AMBIENT = createSoundEvent("goph_ambient");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOPH_HURT = createSoundEvent("goph_hurt");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOPH_DIE = createSoundEvent("goph_die");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> GAWK_AMBIENT = createSoundEvent("gawk_ambient");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> GAWK_CALL = createSoundEvent("gawk_call");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> GAWK_HURT = createSoundEvent("gawk_hurt");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> GAWK_DIE = createSoundEvent("gawk_die");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> BLURPUM_AMBIENT = createSoundEvent("blurpum_ambient");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> BLURPUM_HURT = createSoundEvent("blurpum_hurt");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> BLURPUM_DIE = createSoundEvent("blurpum_die");
+
     public static final DeferredHolder<SoundEvent, SoundEvent> ZIPPERMOUTH_BITE = createSoundEvent("zippermouth_bite");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> ZIPPERMOUTH_AMBIENT = createSoundEvent("zippermouth_ambient");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> ZIPPERMOUTH_HURT = createSoundEvent("zippermouth_hurt");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> ZIPPERMOUTH_DIE = createSoundEvent("zippermouth_die");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> ENDGEL_AMBIENT = createSoundEvent("endgel_ambient");
 

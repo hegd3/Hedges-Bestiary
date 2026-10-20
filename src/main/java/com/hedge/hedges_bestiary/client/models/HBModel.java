@@ -33,7 +33,7 @@ public abstract class HBModel<E extends Entity> extends HierarchicalModel<E> {
             poseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
             poseStack.translate(0.0F, this.bodyYOffset / 16.0F, 0.0F);
         }
-        this.root().render(poseStack, vertexConsumer, packedLight, packedOverlay);
+        this.root().render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
         poseStack.popPose();
     }
 

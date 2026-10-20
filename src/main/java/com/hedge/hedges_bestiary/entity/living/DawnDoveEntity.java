@@ -135,8 +135,8 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
         this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new TargetPlayersGoal(this));
         this.targetSelector.addGoal(4, new TargetMonstersGoal(this));
-        this.targetSelector.addGoal(5, new TargetWhenAwakeGoal<>(this, LivingEntity.class,DAWN_DOVE_TARGETS)
-        );
+        this.targetSelector.addGoal(5, new TargetWhenAwakeGoal<>(this, LivingEntity.class,DAWN_DOVE_TARGETS));
+        this.targetSelector.addGoal(6, new TargetWhenAwakeGoal<>(this, Player.class, null));
     }
 
     @Override
