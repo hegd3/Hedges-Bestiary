@@ -32,12 +32,10 @@ public class ClientProxy extends CommonProxy {
         blockedEntityRenders.remove(id);
     }
 
+    @OnlyIn(Dist.CLIENT)
     public boolean isFirstPersonPlayer(Entity entity) {
         return entity.equals(Minecraft.getInstance().cameraEntity) && Minecraft.getInstance().options.getCameraType().isFirstPerson();
     }
 
-    public Player getClientSidePlayer() {
-        return Minecraft.getInstance().player;
-    }
 
 }
