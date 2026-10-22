@@ -1,5 +1,6 @@
 package com.hedge.hedges_bestiary.entity.living;
 
+import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.ai.control.SwimmingMoveControl;
 import com.hedge.hedges_bestiary.entity.ai.goal.*;
 import com.hedge.hedges_bestiary.entity.ai.navigation.FluidPathNavigation;
@@ -294,6 +295,11 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
     @Override
     public int getMaxSpawnClusterSize() {
         return 4;
+    }
+
+    @Override
+    public boolean isTamable() {
+        return super.isTamable() && HBConfig.ZIPPERMOUTH_IS_TAMABLE;
     }
 
     @Override

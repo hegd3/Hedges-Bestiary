@@ -2,6 +2,7 @@ package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.client.HBSounds;
+import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.ai.goal.*;
 import com.hedge.hedges_bestiary.entity.ai.navigation.HBPathNavigatorGround;
 import com.hedge.hedges_bestiary.entity.types.EggLayer;
@@ -273,6 +274,11 @@ public class GophEntity extends HBTamableAnimal implements EggLayer {
     @Override
     protected @Nullable SoundEvent getDeathSound() {
         return HBSounds.GOPH_DIE.get();
+    }
+
+    @Override
+    public boolean isTamable() {
+        return super.isTamable() && HBConfig.GOPH_IS_TAMABLE;
     }
 
     private static class GophDigBrushableBlocksGoal extends MoveToBlockGoal {

@@ -2,6 +2,7 @@ package com.hedge.hedges_bestiary.entity.living;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.client.HBSounds;
+import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.ai.control.SwimmingMoveControl;
 import com.hedge.hedges_bestiary.entity.ai.goal.*;
 import com.hedge.hedges_bestiary.entity.ai.goal.specific.ZippermouthAttackGoal;
@@ -60,6 +61,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
@@ -621,6 +624,11 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
     }
 
     @Override
+    public boolean isTamable() {
+        return super.isTamable() && HBConfig.ZIPPERMOUTH_IS_TAMABLE;
+    }
+
+    @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         if (spawnType == MobSpawnType.NATURAL || spawnType == MobSpawnType.CHUNK_GENERATION) {
             int groupSize = (int) (15 * this.getRandom().nextFloat());
@@ -705,7 +713,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
         return -3.5F;
     }
 
-    @Override
+    @Override @OnlyIn(Dist.CLIENT)
     public void renderHUD(GuiGraphics guiGraphics) {
         int screenWidth = guiGraphics.guiWidth(), screenHeight = guiGraphics.guiHeight();
         int imageWidth = 192, imageHeight = 70;

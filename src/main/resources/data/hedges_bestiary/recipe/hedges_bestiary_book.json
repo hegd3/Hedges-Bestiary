@@ -1,5 +1,5 @@
 {
-  "type": "patchouli:shapeless_book_recipe",
+  "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
       "item": "minecraft:book"
@@ -8,5 +8,11 @@
       "tag": "minecraft:leaves"
     }
   ],
-  "book": "hedges_bestiary:hedges_bestiary"
+  "result": {
+    "components": {
+      "patchouli:book": "hedges_bestiary:hedges_bestiary"
+    },
+    "count": 1,
+    "id": "patchouli:guide_book"
+  }
 }

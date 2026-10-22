@@ -59,6 +59,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
@@ -834,7 +836,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
         this.entityData.set(GRABBED_ENTITY_ID, i);
     }
 
-    @Override
+    @Override @OnlyIn(Dist.CLIENT)
     public void renderHUD(GuiGraphics guiGraphics) {
         int screenWidth = guiGraphics.guiWidth(), screenHeight = guiGraphics.guiHeight();
         int imageWidth = 192, imageHeight = 62;

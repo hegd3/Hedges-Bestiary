@@ -3,6 +3,7 @@ package com.hedge.hedges_bestiary.entity.living;
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
+import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticLookControl;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticMoveControl;
 import com.hedge.hedges_bestiary.entity.ai.goal.*;
@@ -474,6 +475,11 @@ public class GawkEntity extends HBTamableAnimal implements AttackStateMob, HBGro
     @Override
     protected @Nullable SoundEvent getDeathSound() {
         return HBSounds.GAWK_DIE.get();
+    }
+
+    @Override
+    public boolean isTamable() {
+        return super.isTamable() && HBConfig.GAWK_IS_TAMABLE;
     }
 
     private static class GawkFeedBabiesGoal extends Goal {

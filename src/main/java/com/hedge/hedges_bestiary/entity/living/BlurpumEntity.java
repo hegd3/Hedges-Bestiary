@@ -4,6 +4,7 @@ import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.blocks.HBBlocks;
 import com.hedge.hedges_bestiary.client.HBSounds;
 import com.hedge.hedges_bestiary.client.particle.SmokeParticleOptions;
+import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticLookControl;
 import com.hedge.hedges_bestiary.entity.ai.control.SemiaquaticMoveControl;
 import com.hedge.hedges_bestiary.entity.ai.goal.*;
@@ -64,6 +65,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
@@ -598,7 +601,7 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
         return HBSounds.BLURPUM_DIE.get();
     }
 
-    @Override
+    @Override @OnlyIn(Dist.CLIENT)
     public void renderHUD(GuiGraphics guiGraphics) {
         int screenWidth = guiGraphics.guiWidth(), screenHeight = guiGraphics.guiHeight();
         int imageWidth = 192, imageHeight = 22;
@@ -620,6 +623,10 @@ public class BlurpumEntity extends HBTamableAnimal implements AttackStateMob, Eg
 
     }
 
+    @Override
+    public boolean isTamable() {
+        return super.isTamable() && HBConfig.BLURPUM_IS_TAMABLE;
+    }
 
     @Override
     public float getCameraOffsetZ() {

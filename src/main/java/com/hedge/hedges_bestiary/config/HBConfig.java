@@ -19,6 +19,11 @@ public class HBConfig
     public static final ModConfigSpec.BooleanValue VALUE_MURK_TAMABLE;
     public static final ModConfigSpec.BooleanValue VALUE_DAWN_DOVE_TAMABLE;
     public static final ModConfigSpec.BooleanValue VALUE_FEROCETUS_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_GAWK_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_GOPH_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_BLURPUM_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_SPOTTED_STRIKER_TAMABLE;
+    public static final ModConfigSpec.BooleanValue VALUE_ZIPPERMOUTH_TAMABLE;
 
 
     public static boolean TAMING_DISABLED = false;
@@ -30,6 +35,11 @@ public class HBConfig
     public static boolean MURK_IS_TAMABLE = true;
     public static boolean DAWN_DOVE_IS_TAMABLE = true;
     public static boolean FEROCETUS_IS_TAMABLE = true;
+    public static boolean GOPH_IS_TAMABLE = true;
+    public static boolean GAWK_IS_TAMABLE = true;
+    public static boolean SPOTTED_STRIKER_IS_TAMABLE = true;
+    public static boolean BLURPUM_IS_TAMABLE = true;
+    public static boolean ZIPPERMOUTH_IS_TAMABLE = true;
 
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -37,12 +47,18 @@ public class HBConfig
         VALUE_TAMING_DISABLED = buildBoolean(builder, "Disable all taming", false, "Disables ALL Hedge's Bestiary pets from being tamed. DEFAULT: false");
         VALUE_BREEDING_REQUIRES_TAME = buildBoolean(builder, "Only breed when tamed", true, "Whether Hedge's Bestiary pets must be tame in order to breed. Ignored by mobs configured to be untamable. DEFAULT: true");
         VALUE_GURK_TAMABLE = buildBoolean(builder, "Gurk taming enabled", true, "Whether gurks can be tamed or not. DEFAULT: true");
+        VALUE_GOPH_TAMABLE = buildBoolean(builder, "Goph taming enabled", true, "Whether gophs can be tamed or not. DEFAULT: true");
+        VALUE_GAWK_TAMABLE = buildBoolean(builder, "Gawk taming enabled", true, "Whether gawks can be tamed or not. DEFAULT: true");
         VALUE_BURODON_TAMABLE = buildBoolean(builder, "Burodon taming enabled", true, "Whether burodons can be tamed or not. DEFAULT: true");
         VALUE_ZAPPET_TAMABLE = buildBoolean(builder, "Zappet taming enabled", true, "Whether zappets can be tamed or not. DEFAULT: true");
+        VALUE_BLURPUM_TAMABLE = buildBoolean(builder, "Blurpum taming enabled", true, "Whether blurpums can be tamed or not. DEFAULT: true");
+        VALUE_SPOTTED_STRIKER_TAMABLE = buildBoolean(builder, "Spotted Striker taming enabled", true, "Whether spotted strikers can be tamed or not. DEFAULT: true");
         VALUE_PLOMBO_TAMABLE = buildBoolean(builder, "Plombo taming enabled", true, "Whether plombos can be tamed or not. DEFAULT: true");
         VALUE_DAWN_DOVE_TAMABLE = buildBoolean(builder, "Dawn Dove taming enabled", true, "Whether dawn doves can be tamed or not. DEFAULT: true");
         VALUE_MURK_TAMABLE = buildBoolean(builder, "Murk taming enabled", true, "Whether murks can be tamed or not. DEFAULT: true");
-        VALUE_FEROCETUS_TAMABLE = buildBoolean(builder, "Ferocetus taming enabled", true, "Whether fercetus can be tamed or not. DEFAULT: true");
+        VALUE_FEROCETUS_TAMABLE = buildBoolean(builder, "Ferocetus taming enabled", true, "Whether ferocetus can be tamed or not. DEFAULT: true");
+        VALUE_ZIPPERMOUTH_TAMABLE = buildBoolean(builder, "Zipperling/Zippermouth taming enabled", true, "Whether zipperlings (and by extension, zippermouths) can be tamed or not. DEFAULT: true");
+
 
         builder.pop();
         SPEC = builder.build();
@@ -60,6 +76,11 @@ public class HBConfig
             MURK_IS_TAMABLE = VALUE_MURK_TAMABLE.get();
             DAWN_DOVE_IS_TAMABLE = VALUE_DAWN_DOVE_TAMABLE.get();
             FEROCETUS_IS_TAMABLE = VALUE_FEROCETUS_TAMABLE.get();
+            GAWK_IS_TAMABLE = VALUE_GAWK_TAMABLE.get();
+            GOPH_IS_TAMABLE = VALUE_GOPH_TAMABLE.get();
+            SPOTTED_STRIKER_IS_TAMABLE = VALUE_SPOTTED_STRIKER_TAMABLE.get();
+            BLURPUM_IS_TAMABLE = VALUE_BLURPUM_TAMABLE.get();
+            ZIPPERMOUTH_IS_TAMABLE = VALUE_ZIPPERMOUTH_TAMABLE.get();
 
         } catch (Exception e) {
             HedgesBestiary.LOGGER.warn("An exception was caused trying to load the config for Hedge's Bestiary", e);

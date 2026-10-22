@@ -1,5 +1,6 @@
 package com.hedge.hedges_bestiary.entity.living;
 
+import com.hedge.hedges_bestiary.config.HBConfig;
 import com.hedge.hedges_bestiary.entity.ai.control.SwimmingMoveControl;
 import com.hedge.hedges_bestiary.entity.ai.goal.*;
 import com.hedge.hedges_bestiary.entity.ai.targeting.HBHurtByTargetGoal;
@@ -443,6 +444,11 @@ public class SpottedStrikerEntity extends HBTamableAnimal implements AttackState
     @Override
     public void playIdle() {
 
+    }
+
+    @Override
+    public boolean isTamable() {
+        return super.isTamable() && HBConfig.SPOTTED_STRIKER_IS_TAMABLE;
     }
 
     @Override

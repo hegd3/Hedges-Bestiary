@@ -1,10 +1,10 @@
 {
   "type": "minecraft:campfire_cooking",
-  "category": "food",
   "cookingtime": 600,
   "experience": 0.7,
   "ingredient": {
     "item": "hedges_bestiary:raw_urkmeat"
   },
-  "result": "hedges_bestiary:cooked_urkmeat"
-}
+  "result": {
+    "id": "hedges_bestiary:cooked_urkmeat"
+  }}
