@@ -487,107 +487,109 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
                 }
             }
             if (this.getAnimState() > 0) {
-                this.animTicks++;
-                switch (this.getAnimState()) {
-                    case 1 -> {
-                        if (this.animTicks == 5) {
-                            this.turnType = TurnType.WHOLE_BODY;
-                        }
-                        else if (this.animTicks == 10) {
-                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(2.2), 1.8, 1.5, 1.8, 3);
-                            for (LivingEntity entity : hit) {
-                                this.doHurtTarget(entity);
+                if (this.isAlive()) {
+                    this.animTicks++;
+                    switch (this.getAnimState()) {
+                        case 1 -> {
+                            if (this.animTicks == 5) {
+                                this.turnType = TurnType.WHOLE_BODY;
+                            } else if (this.animTicks == 10) {
+                                List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(2.2), 1.8, 1.5, 1.8, 3);
+                                for (LivingEntity entity : hit) {
+                                    this.doHurtTarget(entity);
+                                }
+                            } else if (this.animTicks >= 19) {
+                                this.resetAnimState();
                             }
-                        } else if (this.animTicks >= 19) {
-                            this.resetAnimState();
                         }
-                    }
-                    case 2 -> {
-                        if (this.animTicks < 10 && target != null) {
-                       //     this.lookAt(target, 30f, 30f);
-                            this.getLookControl().setLookAt(target, 30f, 30f);
-                        }
-                        else if (this.animTicks >= 16 && this.animTicks <= 24 && this.animTicks % 2 == 0) {
-                            MurkSmoke projectile = HBEntities.MURK_SMOKE.get().create(this.level());
-                            if (projectile != null) {
-                                projectile.setCharged(this.isCharged());
-                                Vec3 v = (EntityHelpers.bodyAngle(this).scale(1.3f)).cross(EntityHelpers.UP).scale(this.projectileRot * 0.1);
-                                projectile.moveTo(this.getEyePosition().add(v));
-                                projectile.shootFromRotation(this, Mth.clamp(this.getXRot(), -25, 25), this.getYHeadRot() + this.projectileRot, 0.0f, 3, 0);
-                                this.level().addFreshEntity(projectile);
-                                this.projectileRot += this.swingingLeft() ? 5 : -5;
-                            }
+                        case 2 -> {
+                            if (this.animTicks < 10 && target != null) {
+                                //     this.lookAt(target, 30f, 30f);
+                                this.getLookControl().setLookAt(target, 30f, 30f);
+                            } else if (this.animTicks >= 16 && this.animTicks <= 24 && this.animTicks % 2 == 0) {
+                                MurkSmoke projectile = HBEntities.MURK_SMOKE.get().create(this.level());
+                                if (projectile != null) {
+                                    projectile.setCharged(this.isCharged());
+                                    Vec3 v = (EntityHelpers.bodyAngle(this).scale(1.3f)).cross(EntityHelpers.UP).scale(this.projectileRot * 0.1);
+                                    projectile.moveTo(this.getEyePosition().add(v));
+                                    projectile.shootFromRotation(this, Mth.clamp(this.getXRot(), -25, 25), this.getYHeadRot() + this.projectileRot, 0.0f, 3, 0);
+                                    this.level().addFreshEntity(projectile);
+                                    this.projectileRot += this.swingingLeft() ? 5 : -5;
+                                }
 
-                        } else if (this.animTicks >= 39) {
-                            this.resetAnimState();
-                            this.projCD = 100;
-                        }
-                    }
-                    case 3 -> {
-                        if (this.animTicks % 5 == 0 && this.animTicks < 18) {
-                            if (target != null) {
-                                this.getLookControl().setLookAt(target, 15f, 30f);
+                            } else if (this.animTicks >= 39) {
+                                this.resetAnimState();
+                                this.projCD = 100;
                             }
-                            this.addDeltaMovement(EntityHelpers.bodyAngle(this).scale(this.isInFluidType() ? 0.1 : 0.25));
-                        } else if (this.animTicks >= 75){
-                            this.resetAnimState();
-                            this.multiBiteCD = 120;
-                        } else {
-                            switch (this.animTicks) {
-                                case 18 -> this.turnType = TurnType.LOCK;
-                                case 19, 36, 54 -> {
-                                    this.powerBite();
-                                    this.addDeltaMovement(this.getLookAngle().scale(0.4));
+                        }
+                        case 3 -> {
+                            if (this.animTicks % 5 == 0 && this.animTicks < 18) {
+                                if (target != null) {
+                                    this.getLookControl().setLookAt(target, 15f, 30f);
+                                }
+                                this.addDeltaMovement(EntityHelpers.bodyAngle(this).scale(this.isInFluidType() ? 0.1 : 0.25));
+                            } else if (this.animTicks >= 75) {
+                                this.resetAnimState();
+                                this.multiBiteCD = 120;
+                            } else {
+                                switch (this.animTicks) {
+                                    case 18 -> this.turnType = TurnType.LOCK;
+                                    case 19, 36, 54 -> {
+                                        this.powerBite();
+                                        this.addDeltaMovement(this.getLookAngle().scale(0.4));
+                                    }
                                 }
                             }
                         }
-                    }
-                    case 4 -> {
-                        if (this.animTicks == 23) {
-                            this.setCharged(true);
-                            this.chargedExplode();
-                            this.chargeProgress = 1;
-                        }
-                        else if (this.animTicks >= 65) {
-                            this.resetAnimState();
-                            this.roarCD = 340;
-                        }
-                        if (target != null) {
-                            this.getLookControl().setLookAt(target.position().add(0, 0.5, 0));
-                        }
-                    }
-                    case 5 -> {
-                        if (this.animTicks < 15 && target != null) {
-                            this.getLookControl().setLookAt(target, 30f, 30f);
-
-                        } else if (this.animTicks == 20) {
-                            this.turnType = TurnType.LOCK;
-                            Vec3 v = EntityHelpers.bodyAngle(this);
-                            this.addDeltaMovement(v.scale(0.8));
-                            if (this.isCharged()) {
+                        case 4 -> {
+                            if (this.animTicks == 23) {
+                                this.setCharged(true);
                                 this.chargedExplode();
+                                this.chargeProgress = 1;
+                            } else if (this.animTicks >= 65) {
+                                this.resetAnimState();
+                                this.roarCD = 340;
                             }
-                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, v, 3, 3, 3, 8);
-                            for (LivingEntity entity : hit) {
-                                if (!AttackHelpers.blockBreak(entity)) {
-                                    AttackHelpers.betterHurt(this, entity, 1.2f, 1.4f);
-                                }
+                            if (target != null) {
+                                this.getLookControl().setLookAt(target.position().add(0, 0.5, 0));
                             }
-                        } else if (this.animTicks >= 44) {
-                            this.resetAnimState();
                         }
+                        case 5 -> {
+                            if (this.animTicks < 15 && target != null) {
+                                this.getLookControl().setLookAt(target, 30f, 30f);
 
-                    }
-                    case 6 -> {
-                        if (this.animTicks > 20) {
-                            this.resetAnimState();
+                            } else if (this.animTicks == 20) {
+                                this.turnType = TurnType.LOCK;
+                                Vec3 v = EntityHelpers.bodyAngle(this);
+                                this.addDeltaMovement(v.scale(0.8));
+                                if (this.isCharged()) {
+                                    this.chargedExplode();
+                                }
+                                List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, v, 3, 3, 3, 8);
+                                for (LivingEntity entity : hit) {
+                                    if (!AttackHelpers.blockBreak(entity)) {
+                                        AttackHelpers.betterHurt(this, entity, 1.2f, 1.4f);
+                                    }
+                                }
+                            } else if (this.animTicks >= 44) {
+                                this.resetAnimState();
+                            }
+
+                        }
+                        case 6 -> {
+                            if (this.animTicks > 20) {
+                                this.resetAnimState();
+                            }
+                        }
+                        case 7 -> {
+                            if (this.animTicks > 32) {
+                                this.resetAnimState();
+                            }
                         }
                     }
-                    case 7 -> {
-                        if (this.animTicks > 32) {
-                            this.resetAnimState();
-                        }
-                    }
+                }
+                else {
+                    this.setAnimState(0);
                 }
             }
         }

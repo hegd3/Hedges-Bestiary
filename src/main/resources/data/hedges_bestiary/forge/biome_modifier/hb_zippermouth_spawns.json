@@ -1,0 +1,18 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:ocean",
+    "minecraft:deep_ocean",
+    "minecraft:warm_ocean",
+    "minecraft:lukewarm_ocean",
+    "minecraft:deep_lukewarm_ocean"
+  ],
+  "spawners":
+  {
+    "type": "hedges_bestiary:zippermouth",
+    "weight": 8,
+    "minCount": 1,
+    "maxCount": 1,
+    "category": "water_creature"
+  }
+}

@@ -333,98 +333,101 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
                 this.playSound(SoundEvents.GENERIC_EAT);
             }
             if (this.getAnimState() > 0) {
-                this.animTicks++;
-                switch (this.getAnimState()) {
-                    case 1 -> {
-                        if (this.animTicks == 9) {
-                            for (LivingEntity entity : AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this, this.getXRot()).scale(1.3), 2.5, 2.5, 2.5, 5)) {
-                                this.doHurtTarget(entity);
-                            }
-                        } else if (this.animTicks > 22) {
-                            this.resetAnimState();
-                        }
-                    }
-                    case 2 -> {
-                        this.getNavigation().stop();
-                        if (this.animTicks <= 5) {
-                            LivingEntity target = this.getTarget();
-                            if (target != null) {
-                                this.getLookControl().setLookAt(target, 15f, 0f);
-                                this.xRotO = 0;
-                                this.setXRot(0);
-                            }
-                        }
-                        else if (this.animTicks == 10) {
-                            this.addDeltaMovement(EntityHelpers.bodyAngle(this).scale(1.1));
-                        }
-                        else if (this.animTicks == 15) {
-                            for (LivingEntity entity : AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this, this.getXRot()).scale(1.4), 3, 3, 3, 10)) {
-                                if (AttackHelpers.betterHurt(this, entity, 1.8f, 1.8f)) {
-                                    EntityHelpers.knockUp(entity, 1.5);
+                if (this.isAlive()) {
+                    this.animTicks++;
+                    switch (this.getAnimState()) {
+                        case 1 -> {
+                            if (this.animTicks == 9) {
+                                for (LivingEntity entity : AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this, this.getXRot()).scale(1.3), 2.5, 2.5, 2.5, 5)) {
+                                    this.doHurtTarget(entity);
                                 }
-                            }
-                        } else if (this.animTicks >= 30) {
-                            this.resetAnimState();
-                        } else {
-                            this.setXRot(Mth.approachDegrees(this.getXRot(), 0, 20));
-                        }
-                    }
-                    case 3 -> {
-                        if (!this.leftWater && !this.isInFluidType()) {
-                            this.leftWater = true;
-                        } else if (this.leftWater && this.isInFluidType()) {
-
-
-                            for (LivingEntity entity : AttackHelpers.zoneHitbox(this, Vec3.ZERO, 4, 4, 4, 10)) {
-                                if (AttackHelpers.betterHurt(this, entity, 1.3f, 1.2f)) {
-                                    EntityHelpers.knockUp(entity, 0.7);
-                                }
-                            }
-                            this.jumpCD = 200;
-                            this.resetAnimState();
-                        } else if (this.onGround() || (this.animTicks >= 60 && this.isInFluidType())) {
-                            this.jumpCD = 200;
-                            this.resetAnimState();
-                        }
-                    }
-                    case 4 -> {
-                        if (this.isGrabbing()) {
-                            if (this.animTicks == 10) {
-                                AttackHelpers.betterHurt(this, (LivingEntity)this.grabbedEntity, 0.5F);
                             } else if (this.animTicks > 22) {
                                 this.resetAnimState();
                             }
-                        } else {
-                            if (this.animTicks == 10) {
-                                if (mount) {
-                                    for (LivingEntity entity : AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this, this.getXRot()).scale(1.3), 2.5, 2.5, 2.5, 5)) {
-                                        if (this.smallEnoughToGrab(entity)) {
-                                            this.grab(entity);
-                                            this.resetAnimState();
-                                            break;
-                                        }
+                        }
+                        case 2 -> {
+                            this.getNavigation().stop();
+                            if (this.animTicks <= 5) {
+                                LivingEntity target = this.getTarget();
+                                if (target != null) {
+                                    this.getLookControl().setLookAt(target, 15f, 0f);
+                                    this.xRotO = 0;
+                                    this.setXRot(0);
+                                }
+                            } else if (this.animTicks == 10) {
+                                this.addDeltaMovement(EntityHelpers.bodyAngle(this).scale(1.1));
+                            } else if (this.animTicks == 15) {
+                                for (LivingEntity entity : AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this, this.getXRot()).scale(1.4), 3, 3, 3, 10)) {
+                                    if (AttackHelpers.betterHurt(this, entity, 1.8f, 1.8f)) {
+                                        EntityHelpers.knockUp(entity, 1.5);
                                     }
-                                } else if (this.getTarget() != null && this.canGrab(this.getTarget())) {
-                                    this.grab(this.getTarget());
-                                    this.getNavigation().stop();
+                                }
+                            } else if (this.animTicks >= 30) {
+                                this.resetAnimState();
+                            } else {
+                                this.setXRot(Mth.approachDegrees(this.getXRot(), 0, 20));
+                            }
+                        }
+                        case 3 -> {
+                            if (!this.leftWater && !this.isInFluidType()) {
+                                this.leftWater = true;
+                            } else if (this.leftWater && this.isInFluidType()) {
+
+
+                                for (LivingEntity entity : AttackHelpers.zoneHitbox(this, Vec3.ZERO, 4, 4, 4, 10)) {
+                                    if (AttackHelpers.betterHurt(this, entity, 1.3f, 1.2f)) {
+                                        EntityHelpers.knockUp(entity, 0.7);
+                                    }
+                                }
+                                this.jumpCD = 200;
+                                this.resetAnimState();
+                            } else if (this.onGround() || (this.animTicks >= 60 && this.isInFluidType())) {
+                                this.jumpCD = 200;
+                                this.resetAnimState();
+                            }
+                        }
+                        case 4 -> {
+                            if (this.isGrabbing()) {
+                                if (this.animTicks == 10) {
+                                    AttackHelpers.betterHurt(this, (LivingEntity) this.grabbedEntity, 0.5F);
+                                } else if (this.animTicks > 22) {
                                     this.resetAnimState();
                                 }
-                            } else if (this.animTicks > 22) {
+                            } else {
+                                if (this.animTicks == 10) {
+                                    if (mount) {
+                                        for (LivingEntity entity : AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this, this.getXRot()).scale(1.3), 2.5, 2.5, 2.5, 5)) {
+                                            if (this.smallEnoughToGrab(entity)) {
+                                                this.grab(entity);
+                                                this.resetAnimState();
+                                                break;
+                                            }
+                                        }
+                                    } else if (this.getTarget() != null && this.canGrab(this.getTarget())) {
+                                        this.grab(this.getTarget());
+                                        this.getNavigation().stop();
+                                        this.resetAnimState();
+                                    }
+                                } else if (this.animTicks > 22) {
+                                    this.resetAnimState();
+                                }
+                            }
+                        }
+                        case 5 -> {
+                            if (this.animTicks >= 78) {
+                                this.setLeft(!this.swingingLeft());
+                                this.resetAnimState();
+                            }
+                        }
+                        case 6 -> {
+                            if (this.animTicks >= 38) {
                                 this.resetAnimState();
                             }
                         }
                     }
-                    case 5 -> {
-                        if (this.animTicks >= 78) {
-                            this.setLeft(!this.swingingLeft());
-                            this.resetAnimState();
-                        }
-                    }
-                    case 6 -> {
-                        if (this.animTicks >= 38) {
-                            this.resetAnimState();
-                        }
-                    }
+                }
+                else {
+                    this.setAnimState(0);
                 }
             }
         }

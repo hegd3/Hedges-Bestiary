@@ -2,7 +2,7 @@
   "name": "Endgel",
   "icon": "hedges_bestiary:endgelic_heart",
   "category": "hedges_bestiary:mobs_category",
-  "sortnum": 3,
+  "sortnum": 4,
   "pages": [
     {
       "type": "text",

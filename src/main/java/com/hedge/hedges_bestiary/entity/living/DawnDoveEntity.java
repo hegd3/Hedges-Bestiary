@@ -388,59 +388,66 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
                 this.heal(10);
             }
             if (this.getAnimState() > 0) {
-                this.animTicks++;
-                switch(this.getAnimState()) {
-                    case 1 -> {
-                        if (animTicks == 8) {
-                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(1.2), 2, 2, 2, 2);
-                            for (LivingEntity e : hit) {
-                                this.doHurtTarget(e);
-                            }
-                        } else if (animTicks > 15) {
-                            this.resetAnimState();
-                        }
-                    } case 2 -> {
-                        if (animTicks == 13) {
-                            DragonFireBall fireball = HBEntities.DRAGON_FIREBALL.get().create(this.level());
-                            fireball.setOwner(this);
-                            fireball.moveTo(this.getEyePosition().add(this.getLookAngle().scale(1.2)));
-                            fireball.shootFromRotation(this, this.getXRot(), this.getYHeadRot(), 0.0f, 3, 0);
-                            this.level().addFreshEntity(fireball);
-                            this.playSound(HBSounds.FIREBALL_SHOOT.get(), 1.2F, 1.0F - this.getRandom().nextFloat() / 2);
-                        } else if (animTicks > 23) {
-                            this.resetAnimState();
-                            this.shootCD = 40;
-                        }
-                    } case 3 -> {
-                        if (animTicks == 10) {
-                            this.addDeltaMovement(this.getLookAngle().scale(1.2f));
-                        } else if (animTicks == 12) {
-                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(1.2), 2, 2, 2, 5);
-                            if (this.hasControllingPassenger()) {
+                if (this.isAlive()) {
+                    this.animTicks++;
+                    switch (this.getAnimState()) {
+                        case 1 -> {
+                            if (animTicks == 8) {
+                                List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(1.2), 2, 2, 2, 2);
                                 for (LivingEntity e : hit) {
-                                    if (this.canGrab(e)) {
-                                        this.grab(e);
-                                        break;
-                                    }
+                                    this.doHurtTarget(e);
                                 }
-                            } else {
-                                for (LivingEntity e : hit) {
-                                    if (e == this.getTarget() && this.canGrab(e)) {
-                                        if (!AttackHelpers.blockBreak(e)) {
+                            } else if (animTicks > 15) {
+                                this.resetAnimState();
+                            }
+                        }
+                        case 2 -> {
+                            if (animTicks == 13) {
+                                DragonFireBall fireball = HBEntities.DRAGON_FIREBALL.get().create(this.level());
+                                fireball.setOwner(this);
+                                fireball.moveTo(this.getEyePosition().add(this.getLookAngle().scale(1.2)));
+                                fireball.shootFromRotation(this, this.getXRot(), this.getYHeadRot(), 0.0f, 3, 0);
+                                this.level().addFreshEntity(fireball);
+                                this.playSound(HBSounds.FIREBALL_SHOOT.get(), 1.2F, 1.0F - this.getRandom().nextFloat() / 2);
+                            } else if (animTicks > 23) {
+                                this.resetAnimState();
+                                this.shootCD = 40;
+                            }
+                        }
+                        case 3 -> {
+                            if (animTicks == 10) {
+                                this.addDeltaMovement(this.getLookAngle().scale(1.2f));
+                            } else if (animTicks == 12) {
+                                List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, this.getLookAngle().scale(1.2), 2, 2, 2, 5);
+                                if (this.hasControllingPassenger()) {
+                                    for (LivingEntity e : hit) {
+                                        if (this.canGrab(e)) {
                                             this.grab(e);
+                                            break;
                                         }
-                                    } else {
-                                        AttackHelpers.betterHurt(this, e, 1.7f);
+                                    }
+                                } else {
+                                    for (LivingEntity e : hit) {
+                                        if (e == this.getTarget() && this.canGrab(e)) {
+                                            if (!AttackHelpers.blockBreak(e)) {
+                                                this.grab(e);
+                                            }
+                                        } else {
+                                            AttackHelpers.betterHurt(this, e, 1.7f);
+                                        }
                                     }
                                 }
+                            } else if (animTicks > 35) {
+                                this.resetAnimState();
+                                this.clawAttackCD = 60;
+                            } else {
+                                this.setDeltaMovement(this.getDeltaMovement().scale(0.8));
                             }
-                        } else if (animTicks > 35) {
-                            this.resetAnimState();
-                            this.clawAttackCD = 60;
-                        } else {
-                            this.setDeltaMovement(this.getDeltaMovement().scale(0.8));
                         }
                     }
+                }
+                else {
+                    this.setAnimState(0);
                 }
             }
         }

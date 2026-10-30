@@ -1,5 +1,5 @@
 {
-  "name": "Plombo",
+  "name": "Plombo*",
   "icon": "hedges_bestiary:hearty_treat",
   "category": "hedges_bestiary:mobs_category",
   "sortnum": 2,
@@ -10,7 +10,7 @@
       "taming": "Feed several $(treat2) whilst sleeping",
       "habitat": "Birch forests",
       "breeding": "Leaves",
-      "extra": "See next page"
+      "extra": "*Produces $(richmilk). See next page"
     },
     {
       "type": "patchouli:image",

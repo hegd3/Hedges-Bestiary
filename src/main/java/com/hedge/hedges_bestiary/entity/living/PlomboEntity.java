@@ -241,60 +241,61 @@ public class PlomboEntity extends HBTamableAnimal implements AttackStateMob, Adv
 
     private void tickAnimState() {
         if (this.getAnimState() > 0) {
-            animTicks++;
-            LivingEntity target = this.getTarget();
-            switch (this.getAnimState()) {
-                case 1 -> {
-                    if (this.animTicks == 13 && target != null && this.canHurtTarget(target, this.getAttackReachSqr(target), this.distanceToSqr(target))) {
-                        this.doHurtTarget(target);
-                    } else if (this.animTicks > 20) {
-                        this.setLeft(!this.swingingLeft());
-                        this.resetAnimState();
-                    }
-                }
-                case 2 -> {
-                    this.getNavigation().stop();
-                    if (this.animTicks < 10 && target != null) {
-                        this.getLookControl().setLookAt(target, 15f, 30f);
-                    } else if (this.animTicks == 15 || this.animTicks == 24 || this.animTicks == 44) {
-                        this.addDeltaMovement(EntityHelpers.bodyAngle(this).scale(0.4));
-                    }
-                    else if (this.animTicks == 20 || this.animTicks == 30) {
-                        List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this).scale(1.3), 2, 2, 2, 8);
-                        for (LivingEntity entity : hit) {
-                            AttackHelpers.betterHurt(this, entity, 1.2f, 0.8f);
+            if (this.isAlive()) {
+                animTicks++;
+                LivingEntity target = this.getTarget();
+                switch (this.getAnimState()) {
+                    case 1 -> {
+                        if (this.animTicks == 13 && target != null && this.canHurtTarget(target, this.getAttackReachSqr(target), this.distanceToSqr(target))) {
+                            this.doHurtTarget(target);
+                        } else if (this.animTicks > 20) {
+                            this.setLeft(!this.swingingLeft());
+                            this.resetAnimState();
                         }
-                    } else if (this.animTicks == 48) {
-                        List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this).scale(1.3), 2, 2, 2, 8);
-                        for (LivingEntity entity : hit) {
-                            if (!AttackHelpers.blockBreak(entity)) {
-                                AttackHelpers.betterHurt(this, entity, 2f, 1f);
+                    }
+                    case 2 -> {
+                        this.getNavigation().stop();
+                        if (this.animTicks < 10 && target != null) {
+                            this.getLookControl().setLookAt(target, 15f, 30f);
+                        } else if (this.animTicks == 15 || this.animTicks == 24 || this.animTicks == 44) {
+                            this.addDeltaMovement(EntityHelpers.bodyAngle(this).scale(0.4));
+                        } else if (this.animTicks == 20 || this.animTicks == 30) {
+                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this).scale(1.3), 2, 2, 2, 8);
+                            for (LivingEntity entity : hit) {
+                                AttackHelpers.betterHurt(this, entity, 1.2f, 0.8f);
                             }
+                        } else if (this.animTicks == 48) {
+                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, EntityHelpers.bodyAngle(this).scale(1.3), 2, 2, 2, 8);
+                            for (LivingEntity entity : hit) {
+                                if (!AttackHelpers.blockBreak(entity)) {
+                                    AttackHelpers.betterHurt(this, entity, 2f, 1f);
+                                }
+                            }
+                        } else if (this.animTicks >= 70) {
+                            this.resetAnimState();
+                            this.multiAttackCD = 60;
+                        }
+                    }
+                    case 3 -> {
+                        if (this.getTarget() != null || this.getAnimTicks() >= 20) {
+                            this.resetAnimState();
+                            this.setLeft(!this.swingingLeft());
+                        }
+                    }
+                    case 4 -> {
+                        if (this.getTarget() != null || this.getAnimTicks() >= 41) {
+                            this.resetAnimState();
+                        }
+                    }
+                    case 5 -> {
+                        if (this.getTarget() != null || this.getAnimTicks() >= 38) {
+                            this.resetAnimState();
                         }
                     }
 
-                    else if (this.animTicks >= 70) {
-                        this.resetAnimState();
-                        this.multiAttackCD = 60;
-                    }
                 }
-                case 3 -> {
-                    if (this.getTarget() != null || this.getAnimTicks() >= 20) {
-                        this.resetAnimState();
-                        this.setLeft(!this.swingingLeft());
-                    }
-                }
-                case 4 -> {
-                    if (this.getTarget() != null || this.getAnimTicks() >= 41) {
-                        this.resetAnimState();
-                    }
-                }
-                case 5 -> {
-                    if (this.getTarget() != null || this.getAnimTicks() >= 38) {
-                        this.resetAnimState();
-                    }
-                }
-
+            } else {
+                this.setAnimState(0);
             }
         }
     }

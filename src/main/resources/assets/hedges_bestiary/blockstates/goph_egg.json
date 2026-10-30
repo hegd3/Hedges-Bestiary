@@ -1,0 +1,40 @@
+{
+  "variants": {
+      "eggs=1,hatch=0": {
+        "model": "hedges_bestiary:block/goph_egg_1"
+      },
+      "eggs=1,hatch=1": {
+        "model": "hedges_bestiary:block/goph_egg_1_cracked"
+      },
+      "eggs=1,hatch=2": {
+        "model": "hedges_bestiary:block/goph_egg_1_very_cracked"
+      },
+      "eggs=2,hatch=0": {
+        "model": "hedges_bestiary:block/goph_egg_2"
+      },
+      "eggs=2,hatch=1": {
+        "model": "hedges_bestiary:block/goph_egg_2_cracked"
+      },
+      "eggs=2,hatch=2": {
+        "model": "hedges_bestiary:block/goph_egg_2_very_cracked"
+      },
+      "eggs=3,hatch=0": {
+        "model": "hedges_bestiary:block/goph_egg_3"
+      },
+      "eggs=3,hatch=1": {
+        "model": "hedges_bestiary:block/goph_egg_3_cracked"
+      },
+      "eggs=3,hatch=2": {
+        "model": "hedges_bestiary:block/goph_egg_3_very_cracked"
+      },
+      "eggs=4,hatch=0": {
+        "model": "hedges_bestiary:block/goph_egg_4"
+      },
+      "eggs=4,hatch=1": {
+        "model": "hedges_bestiary:block/goph_egg_4_cracked"
+      },
+      "eggs=4,hatch=2": {
+        "model": "hedges_bestiary:block/goph_egg_4_very_cracked"
+      }
+  }
+}

@@ -33,6 +33,12 @@
   "entity.hedges_bestiary.endgel_blast": "Endgel Blast",
   "entity.hedges_bestiary.dawn_dove_fireball": "Dawn Dove Fireball",
   "entity.hedges_bestiary.murk_smoke": "Murk Smoke",
+  "entity.hedges_bestiary.blurpum": "Blurpum",
+  "entity.hedges_bestiary.gawk": "Gawk",
+  "entity.hedges_bestiary.goph": "Goph",
+  "entity.hedges_bestiary.zippermouth": "Zippermouth",
+  "entity.hedges_bestiary.zipperling": "Zipperling",
+  "entity.hedges_bestiary.nib_nib": "Nib Nib",
 
   "effect.hedges_bestiary.volatility": "Volatility",
 
@@ -49,10 +55,18 @@
   "item.hedges_bestiary.spotted_striker_spawn_egg": "Spotted Striker Spawn Egg",
   "item.hedges_bestiary.tearacuda_spawn_egg": "Tearacuda Spawn Egg",
   "item.hedges_bestiary.zappet_spawn_egg": "Zappet Spawn Egg",
+  "item.hedges_bestiary.blurpum_spawn_egg": "Blurpum Spawn Egg",
+  "item.hedges_bestiary.gawk_spawn_egg": "Gawk Spawn Egg",
+  "item.hedges_bestiary.goph_spawn_egg": "Goph Spawn Egg",
+  "item.hedges_bestiary.zippermouth_spawn_egg": "Zippermouth Spawn Egg",
+  "item.hedges_bestiary.zipperling_spawn_egg": "Zipperling Spawn Egg",
+  "item.hedges_bestiary.nib_nib_spawn_egg": "Nib Nib Spawn Egg",
 
   "item.hedges_bestiary.plain_treat": "Plain Treat",
   "item.hedges_bestiary.seasoned_treat": "Seasoned Treat",
   "item.hedges_bestiary.hearty_treat": "Hearty Treat",
+  "item.hedges_bestiary.luscious_treat": "Luscious Treat",
+
   "item.hedges_bestiary.endgelic_judgement": "Endgelic Judgement",
   "item.hedges_bestiary.murklevolence": "Murklevolence",
 
@@ -63,17 +77,29 @@
   "item.hedges_bestiary.cooked_urkmeat": "Cooked Urkmeat",
   "item.hedges_bestiary.murk_spike": "Murk Spike",
   "item.hedges_bestiary.endgelic_heart": "Endgelic Heart",
+  "item.hedges_bestiary.zippermouth_scales": "Zippermouth Scales",
+
+  "item.hedges_bestiary.fine_milk_bottle": "Fine Milk Bottle",
+  "item.hedges_bestiary.rich_milk_bottle": "Rich Milk Bottle",
 
   "item.hedges_bestiary.skib": "Skib",
   "item.hedges_bestiary.dawn_dove_egg": "Dawn Dove Egg",
   "item.hedges_bestiary.gurk_egg": "Gurk Egg",
   "item.hedges_bestiary.murk_egg": "Murk Egg",
   "item.hedges_bestiary.zappet_egg": "Zappet Egg",
+  "item.hedges_bestiary.blurpum_eggs": "Blurpum Eggs",
+  "item.hedges_bestiary.goph_egg": "Goph Egg",
+  "item.hedges_bestiary.gawk_egg": "Gawk Egg",
+
 
   "block.hedges_bestiary.dawn_dove_egg": "Dawn Dove Egg",
   "block.hedges_bestiary.gurk_egg": "Gurk Egg",
   "block.hedges_bestiary.murk_egg": "Murk Egg",
   "block.hedges_bestiary.zappet_egg": "Zappet Egg",
+  "block.hedges_bestiary.blurpum_eggs": "Blurpum Eggs",
+  "block.hedges_bestiary.goph_egg": "Goph Egg",
+  "block.hedges_bestiary.gawk_egg": "Gawk Egg",
+
   "creativetab.hedges_bestiary_tab": "Hedge's Bestiary",
 
   "hedgesbestiary.sound.subtitle.gurk_ambient": "Gurk gurks",
@@ -105,9 +131,28 @@
   "hedgesbestiary.sound.subtitle.dawn_dove_ambient": "Dawn dove coos",
   "hedgesbestiary.sound.subtitle.dawn_dove_hurt": "Dawn dove hurts",
 
+  "hedgesbestiary.sound.subtitle.blurpum_ambient": "Blurpum blurps",
+  "hedgesbestiary.sound.subtitle.blurpum_hurt": "Blurpum hurts",
+  "hedgesbestiary.sound.subtitle.blurpum_die": "Blurpum dies",
+
+  "hedgesbestiary.sound.subtitle.goph_ambient": "Goph clicks",
+  "hedgesbestiary.sound.subtitle.goph_hurt": "Goph hurts",
+  "hedgesbestiary.sound.subtitle.goph_die": "Goph dies",
+
+  "hedgesbestiary.sound.subtitle.gawk_ambient": "Gawk gawks",
+  "hedgesbestiary.sound.subtitle.gawk_call": "Gawk calls",
+  "hedgesbestiary.sound.subtitle.gawk_hurt": "Gawk hurts",
+  "hedgesbestiary.sound.subtitle.gawk_die": "Gawk dies",
+
+  "hedgesbestiary.sound.subtitle.zippermouth_ambient": "Zippermouth mumbles",
+  "hedgesbestiary.sound.subtitle.zippermouth_bite": "Zippermouth bites",
+  "hedgesbestiary.sound.subtitle.zippermouth_hurt": "Zippermouth hurts",
+  "hedgesbestiary.sound.subtitle.zippermouth_die": "Zippermouth dies",
+
   "hedgesbestiary.sound.subtitle.endgel_ambient": "Endgel whispers",
   "hedgesbestiary.sound.subtitle.endgel_shoot": "Endgel shoots",
   "hedgesbestiary.sound.subtitle.endgel_explosion": "Endgel bullet explodes",
 
+  "key.category.hedges_bestiary": "Hedge's Bestiary",
   "key.hedges_bestiary.mountSpecialKey": "Hedge's Bestiary Mount Ability"
 }

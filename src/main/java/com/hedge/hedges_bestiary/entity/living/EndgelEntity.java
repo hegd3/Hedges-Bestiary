@@ -123,80 +123,83 @@ public class EndgelEntity extends HBMonster {
     @Override
     protected void serverTick() {
         if (this.getAnimState() > 0) {
-            this.animTicks++;
-            switch (this.getAnimState()) {
+            if (this.isAlive()) {
+                this.animTicks++;
+                switch (this.getAnimState()) {
 
-                case 1 -> {
-                    if (this.animTicks == 25) {
-                        this.level().broadcastEntityEvent(this, (byte)39);
-                        for (int i = -45; i <= 45; i+=45) {
-                            for (int j = -25; j <= 25; j+=25) {
-                                EndgelBullet scream = new EndgelBullet(HBEntities.ENDGEL_BULLET.get(), this.level());
-                                scream.moveTo(this.position());
-                                scream.shootFromRotation(this, this.getXRot() + j, this.getYRot() + i, 0.0f, 1.5F, 0);
-                                scream.setTarget(this.getTarget());
-                                level().addFreshEntity(scream);
+                    case 1 -> {
+                        if (this.animTicks == 25) {
+                            this.level().broadcastEntityEvent(this, (byte) 39);
+                            for (int i = -45; i <= 45; i += 45) {
+                                for (int j = -25; j <= 25; j += 25) {
+                                    EndgelBullet scream = new EndgelBullet(HBEntities.ENDGEL_BULLET.get(), this.level());
+                                    scream.moveTo(this.position());
+                                    scream.shootFromRotation(this, this.getXRot() + j, this.getYRot() + i, 0.0f, 1.5F, 0);
+                                    scream.setTarget(this.getTarget());
+                                    level().addFreshEntity(scream);
+                                }
                             }
+                            this.playSound(HBSounds.ENDGEL_SHOOT.get(), 2.5F, this.getRandom().nextFloat() * 0.5F + 1.0F);
+                        } else if (this.animTicks > 34) {
+                            this.resetAnimState();
+                            this.attackCD = 200;
                         }
-                        this.playSound(HBSounds.ENDGEL_SHOOT.get(), 2.5F, this.getRandom().nextFloat() * 0.5F + 1.0F);
-                    } else if (this.animTicks > 34) {
-                        this.resetAnimState();
-                        this.attackCD = 200;
+                    }
+                    case 2 -> {
+                        if (this.animTicks > 69) {
+                            this.resetAnimState();
+                            this.setLeft(this.getRandom().nextBoolean());
+                            this.spinCD = 100 + this.getRandom().nextInt(60);
+                        } else if (this.animTicks < 50 && this.animTicks % 5 == 0) {
+                            this.playSound(HBSounds.ENDGEL_SHOOT.get(), 2.5F, this.getRandom().nextFloat() * 0.5F + 0.75F);
+                            EndgelBullet scream = new EndgelBullet(HBEntities.ENDGEL_BULLET.get(), this.level());
+                            Vec3 v = new Vec3(Mth.sin(projAngle * Mth.DEG_TO_RAD) * 2, Mth.cos(projAngle * Mth.DEG_TO_RAD) * 2, 0);
+
+                            v = v.yRot(-(this.getYRot() + (this.getLeft() ? -90 : 90)) * Mth.DEG_TO_RAD);
+
+                            scream.moveTo(this.position().add(v));
+                            scream.shootFromRotation(this, this.projAngle, this.getLeft() ? -90 + this.getYRot() : 90 + this.getYRot(), 0.0f, 2, 0);
+                            scream.setTarget(this.getTarget());
+                            level().addFreshEntity(scream);
+                            this.projAngle += 36;
+                        }
+                    }
+                    case 3 -> {
+
+                        if (this.animTicks > 40) {
+                            this.animTicks = 0;
+                            this.setAnimState(4);
+                        } else if (this.animTicks % 10 == 0) {
+                            this.level().broadcastEntityEvent(this, (byte) 39);
+                            this.playSound(HBSounds.ENDGEL_EXPLOSION.get(), 2.5F, 0.1F + animTicks / 40F);
+                        }
+                        if (this.getTarget() != null && this.animTicks % 2 == 0) {
+                            this.lookAt(this.getTarget(), 60F, 60F);
+                            this.getLookControl().setLookAt(this.getTarget(), 60F, 60F);
+                        }
+                    }
+                    case 4 -> {
+                        if (this.animTicks < 10 && this.getTarget() != null && this.animTicks % 2 == 0) {
+                            this.lookAt(this.getTarget(), 60F, 60F);
+                            this.getLookControl().setLookAt(this.getTarget(), 60F, 60F);
+                        } else if (this.animTicks == 10) {
+
+                            EndgelBlast scream = new EndgelBlast(HBEntities.ENDGEL_BLAST.get(), this.level());
+                            scream.moveTo(this.getEyePosition().add(this.getLookAngle().scale(2F)));
+                            scream.shootFromRotation(this, this.getXRot() * 0.92F, this.getYRot(), 0.0f, 1, 0);
+                            scream.setTarget(this.getTarget());
+                            level().addFreshEntity(scream);
+
+                            this.playSound(HBSounds.ENDGEL_SHOOT.get(), 2.5F, this.getRandom().nextFloat() * 0.25F + 0.75F);
+                            this.level().broadcastEntityEvent(this, (byte) 39);
+                        } else if (this.animTicks > 23) {
+                            this.resetAnimState();
+                            this.screamCD = 200;
+                        }
                     }
                 }
-                case 2 -> {
-                    if (this.animTicks > 69) {
-                        this.resetAnimState();
-                        this.setLeft(this.getRandom().nextBoolean());
-                        this.spinCD = 100 + this.getRandom().nextInt(60);
-                    } else if (this.animTicks < 50 && this.animTicks % 5 == 0) {
-                        this.playSound(HBSounds.ENDGEL_SHOOT.get(), 2.5F, this.getRandom().nextFloat() * 0.5F + 0.75F);
-                        EndgelBullet scream = new EndgelBullet(HBEntities.ENDGEL_BULLET.get(), this.level());
-                        Vec3 v = new Vec3(Mth.sin(projAngle * Mth.DEG_TO_RAD) * 2, Mth.cos(projAngle * Mth.DEG_TO_RAD) * 2, 0);
-
-                        v = v.yRot(-(this.getYRot() + (this.getLeft() ? -90 : 90)) * Mth.DEG_TO_RAD);
-
-                        scream.moveTo(this.position().add(v));
-                        scream.shootFromRotation(this, this.projAngle, this.getLeft() ? -90 + this.getYRot() : 90 + this.getYRot(), 0.0f, 2, 0);
-                        scream.setTarget(this.getTarget());
-                        level().addFreshEntity(scream);
-                        this.projAngle+= 36;
-                    }
-                }
-                case 3 -> {
-
-                    if (this.animTicks > 40) {
-                        this.animTicks = 0;
-                        this.setAnimState(4);
-                    } else if (this.animTicks % 10 == 0) {
-                        this.level().broadcastEntityEvent(this, (byte)39);
-                        this.playSound(HBSounds.ENDGEL_EXPLOSION.get(), 2.5F, 0.1F + animTicks / 40F);
-                    }
-                    if (this.getTarget() != null && this.animTicks % 2 == 0) {
-                        this.lookAt(this.getTarget(), 60F, 60F);
-                        this.getLookControl().setLookAt(this.getTarget(), 60F, 60F);
-                    }
-                }
-                case 4 -> {
-                    if (this.animTicks < 10 && this.getTarget() != null && this.animTicks % 2 == 0) {
-                        this.lookAt(this.getTarget(), 60F, 60F);
-                        this.getLookControl().setLookAt(this.getTarget(), 60F, 60F);
-                    } else if (this.animTicks == 10) {
-
-                        EndgelBlast scream = new EndgelBlast(HBEntities.ENDGEL_BLAST.get(), this.level());
-                        scream.moveTo(this.getEyePosition().add(this.getLookAngle().scale(2F)));
-                        scream.shootFromRotation(this, this.getXRot() * 0.92F, this.getYRot(), 0.0f, 1, 0);
-                        scream.setTarget(this.getTarget());
-                        level().addFreshEntity(scream);
-
-                        this.playSound(HBSounds.ENDGEL_SHOOT.get(), 2.5F, this.getRandom().nextFloat() * 0.25F + 0.75F);
-                        this.level().broadcastEntityEvent(this, (byte)39);
-                    }
-                    else if (this.animTicks > 23) {
-                        this.resetAnimState();
-                        this.screamCD = 200;
-                    }
-                }
+            } else {
+                this.setAnimState(0);
             }
         }
         this.attackCD = Math.max(this.attackCD - 1, 0);

@@ -1,5 +1,5 @@
 {
-  "name": "Ferocetus",
+  "name": "Ferocetus*",
   "icon": "hedges_bestiary:hearty_treat",
   "category": "hedges_bestiary:mobs_category",
   "sortnum": 2,
@@ -10,7 +10,7 @@
       "taming": "Whilst a Ferocetus is grabbing a mob, feed it a $(treat2) when it chews. Repeat this process several times",
       "habitat": "Cold & regular oceans",
       "breeding": "Raw Urkmeat",
-      "extra": "Can be ridden when tamed-- $(ability) to grab"
+      "extra": "*Produces $(richmilk). Can be ridden when tamed-- $(ability) to grab"
     },
     {
       "type": "patchouli:image",

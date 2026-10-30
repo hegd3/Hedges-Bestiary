@@ -145,42 +145,46 @@ public class TearacudaEntity extends HBSchoolingMob implements AttackStateMob {
             }
         }
         if (this.getAnimState() > 0) {
-            animTicks++;
-            LivingEntity target = this.getTarget();
-            switch (this.getAnimState()) {
-                case 1 -> {
-                    if (this.animTicks == 8) {
-                        if (target != null && AttackHelpers.singleTargetHitbox(this, target, this.getLookAngle(), 1, 1, 2)) {
-                            this.doHurtTarget(target);
+            if (this.isAlive()) {
+                animTicks++;
+                LivingEntity target = this.getTarget();
+                switch (this.getAnimState()) {
+                    case 1 -> {
+                        if (this.animTicks == 8) {
+                            if (target != null && AttackHelpers.singleTargetHitbox(this, target, this.getLookAngle(), 1, 1, 2)) {
+                                this.doHurtTarget(target);
+                            }
+                        } else if (this.animTicks >= 13) {
+                            this.resetAnimState();
+                            this.attackCD = 5;
                         }
-                    } else if (this.animTicks >= 13) {
-                        this.resetAnimState();
-                        this.attackCD = 5;
                     }
-                }
-                case 2 -> {
+                    case 2 -> {
 
-                    if (this.animTicks >= 100 || target == null) {
-                        this.resetAnimState();
-                        this.frenzyCD = 200;
-                    } else if (this.animTicks % 5 == 0 && this.isInFluidType()) {
-                        Vec3 v = this.getLookAngle();
-                        this.setDeltaMovement(v.scale(0.6));
-                        List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, v, 2, 2, 2, 5);
-                        for (LivingEntity entity : hit) {
-                            if (AttackHelpers.betterHurt(this, entity, 0.5f)) {
-                                Vec3 rand = EntityHelpers.getRandomVec3(this.getRandom(), 0.5);
-                                for (int i = 0; i < 3; i++) {
-                                    ((ServerLevel) this.level()).sendParticles(
-                                            new SmokeParticleOptions(1 + (float)rand.x, 30, 0xE8675D),
-                                            entity.getX(), entity.getY(), entity.getZ(),
-                                            1,
-                                            rand.x, rand.y, rand.z, 0.01);
+                        if (this.animTicks >= 100 || target == null) {
+                            this.resetAnimState();
+                            this.frenzyCD = 200;
+                        } else if (this.animTicks % 5 == 0 && this.isInFluidType()) {
+                            Vec3 v = this.getLookAngle();
+                            this.setDeltaMovement(v.scale(0.6));
+                            List<LivingEntity> hit = AttackHelpers.zoneHitbox(this, v, 2, 2, 2, 5);
+                            for (LivingEntity entity : hit) {
+                                if (AttackHelpers.betterHurt(this, entity, 0.5f)) {
+                                    Vec3 rand = EntityHelpers.getRandomVec3(this.getRandom(), 0.5);
+                                    for (int i = 0; i < 3; i++) {
+                                        ((ServerLevel) this.level()).sendParticles(
+                                                new SmokeParticleOptions(1 + (float) rand.x, 30, 0xE8675D),
+                                                entity.getX(), entity.getY(), entity.getZ(),
+                                                1,
+                                                rand.x, rand.y, rand.z, 0.01);
+                                    }
                                 }
                             }
                         }
                     }
                 }
+            } else {
+                this.setAnimState(0);
             }
         }
     }

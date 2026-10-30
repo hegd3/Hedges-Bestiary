@@ -1,0 +1,15 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:deep_ocean",
+    "minecraft:deep_cold_ocean"
+  ],
+  "spawners":
+  {
+    "type": "hedges_bestiary:zipperling",
+    "weight": 10,
+    "minCount": 1,
+    "maxCount": 4,
+    "category": "water_creature"
+  }
+}
