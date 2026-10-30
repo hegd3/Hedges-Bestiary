@@ -909,6 +909,14 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
         return HBSounds.MURK_DIE.get();
     }
 
+    @Override
+    public void onInsideBubbleColumn(boolean downwards) {
+    }
+
+    @Override
+    public void onAboveBubbleCol(boolean downwards) {
+    }
+
     @Override @OnlyIn(Dist.CLIENT)
     public void renderHUD(GuiGraphics guiGraphics) {
         int screenWidth = guiGraphics.guiWidth(), screenHeight = guiGraphics.guiHeight();
