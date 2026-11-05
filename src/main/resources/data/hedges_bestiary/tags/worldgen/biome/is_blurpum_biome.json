@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#forge:is_swamp",
+    "#forge:is_beach",
+    "#minecraft:is_river",
+    "minecraft:frozen_ocean",
+    "minecraft:deep_frozen_ocean"
+  ]
+}

@@ -36,6 +36,12 @@ public class ServerEvent {
         event.put(HBEntities.ENDGEL.get(), EndgelEntity.bakeAttributes().build());
         event.put(HBEntities.DAWN_DOVE.get(), DawnDoveEntity.bakeAttributes().build());
         event.put(HBEntities.SKIB.get(), SkibEntity.bakeAttributes().build());
+        event.put(HBEntities.BLURPUM.get(), BlurpumEntity.bakeAttributes().build());
+        event.put(HBEntities.GAWK.get(), GawkEntity.bakeAttributes().build());
+        event.put(HBEntities.GOPH.get(), GophEntity.bakeAttributes().build());
+        event.put(HBEntities.ZIPPERMOUTH.get(), ZippermouthEntity.bakeAttributes().build());
+        event.put(HBEntities.ZIPPERLING.get(), ZipperlingEntity.bakeAttributes().build());
+        event.put(HBEntities.NIB_NIB.get(), NibNibEntity.bakeAttributes().build());
 
     }
 
@@ -51,6 +57,11 @@ public class ServerEvent {
         event.register(HBEntities.SPOTTED_STRIKER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpottedStrikerEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(HBEntities.ENDGEL.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EndgelEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(HBEntities.SKIB.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.OCEAN_FLOOR, SkibEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(HBEntities.GAWK.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GawkEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(HBEntities.GOPH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GophEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(HBEntities.BLURPUM.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlurpumEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(HBEntities.ZIPPERMOUTH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ZippermouthEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(HBEntities.ZIPPERLING.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ZipperlingEntity::canSpawn, SpawnPlacementRegisterEvent.Operation.AND);
 
     }
 

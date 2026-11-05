@@ -144,6 +144,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                 .add(Attributes.MAX_HEALTH, 350.0D)
                 .add(Attributes.ARMOR, 8)
                 .add(Attributes.ATTACK_DAMAGE, 30.0D)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.8D)
                 .add(Attributes.FOLLOW_RANGE, 64)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.9D)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F);
@@ -324,7 +325,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                     BlockPos pos = new BlockPos(a, b, c);
                     BlockState state = level().getBlockState(pos);
                     FluidState fluidState = level().getFluidState(pos);
-                    if (!state.getShape(level(), pos).isEmpty() && fluidState.isEmpty() && state.is(BlockTags.ICE)) {
+                    if (!state.getShape(level(), pos).isEmpty() && fluidState.isEmpty() && (state.is(BlockTags.ICE)) || state.is(Blocks.LILY_PAD)) {
                         level().destroyBlock(pos, false);
                         level().setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
 

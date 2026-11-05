@@ -1,0 +1,12 @@
+{
+  "__comment": "all tier 2 mobs (mobs tamable with the seasoned treat",
+  "values": [
+    "hedges_bestiary:burodon",
+    "hedges_bestiary:blurpum",
+    "hedges_bestiary:gawk",
+    "hedges_bestiary:zappet",
+    "hedges_bestiary:spotted_striker",
+    "hedges_bestiary:zipperling"
+  ]
+}
+

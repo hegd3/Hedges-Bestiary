@@ -884,6 +884,14 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
     }
 
     @Override
+    public void onAboveBubbleCol(boolean pDownwards) {
+    }
+
+    @Override
+    public void onInsideBubbleColumn(boolean pDownwards) {
+    }
+
+    @Override
     public boolean canBeAffected(MobEffectInstance pEffectInstance) {
         if (pEffectInstance.getEffect() == HBEffects.VOLATILITY.get()) {
             return false;

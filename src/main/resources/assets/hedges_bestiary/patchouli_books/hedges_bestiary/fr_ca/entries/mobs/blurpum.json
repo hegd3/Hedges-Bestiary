@@ -1,0 +1,42 @@
+{
+  "name": "Blurpum",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Aggressif, chasse les joueurs et le bétail; $(o)ignore les joueurs accroupis",
+      "taming": "Donnez-lui 4* $(treat1) alors qu'il se prélasse sur la terre ferme",
+      "habitat": "Rivières, marais, plages, océeans gelés",
+      "breeding": "Viandurk Crue (pond des oeufs dans l'eau)",
+      "extra": "Voir prochaine page"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/blurpum_img_basking.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_basking_1.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_basking_2.png"
+      ],
+      "border": true,
+      "text": "Les Blurpums peuvent souvent être vus en train de se prélasser la bouche grande ouverte au bord de l'eau"
+
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Les Blurpums peuvent être montés lorsque apprivoisés. Lorsqu'ils reçoivent du dégat, les blurpums peuvent parfois relâcher du gaz nocif.$(br2)Les Blurpums existent en trois variantes dépendantes du biome : d'eau douce, froide et côtière. Les blurpums d'eau douce infligent plus de dégâts et ont le poison le plus létal, mais sont les plus lents; les blurpums froids ont plus de point de vie et de régénération, et leur gaz toxique gèle aussi, mais inflige le moins de dégâts; les blurpums côtiers sont plus rapides et leur poison se recharge plus vite, mais ont moins de point de vie"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/blurpum_img.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_1.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_2.png"
+      ],
+      "border": true,
+      "text": "De la première à la dernière image: $(#368F2E)Blurpum d'eau douce, $(#A68F76)Blurpum Marin, $(#5890D1)Blurpum Côtier"
+    }
+
+  ]
+}

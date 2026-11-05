@@ -1,0 +1,36 @@
+{
+  "name": "Zappet",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Passif, fuit lorsqu'il est attaqué",
+      "taming": "Frappe avec la foudre ou un trident avec canalisation, ensuite donnez-lui 1* $(treat1)",
+      "habitat": "Badlands",
+      "breeding": "Cuivre Brut (Pond des oeufs)",
+      "extra": "Voir prochaine page"
+    },
+    {
+      "type": "patchouli:image",
+      "images":[
+        "hedges_bestiary:textures/gui/book/zappet.png"
+      ],
+      "border": true,
+      "text": "Les Zappets volent en groupes allant jusqu'à 20 individus, et se regroupent sur de grandes formations rocheuses"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Les Zappets sont capables de déchaîner une décharge électrique sur les projectiles ennemis, destroying them in the process (projectiles can be specified to be immune via datapack; tridents are immune by default).$(br2)The owner of a tamed zappet can right-click their zappet to place it on their head. Zappets riding on their owner will not only protect them from projectiles but will also grant them slow-falling.  Crouching or becoming submerged removes the Zappet."
+    },
+    {
+      "type": "patchouli:image",
+      "images":[
+        "hedges_bestiary:textures/gui/book/zappet_1.png"
+      ],
+      "border": true,
+      "text": "Un Zappet sur la tête de son propriétaire"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "Dawn Dove",
+  "icon": "hedges_bestiary:hearty_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Aggressif, chasse les joueurs et le bétail",
+      "taming": "Lorsque vous êtes attrapés par un dawn dove, donnez-lui un $(treat2); répétez cette procédure plusieurs fois",
+      "habitat": "Savanne",
+      "breeding": "Steak (pond des oeufs)",
+      "extra": "Peut être monté lorsqu'il est apprivoisé-- $(ability) pour tirer des boules de feu, Clic Droit pour attraper"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/dawn_dove.png",
+        "hedges_bestiary:textures/gui/book/dawn_dove_1.png",
+        "hedges_bestiary:textures/gui/book/dawn_dove_2.png"
+
+      ],
+      "border": true,
+      "text": "Dawn doves sont des prédateurs féroces, mais heureusement ils ne sont actifs que pendant le matin."
+
+    }
+
+  ]
+}

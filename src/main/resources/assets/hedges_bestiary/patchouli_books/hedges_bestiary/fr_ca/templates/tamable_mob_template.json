@@ -1,0 +1,10 @@
+{
+  "components": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Comportement: $()#behavior#$(br2)$(l)Apprivoisement: $()#taming#$(br2)$(l)Habitat: $()#habitat#$(br2)$(l)Reproduction: $()#breeding#$(br2)$(l)Extra: $()#extra#",
+      "x": 0,
+      "y": 0
+    }
+  ]
+}

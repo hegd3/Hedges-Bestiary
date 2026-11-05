@@ -61,6 +61,8 @@ public class HBSounds {
 
     public static final RegistryObject<SoundEvent> ENDGEL_EXPLOSION = createSoundEvent("endgel_explosion");
 
+    public static final RegistryObject<SoundEvent> GOPH_AMBIENT = createSoundEvent("goph_ambient");
+
     public static final RegistryObject<SoundEvent> GOPH_HURT = createSoundEvent("goph_hurt");
 
     public static final RegistryObject<SoundEvent> GOPH_DIE = createSoundEvent("goph_die");

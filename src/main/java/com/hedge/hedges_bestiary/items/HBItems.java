@@ -113,6 +113,18 @@ public class HBItems {
 
     public static final RegistryObject<Item> SKIB_SPAWN_EGG = createEgg("skib", HBEntities.SKIB, 0x614946, 0xC22D2D);
 
+    public static final RegistryObject<Item> BLURPUM_SPAWN_EGG = createEgg("blurpum", HBEntities.BLURPUM, 0x614946, 0x68787D);
+
+    public static final RegistryObject<Item> GAWK_SPAWN_EGG = createEgg("gawk", HBEntities.GAWK, 0x2D2933, 0x7584C7);
+
+    public static final RegistryObject<Item> GOPH_SPAWN_EGG = createEgg("goph", HBEntities.GOPH, 0x9E7C68, 0xB55E5E);
+
+    public static final RegistryObject<Item> ZIPPERMOUTH_SPAWN_EGG = createEgg("zippermouth", HBEntities.ZIPPERMOUTH, 0xB52F16, 0x389FBA);
+
+    public static final RegistryObject<Item> ZIPPERLING_SPAWN_EGG = createEgg("zipperling", HBEntities.ZIPPERLING, 0x6B4B45, 0x8A624A);
+
+    public static final RegistryObject<Item> NIB_NIB_SPAWN_EGG = createEgg("nib_nib", HBEntities.NIB_NIB, 0xB5AA57, 0xABC1C4);
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

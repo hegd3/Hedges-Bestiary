@@ -1,0 +1,158 @@
+{
+  "entity.hedges_bestiary.tamable_menu.display_command": "Actuellement:",
+  "entity.hedges_bestiary.tamable_menu.command_0": "Erre",
+  "entity.hedges_bestiary.tamable_menu.command_1": "S'assoit",
+  "entity.hedges_bestiary.tamable_menu.command_2": "Suit",
+
+
+  "entity.hedges_bestiary.tamable_menu.auto_targets": "Auto-Cible:",
+  "entity.hedges_bestiary.tamable_menu.auto_targets_type_1": "Monstres",
+  "entity.hedges_bestiary.tamable_menu.auto_targets_type_2": "Joueurs",
+  "entity.hedges_bestiary.tamable_menu.auto_targets_type_3": "Les Deux",
+
+  "entity.hedges_bestiary.tamable_menu.home": "Accueil:",
+  "entity.hedges_bestiary.tamable_menu.null": "Vide",
+
+  "entity.hedges_bestiary.tamable_menu.access": "Accès",
+  "entity.hedges_bestiary.tamable_menu.inventory": "Inventaire",
+
+  "entity.hedges_bestiary.burodon": "Burodon",
+  "entity.hedges_bestiary.chub": "Chub",
+  "entity.hedges_bestiary.dawn_dove": "Dawn Dove",
+  "entity.hedges_bestiary.endgel": "Endgel",
+  "entity.hedges_bestiary.ferocetus": "Ferocetus",
+  "entity.hedges_bestiary.gild_glider": "Gild Glider",
+  "entity.hedges_bestiary.gurk": "Gurk",
+  "entity.hedges_bestiary.murk": "Murk",
+  "entity.hedges_bestiary.plombo": "Plombo",
+  "entity.hedges_bestiary.skib": "Skib",
+  "entity.hedges_bestiary.spotted_striker": "Spotted Striker",
+  "entity.hedges_bestiary.tearacuda": "Tearacuda",
+  "entity.hedges_bestiary.zappet": "Zappet",
+  "entity.hedges_bestiary.endgel_bullet": "Balle d'Endgel",
+  "entity.hedges_bestiary.endgel_blast": "Explosion d'Endgel",
+  "entity.hedges_bestiary.dawn_dove_fireball": "Boule de feu de Dawn Dove",
+  "entity.hedges_bestiary.murk_smoke": "Fumée de Murk",
+  "entity.hedges_bestiary.blurpum": "Blurpum",
+  "entity.hedges_bestiary.gawk": "Gawk",
+  "entity.hedges_bestiary.goph": "Goph",
+  "entity.hedges_bestiary.zippermouth": "Zippermouth",
+  "entity.hedges_bestiary.zipperling": "Zipperling",
+  "entity.hedges_bestiary.nib_nib": "Nib Nib",
+
+  "effect.hedges_bestiary.volatility": "Volatilité",
+
+  "item.hedges_bestiary.burodon_spawn_egg": "Oeuf d'apparition de Burodon",
+  "item.hedges_bestiary.chub_spawn_egg": "Oeuf d'apparition de Chub",
+  "item.hedges_bestiary.dawn_dove_spawn_egg": "Oeuf d'apparition de Dawn Dove",
+  "item.hedges_bestiary.endgel_spawn_egg": "Oeuf d'apparition d'Endgel",
+  "item.hedges_bestiary.ferocetus_spawn_egg": "Oeuf d'apparition de Ferocetus",
+  "item.hedges_bestiary.gild_glider_spawn_egg": "Oeuf d'apparition de Gild Glider",
+  "item.hedges_bestiary.gurk_spawn_egg": "Oeuf d'apparition de Gurk",
+  "item.hedges_bestiary.murk_spawn_egg": "Oeuf d'apparition de Murk",
+  "item.hedges_bestiary.plombo_spawn_egg": "Oeuf d'apparition de Plombo",
+  "item.hedges_bestiary.skib_spawn_egg": "Oeuf d'apparition de Skib",
+  "item.hedges_bestiary.spotted_striker_spawn_egg": "Oeuf d'apparition de Spotted Striker",
+  "item.hedges_bestiary.tearacuda_spawn_egg": "Oeuf d'apparition de Tearacuda",
+  "item.hedges_bestiary.zappet_spawn_egg": "Oeuf d'apparition de Zappet",
+  "item.hedges_bestiary.blurpum_spawn_egg": "Oeuf d'apparition de Blurpum",
+  "item.hedges_bestiary.gawk_spawn_egg": "Oeuf d'apparition de Gawk",
+  "item.hedges_bestiary.goph_spawn_egg": "Oeuf d'apparition de Goph",
+  "item.hedges_bestiary.zippermouth_spawn_egg": "Oeuf d'apparition de Zippermouth",
+  "item.hedges_bestiary.zipperling_spawn_egg": "Oeuf d'apparition de Zipperling",
+  "item.hedges_bestiary.nib_nib_spawn_egg": "Oeuf d'apparition de Nib Nib",
+
+  "item.hedges_bestiary.plain_treat": "Gâterie Nature",
+  "item.hedges_bestiary.seasoned_treat": "Gâterie Assaisonée",
+  "item.hedges_bestiary.hearty_treat": "Gâterie Chaleureuse",
+  "item.hedges_bestiary.luscious_treat": "Gâterie Délicieuse",
+
+  "item.hedges_bestiary.endgelic_judgement": "Jugement Endgelic",
+  "item.hedges_bestiary.murklevolence": "Murkveillance",
+
+  "item.hedges_bestiary.chub_bucket": "Chaudière de Chub",
+  "item.hedges_bestiary.gild_glider_bucket": "Chaudière de Gild Glider",
+  "item.hedges_bestiary.skib_bucket": "Chaudière de Skib",
+  "item.hedges_bestiary.raw_urkmeat": "Viandurk Crue",
+  "item.hedges_bestiary.cooked_urkmeat": "Viandurk Cuite",
+  "item.hedges_bestiary.murk_spike": "Épine de Murk",
+  "item.hedges_bestiary.endgelic_heart": "Coeur Endgelic",
+  "item.hedges_bestiary.zippermouth_scales": "Écailles de Zippermouth",
+
+  "item.hedges_bestiary.fine_milk_bottle": "Bouteille de Lait Fin",
+  "item.hedges_bestiary.rich_milk_bottle": "Bouteille de Lait Riche",
+
+  "item.hedges_bestiary.skib": "Skib",
+  "item.hedges_bestiary.dawn_dove_egg": "Oeuf de Dawn Dove",
+  "item.hedges_bestiary.gurk_egg": "Oeuf de Gurk",
+  "item.hedges_bestiary.murk_egg": "Oeuf de Murk",
+  "item.hedges_bestiary.zappet_egg": "Oeuf de Zappet",
+  "item.hedges_bestiary.blurpum_eggs": "Oeufs de Blurpum",
+  "item.hedges_bestiary.goph_egg": "Oeuf de Goph",
+  "item.hedges_bestiary.gawk_egg": "Oeuf de Gawk",
+
+
+  "block.hedges_bestiary.dawn_dove_egg": "Oeuf de Dawn Dove",
+  "block.hedges_bestiary.gurk_egg": "Oeuf de Gurk",
+  "block.hedges_bestiary.murk_egg": "Oeuf de Murk",
+  "block.hedges_bestiary.zappet_egg": "Oeuf de Zappet",
+  "block.hedges_bestiary.blurpum_eggs": "Oeufs de Blurpum",
+  "block.hedges_bestiary.goph_egg": "Oeuf de Goph",
+  "block.hedges_bestiary.gawk_egg": "Oeuf de Gawk",
+
+  "creativetab.hedges_bestiary_tab": "Hedge's Bestiary",
+
+  "hedgesbestiary.sound.subtitle.gurk_ambient": "Gurk gurke",
+  "hedgesbestiary.sound.subtitle.gurk_hurt": "Gurk souffre",
+  "hedgesbestiary.sound.subtitle.gurk_die": "Gurk meurt",
+
+  "hedgesbestiary.sound.subtitle.burodon_roar": "Burodon rugit",
+  "hedgesbestiary.sound.subtitle.burodon_hurt": "Burodon souffre",
+  "hedgesbestiary.sound.subtitle.burodon_die": "Burodon meurt",
+
+  "hedgesbestiary.sound.subtitle.murk_clicks": "Murk cliquetise",
+  "hedgesbestiary.sound.subtitle.murk_yawn": "Murk bâille",
+  "hedgesbestiary.sound.subtitle.murk_hurt": "Murk souffre",
+  "hedgesbestiary.sound.subtitle.murk_stomp": "Murk piétine",
+  "hedgesbestiary.sound.subtitle.murk_roar": "Murk rugit",
+  "hedgesbestiary.sound.subtitle.murk_die": "Murk meurt",
+
+  "hedgesbestiary.sound.subtitle.ferocetus_ambient": "Ferocetus cliquetise",
+  "hedgesbestiary.sound.subtitle.ferocetus_hurt": "Ferocetus souffre",
+  "hedgesbestiary.sound.subtitle.ferocetus_die": "Ferocetus meurt",
+
+  "hedgesbestiary.sound.subtitle.plombo_yawn": "Plombo bâille",
+  "hedgesbestiary.sound.subtitle.plombo_hurt": "Plombo souffre",
+  "hedgesbestiary.sound.subtitle.plombo_die": "Plombo meurt",
+
+  "hedgesbestiary.sound.subtitle.zap": "L'électricité zappe",
+
+  "hedgesbestiary.sound.subtitle.fireball_shoot": "Boule de feu tire",
+  "hedgesbestiary.sound.subtitle.dawn_dove_ambient": "Dawn dove roucoule",
+  "hedgesbestiary.sound.subtitle.dawn_dove_hurt": "Dawn dove souffre",
+
+  "hedgesbestiary.sound.subtitle.blurpum_ambient": "Blurpum blurpe",
+  "hedgesbestiary.sound.subtitle.blurpum_hurt": "Blurpum souffre",
+  "hedgesbestiary.sound.subtitle.blurpum_die": "Blurpum meurt",
+
+  "hedgesbestiary.sound.subtitle.goph_ambient": "Goph cliquetise",
+  "hedgesbestiary.sound.subtitle.goph_hurt": "Goph souffre",
+  "hedgesbestiary.sound.subtitle.goph_die": "Goph meurt",
+
+  "hedgesbestiary.sound.subtitle.gawk_ambient": "Gawk gawke",
+  "hedgesbestiary.sound.subtitle.gawk_call": "Gawk appelle",
+  "hedgesbestiary.sound.subtitle.gawk_hurt": "Gawk souffre",
+  "hedgesbestiary.sound.subtitle.gawk_die": "Gawk meurt",
+
+  "hedgesbestiary.sound.subtitle.zippermouth_ambient": "Zippermouth marmonne",
+  "hedgesbestiary.sound.subtitle.zippermouth_bite": "Zippermouth mord",
+  "hedgesbestiary.sound.subtitle.zippermouth_hurt": "Zippermouth souffre",
+  "hedgesbestiary.sound.subtitle.zippermouth_die": "Zippermouth meurt",
+
+  "hedgesbestiary.sound.subtitle.endgel_ambient": "Endgel chuchote",
+  "hedgesbestiary.sound.subtitle.endgel_shoot": "Endgel tire",
+  "hedgesbestiary.sound.subtitle.endgel_explosion": "Balle d'Endgel explose",
+
+  "key.category.hedges_bestiary": "Hedge's Bestiary",
+  "key.hedges_bestiary.mountSpecialKey": "Hedge's Bestiary Capacité de Montée"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Gurk",
+  "icon": "hedges_bestiary:plain_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Passif, fuit lorsqu'il est attaqué",
+      "taming": "Donnez-lui 1* $(treat0)",
+      "habitat": "Marais, marais de palétuvier, rivières, plages",
+      "breeding": "Herbe marine (pond des oeufs)",
+      "extra": "Apparaît parfois avec une variante rare!"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/gurk.png",
+        "hedges_bestiary:textures/gui/book/gurk_1.png",
+        "hedges_bestiary:textures/gui/book/gurk_2.png"
+      ],
+      "border": true,
+      "text": "De la première à la dernière image: $(#368F2E)Gurk de Marais, $(#A68F76)Gurk de Rivières, $(#5890D1)Gurk Marin"
+    }
+
+  ]
+}

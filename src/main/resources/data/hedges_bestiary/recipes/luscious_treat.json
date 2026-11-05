@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item":"minecraft:golden_apple"
+    },
+    {
+      "item":"hedges_bestiary:rich_milk_bottle"
+    },
+    {
+      "tag":"hedges_bestiary:luscious_treat_ingredient"
+    }
+  ],
+  "result": {
+    "item": "hedges_bestiary:luscious_treat"
+  }
+}

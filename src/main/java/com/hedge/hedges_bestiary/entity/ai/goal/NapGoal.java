@@ -27,6 +27,9 @@ public class NapGoal extends Goal {
         if (this.mob.isNapping()) {
             return true;
         }
+        if (this.mob.getCommand() == 2) {
+            return false;
+        }
         if (!this.sleepsInWater && (this.mob.isInFluidType() || !this.mob.onGround())) {
             return false;
         }

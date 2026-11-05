@@ -2,6 +2,7 @@ package com.hedge.hedges_bestiary.worldgen.structure;
 
 import com.hedge.hedges_bestiary.HedgesBestiary;
 import com.hedge.hedges_bestiary.registry.HBStructures;
+import com.hedge.hedges_bestiary.util.WorldHelpers;
 import com.hedge.hedges_bestiary.worldgen.structure.piece.DawnDoveNestPiece;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -38,7 +39,7 @@ public class DawnDoveNestStructure extends Structure {
     }
 
     private static void generatePieces(StructurePiecesBuilder builder, Structure.GenerationContext context) {
-        BlockPos blockpos = new BlockPos(context.chunkPos().getMinBlockX(), getLowestY(context, 11, 11), context.chunkPos().getMinBlockZ());
+        BlockPos blockpos = new BlockPos(context.chunkPos().getMinBlockX(), WorldHelpers.getHighestY(context, 11, 11), context.chunkPos().getMinBlockZ());
         builder.addPiece(new DawnDoveNestPiece(context.structureTemplateManager(), context.random().nextBoolean() ? NBT_1 : NBT_0, new StructurePlaceSettings(), blockpos));
     }
 

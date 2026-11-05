@@ -1,0 +1,40 @@
+{
+  "name": "Zippermouth",
+  "icon": "hedges_bestiary:luscious_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Neutre",
+      "taming": "Voir prochaine page",
+      "habitat": "Océans tièdes et ordinaires",
+      "breeding": "Aucun",
+      "extra": "Voir prochaine page"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/zippermouth_img.png",
+        "hedges_bestiary:textures/gui/book/zippermouth_img_1.png",
+        "hedges_bestiary:textures/gui/book/zippermouth_img_2.png"
+      ],
+      "border": true,
+      "text": "Le Zippermouth est la forme adulte du plus petit $(l:hedges_bestiary:mobs/zipperling)Zipperling"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Bien que les Zippermouths ne puissent pas être apprivoisés, on peut transmuter un$(l:hedges_bestiary:mobs/zipperling)Zipperling$(/l) en un Zippermouth.$(br2)D'abord, il faut trouver un zippermouth adulte et lui donner 1* $(treat3). La créature laissera tomber une de ses écailles en signe de gratitude. Cependant, il n'acceptera plus aucune friandise. Donner trois de ces écailles à un zipperling le transforme en zippermouth.$(br2)Les Zippermouths peuvent être montés lorsqu'ils sont apprivoisés-- tenez $(ability) pour utiliser l'abileté succion"
+
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/zippermouth_img_3.png"
+      ],
+      "border": true,
+      "text": "Ces énormes poissons peuvent déplacer d'énormes quantités d'eau en ouvrant leur bouches"
+    }
+
+  ]
+}

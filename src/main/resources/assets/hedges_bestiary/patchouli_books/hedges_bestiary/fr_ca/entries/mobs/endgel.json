@@ -1,0 +1,23 @@
+{
+  "name": "Endgel",
+  "icon": "hedges_bestiary:endgelic_heart",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Les Endgels sont d'immenses monstres à huit ailes qui planent à travers le vide des îles de l'end. Avec des colonnes d'yeux tournées dans toutes les directions, aucun n'est à l'abri de son regard. Une fois qu'il repère une cible, l'Endgel la bombarde sans relâche avec des projectiles explosifs à tête chercheuse, en plus de charger une attaque encore plus puissante.$(br2)Si quelqu'un est assez puissant pour tuer un Endgel, il laissera tomber son cœur, qui peut fabriquer une $(l:hedges_bestiary:items/weapons)arme spéciale."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/endgel.png",
+        "hedges_bestiary:textures/gui/book/endgel_1.png",
+        "hedges_bestiary:textures/gui/book/endgel_2.png"
+      ],
+      "border": true,
+      "text": "N'ayez pas peur..."
+
+    }
+  ]
+}
