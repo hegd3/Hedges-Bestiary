@@ -5,7 +5,6 @@ import com.hedge.hedges_bestiary.client.EntityLayers;
 import com.hedge.hedges_bestiary.client.models.*;
 import com.hedge.hedges_bestiary.client.particle.*;
 import com.hedge.hedges_bestiary.client.renderer.*;
-import com.hedge.hedges_bestiary.client.renderer.projectile.WaveRenderer;
 import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.registry.HBEntities;
 import com.hedge.hedges_bestiary.registry.HBKeyMappings;
@@ -45,7 +44,6 @@ public class ClientEvent {
         event.registerLayerDefinition(EntityLayers.GILD_GLIDER_LAYER, GildGliderModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.CHUB_LAYER, ChubModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.FEROCETUS_LAYER, FerocetusModel::createBodyLayer);
-        event.registerLayerDefinition(EntityLayers.WAVE_LAYER, WaveModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.BANSHEE_LAYER, EndgelModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.DAWN_DOVE_LAYER, DawnDoveModel::createBodyLayer);
         event.registerLayerDefinition(EntityLayers.SKIB_LAYER, SkibModel::createBodyLayer);
@@ -66,7 +64,6 @@ public class ClientEvent {
         EntityRenderers.register(HBEntities.GILD_GLIDER.get(), GildGliderRenderer::new);
         EntityRenderers.register(HBEntities.CHUB.get(), ChubRenderer::new);
         EntityRenderers.register(HBEntities.FEROCETUS.get(), FerocetusRenderer::new);
-        EntityRenderers.register(HBEntities.WAVE.get(), WaveRenderer::new);
         EntityRenderers.register(HBEntities.ENDGEL.get(), EndgelRenderer::new);
         EntityRenderers.register(HBEntities.ENDGEL_BULLET.get(), ModellessProjectileRenderer::new);
         EntityRenderers.register(HBEntities.ENDGEL_BLAST.get(), ModellessProjectileRenderer::new);
@@ -104,6 +101,9 @@ public class ClientEvent {
         event.registerSpriteSet(HBParticles.ENDGEL_EXPLODE.get(), DynamicExplosionParticle.EndgelExplodeProvider::new);
         event.registerSpriteSet(HBParticles.ENDGEL_BULLET.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
         event.registerSpriteSet(HBParticles.ENDGEL_BLAST_EXPLODE.get(), ProjectileTrailParticle.EndgelBlastExplodeProvider::new);
+
+        event.registerSpriteSet(HBParticles.WATER_EXPLODE.get(), DynamicExplosionParticle.EndgelExplodeProvider::new);
+        event.registerSpriteSet(HBParticles.WATER_SUCK.get(), ProjectileTrailParticle.MurkChargeShotProvider::new);
 
     }
 

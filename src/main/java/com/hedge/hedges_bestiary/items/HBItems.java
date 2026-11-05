@@ -22,6 +22,7 @@ public class HBItems {
     public static final Rarity RARITY_ENDGELIC = Rarity.create("hedges_bestiary:endgelic", ChatFormatting.GREEN);
     public static final Rarity RARITY_AQUATIC = Rarity.create("hedges_bestiary:aquatic", ChatFormatting.BLUE);
 
+    //DROPS | RESOURCES
     public static final RegistryObject<Item> MURK_SPIKE = ITEMS.register("murk_spike",
             () -> new Item(new Item.Properties()));
 
@@ -31,6 +32,14 @@ public class HBItems {
     public static final RegistryObject<Item> ENDGELIC_HEART = ITEMS.register("endgelic_heart",
             () -> new Item(new Item.Properties().rarity(RARITY_ENDGELIC)));
 
+    public static final RegistryObject<Item> FINE_MILK = ITEMS.register("fine_milk",
+            () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE)));
+
+    public static final RegistryObject<Item> RICH_MILK = ITEMS.register("rich_milk",
+            () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE)));
+
+    public static final RegistryObject<Item> ZIPPERMOUTH_SCALES = ITEMS.register("zippermouth_scales",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
 
     // CRAFTED ITEMS
 
@@ -38,10 +47,13 @@ public class HBItems {
             () -> new TreatItem(new Item.Properties().rarity(Rarity.COMMON), 0));
 
     public static final RegistryObject<Item> SEASONED_TREAT = ITEMS.register("seasoned_treat",
-            () -> new TreatItem(new Item.Properties().rarity(Rarity.UNCOMMON).craftRemainder(Items.GLASS_BOTTLE),1));
+            () -> new TreatItem(new Item.Properties().rarity(Rarity.UNCOMMON),1));
 
     public static final RegistryObject<Item> HEARTY_TREAT = ITEMS.register("hearty_treat",
             () -> new TreatItem(new Item.Properties().rarity(Rarity.RARE),2));
+
+    public static final RegistryObject<Item> LUSCIOUS_TREAT = ITEMS.register("luscious_treat",
+            () -> new TreatItem(new Item.Properties().rarity(Rarity.EPIC),3));
 
     public static final RegistryObject<Item> ENDGELIC_JUDGEMENT = ITEMS.register("endgelic_judgement",
             () -> new EndgelicJudgementItem(new Item.Properties().durability(500).rarity(RARITY_ENDGELIC)));

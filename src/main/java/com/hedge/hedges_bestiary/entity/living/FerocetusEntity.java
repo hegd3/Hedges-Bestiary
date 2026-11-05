@@ -63,7 +63,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, HBGroupMob<FerocetusEntity>, HBHUDMount {
+public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, HBGroupMob<FerocetusEntity>, HUDMount {
 
     private static final ResourceLocation SPRITE = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/mount/ferocetus_hud.png");
 

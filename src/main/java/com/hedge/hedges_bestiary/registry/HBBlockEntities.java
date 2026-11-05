@@ -20,7 +20,11 @@ public class HBBlockEntities {
                     HBBlocks.MURK_EGG.get(),
                     HBBlocks.DAWN_DOVE_EGG.get(),
                     HBBlocks.GURK_EGG.get(),
-                    HBBlocks.ZAPPET_EGG.get()
+                    HBBlocks.ZAPPET_EGG.get(),
+                    HBBlocks.GOPH_EGG.get(),
+                    HBBlocks.GAWK_EGG.get(),
+                    HBBlocks.BLURPUM_EGGS.get()
+
             ).build(null));
 
     public static void register(IEventBus bus) {

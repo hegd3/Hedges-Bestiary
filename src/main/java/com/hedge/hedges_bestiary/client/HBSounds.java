@@ -11,7 +11,6 @@ import net.minecraftforge.registries.RegistryObject;
 public class HBSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, HedgesBestiary.MODID);
 
-
     public static final RegistryObject<SoundEvent> GURK_AMBIENT = createSoundEvent("gurk_ambient");
 
     public static final RegistryObject<SoundEvent> GURK_HURT = createSoundEvent("gurk_hurt");
@@ -62,6 +61,31 @@ public class HBSounds {
 
     public static final RegistryObject<SoundEvent> ENDGEL_EXPLOSION = createSoundEvent("endgel_explosion");
 
+    public static final RegistryObject<SoundEvent> GOPH_HURT = createSoundEvent("goph_hurt");
+
+    public static final RegistryObject<SoundEvent> GOPH_DIE = createSoundEvent("goph_die");
+
+    public static final RegistryObject<SoundEvent> GAWK_AMBIENT = createSoundEvent("gawk_ambient");
+
+    public static final RegistryObject<SoundEvent> GAWK_CALL = createSoundEvent("gawk_call");
+
+    public static final RegistryObject<SoundEvent> GAWK_HURT = createSoundEvent("gawk_hurt");
+
+    public static final RegistryObject<SoundEvent> GAWK_DIE = createSoundEvent("gawk_die");
+
+    public static final RegistryObject<SoundEvent> BLURPUM_AMBIENT = createSoundEvent("blurpum_ambient");
+
+    public static final RegistryObject<SoundEvent> BLURPUM_HURT = createSoundEvent("blurpum_hurt");
+
+    public static final RegistryObject<SoundEvent> BLURPUM_DIE = createSoundEvent("blurpum_die");
+
+    public static final RegistryObject<SoundEvent> ZIPPERMOUTH_BITE = createSoundEvent("zippermouth_bite");
+
+    public static final RegistryObject<SoundEvent> ZIPPERMOUTH_AMBIENT = createSoundEvent("zippermouth_ambient");
+
+    public static final RegistryObject<SoundEvent> ZIPPERMOUTH_HURT = createSoundEvent("zippermouth_hurt");
+
+    public static final RegistryObject<SoundEvent> ZIPPERMOUTH_DIE = createSoundEvent("zippermouth_die");
 
     private static RegistryObject<SoundEvent> createSoundEvent(final String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(HedgesBestiary.MODID, name)));

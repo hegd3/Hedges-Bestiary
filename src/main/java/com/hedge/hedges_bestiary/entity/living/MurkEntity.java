@@ -77,7 +77,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class MurkEntity extends HBTamableAnimal implements AttackStateMob, AdvancedTurner, EggLayer, HBHUDMount {
+public class MurkEntity extends HBTamableAnimal implements AttackStateMob, AdvancedTurner, EggLayer, HUDMount {
 
     private static final ResourceLocation SPRITE = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/mount/murk_hud.png");
 

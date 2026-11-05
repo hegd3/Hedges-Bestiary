@@ -23,7 +23,7 @@ public class CustomSwimGoal extends RandomStrollGoal {
     }
 
     public CustomSwimGoal(PathfinderMob mob, double speedModifier, int interval, int radius, int height, boolean preferSurface, boolean semiAquatic) {
-        super(mob, speedModifier, interval);
+        super(mob, speedModifier, interval, false);
         this.radius = radius;
         this.height = height;
         this.bound = height / 2;

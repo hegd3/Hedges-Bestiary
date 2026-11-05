@@ -15,7 +15,7 @@ import com.hedge.hedges_bestiary.entity.ai.targeting.TargetWhenAwakeGoal;
 import com.hedge.hedges_bestiary.entity.projectile.DragonFireBall;
 import com.hedge.hedges_bestiary.entity.types.AttackStateMob;
 import com.hedge.hedges_bestiary.entity.types.EggLayer;
-import com.hedge.hedges_bestiary.entity.types.HBHUDMount;
+import com.hedge.hedges_bestiary.entity.types.HUDMount;
 import com.hedge.hedges_bestiary.entity.types.TamableFlyer;
 import com.hedge.hedges_bestiary.entity.util.AttackHelpers;
 import com.hedge.hedges_bestiary.items.TreatItem;
@@ -64,7 +64,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 
-public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStateMob, HBHUDMount {
+public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStateMob, HUDMount {
     private static final ResourceLocation SPRITE = new ResourceLocation(HedgesBestiary.MODID, "textures/gui/mount/dawn_dove_hud.png");
     public static final EntityDataAccessor<Integer> GRABBED_ENTITY_ID = SynchedEntityData.defineId(DawnDoveEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(DawnDoveEntity.class, EntityDataSerializers.BOOLEAN);

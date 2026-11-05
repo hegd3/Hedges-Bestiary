@@ -35,6 +35,18 @@ public class HBBlocks {
             () -> new MultiEggBlock<>(BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG),
                     HBEntities.ZAPPET));
 
+    public static final RegistryObject<Block> GOPH_EGG = registerBlock("goph_egg",
+            () -> new MultiEggBlock<>(BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG),
+                    HBEntities.GOPH));
+
+    public static final RegistryObject<Block> GAWK_EGG = registerBlock("gawk_egg",
+            () -> new MultiEggBlock<>(BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG),
+                    HBEntities.GAWK));
+
+    public static final RegistryObject<Block> BLURPUM_EGGS = registerBlock("blurpum_eggs",
+            () -> new RaftEggBlock<>(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
+                    HBEntities.BLURPUM, 2));
+
     private static <T extends Block> Supplier<T> create(String key, Supplier<T> block) {
         return BLOCKS.register(key, block);
     }

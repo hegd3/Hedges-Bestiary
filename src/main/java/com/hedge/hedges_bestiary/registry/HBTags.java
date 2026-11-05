@@ -23,6 +23,8 @@ public class HBTags {
 
     public static final TagKey<EntityType<?>> BYPASSES_ZAPPET_SHIELD = registerEntityTag("bypasses_zappet_shield");
 
+    public static final TagKey<EntityType<?>> BLURPUM_TARGETS = registerEntityTag("blurpum_targets");
+
     public static final TagKey<Item> DAWN_DOVE_FOOD = registerItemTag("dawn_dove_food");
 
     public static final TagKey<Item> TREATS = registerItemTag("treats");

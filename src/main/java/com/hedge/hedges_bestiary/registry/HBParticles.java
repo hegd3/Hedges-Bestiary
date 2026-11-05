@@ -12,6 +12,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+
 public class HBParticles {
     public static final DeferredRegister<ParticleType<?>> DEF_REG = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, HedgesBestiary.MODID);
 
@@ -35,6 +36,9 @@ public class HBParticles {
     public static final RegistryObject<SimpleParticleType> ENDGEL_EXPLODE = DEF_REG.register("endgel_explode", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> ENDGEL_BULLET = DEF_REG.register("endgel_bullet", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> ENDGEL_BLAST_EXPLODE = DEF_REG.register("endgel_blast_explode", ()-> new SimpleParticleType(false));
+
+    public static final RegistryObject<SimpleParticleType> WATER_EXPLODE = DEF_REG.register("water_explode", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> WATER_SUCK = DEF_REG.register("water_suck", ()-> new SimpleParticleType(false));
 
     public static final RegistryObject<ParticleType<VolatileExplosionParticleOptions>> VOLATILE_EXPLODE = DEF_REG.register("volatile_explode", ()-> new ParticleType<>(true, VolatileExplosionParticleOptions.DESERIALIZER) {
         @Override

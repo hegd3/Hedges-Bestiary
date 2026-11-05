@@ -61,10 +61,6 @@ public class HBEntities {
             ENTITY_TYPES.register("ferocetus", () -> EntityType.Builder.of(FerocetusEntity::new, MobCategory.WATER_CREATURE)
                     .sized(2.7f, 2.1f).build("ferocetus"));
 
-    public static final RegistryObject<EntityType<WaveEntity>> WAVE =
-            ENTITY_TYPES.register("wave", () -> EntityType.Builder.of(WaveEntity::new, MobCategory.MISC)
-                    .sized(1.4f, 1.3f).build("wave"));
-
     public static final RegistryObject<EntityType<EndgelEntity>> ENDGEL =
             ENTITY_TYPES.register("endgel", () -> EntityType.Builder.of(EndgelEntity::new, MobCategory.MONSTER)
                     .sized(2.8f, 2.4f).fireImmune().build("endgel"));
@@ -88,6 +84,31 @@ public class HBEntities {
     public static final RegistryObject<EntityType<SkibEntity>> SKIB =
             ENTITY_TYPES.register("skib", () -> EntityType.Builder.of(SkibEntity::new, MobCategory.WATER_AMBIENT)
                     .sized(0.68f, 0.47f).build("skib"));
+
+    public static final RegistryObject<EntityType<BlurpumEntity>> BLURPUM =
+            ENTITY_TYPES.register("blurpum", () -> EntityType.Builder.of(BlurpumEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(1.4f, 1.35f).build("blurpum"));
+
+    public static final RegistryObject<EntityType<GawkEntity>> GAWK =
+            ENTITY_TYPES.register("gawk", () -> EntityType.Builder.of(GawkEntity::new, MobCategory.CREATURE)
+                    .sized(1.1f, 1.2f).build("gawk"));
+
+    public static final RegistryObject<EntityType<GophEntity>> GOPH =
+            ENTITY_TYPES.register("goph", () -> EntityType.Builder.of(GophEntity::new, MobCategory.CREATURE)
+                    .sized(0.8f, 0.8f).build("goph"));
+
+    public static final RegistryObject<EntityType<ZippermouthEntity>> ZIPPERMOUTH =
+            ENTITY_TYPES.register("zippermouth", () -> EntityType.Builder.of(ZippermouthEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(2.2f, 1.8f).setTrackingRange(12).build("zippermouth"));
+
+    public static final RegistryObject<EntityType<ZipperlingEntity>> ZIPPERLING =
+            ENTITY_TYPES.register("zipperling", () -> EntityType.Builder.of(ZipperlingEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(1.3f, 0.8f).build("zipperling"));
+
+    public static final RegistryObject<EntityType<NibNibEntity>> NIB_NIB =
+            ENTITY_TYPES.register("nib_nib", () -> EntityType.Builder.of(NibNibEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(0.8f, 0.8f).build("nib_nib"));
+
 
     public static void register(IEventBus eventbus) {
         ENTITY_TYPES.register(eventbus);
