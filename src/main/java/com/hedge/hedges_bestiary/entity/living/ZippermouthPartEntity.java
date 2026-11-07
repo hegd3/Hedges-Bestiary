@@ -1,5 +1,8 @@
 package com.hedge.hedges_bestiary.entity.living;
 
+import com.hedge.hedges_bestiary.HedgesBestiary;
+import com.hedge.hedges_bestiary.message.EntityKeyMessage;
+import com.hedge.hedges_bestiary.message.MultipartHurtMessage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -37,6 +40,8 @@ public class ZippermouthPartEntity extends PartEntity<ZippermouthEntity> {
                 if (source.is(DamageTypeTags.IS_PROJECTILE)) {
                     amount *= 0.35F;
                 }
+                HedgesBestiary.sendMSGToServer(new MultipartHurtMessage(this.getParent().getId(), hurter != null ? -1 : hurter.getId(), amount));
+
             }
 
         }

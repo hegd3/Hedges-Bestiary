@@ -9,6 +9,7 @@ import com.hedge.hedges_bestiary.items.HBItems;
 import com.hedge.hedges_bestiary.menu.HBTamableMenuScreen;
 import com.hedge.hedges_bestiary.message.DanceJukeboxMessage;
 import com.hedge.hedges_bestiary.message.EntityKeyMessage;
+import com.hedge.hedges_bestiary.message.MultipartHurtMessage;
 import com.hedge.hedges_bestiary.registry.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -90,6 +91,7 @@ public class HedgesBestiary
         int packetsRegistered = 0;
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, DanceJukeboxMessage.class, DanceJukeboxMessage::write, DanceJukeboxMessage::read, DanceJukeboxMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, EntityKeyMessage.class, EntityKeyMessage::write, EntityKeyMessage::read, EntityKeyMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, MultipartHurtMessage.class, MultipartHurtMessage::write, MultipartHurtMessage::read, MultipartHurtMessage::handle);
 
     }
 
