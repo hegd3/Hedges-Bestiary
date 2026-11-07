@@ -35,7 +35,9 @@ public class ZappetRoostStructure extends Structure {
     }
 
     private static void generatePieces(StructurePiecesBuilder builder, Structure.GenerationContext context) {
-        BlockPos blockpos = new BlockPos(context.chunkPos().getMinBlockX(), WorldHelpers.getHighestY(context, 15, 15), context.chunkPos().getMinBlockZ());
+        int x = context.chunkPos().getMinBlockX(), z =  context.chunkPos().getMinBlockZ();
+
+        BlockPos blockpos = new BlockPos(x, WorldHelpers.getHighestY(context, x, z), z);
         builder.addPiece(new ZappetRoostPiece(context.structureTemplateManager(), context.random().nextBoolean() ? NBT_1 : NBT_0, new StructurePlaceSettings(), blockpos));
     }
 

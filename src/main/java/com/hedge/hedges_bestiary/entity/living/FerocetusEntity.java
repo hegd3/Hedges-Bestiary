@@ -50,6 +50,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -58,6 +59,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -91,6 +94,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
     private boolean leftWater = false;
 
     private int tameAttempts  = 2;
+    private int milkCD = 0;
 
     public final SmoothAnimationState biteAnimationState = new SmoothAnimationState();
     public final SmoothAnimationState ramAnimationState = new SmoothAnimationState();
@@ -164,30 +168,47 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
 
     @Override
     public InteractionResult interactTameCommands(Player player, @NotNull InteractionHand hand) {
-        InteractionResult result = super.interactTameCommands(player, hand);
-        if (result == InteractionResult.PASS && !this.isTame() && this.isGrabbing() && this.getAnimState() == 4) {
+        if (!this.isTame()) {
+            if (this.isGrabbing() && this.getAnimState() == 4) {
+                ItemStack stack = player.getItemInHand(hand);
+                if (stack.is(HBItems.HEARTY_TREAT.get())) {
+                    if (!this.level().isClientSide) {
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        if (this.tameAttempts-- > 0) {
+                            this.level().broadcastEntityEvent(this, (byte) 6);
+
+                        } else {
+                            this.level().broadcastEntityEvent(this, (byte) 7);
+                            this.tame(player);
+                            this.heal(this.getMaxHealth());
+                        }
+                        this.resetAnimState();
+                        this.releaseGrab();
+                        this.playSound(SoundEvents.PARROT_EAT);
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+            }
+        } else {
             ItemStack stack = player.getItemInHand(hand);
-            if (stack.is(HBItems.HEARTY_TREAT.get())) {
+
+            if (!this.isBaby() && stack.getItem() == Items.GLASS_BOTTLE && this.milkCD == 0) {
                 if (!this.level().isClientSide) {
                     if (!player.getAbilities().instabuild) {
                         stack.shrink(1);
-                    }
-                    if (this.tameAttempts-- > 0) {
-                        this.level().broadcastEntityEvent(this, (byte) 6);
 
-                    } else {
-                        this.level().broadcastEntityEvent(this, (byte) 7);
-                        this.tame(player);
-                        this.heal(this.getMaxHealth());
                     }
-                    this.resetAnimState();
-                    this.releaseGrab();
-                    this.playSound(SoundEvents.PARROT_EAT);
+                    player.addItem(new ItemStack(HBItems.RICH_MILK.get()));
+                    this.playSound(SoundEvents.BOTTLE_FILL);
+                    this.milkCD = 2500;
                 }
-                return InteractionResult.SUCCESS;
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+
             }
         }
-        return result;
+        return super.interactTameCommands(player, hand);
     }
 
     @Override
@@ -322,6 +343,9 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
             this.tickPitch();
             this.tickRoll();
         } else {
+            if (this.milkCD > 0) {
+                this.milkCD--;
+            }
             this.attackCD = Math.max(this.attackCD - 1, 0);
             this.jumpCD = Math.max(this.jumpCD - 1, 0);
             if (this.tickCount % 200 == 0) {
@@ -818,7 +842,7 @@ public class FerocetusEntity extends HBTamableAnimal implements AttackStateMob, 
         this.entityData.set(GRABBED_ENTITY_ID, i);
     }
 
-    @Override
+    @Override @OnlyIn(Dist.CLIENT)
     public void renderHUD(GuiGraphics guiGraphics) {
         int screenWidth = guiGraphics.guiWidth(), screenHeight = guiGraphics.guiHeight();
         int imageWidth = 192, imageHeight = 62;

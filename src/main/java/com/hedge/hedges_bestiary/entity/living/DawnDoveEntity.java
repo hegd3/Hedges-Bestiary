@@ -57,6 +57,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.Nullable;
 
@@ -134,7 +136,9 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
         this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new TargetPlayersGoal(this));
         this.targetSelector.addGoal(4, new TargetMonstersGoal(this));
-        this.targetSelector.addGoal(5, new TargetWhenAwakeGoal<>(this, LivingEntity.class,DAWN_DOVE_TARGETS)
+        this.targetSelector.addGoal(5, new TargetWhenAwakeGoal<>(this, LivingEntity.class, DAWN_DOVE_TARGETS));
+        this.targetSelector.addGoal(6, new TargetWhenAwakeGoal<>(this, Player.class, null)
+
         );
     }
 
@@ -529,7 +533,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
 
     private void tickGrab() {
         if (!this.level().isClientSide()) {
-            if (!this.grabbedEntity.isAlive() || this.distanceToSqr(grabbedEntity) > 8) {
+            if (!this.grabbedEntity.isAlive() || this.distanceToSqr(grabbedEntity) > 25 || (!this.hasControllingPassenger() && this.getTarget() == null)) {
                 this.setGrabbedEntityID(-1);
                 this.grabbedEntity = null;
                 return;
@@ -663,7 +667,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
         }
     }
 
-    @Override
+    @Override @OnlyIn(Dist.CLIENT)
     public void renderHUD(GuiGraphics guiGraphics) {
         int screenWidth = guiGraphics.guiWidth(), screenHeight = guiGraphics.guiHeight();
         int imageWidth = 192, imageHeight = 61;

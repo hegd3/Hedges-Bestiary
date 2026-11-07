@@ -57,7 +57,7 @@
         "name": "hedges_bestiary:goph_hurt_1"
       }
     ],
-    "subtitle": "hedgesbestiary.sound.subtitle.goph_hurts"
+    "subtitle": "hedgesbestiary.sound.subtitle.goph_hurt"
   },
   "goph_die": {
     "category": "neutral",

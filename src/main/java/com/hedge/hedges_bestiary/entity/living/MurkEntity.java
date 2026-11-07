@@ -69,6 +69,8 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
@@ -919,7 +921,7 @@ public class MurkEntity extends HBTamableAnimal implements AttackStateMob, Advan
         return HBSounds.MURK_DIE.get();
     }
 
-    @Override
+    @Override @OnlyIn(Dist.CLIENT)
     public void renderHUD(GuiGraphics guiGraphics) {
         int screenWidth = guiGraphics.guiWidth(), screenHeight = guiGraphics.guiHeight();
         int imageWidth = 192, imageHeight = 45;

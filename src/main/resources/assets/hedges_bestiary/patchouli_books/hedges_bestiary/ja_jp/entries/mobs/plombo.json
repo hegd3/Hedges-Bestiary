@@ -5,7 +5,7 @@
   "sortnum": 2,
   "pages": [
     {
-      "type": "hedges_bestiary",
+      "type": "hedges_bestiary:tamable_mob_template",
       "behavior": "中立的",
       "taming": "眠っている間に$(treat2)を複数個与える",
       "habitat": "白樺の森",
