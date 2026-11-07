@@ -1,0 +1,26 @@
+{
+  "name": "ガーック",
+  "icon": "hedges_bestiary:plain_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "おとなしく、攻撃されると逃げる",
+      "taming": "$(treat0)を1個与える",
+      "habitat": "沼地、マングローブの沼地、河川、砂浜",
+      "breeding": "海草（卵を産む）",
+      "extra": "まれに、珍しい光り輝く亜種が出現することがあります！"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/gurk.png",
+        "hedges_bestiary:textures/gui/book/gurk_1.png",
+        "hedges_bestiary:textures/gui/book/gurk_2.png"
+      ],
+      "border": true,
+      "text": "画像の左から順に：$(#368F2E)沼地のガーック、$(#A68F76)河川のガーック、$(#5890D1)海洋のガーック"
+    }
+
+  ]
+}

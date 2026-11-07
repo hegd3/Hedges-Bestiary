@@ -1,0 +1,29 @@
+{
+  "name": "ドン・ダブ",
+  "icon": "hedges_bestiary:hearty_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "プレイヤーや家畜に敵対し、狩りをする",
+      "taming": "ドーンダブに掴まれている間に$(treat2)を与える。この手順を数回繰り返す",
+      "habitat": "サバンナ",
+      "breeding": "ステーキ（卵を産む）",
+      "extra": "手懐けると騎乗できます。$(ability)で火球を発射し、右クリックで掴むことができます。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/dawn_dove.png",
+        "hedges_bestiary:textures/gui/book/dawn_dove_1.png",
+        "hedges_bestiary:textures/gui/book/dawn_dove_2.png"
+
+      ],
+      "border": true,
+      "text": "ドーンダブは獰猛な捕食者ですが、幸いにも活動するのは朝の時間帯だけです。"
+
+    }
+
+  ]
+}

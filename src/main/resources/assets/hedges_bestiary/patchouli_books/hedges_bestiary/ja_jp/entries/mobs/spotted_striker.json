@@ -1,0 +1,27 @@
+{
+  "name": "スポっテッド・ストライカー",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "攻撃的で、プレイヤーや魚を狩る",
+      "taming": "体力が少なく、逃げている間に$(treat1)を1個与える",
+      "habitat": "暖かい海、ぬるい海",
+      "breeding": "あらゆる魚",
+      "extra": "スポッテッド・ストライカーは透明化することができ、攻撃や逃走の際に敵を困惑させ、不意を突きます"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/spotted_striker_img.png",
+        "hedges_bestiary:textures/gui/book/spotted_striker_img_1.png"
+      ],
+      "border": true,
+      "text": "スポッテッド・ストライカーは、サンゴ礁や密集したケルプの森を狩り場としています"
+
+    }
+
+  ]
+}

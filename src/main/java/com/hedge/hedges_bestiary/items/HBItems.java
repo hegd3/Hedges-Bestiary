@@ -32,10 +32,10 @@ public class HBItems {
     public static final RegistryObject<Item> ENDGELIC_HEART = ITEMS.register("endgelic_heart",
             () -> new Item(new Item.Properties().rarity(RARITY_ENDGELIC)));
 
-    public static final RegistryObject<Item> FINE_MILK = ITEMS.register("fine_milk",
+    public static final RegistryObject<Item> FINE_MILK = ITEMS.register("fine_milk_bottle",
             () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE)));
 
-    public static final RegistryObject<Item> RICH_MILK = ITEMS.register("rich_milk",
+    public static final RegistryObject<Item> RICH_MILK = ITEMS.register("rich_milk_bottle",
             () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE)));
 
     public static final RegistryObject<Item> ZIPPERMOUTH_SCALES = ITEMS.register("zippermouth_scales",

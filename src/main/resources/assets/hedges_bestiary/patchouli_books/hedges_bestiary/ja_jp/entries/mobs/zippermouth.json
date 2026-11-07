@@ -1,0 +1,39 @@
+{
+  "name": "ジッパーマウス",
+  "icon": "hedges_bestiary:luscious_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "中立的",
+      "taming": "次のページを参照",
+      "habitat": "海洋、ぬるい海",
+      "breeding": "なし",
+      "extra": "次のページを参照"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/zippermouth_img.png",
+        "hedges_bestiary:textures/gui/book/zippermouth_img_1.png",
+        "hedges_bestiary:textures/gui/book/zippermouth_img_2.png"
+      ],
+      "border": true,
+      "text": "ジッパーマウスは、はるかに小さな$(l:hedges_bestiary/zipperling)ジッパーリング$(/l)の成体です"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "ジッパーマウスは手懐けることができませんが、$(l:hedges_bestiary/zipperling)ジッパーリング$(/l)をジッパーマウスへと変化させることができます。$(br2)まず、成体のジッパーマウスを見つけ、$(treat3)を1個与えます。すると、お礼として鱗を1枚脱ぎ落としますが、それ以降はトリーツを受け取らなくなります。この鱗を3枚ジッパーリングに与えると、ジッパーマウスへと成長します。$(br2)ジッパーマウスは手懐けると騎乗できます。$(ability)を長押しすると、吸引能力を使用します。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/zippermouth_img_3.png"
+      ],
+      "border": true,
+      "text": "この巨大な魚は、顎を開くことで大量の水を押しのけることができます"
+    }
+
+  ]
+}
