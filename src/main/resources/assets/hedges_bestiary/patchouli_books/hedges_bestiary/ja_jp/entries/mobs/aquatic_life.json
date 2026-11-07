@@ -1,0 +1,60 @@
+{
+  "name": "その他の水生生物",
+  "icon": "hedges_bestiary:chub_bucket",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "このページでは、短い説明で紹介できるオーバーワールドのさまざまな水生生物をまとめています。ここで紹介するモブはすべて手懐けることができず、中にはプレイアーに敵対するものもいます。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/chub.png"
+      ],
+      "title": "チャブ",
+      "border": true,
+      "text": "通常の海洋に生息する、群れで泳ぐおとなしい魚です。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/gild_glider.png"
+      ],
+      "title": "ギルド・グライダー",
+      "border": true,
+      "text": "熱帯の海洋に生息する、群れで泳ぐおとなしい魚です。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/skib.png"
+      ],
+      "anchor": "skib",
+      "title": "スキブ",
+      "border": true,
+      "text": "通常の海洋に生息する、爆発性の赤いエネルギーを放出します。"
+
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/tearacuda.png"
+      ],
+      "title": "ティラクダ",
+      "border": true,
+      "text": "通常の海洋や深海で魚の群れを狩る、群れで狩りをする魚です。より大型の水生モブからは逃げます。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/nib_nib_img.png"
+      ],
+      "anchor": "nib_nib",
+      "title": "二ブ・ニブ",
+      "border": true,
+      "text": "より大型の水生モブに追従する、片利共生関係にある攻撃的な頭足類です。"
+    }
+  ]
+}

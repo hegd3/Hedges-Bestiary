@@ -543,7 +543,7 @@ public class DawnDoveEntity extends TamableFlyer implements EggLayer, AttackStat
 
     private void tickGrab() {
         if (!this.level().isClientSide()) {
-            if (!this.grabbedEntity.isAlive() || this.distanceToSqr(grabbedEntity) > 8) {
+            if (!this.grabbedEntity.isAlive() || this.distanceToSqr(grabbedEntity) > 25 || (!this.hasControllingPassenger() && this.getTarget() == null)) {
                 this.setGrabbedEntityID(-1);
                 this.grabbedEntity = null;
                 return;

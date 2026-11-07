@@ -1,0 +1,43 @@
+{
+  "name": "Friandises",
+  "icon": "hedges_bestiary:plain_treat",
+  "category": "hedges_bestiary:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "title": "Friandises",
+      "item": {
+        "item": "hedges_bestiary:plain_treat"
+      },
+      "text": "Les Friandises sont la première étape dans Hedge's Bestiary. Ils sont le moyen principal d'apprivoiser les nombreuses créatures sauvages que l'on trouve dans votre monde!$(br2)Les articles dans la catégorie $(l:hedges_bestiary:mobs_category)créatures $(/l) sont identifiés avec le type de gâterie avec laquelle la créature peut être apprivoisée."
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "treat1",
+      "recipe": "hedges_bestiary:plain_treat",
+      "text": "Le premier niveau de friandise que vous pouvez fabriquer est la friandise simple. Les autres friandises seront plus difficiles à préparer."
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "treat2",
+      "recipe": "hedges_bestiary:seasoned_treat",
+      "text": "Le deuxième niveau de friandise que vous pouvez fabriquer est la friandise assaisonnée. Les œufs utilisés dans la fabrication proviennent de créatures apprivoisables avec la friandise simple. Sinon, on peut utiliser un œuf de sniffer à la place."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Milk Bottles",
+      "text": "$(br2)Le lait des mammifères apprivoisés peut être collecté à l'aide de bouteilles, qui est un ingrédient essentiel pour les prochaines friandises. La qualité du lait reçu dépend du type de friandise avec laquelle la créature peut être apprivoisée.$(br2)Les articles dans la catégorie $(l:hedges_bestiary:mobs_category)créature$(/l) ont un * dans leur titre s'ils peuvent être traits."
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "treat3",
+      "recipe": "hedges_bestiary:hearty_treat",
+      "text": "Le troisième niveau de friandise que vous pouvez fabriquer est la friandise nourrissante. Les oeufs utilisés dans la fabrication ainsi que le Lait Fin proviennent de créatures apprivoisables avec la friandise assaisonnée"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:luscious_treat",
+      "text": "Le quatrième niveau de friandise que vous pouvez fabriquer est la friandise délicieuse. Les oeufs utilisés dans la fabrication ainsi que le Lait Riche proviennent de créatures apprivoisables avec la friandise nourrissante"
+    }
+  ]
+}

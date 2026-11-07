@@ -1,0 +1,40 @@
+{
+  "name": "Plombo*",
+  "icon": "hedges_bestiary:hearty_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Neutre",
+      "taming": "Donnez-lui plusieurs $(treat2) quand il dort",
+      "habitat": "Forêts de bouleau",
+      "breeding": "Feuilles",
+      "extra": "*Produit du $(richmilk). Voir prochaine page"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/plombo.png",
+        "hedges_bestiary:textures/gui/book/plombo_1.png"
+
+      ],
+      "border": true,
+      "text": "On peut souvent voir les plombos soit en train de dormir, soit en train de récolter des feuilles pour se nourrir"
+
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Les Plombos peuvent être montés lorsqu'ils sont apprivoisés. Ils peuvent aussi être équippés d'une barril et récolteront des objets des feuilles cueillies. Ces objets sont stockés dans l'inventaire du plombo, accessible dans le menu d'interaction. Bien que les plombos soient beaucoup plus susceptibles de trouver des objets banals comme des bâtons, ils peuvent parfois trouver des gâteries!$(br2)Le barril peut être retiré avec des cisailles."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/plombo_2.png"
+      ],
+      "border": true,
+      "text": "Les plombos équippés travaillent durs.. quand ils ne dorment pas"
+    }
+
+  ]
+}

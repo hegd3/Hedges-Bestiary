@@ -1,0 +1,37 @@
+{
+  "name": "Murk",
+  "icon": "hedges_bestiary:hearty_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Neutre, chasse le skib",
+      "taming": "Lorsque chargé, donnez-lui une chaudière de skib, ensuite un $(treat2); répétez ce procédé plusieurs fois",
+      "habitat": "Océans froids et tempérés",
+      "breeding": "Skib (pond des oeufs)",
+      "extra": "Voir prochaine page"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/murk.png",
+        "hedges_bestiary:textures/gui/book/murk_1.png"
+      ],
+      "border": true,
+      "text": "Les Murks sont des cousins aquatiques géants du simple Gurk"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Les Murks entrent dans un état chargé après avoir rugi lorsqu'ils sont énervés. Dans cet état, les attaques d'un Murk infligent des dégâts supplémentaires et l'efft $(c)Volatile$(), qui inflige des dégâts explosifs à la créature affectée à la fin de l'effet.$(br2)Les Murks peuvent être montés lorsqu'ils sont apprivoisés. Lorsque monté, appuyez sur $(ability) pour entrer en état chargé lorsque le compteur est plein. Le faire avec une barre incomplète ou pendant qu'il est chargé fera que le Murk tire son souffle de projectile à la place."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/murk_2.png"
+      ],
+      "border": true,
+      "text": "Les Murks consomment $(l:hedges_bestiary:mobs/aquatic_life#skib)skibs$(/l) pour exploiter leur énergie explosive"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Weapons",
+  "icon": "hedges_bestiary:murklevolence",
+  "category": "hedges_bestiary:items",
+  "pages": [
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:murklevolence",
+      "text": "$(l:hedges_bestiary:mobs/murk)マーク$(/l)は成長すると棘を脱ぎ落とします。その棘を使って、$(4)マークルヴォレンス$()をクラフトできます。この巨大な武器は、攻撃を受けた不運な者に$(4)ボラタイル$()効果を与えます。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:endgelic_judgement",
+      "text": "3体のエンドジェルを討伐すると、その心臓を回収して$(a)エンドジェリック・ジャッジメント$()を作成できます。これは遠距離武器で、エンダーアイを消費して、エンドジェルが敵に浴びせるものと同じ強力な爆発を放ちます。"
+    }
+  ]
+}

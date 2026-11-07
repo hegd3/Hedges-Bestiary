@@ -1,0 +1,43 @@
+{
+  "name": "トリツ",
+  "icon": "hedges_bestiary:plain_treat",
+  "category": "hedges_bestiary:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "title": "トリツ",
+      "item": {
+        "item": "hedges_bestiary:plain_treat"
+      },
+      "text": "トリツはHedge's Bestiaryの第一歩です。世界に生息するさまざまな野生の生き物を手懐けるための主要なアイテムです!$(br2)Entries in the $(l:hedges_bestiary:mobs_category)モブカテゴリ$(/l)の各項目には、そのモブを手懐けるために必要なトリーツの種類が記載されています。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "treat1",
+      "recipe": "hedges_bestiary:plain_treat",
+      "text": "最初にクラフトできるトリーツはシンプルトリーツです。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "treat2",
+      "recipe": "hedges_bestiary:seasoned_treat",
+      "text": "クラフトできるトリーツの第2段階はスイートトリーツです。クラフトレシピに使用できる卵は、シンプルトリーツで手懐けられるモブから入手できます。また、代わりにスニッファーの卵を使用することもできます。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "ミルク瓶",
+      "text": "$(br2)哺乳類の手懐けたモブからは、瓶を使ってミルクを採取できます。ミルクは上位のトリーツをクラフトするために欠かせない材料です。採取できるミルクの品質は、そのモブを手懐けるために必要なトリーツの種類によって異なります。$(br2)$(l:hedges_bestiary:mobs_category)モブカテゴリ$(/l)の各項目では、ミルクを採取できるモブのタイトルに*が付いています。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "anchor": "treat3",
+      "recipe": "hedges_bestiary:hearty_treat",
+      "text": "クラフトできるトリーツの第3段階はハーティートリーツです。クラフトレシピに使用する上質なミルクと卵は、スイートトリーツで手懐けられるモブから入手できます。"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:luscious_treat",
+      "text": "クラフトできるトリーツの第四段階はリッチトリーツ。クラフトレシピに使用する濃厚なミルクと卵は、ハーティートリーツで手懐けられるモブから入手できます。"
+    }
+  ]
+}

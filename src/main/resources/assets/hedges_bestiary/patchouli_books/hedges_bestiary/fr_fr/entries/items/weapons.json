@@ -1,0 +1,17 @@
+{
+  "name": "Weapons",
+  "icon": "hedges_bestiary:murklevolence",
+  "category": "hedges_bestiary:items",
+  "pages": [
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:murklevolence",
+      "text": "$(l:hedges_bestiary:mobs/murk)Les Murks$(/l) perdent leurs épines en grandissant, vous permettant de fabriquer $(4)Murkveillance$(), une arme massive qui inflige l'effet $(4)Volatilité$() à tout ceux assez malchanceux pour être frappé."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "hedges_bestiary:endgelic_judgement",
+      "text": "Après avoir tué trois Endgels, Leurs cœurs peuvent être rassemblés pour créer le $(a)Jugement Endgelic$(), une arme à distance qui utilise des yeux d'Ender pour tirer les mêmes décharges dévastatrices que les Endgels lancent sur leurs victimes."
+    }
+  ]
+}

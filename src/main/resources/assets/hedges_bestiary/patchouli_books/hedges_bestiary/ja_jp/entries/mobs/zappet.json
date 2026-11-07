@@ -1,0 +1,36 @@
+{
+  "name": "ザペット",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "おとなしく、攻撃されると逃げる",
+      "taming": "雷または召雷のトライデントで攻撃した後、$(treat1)を1個与える",
+      "habitat": "荒野",
+      "breeding": "生の銅（卵を産む）",
+      "extra": "次のページを参照"
+    },
+    {
+      "type": "patchouli:image",
+      "images":[
+        "hedges_bestiary:textures/gui/book/zappet.png"
+      ],
+      "border": true,
+      "text": "ザペットは最大20羽の群れで飛び回り、大きな岩の上に集まって暮らします"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "ザペットは、飛来する敵の飛翔体に向けて雷撃を放ち、それらを破壊する能力を持っています（データパックを使用すれば、特定の飛翔体を破壊されないように設定できます。トライデントはデフォルトで対象外です）。$(br2)手懐けたザペットの飼い主は、右クリックすることでザペットを頭の上に乗せることができます。飼い主の頭に乗ったザペットは、飛翔体から飼い主を守るだけでなく、低速落下の効果も付与します。しゃがむか水中に潜ると、ザペットは頭から離れます。"
+    },
+    {
+      "type": "patchouli:image",
+      "images":[
+        "hedges_bestiary:textures/gui/book/zappet_1.png"
+      ],
+      "border": true,
+      "text": "飼い主の頭に乗ったザペット"
+    }
+  ]
+}

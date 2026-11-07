@@ -1,0 +1,28 @@
+{
+  "name": "Ferocetus*",
+  "icon": "hedges_bestiary:hearty_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Neutre, chasse le calmar et les créatures aquatiques plus grandes",
+      "taming": "Pendant qu'un Ferocetus attrape une créature, donnez-lui un $(treat2) quand il mâche. Répétez ce procédé plusieurs fois",
+      "habitat": "Océans froids et ordinaires",
+      "breeding": "Viandurk Crue",
+      "extra": "*Produit du $(richmilk). Peut être monté lorsqu'il est apprivoisé-- $(ability) pour attraper"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/ferocetus.png",
+        "hedges_bestiary:textures/gui/book/ferocetus_1.png",
+        "hedges_bestiary:textures/gui/book/ferocetus_2.png"
+      ],
+      "border": true,
+      "text": "Les Ferocetus peuvent être vus en groupe allant jusqu'à quatre"
+
+    }
+
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Burodon*",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Aggressif, chasse les joueurs et le bétail",
+      "taming": "Donnez-lui 1* $(treat1) pendant qu'il rugit",
+      "habitat": "Plaines enneigées, taïgas enneigées, bosquets",
+      "breeding": "Mouton Cru",
+      "extra": "*Produisent du $(finemilk). Le rugissement d'un Burodon est enchanté par l'hiver lui-même, gelant ses ennemis tout en soignant ses alliés."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/burodon.png",
+        "hedges_bestiary:textures/gui/book/burodon_1.png"
+      ],
+      "border": true,
+      "text": "Les Burodons chassent généralement en meutes allant jusqu'à quatre individus"
+
+    }
+
+  ]
+}

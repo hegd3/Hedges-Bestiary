@@ -1,0 +1,26 @@
+{
+  "name": "ゴフ",
+  "icon": "hedges_bestiary:plain_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "おとなしく、攻撃されると逃げる",
+      "taming": "起きている間に$(treat0)を1個与える",
+      "habitat": "砂漠",
+      "breeding": "砂糖（卵を産む）",
+      "extra": "手懐けたゴフは、ブラシで掃除できるブロック（例：怪しげな砂）を掘り起こします"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/goph_img.png",
+        "hedges_bestiary:textures/gui/book/goph_img_1.png"
+      ],
+      "border": true,
+      "text": "ゴフはウルクの仲間の中で最も小さく、昼間は地中に潜って身を隠すことを好みます"
+
+    }
+
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "name": "マーク",
+  "icon": "hedges_bestiary:hearty_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "中立的で、スキブを狩る",
+      "taming": "帯電中にスキブ入りのバケツを与え、その後$(treat2)を与える。この手順を数回繰り返す",
+      "habitat": "海洋、深海",
+      "breeding": "スキブ（卵を産む）",
+      "extra": "次のページを参照"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/murk.png",
+        "hedges_bestiary:textures/gui/book/murk_1.png"
+      ],
+      "border": true,
+      "text": "マークは、控えめなガーックを海洋で巨大化させたような近縁種です"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "マークは敵に刺激されると咆哮し、帯電状態になります。この状態では、マークの攻撃が追加ダメージを与え、$(c)ボラタイル$()効果を付与します。この効果を受けた者は、効果終了時に爆発ダメージを受けます。$(br2)マークは手懐けると騎乗できます。騎乗中、HUDのメーターが満タンになったら$(ability)を押すことで帯電状態にできます。メーターが満タンでない場合、または既に帯電状態の場合に$(ability)を押すと、代わりにマークがブレス状の飛翔体を発射します。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/murk_2.png"
+      ],
+      "border": true,
+      "text": "マークは$(l:hedges_bestiary/aquatic_life#skib)スキブ$(/l)を捕食し、その爆発的なエネルギーを利用します"
+    }
+  ]
+}

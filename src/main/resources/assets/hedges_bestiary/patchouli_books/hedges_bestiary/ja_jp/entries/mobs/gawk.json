@@ -1,0 +1,27 @@
+{
+  "name": "ギャク",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "中立的",
+      "taming": "$(treat1)を1個与える",
+      "habitat": "凍った海",
+      "breeding": "あらゆる魚（卵を産む）",
+      "extra": "手懐けたギャクを自由行動に設定すると、近くの子モブに餌を与え、成長速度を上昇させます"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/gawk_img.png",
+        "hedges_bestiary:textures/gui/book/gawk_img_1.png"
+      ],
+      "border": true,
+      "text": "ギャクは群れで暮らすウルクで、氷の上に寄り集まった大きな群落を形成します"
+
+    }
+
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Spotted Striker",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Aggressif, chasse les joueurs et les poissons",
+      "taming": "Donnez-lui 1* $(treat1) lorsqu'il a peu de points de vie",
+      "habitat": "Océans chauds et tièdes",
+      "breeding": "N'importe quel poisson",
+      "extra": "Les Spotted Strikers peuvent devenir invisibles, déroutant et surprenant les ennemis lorsqu'ils attaquent ou s'enfuient"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/spotted_striker_img.png",
+        "hedges_bestiary:textures/gui/book/spotted_striker_img_1.png"
+      ],
+      "border": true,
+      "text": "Les Spotted Strikers appellent les récifs denses et les forêts d'algues leurs territoires de chasse"
+
+    }
+
+  ]
+}

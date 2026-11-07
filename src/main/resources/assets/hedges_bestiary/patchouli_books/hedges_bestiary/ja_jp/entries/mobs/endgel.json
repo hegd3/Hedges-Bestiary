@@ -1,0 +1,23 @@
+{
+  "name": "エンドゲェル",
+  "icon": "hedges_bestiary:endgelic_heart",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "エンドジェルは、外なるエンドの虚空を飛び回る巨大な8枚の翼を持つモンスターです。あらゆる方向を向いた目の柱が並び、その視線から逃れられる者はいません。標的を見つけると、エンドジェルは爆発する追尾弾を容赦なく浴びせ、さらに強力な攻撃をチャージします。$(br2)エンドジェルを倒すほどの力を持つ者がいれば、その心臓をドロップします。この心臓は$(l:hedges_bestiary/weapons)特殊な武器のクラフトに使用できます。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/endgel.png",
+        "hedges_bestiary:textures/gui/book/endgel_1.png",
+        "hedges_bestiary:textures/gui/book/endgel_2.png"
+      ],
+      "border": true,
+      "text": "恐れることなかれ……"
+
+    }
+  ]
+}

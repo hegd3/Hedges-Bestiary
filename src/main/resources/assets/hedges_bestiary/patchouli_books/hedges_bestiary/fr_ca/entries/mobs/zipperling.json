@@ -1,0 +1,28 @@
+{
+  "name": "Zipperling",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "Neutre, chasse une variété de poissons",
+      "taming": "Donnez-lui 2* $(treat1)",
+      "habitat": "Océans tièdes et ordinaires",
+      "breeding": "Aucun",
+      "extra": "Peut être élevé en une $(l:hedges_bestiary:mobs/zippermouth)forme beaucoup plus grande$(/l), celà demande un objet spécial..."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/zipperling_img.png",
+        "hedges_bestiary:textures/gui/book/zipperling_img_1.png",
+        "hedges_bestiary:textures/gui/book/zipperling_img_2.png"
+
+      ],
+      "border": true,
+      "text": "Le Zipperling est un chasseur rapide des profondeurs, filant avant chaque bouchée"
+    }
+
+  ]
+}

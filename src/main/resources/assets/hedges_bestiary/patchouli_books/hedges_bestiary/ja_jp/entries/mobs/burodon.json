@@ -1,0 +1,26 @@
+{
+  "name": "ブロドン*",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "プレイヤーや家畜に敵対し、狩りをする",
+      "taming": "吠えている間に$(treat1)を1個与える",
+      "habitat": "雪原、雪のタイガ、林",
+      "breeding": "生の羊肉",
+      "extra": "*$(finemilk)を生産します。ブロドンの咆哮には冬そのものの魔力が宿っており、敵を凍らせると同時に味方を回復します。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/burodon.png",
+        "hedges_bestiary:textures/gui/book/burodon_1.png"
+      ],
+      "border": true,
+      "text": "ブロドンは通常、最大4体の群れで狩りをします。"
+    }
+
+  ]
+}

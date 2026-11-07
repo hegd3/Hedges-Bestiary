@@ -1,0 +1,60 @@
+{
+  "name": "Faune Aquatique Divers",
+  "icon": "hedges_bestiary:chub_bucket",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Cette page répertorie diverses créatures aquatiques dans l'overworld qui peuvent être résumées en quelques phrases. Notez que toutes les créatures de cet article ne peuvent être apprivoisées, certaines sont même hostiles envers les joueurs."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/chub.png"
+      ],
+      "title": "Chub",
+      "border": true,
+      "text": "Poissons passifs, en banc, que l'on trouve dans les océans ordinaires et profonds."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/gild_glider.png"
+      ],
+      "title": "Gild Glider",
+      "border": true,
+      "text": "Poissons passifs, en banc, que l'on trouve dans des océans chauds et tièdes."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/skib.png"
+      ],
+      "anchor": "skib",
+      "title": "Skib",
+      "border": true,
+      "text": "Crustacés benthiques présents dans les océans réguliers et profonds qui émettent une énergie rouge explosive."
+
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/tearacuda.png"
+      ],
+      "title": "Tearacuda",
+      "border": true,
+      "text": "Poissons de meute qui chassent des bancs de poissons dans les océans réguliers et profonds. Fuient les créatures aquatiques plus menaçantes."
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/nib_nib_img.png"
+      ],
+      "anchor": "nib_nib",
+      "title": "Nib Nib",
+      "border": true,
+      "text": "Céphalopodes commensaux et agressifs qui suivent les créatures aquatiques plus menaçantes."
+    }
+  ]
+}

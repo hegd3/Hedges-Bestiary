@@ -1,0 +1,158 @@
+{
+  "entity.hedges_bestiary.tamable_menu.display_command": "現在：",
+  "entity.hedges_bestiary.tamable_menu.command_0": "自由行動",
+  "entity.hedges_bestiary.tamable_menu.command_1": "待機",
+  "entity.hedges_bestiary.tamable_menu.command_2": "追従",
+
+  "entity.hedges_bestiary.tamable_menu.auto_targets": "自動攻撃対象：",
+  "entity.hedges_bestiary.tamable_menu.auto_targets_type_1": "モンスター",
+  "entity.hedges_bestiary.tamable_menu.auto_targets_type_2": "プレイヤー",
+  "entity.hedges_bestiary.tamable_menu.auto_targets_type_3": "両方",
+
+  "entity.hedges_bestiary.tamable_menu.home": "拠点：",
+  "entity.hedges_bestiary.tamable_menu.null": "なし",
+
+  "entity.hedges_bestiary.tamable_menu.access": "アクセス",
+  "entity.hedges_bestiary.tamable_menu.inventory": "インベントリ",
+
+
+  "entity.hedges_bestiary.burodon": "ブロドン",
+  "entity.hedges_bestiary.chub": "チャブ",
+  "entity.hedges_bestiary.dawn_dove": "ドーン・ダブ",
+  "entity.hedges_bestiary.endgel": "エンドゲェル",
+  "entity.hedges_bestiary.ferocetus": "フェロケトゥス",
+  "entity.hedges_bestiary.gild_glider": "ギルド・グライダー",
+  "entity.hedges_bestiary.gurk": "ガーック",
+  "entity.hedges_bestiary.murk": "マーク",
+  "entity.hedges_bestiary.plombo": "プロンボ",
+  "entity.hedges_bestiary.skib": "スキブ",
+  "entity.hedges_bestiary.spotted_striker": "スポっテッド・ストライカー",
+  "entity.hedges_bestiary.tearacuda": "ティラクダ",
+  "entity.hedges_bestiary.zappet": "ザペット",
+  "entity.hedges_bestiary.endgel_bullet": "エンドゲルの弾丸",
+  "entity.hedges_bestiary.endgel_blast": "エンドゲル・ブラスト",
+  "entity.hedges_bestiary.dawn_dove_fireball": "ドーン・ダブの火の玉",
+  "entity.hedges_bestiary.murk_smoke": "マーックの煙",
+  "entity.hedges_bestiary.blurpum": "ブルプム",
+  "entity.hedges_bestiary.gawk": "ギャク",
+  "entity.hedges_bestiary.goph": "ゴフ",
+  "entity.hedges_bestiary.zippermouth": "ジッパーマウス",
+  "entity.hedges_bestiary.zipperling": "ジッパーリング",
+  "entity.hedges_bestiary.nib_nib": "ニブ・ニブ",
+
+  "effect.hedges_bestiary.volatility": "ボラティリティ",
+
+  "item.hedges_bestiary.burodon_spawn_egg": "ブロドンのスポーンエッグ",
+  "item.hedges_bestiary.chub_spawn_egg": "チャブのスポーンエッグ",
+  "item.hedges_bestiary.dawn_dove_spawn_egg": "ドーン・ダブのスポーンエッグ",
+  "item.hedges_bestiary.endgel_spawn_egg": "エンドゲェルのスポーンエッグ",
+  "item.hedges_bestiary.ferocetus_spawn_egg": "フェロケトゥスのスポーンエッグ",
+  "item.hedges_bestiary.gild_glider_spawn_egg": "ギルド・グライダーのスポーンエッグ",
+  "item.hedges_bestiary.gurk_spawn_egg": "ガーックのスポーンエッグ",
+  "item.hedges_bestiary.murk_spawn_egg": "マークのスポーンエッグ",
+  "item.hedges_bestiary.plombo_spawn_egg": "プロンボのスポーンエッグ",
+  "item.hedges_bestiary.skib_spawn_egg": "スキブのスポーンエッグ",
+  "item.hedges_bestiary.spotted_striker_spawn_egg": "スポっテッド・ストライカーのスポーンエッグ",
+  "item.hedges_bestiary.tearacuda_spawn_egg": "ティラクダのスポーンエッグ",
+  "item.hedges_bestiary.zappet_spawn_egg": "ザペットのスポーンエッグ",
+  "item.hedges_bestiary.blurpum_spawn_egg": "ブラパムのスポーンエッグ",
+  "item.hedges_bestiary.gawk_spawn_egg": "ギャクのスポーンエッグ",
+  "item.hedges_bestiary.goph_spawn_egg": "ゴフのスポーンエッグ",
+  "item.hedges_bestiary.zippermouth_spawn_egg": "ジッパーマウスのスポーンエッグ",
+  "item.hedges_bestiary.zipperling_spawn_egg": "ジッパーリングのスポーンエッグ",
+  "item.hedges_bestiary.nib_nib_spawn_egg": "ニブ・ニブのスポーンエッグ",
+
+  "item.hedges_bestiary.plain_treat": "シンプルなトリーツ",
+  "item.hedges_bestiary.seasoned_treat": "スイートトリーツ",
+  "item.hedges_bestiary.hearty_treat": "ハーティートリーツ",
+  "item.hedges_bestiary.luscious_treat": "リッチトリーツ",
+
+  "item.hedges_bestiary.endgelic_judgement": "エンドジェリック・ジャッジメント",
+  "item.hedges_bestiary.murklevolence": "マーックルヴォレンス",
+
+  "item.hedges_bestiary.chub_bucket": "チャブ入りバケツ",
+  "item.hedges_bestiary.gild_glider_bucket": "ギルド・グライダー入りバケツ",
+  "item.hedges_bestiary.skib_bucket": "スキブ入りバケツ",
+  "item.hedges_bestiary.raw_urkmeat": "ウルク肉",
+  "item.hedges_bestiary.cooked_urkmeat": "焼きウルク肉",
+  "item.hedges_bestiary.murk_spike": "マークのトゲ",
+  "item.hedges_bestiary.endgelic_heart": "エンドジェリック・ハート",
+  "item.hedges_bestiary.zippermouth_scales": "ジッパーマウスの鱗",
+
+  "item.hedges_bestiary.fine_milk_bottle": "上質なミルク瓶",
+  "item.hedges_bestiary.rich_milk_bottle": "濃厚なミルク瓶",
+
+  "item.hedges_bestiary.skib": "スキブ",
+  "item.hedges_bestiary.dawn_dove_egg": "ドン・ダブの卵",
+  "item.hedges_bestiary.gurk_egg": "ガーックの卵",
+  "item.hedges_bestiary.murk_egg": "マークの卵",
+  "item.hedges_bestiary.zappet_egg": "ザペットの卵",
+  "item.hedges_bestiary.blurpum_eggs": "ブラパムの卵",
+  "item.hedges_bestiary.goph_egg": "ゴフの卵",
+  "item.hedges_bestiary.gawk_egg": "逆の卵",
+
+
+  "block.hedges_bestiary.dawn_dove_egg": "ドン・ダブの卵",
+  "block.hedges_bestiary.gurk_egg": "ガーックの卵",
+  "block.hedges_bestiary.murk_egg": "マークの卵",
+  "block.hedges_bestiary.zappet_egg": "ザペットの卵",
+  "block.hedges_bestiary.blurpum_eggs": "ブラパムの卵",
+  "block.hedges_bestiary.goph_egg": "ゴフの卵",
+  "block.hedges_bestiary.gawk_egg": "ギャクの卵",
+
+  "creativetab.hedges_bestiary_tab": "Hedge's Bestiary",
+
+  "hedgesbestiary.sound.subtitle.gurk_ambient": "ガーックが鳴く",
+  "hedgesbestiary.sound.subtitle.gurk_hurt": "ガーックがダメージを受ける",
+  "hedgesbestiary.sound.subtitle.gurk_die": "ガーックが死ね",
+
+  "hedgesbestiary.sound.subtitle.burodon_roar": "ブロドンが吠える",
+  "hedgesbestiary.sound.subtitle.burodon_hurt": "ブロドンがダメージを受ける",
+  "hedgesbestiary.sound.subtitle.burodon_die": "ブロドンが死ね",
+
+  "hedgesbestiary.sound.subtitle.murk_clicks": "マークがカチカチ鳴る",
+  "hedgesbestiary.sound.subtitle.murk_yawn": "マークがあくびをする",
+  "hedgesbestiary.sound.subtitle.murk_hurt": "マークがダメージを受ける",
+  "hedgesbestiary.sound.subtitle.murk_stomp": "マークが踏み鳴らす",
+  "hedgesbestiary.sound.subtitle.murk_roar": "マークが吠える",
+  "hedgesbestiary.sound.subtitle.murk_die": "マークが死ね",
+
+  "hedgesbestiary.sound.subtitle.ferocetus_ambient": "フェロケトゥスがカチカチ鳴る",
+  "hedgesbestiary.sound.subtitle.ferocetus_hurt": "フェロケトゥスがダメージを受ける",
+  "hedgesbestiary.sound.subtitle.ferocetus_die": "フェロケトゥスが死ね",
+
+  "hedgesbestiary.sound.subtitle.plombo_yawn": "プロンボがあくびをする",
+  "hedgesbestiary.sound.subtitle.plombo_hurt": "プロンボがダメージを受ける",
+  "hedgesbestiary.sound.subtitle.plombo_die": "プロンボが死ね",
+
+  "hedgesbestiary.sound.subtitle.zap": "電撃が走る",
+
+  "hedgesbestiary.sound.subtitle.fireball_shoot": "火球が飛ぶ",
+  "hedgesbestiary.sound.subtitle.dawn_dove_ambient": "ドーンダブが鳴く",
+  "hedgesbestiary.sound.subtitle.dawn_dove_hurt": "ドン・ダブがダメージを受ける",
+
+  "hedgesbestiary.sound.subtitle.blurpum_ambient": "ブラパムがブクブク鳴く",
+  "hedgesbestiary.sound.subtitle.blurpum_hurt": "ブラパムがダメージを受ける",
+  "hedgesbestiary.sound.subtitle.blurpum_die": "ブラパムが死ね",
+
+  "hedgesbestiary.sound.subtitle.goph_ambient": "ゴフがカチカチ鳴く",
+  "hedgesbestiary.sound.subtitle.goph_hurt": "ゴフがダメージを受ける",
+  "hedgesbestiary.sound.subtitle.goph_die": "ゴフが死ね",
+
+  "hedgesbestiary.sound.subtitle.gawk_ambient": "ガウクが鳴く",
+  "hedgesbestiary.sound.subtitle.gawk_call": "ガウクが呼ぶ",
+  "hedgesbestiary.sound.subtitle.gawk_hurt": "ギャクがダメージを受ける",
+  "hedgesbestiary.sound.subtitle.gawk_die": "ギャクが死ね",
+
+  "hedgesbestiary.sound.subtitle.zippermouth_ambient": "ジッパーマウスがもごもご鳴く",
+  "hedgesbestiary.sound.subtitle.zippermouth_bite": "ジッパーマウスが噛みつく",
+  "hedgesbestiary.sound.subtitle.zippermouth_hurt": "ジッパーマウスがダメージを受ける",
+  "hedgesbestiary.sound.subtitle.zippermouth_die": "ジッパーマウスが死ね",
+
+  "hedgesbestiary.sound.subtitle.endgel_ambient": "エンドジェルがささやく",
+  "hedgesbestiary.sound.subtitle.endgel_shoot": "エンドジェルが発射する",
+  "hedgesbestiary.sound.subtitle.endgel_explosion": "エンドジェルの弾が爆発する",
+
+  "key.category.hedges_bestiary": "Hedge's Bestiary",
+  "key.hedges_bestiary.mountSpecialKey": "Hedge's Bestiary Mount Ability"
+}

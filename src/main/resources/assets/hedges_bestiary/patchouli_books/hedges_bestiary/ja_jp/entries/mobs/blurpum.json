@@ -1,0 +1,42 @@
+{
+  "name": "ブラパム",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "プレイヤーや家畜に敵対し、狩りをする。$(o)しゃがんでいるプレイヤーは無視する",
+      "taming": "陸上で日光浴をしている間に$(treat1)を4個与える",
+      "habitat": "河川、沼地、砂浜、凍った海",
+      "breeding": "ウルク肉（水中に卵を産む）",
+      "extra": "次のページを参照"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/blurpum_img_basking.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_basking_1.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_basking_2.png"
+      ],
+      "border": true,
+      "text": "ブラパムは水辺で口を大きく開けて日光浴をしている姿がよく見られます。"
+
+    },
+    {
+      "type": "patchouli:text",
+      "text": "ブラパムは手懐けると騎乗できます。ダメージを受けると、反撃として時折毒ガスを放出します。$(br2)ブラパムには生息するバイオームに応じて、淡水種、寒冷種、沿岸種の3種類が存在します。淡水種は攻撃力が高く、最も致死性の高い毒を持ちますが、移動速度は最も遅いです。寒冷種は体力と再生能力に優れ、毒ガスには凍結効果もありますが、攻撃力は最も低いです。沿岸種は移動速度が速く、毒ガスの再充填も早いですが、体力は低めです。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/blurpum_img.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_1.png",
+        "hedges_bestiary:textures/gui/book/blurpum_img_2.png"
+      ],
+      "border": true,
+      "text": "左から順に：$(#368F2E)淡水種のブラパム、$(#A68F76)寒冷種のブラパム、$(#5890D1)沿岸種のブラパム"
+    }
+
+  ]
+}

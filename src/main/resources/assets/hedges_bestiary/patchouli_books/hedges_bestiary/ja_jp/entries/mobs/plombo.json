@@ -1,0 +1,37 @@
+{
+  "name": "プロンボ*",
+  "icon": "hedges_bestiary:hearty_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "中立的",
+      "taming": "眠っている間に$(treat2)を複数個与える",
+      "habitat": "白樺の森",
+      "breeding": "葉っぱ",
+      "extra": "*$(richmilk)を生産します。次のページを参照"
+    },
+    {
+      "type": "patchouli:text",
+      "images": [
+        "hedges_bestiary/gui/book/plombo.png",
+        "hedges_bestiary/gui/book/plombo_1.png"
+      ],
+      "border": true,
+      "text": "プロンボは、眠っている姿や食料として葉っぱを集めている姿をよく見かけます"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "プロンボは手懐けると騎乗できます。また、樽を装備させることができ、樽を装備したプロンボは葉っぱを採集しながらアイテムを回収します。これらのアイテムはプロンボのインベントリに保管され、インタラクションメニューからアクセスできます。プロンボは棒などのありふれたアイテムを見つける可能性が高いですが、まれにトリーツを見つけることもあります！$(br2)樽はハサミで取り外せます。"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary/gui/book/plombo_2.png"
+      ],
+      "border": true,
+      "text": "樽を装備したプロンボは働き者です……眠っていないときは。"
+    }
+  ]
+}

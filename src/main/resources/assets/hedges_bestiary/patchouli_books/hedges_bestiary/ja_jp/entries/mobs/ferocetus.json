@@ -1,0 +1,28 @@
+{
+  "name": "フェロケトゥス*",
+  "icon": "hedges_bestiary:hearty_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "中立的で、イカや大型の海洋生物を狩る",
+      "taming": "フェロケトゥスがモブを掴んでいる間、咀嚼しているタイミングで$(treat2)を与える。この手順を数回繰り返す",
+      "habitat": "冷たい海、海洋",
+      "breeding": "ウルク肉",
+      "extra": "*$(richmilk)を生産します。手懐けると騎乗できます。$(ability)でモブを掴みます"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/ferocetus.png",
+        "hedges_bestiary:textures/gui/book/ferocetus_1.png",
+        "hedges_bestiary:textures/gui/book/ferocetus_2.png"
+      ],
+      "border": true,
+      "text": "フェロケトゥスは最大4体の群れで見られます"
+
+    }
+
+  ]
+}

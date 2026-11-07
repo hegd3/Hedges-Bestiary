@@ -1,0 +1,28 @@
+{
+  "name": "ジッパーリング",
+  "icon": "hedges_bestiary:seasoned_treat",
+  "category": "hedges_bestiary:mobs_category",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "hedges_bestiary:tamable_mob_template",
+      "behavior": "中立的で、さまざまな魚を狩る",
+      "taming": "$(treat1)を2個与える",
+      "habitat": "海洋、ぬるい海",
+      "breeding": "なし",
+      "extra": "特別なアイテムを使うことで、$(l:hedges_bestiary/zippermouth)はるかに大きな姿$(/l)へと成長させることができます……"
+    },
+    {
+      "type": "patchouli:image",
+      "images": [
+        "hedges_bestiary:textures/gui/book/zipperling_img.png",
+        "hedges_bestiary:textures/gui/book/zipperling_img_1.png",
+        "hedges_bestiary:textures/gui/book/zipperling_img_2.png"
+
+      ],
+      "border": true,
+      "text": "ジッパーリングは素早い深海のハンターで、獲物に噛みつくたびに素早く突進します"
+    }
+
+  ]
+}
