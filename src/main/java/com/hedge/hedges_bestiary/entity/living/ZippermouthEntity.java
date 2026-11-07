@@ -324,7 +324,7 @@ public class ZippermouthEntity extends HBTamableAnimal implements AttackStateMob
                     BlockPos pos = new BlockPos(a, b, c);
                     BlockState state = level().getBlockState(pos);
                     FluidState fluidState = level().getFluidState(pos);
-                    if (!state.getShape(level(), pos).isEmpty() && fluidState.isEmpty() && state.is(BlockTags.ICE)) {
+                    if (!state.getShape(level(), pos).isEmpty() && fluidState.isEmpty() && (state.is(BlockTags.ICE) || state.is(Blocks.LILY_PAD))) {
                         level().destroyBlock(pos, false);
                         level().setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
 
