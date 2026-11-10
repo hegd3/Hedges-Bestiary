@@ -66,6 +66,7 @@ public class ZipperlingEntity extends HBTamableAnimal implements AttackStateMob 
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 25.0D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0D)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.4D)
                 .add(Attributes.FOLLOW_RANGE, 20)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.3D)
                 .add(Attributes.MOVEMENT_SPEED, 0.95F);
